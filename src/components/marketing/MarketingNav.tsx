@@ -5,24 +5,24 @@ import { Download } from "lucide-react";
 
 export function MarketingNav() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
-        <div className="flex items-center gap-8">
+    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
+        <div className="flex items-center gap-10">
           <Logo />
-          <nav className="hidden gap-6 text-sm text-muted-foreground md:flex">
-            <Link to="/" hash="features" className="hover:text-foreground">Features</Link>
-            <Link to="/" hash="how" className="hover:text-foreground">How it works</Link>
-            <Link to="/" hash="security" className="hover:text-foreground">Security</Link>
-            <Link to="/pricing" className="hover:text-foreground">Pricing</Link>
-            <Link to="/download" className="hover:text-foreground">Download</Link>
+          <nav className="hidden gap-7 text-sm font-medium text-muted-foreground md:flex">
+            <Link to="/" hash="features" className="transition-colors hover:text-foreground">Features</Link>
+            <Link to="/" hash="how" className="transition-colors hover:text-foreground">How it works</Link>
+            <Link to="/" hash="security" className="transition-colors hover:text-foreground">Security</Link>
+            <Link to="/pricing" className="transition-colors hover:text-foreground">Pricing</Link>
+            <Link to="/download" className="transition-colors hover:text-foreground">Download</Link>
           </nav>
         </div>
         <div className="flex items-center gap-2">
-          <Link to="/login" className="hidden text-sm text-muted-foreground hover:text-foreground sm:inline">Sign in</Link>
-          <Button asChild size="sm" variant="outline" className="hidden sm:inline-flex">
+          <Link to="/login" className="hidden text-sm font-medium text-muted-foreground hover:text-foreground sm:inline">Sign in</Link>
+          <Button asChild size="sm" variant="outline" className="hidden border-border/60 bg-card/40 sm:inline-flex">
             <Link to="/download"><Download className="mr-1.5 h-4 w-4" />Download</Link>
           </Button>
-          <Button asChild size="sm">
+          <Button asChild size="sm" className="bg-[image:var(--gradient-primary)] shadow-[var(--shadow-glow)] hover:opacity-95">
             <Link to="/signup">Get started</Link>
           </Button>
         </div>
