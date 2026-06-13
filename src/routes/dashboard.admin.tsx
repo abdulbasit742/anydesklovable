@@ -45,6 +45,21 @@ function AdminPage() {
         <MetricCard label="Churn rate" value={adminMetrics.churnRate} icon={TrendingDown} hint="Trailing 30 days" />
       </div>
 
+      <div className="mt-6 rounded-lg border border-border bg-card p-4">
+        <div className="mb-3 text-sm font-semibold">Accounts by plan</div>
+        {Object.keys(stats.data.accountsByPlan ?? {}).length === 0 ? (
+          <div className="text-sm text-muted-foreground">No teams yet.</div>
+        ) : (
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+            {Object.entries(stats.data.accountsByPlan ?? {}).map(([plan, count]) => (
+              <div key={plan} className="flex items-center justify-between rounded-md border border-border bg-background px-3 py-2 text-sm">
+                <span className="capitalize text-muted-foreground">{plan}</span>
+                <span className="font-mono">{count}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
       <div className="mt-6 grid gap-4 lg:grid-cols-3">
         <div className="rounded-lg border border-border bg-card p-4 lg:col-span-2">
           <div className="flex items-center justify-between border-b border-border pb-3">
