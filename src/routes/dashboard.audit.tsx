@@ -116,7 +116,7 @@ function AuditPage() {
                     <td className="px-4 py-2 font-mono text-xs">{a.action}</td>
                     <td className="px-4 py-2 text-muted-foreground">{a.target ?? "—"}</td>
                     <td className="px-4 py-2 text-muted-foreground">{formatDistanceToNow(new Date(a.created_at), { addSuffix: true })}</td>
-                    <td className="px-4 py-2 font-mono text-xs text-muted-foreground">{a.ip ?? "—"}</td>
+                    <td className="px-4 py-2 font-mono text-xs text-muted-foreground">{(a.ip as string | null) ?? "—"}</td>
                   </tr>
                 );
               })}
