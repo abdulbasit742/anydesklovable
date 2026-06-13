@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Search, Plus, MoreHorizontal, MonitorSmartphone, KeyRound, Trash2, Pencil } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
@@ -50,10 +50,14 @@ function DevicesPage() {
               {filtered.map((d) => (
                 <tr key={d.id} className="border-t border-border hover:bg-muted/30">
                   <td className="px-4 py-2 font-medium">
-                    <div className="flex items-center gap-2">
+                    <Link
+                      to="/dashboard/devices/$deviceId"
+                      params={{ deviceId: d.id }}
+                      className="flex items-center gap-2 hover:text-primary"
+                    >
                       <MonitorSmartphone className="h-4 w-4 text-muted-foreground" />
                       {d.name}
-                    </div>
+                    </Link>
                   </td>
                   <td className="px-4 py-2">
                     <span className="rounded-md border border-border bg-muted px-1.5 py-0.5 text-xs">{d.os}</span>
