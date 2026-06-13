@@ -18,12 +18,17 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardTeamRouteImport } from './routes/dashboard.team'
+import { Route as DashboardSupportRouteImport } from './routes/dashboard.support'
 import { Route as DashboardSessionsRouteImport } from './routes/dashboard.sessions'
 import { Route as DashboardSecurityRouteImport } from './routes/dashboard.security'
 import { Route as DashboardPoliciesRouteImport } from './routes/dashboard.policies'
 import { Route as DashboardDevicesRouteImport } from './routes/dashboard.devices'
 import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing'
 import { Route as DashboardAuditRouteImport } from './routes/dashboard.audit'
+import { Route as DashboardAdminRouteImport } from './routes/dashboard.admin'
+import { Route as DashboardPoliciesRemoteInputRouteImport } from './routes/dashboard.policies.remote-input'
+import { Route as DashboardPoliciesFileTransferRouteImport } from './routes/dashboard.policies.file-transfer'
+import { Route as DashboardPoliciesClipboardRouteImport } from './routes/dashboard.policies.clipboard'
 import { Route as DashboardDevicesDeviceIdRouteImport } from './routes/dashboard.devices.$deviceId'
 
 const SignupRoute = SignupRouteImport.update({
@@ -71,6 +76,11 @@ const DashboardTeamRoute = DashboardTeamRouteImport.update({
   path: '/team',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardSupportRoute = DashboardSupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardSessionsRoute = DashboardSessionsRouteImport.update({
   id: '/sessions',
   path: '/sessions',
@@ -101,6 +111,29 @@ const DashboardAuditRoute = DashboardAuditRouteImport.update({
   path: '/audit',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardAdminRoute = DashboardAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardPoliciesRemoteInputRoute =
+  DashboardPoliciesRemoteInputRouteImport.update({
+    id: '/remote-input',
+    path: '/remote-input',
+    getParentRoute: () => DashboardPoliciesRoute,
+  } as any)
+const DashboardPoliciesFileTransferRoute =
+  DashboardPoliciesFileTransferRouteImport.update({
+    id: '/file-transfer',
+    path: '/file-transfer',
+    getParentRoute: () => DashboardPoliciesRoute,
+  } as any)
+const DashboardPoliciesClipboardRoute =
+  DashboardPoliciesClipboardRouteImport.update({
+    id: '/clipboard',
+    path: '/clipboard',
+    getParentRoute: () => DashboardPoliciesRoute,
+  } as any)
 const DashboardDevicesDeviceIdRoute =
   DashboardDevicesDeviceIdRouteImport.update({
     id: '/$deviceId',
@@ -116,15 +149,20 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/signup': typeof SignupRoute
+  '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
-  '/dashboard/policies': typeof DashboardPoliciesRoute
+  '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
+  '/dashboard/support': typeof DashboardSupportRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
+  '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
+  '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
+  '/dashboard/policies/remote-input': typeof DashboardPoliciesRemoteInputRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -133,15 +171,20 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/signup': typeof SignupRoute
+  '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
-  '/dashboard/policies': typeof DashboardPoliciesRoute
+  '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
+  '/dashboard/support': typeof DashboardSupportRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
+  '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
+  '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
+  '/dashboard/policies/remote-input': typeof DashboardPoliciesRemoteInputRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -152,15 +195,20 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/signup': typeof SignupRoute
+  '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
-  '/dashboard/policies': typeof DashboardPoliciesRoute
+  '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
+  '/dashboard/support': typeof DashboardSupportRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
+  '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
+  '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
+  '/dashboard/policies/remote-input': typeof DashboardPoliciesRemoteInputRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -172,15 +220,20 @@ export interface FileRouteTypes {
     | '/login'
     | '/pricing'
     | '/signup'
+    | '/dashboard/admin'
     | '/dashboard/audit'
     | '/dashboard/billing'
     | '/dashboard/devices'
     | '/dashboard/policies'
     | '/dashboard/security'
     | '/dashboard/sessions'
+    | '/dashboard/support'
     | '/dashboard/team'
     | '/dashboard/'
     | '/dashboard/devices/$deviceId'
+    | '/dashboard/policies/clipboard'
+    | '/dashboard/policies/file-transfer'
+    | '/dashboard/policies/remote-input'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -189,15 +242,20 @@ export interface FileRouteTypes {
     | '/login'
     | '/pricing'
     | '/signup'
+    | '/dashboard/admin'
     | '/dashboard/audit'
     | '/dashboard/billing'
     | '/dashboard/devices'
     | '/dashboard/policies'
     | '/dashboard/security'
     | '/dashboard/sessions'
+    | '/dashboard/support'
     | '/dashboard/team'
     | '/dashboard'
     | '/dashboard/devices/$deviceId'
+    | '/dashboard/policies/clipboard'
+    | '/dashboard/policies/file-transfer'
+    | '/dashboard/policies/remote-input'
   id:
     | '__root__'
     | '/'
@@ -207,15 +265,20 @@ export interface FileRouteTypes {
     | '/login'
     | '/pricing'
     | '/signup'
+    | '/dashboard/admin'
     | '/dashboard/audit'
     | '/dashboard/billing'
     | '/dashboard/devices'
     | '/dashboard/policies'
     | '/dashboard/security'
     | '/dashboard/sessions'
+    | '/dashboard/support'
     | '/dashboard/team'
     | '/dashboard/'
     | '/dashboard/devices/$deviceId'
+    | '/dashboard/policies/clipboard'
+    | '/dashboard/policies/file-transfer'
+    | '/dashboard/policies/remote-input'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -293,6 +356,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardTeamRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/support': {
+      id: '/dashboard/support'
+      path: '/support'
+      fullPath: '/dashboard/support'
+      preLoaderRoute: typeof DashboardSupportRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/sessions': {
       id: '/dashboard/sessions'
       path: '/sessions'
@@ -335,6 +405,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAuditRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/admin': {
+      id: '/dashboard/admin'
+      path: '/admin'
+      fullPath: '/dashboard/admin'
+      preLoaderRoute: typeof DashboardAdminRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/policies/remote-input': {
+      id: '/dashboard/policies/remote-input'
+      path: '/remote-input'
+      fullPath: '/dashboard/policies/remote-input'
+      preLoaderRoute: typeof DashboardPoliciesRemoteInputRouteImport
+      parentRoute: typeof DashboardPoliciesRoute
+    }
+    '/dashboard/policies/file-transfer': {
+      id: '/dashboard/policies/file-transfer'
+      path: '/file-transfer'
+      fullPath: '/dashboard/policies/file-transfer'
+      preLoaderRoute: typeof DashboardPoliciesFileTransferRouteImport
+      parentRoute: typeof DashboardPoliciesRoute
+    }
+    '/dashboard/policies/clipboard': {
+      id: '/dashboard/policies/clipboard'
+      path: '/clipboard'
+      fullPath: '/dashboard/policies/clipboard'
+      preLoaderRoute: typeof DashboardPoliciesClipboardRouteImport
+      parentRoute: typeof DashboardPoliciesRoute
+    }
     '/dashboard/devices/$deviceId': {
       id: '/dashboard/devices/$deviceId'
       path: '/$deviceId'
@@ -356,24 +454,43 @@ const DashboardDevicesRouteChildren: DashboardDevicesRouteChildren = {
 const DashboardDevicesRouteWithChildren =
   DashboardDevicesRoute._addFileChildren(DashboardDevicesRouteChildren)
 
+interface DashboardPoliciesRouteChildren {
+  DashboardPoliciesClipboardRoute: typeof DashboardPoliciesClipboardRoute
+  DashboardPoliciesFileTransferRoute: typeof DashboardPoliciesFileTransferRoute
+  DashboardPoliciesRemoteInputRoute: typeof DashboardPoliciesRemoteInputRoute
+}
+
+const DashboardPoliciesRouteChildren: DashboardPoliciesRouteChildren = {
+  DashboardPoliciesClipboardRoute: DashboardPoliciesClipboardRoute,
+  DashboardPoliciesFileTransferRoute: DashboardPoliciesFileTransferRoute,
+  DashboardPoliciesRemoteInputRoute: DashboardPoliciesRemoteInputRoute,
+}
+
+const DashboardPoliciesRouteWithChildren =
+  DashboardPoliciesRoute._addFileChildren(DashboardPoliciesRouteChildren)
+
 interface DashboardRouteChildren {
+  DashboardAdminRoute: typeof DashboardAdminRoute
   DashboardAuditRoute: typeof DashboardAuditRoute
   DashboardBillingRoute: typeof DashboardBillingRoute
   DashboardDevicesRoute: typeof DashboardDevicesRouteWithChildren
-  DashboardPoliciesRoute: typeof DashboardPoliciesRoute
+  DashboardPoliciesRoute: typeof DashboardPoliciesRouteWithChildren
   DashboardSecurityRoute: typeof DashboardSecurityRoute
   DashboardSessionsRoute: typeof DashboardSessionsRoute
+  DashboardSupportRoute: typeof DashboardSupportRoute
   DashboardTeamRoute: typeof DashboardTeamRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAdminRoute: DashboardAdminRoute,
   DashboardAuditRoute: DashboardAuditRoute,
   DashboardBillingRoute: DashboardBillingRoute,
   DashboardDevicesRoute: DashboardDevicesRouteWithChildren,
-  DashboardPoliciesRoute: DashboardPoliciesRoute,
+  DashboardPoliciesRoute: DashboardPoliciesRouteWithChildren,
   DashboardSecurityRoute: DashboardSecurityRoute,
   DashboardSessionsRoute: DashboardSessionsRoute,
+  DashboardSupportRoute: DashboardSupportRoute,
   DashboardTeamRoute: DashboardTeamRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
@@ -394,3 +511,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
