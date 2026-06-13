@@ -212,3 +212,35 @@ create policy "members read audit"
 
 -- Repeat similar admin-only-write policies for security_policies,
 -- file_transfer_policies, clipboard_policies, remote_input_policies.
+
+-- Support tickets ------------------------------------------------
+create table public.support_tickets (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  team_id uuid references public.teams(id) on delete set null,
+  subject text not null,
+  description text not null,
+  category text not null check (category in ('connection','billing','account','desktop_app','security','feature_request','other')),
+  priority text not null default 'normal' check (priority in ('low','normal','high','urgent')),
+  status text not null default 'open' check (status in ('open','pending','resolved','closed')),
+  assigned_to uuid references auth.users(id) on delete set null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  closed_at timestamptz
+);
+grant select, insert, update, delete on public.support_tickets to authenticated;
+grant all on public.support_tickets to service_role;
+alter table public.support_tickets enable row level security;
+
+create index support_tickets_user_idx     on public.support_tickets(user_id);
+create index support_tickets_team_idx     on public.support_tickets(team_id);
+create index support_tickets_status_idx   on public.support_tickets(status);
+create index support_tickets_priority_idx on public.support_tickets(priority);
+create index support_tickets_created_idx  on public.support_tickets(created_at desc);
+
+-- RLS: users read own tickets; team owners/admins/support read team tickets;
+-- users insert tickets for themselves; users update own open/pending tickets;
+-- team owners/admins/support update team tickets (incl. status / assignment).
+-- TODO: there is no global "platform support" role in the current model.
+-- Internal RemoteDesk staff must use a service_role server function to
+-- view/update tickets across all teams.
