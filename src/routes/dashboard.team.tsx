@@ -31,9 +31,20 @@ export const Route = createFileRoute("/dashboard/team")({
 
 function TeamPage() {
   const { data: members, isLoading, error, isDemo } = useTeamMembers();
+  const { data: team } = useCurrentTeam();
+  const { user } = useAuth();
+  const usage = useUsageSummary();
+  const plans = usePlanLimits();
+  const planKey = (((team?.teams as { plan?: string } | null)?.plan) ?? "free").toLowerCase();
+  const limit = plans.data.find((p) => p.plan_key === planKey) ?? plans.data[0];
+  const myRole = (team?.role ?? "member").toLowerCase();
+  const canManageBilling = myRole === "owner" || myRole === "admin";
+  const seatMeter = usage.meters.find((m) => m.key === "team_members");
+  const deviceMeter = usage.meters.find((m) => m.key === "devices");
   const [inviteOpen, setInviteOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("member");
+
 
   return (
     <AppShell
