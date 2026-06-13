@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { adminMetrics } from "@/lib/mock-data";
 import { useAdminStats } from "@/lib/services";
 import { DemoBanner } from "@/components/app/DataState";
+import { AdminSupportTriage } from "@/components/app/support/AdminSupportTriage";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/dashboard/admin")({
@@ -136,6 +137,7 @@ function AdminPage() {
           </table>
         </div>
       </div>
+      <AdminSupportTriage />
     </AppShell>
   );
 }

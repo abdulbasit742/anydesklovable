@@ -245,6 +245,31 @@ create index support_tickets_created_idx  on public.support_tickets(created_at d
 -- Internal RemoteDesk staff must use a service_role server function to
 -- view/update tickets across all teams.
 
+-- Support ticket comments / attachments / events --------------------
+-- Tables: public.support_ticket_comments, support_ticket_attachments,
+-- support_ticket_events. See migration 20260613-161907 for full DDL,
+-- triggers (auto-log ticket lifecycle events) and RLS policies.
+-- Policy summary:
+--   - Comments: ticket owner reads non-internal; team owner/admin/support
+--     reads all (including is_internal). Inserts by owner (public only)
+--     or triage (any). No client hard-delete; soft-delete via deleted_at.
+--   - Attachments: metadata-only rows. Read/insert gated by can_view_ticket().
+--     Soft-delete only.
+--   - Events: read by owner (public lifecycle events) and triage (all).
+--     Inserts only via SECURITY DEFINER triggers — no client INSERT policy.
+--
+-- Storage bucket: 'support-attachments' (PRIVATE)
+--   - Recommended max file size: 25 MB
+--   - Allowed MIME types: image/png, image/jpeg, application/pdf,
+--     text/plain, application/zip, application/json
+--   - Server MUST virus-scan before downloads in production
+--   - Downloads MUST use server-generated signed URLs (createSignedUrl)
+--   - Client must NEVER hold the service role key
+--   - Storage RLS on storage.objects should restrict select/insert to
+--     authenticated users whose auth.uid() can_view_ticket(ticket_id),
+--     where ticket_id is encoded as the first path segment.
+
+
 -- ================================================================
 -- Security: trusted_devices, active_sessions, security_events
 -- ================================================================

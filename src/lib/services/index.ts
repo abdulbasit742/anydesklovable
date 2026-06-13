@@ -480,6 +480,174 @@ export async function getSupportTicketById(id: string) {
   return data as SupportTicket | null;
 }
 
+export async function reopenSupportTicket(id: string) {
+  return updateSupportTicket(id, { status: "open" });
+}
+
+export async function assignSupportTicket(id: string, assigneeId: string | null) {
+  return updateSupportTicket(id, { assigned_to: assigneeId });
+}
+
+export async function changeTicketPriority(id: string, priority: TicketPriority) {
+  return updateSupportTicket(id, { priority });
+}
+
+export async function changeTicketStatus(id: string, status: TicketStatus) {
+  return updateSupportTicket(id, { status });
+}
+
+// ----- Ticket comments -----
+export type SupportTicketComment = {
+  id: string;
+  ticket_id: string;
+  author_id: string;
+  body: string;
+  is_internal: boolean;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+  author?: { full_name: string | null; email: string | null } | null;
+};
+
+export function useTicketComments(ticketId: string | null) {
+  return useQuery({
+    queryKey: ["ticket_comments", ticketId],
+    enabled: !!ticketId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("support_ticket_comments")
+        .select("*")
+        .eq("ticket_id", ticketId!)
+        .is("deleted_at", null)
+        .order("created_at", { ascending: true });
+      if (error) throw error;
+      const rows = (data ?? []) as unknown as SupportTicketComment[];
+      const ids = Array.from(new Set(rows.map((r) => r.author_id)));
+      if (ids.length === 0) return rows;
+      const { data: profs } = await supabase.from("profiles").select("id, full_name, email").in("id", ids);
+      const byId = new Map((profs ?? []).map((p) => [p.id, { full_name: p.full_name ?? null, email: p.email ?? null }]));
+      return rows.map((r) => ({ ...r, author: byId.get(r.author_id) ?? null }));
+    },
+  });
+}
+
+
+export async function addTicketComment(ticketId: string, body: string, isInternal = false) {
+  const { data: userRes } = await supabase.auth.getUser();
+  if (!userRes.user) throw new Error("Sign in required.");
+  const { data, error } = await supabase.from("support_ticket_comments").insert({
+    ticket_id: ticketId, author_id: userRes.user.id, body: body.trim(), is_internal: isInternal,
+  }).select().single();
+  if (error) throw error;
+  return data as unknown as SupportTicketComment;
+}
+
+export async function softDeleteComment(commentId: string) {
+  const { error } = await supabase.from("support_ticket_comments")
+    .update({ deleted_at: new Date().toISOString() }).eq("id", commentId);
+  if (error) throw error;
+}
+
+// ----- Ticket attachments (metadata only) -----
+export type SupportTicketAttachment = {
+  id: string;
+  ticket_id: string;
+  comment_id: string | null;
+  uploaded_by: string;
+  file_name: string;
+  file_size: number;
+  mime_type: string | null;
+  storage_bucket: string;
+  storage_path: string;
+  checksum_sha256: string | null;
+  scan_status: "pending" | "clean" | "blocked" | "failed";
+  created_at: string;
+  deleted_at: string | null;
+};
+
+export function useTicketAttachments(ticketId: string | null) {
+  return useQuery({
+    queryKey: ["ticket_attachments", ticketId],
+    enabled: !!ticketId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("support_ticket_attachments")
+        .select("*")
+        .eq("ticket_id", ticketId!)
+        .is("deleted_at", null)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return (data ?? []) as unknown as SupportTicketAttachment[];
+    },
+  });
+}
+
+export async function createAttachmentMetadata(input: {
+  ticket_id: string; file_name: string; file_size: number; mime_type?: string | null;
+  storage_path?: string; comment_id?: string | null;
+}) {
+  const { data: userRes } = await supabase.auth.getUser();
+  if (!userRes.user) throw new Error("Sign in required.");
+  const path = input.storage_path ?? `${input.ticket_id}/${Date.now()}-${input.file_name}`;
+  const { data, error } = await supabase.from("support_ticket_attachments").insert({
+    ticket_id: input.ticket_id,
+    comment_id: input.comment_id ?? null,
+    uploaded_by: userRes.user.id,
+    file_name: input.file_name,
+    file_size: input.file_size,
+    mime_type: input.mime_type ?? null,
+    storage_path: path,
+  }).select().single();
+  if (error) throw error;
+  return data as unknown as SupportTicketAttachment;
+}
+
+export async function softDeleteAttachment(attachmentId: string) {
+  const { error } = await supabase.from("support_ticket_attachments")
+    .update({ deleted_at: new Date().toISOString() }).eq("id", attachmentId);
+  if (error) throw error;
+}
+
+// ----- Ticket events (timeline) -----
+export type SupportTicketEventType =
+  | "ticket_created" | "comment_added" | "internal_note_added" | "attachment_added"
+  | "status_changed" | "priority_changed" | "assigned" | "unassigned"
+  | "ticket_closed" | "ticket_reopened";
+
+export type SupportTicketEvent = {
+  id: string;
+  ticket_id: string;
+  actor_id: string | null;
+  event_type: SupportTicketEventType;
+  from_value: string | null;
+  to_value: string | null;
+  metadata: Record<string, unknown>;
+  created_at: string;
+};
+
+export function useTicketEvents(ticketId: string | null) {
+  return useQuery({
+    queryKey: ["ticket_events", ticketId],
+    enabled: !!ticketId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("support_ticket_events")
+        .select("*")
+        .eq("ticket_id", ticketId!)
+        .order("created_at", { ascending: true });
+      if (error) throw error;
+      return (data ?? []) as unknown as SupportTicketEvent[];
+    },
+  });
+}
+
+// Permission helper for a single ticket (RLS is authoritative on the server).
+export function canTriageTicket(ticket: SupportTicket | null, role: TeamRole | null | undefined): boolean {
+  if (!ticket?.team_id || !role) return false;
+  return role === "owner" || role === "admin" || role === "support";
+}
+
+
 // =====================================================================
 // SECURITY: trusted devices, active sessions, security events, MFA
 // =====================================================================
