@@ -516,15 +516,21 @@ export function useTicketComments(ticketId: string | null) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("support_ticket_comments")
-        .select("*, author:profiles!support_ticket_comments_author_id_fkey(full_name, email)")
+        .select("*")
         .eq("ticket_id", ticketId!)
         .is("deleted_at", null)
         .order("created_at", { ascending: true });
       if (error) throw error;
-      return (data ?? []) as unknown as SupportTicketComment[];
+      const rows = (data ?? []) as unknown as SupportTicketComment[];
+      const ids = Array.from(new Set(rows.map((r) => r.author_id)));
+      if (ids.length === 0) return rows;
+      const { data: profs } = await supabase.from("profiles").select("id, full_name, email").in("id", ids);
+      const byId = new Map((profs ?? []).map((p) => [p.id, { full_name: p.full_name ?? null, email: p.email ?? null }]));
+      return rows.map((r) => ({ ...r, author: byId.get(r.author_id) ?? null }));
     },
   });
 }
+
 
 export async function addTicketComment(ticketId: string, body: string, isInternal = false) {
   const { data: userRes } = await supabase.auth.getUser();
