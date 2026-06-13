@@ -334,79 +334,19 @@ function CreateTicketButton({ open, setOpen, onCreated }: { open: boolean; setOp
 }
 
 function TicketDrawer({ ticket, onClose, onChanged }: { ticket: SupportTicket | null; onClose: () => void; onChanged: () => void }) {
-  const { user } = useAuth();
-  const [busy, setBusy] = useState<string | null>(null);
   if (!ticket) return null;
-
-  const isOwner = user?.id === ticket.user_id;
-  const canClose = isOwner && ticket.status !== "closed";
-
-  const changeStatus = async (s: TicketStatus) => {
-    setBusy(s);
-    try {
-      await updateSupportTicket(ticket.id, { status: s });
-      toast.success(`Marked as ${s}`);
-      onChanged();
-      onClose();
-    } catch (e: any) {
-      toast.error(e?.message ?? "Update failed");
-    } finally { setBusy(null); }
-  };
-
-  const close = async () => {
-    setBusy("close");
-    try {
-      await closeSupportTicket(ticket.id);
-      toast.success("Ticket closed");
-      onChanged();
-      onClose();
-    } catch (e: any) {
-      toast.error(e?.message ?? "Failed to close");
-    } finally { setBusy(null); }
-  };
-
   return (
     <Sheet open={!!ticket} onOpenChange={(o) => !o && onClose()}>
-      <SheetContent className="w-full sm:max-w-lg">
+      <SheetContent className="w-full overflow-y-auto sm:max-w-xl">
         <SheetHeader>
           <SheetTitle>{ticket.subject}</SheetTitle>
-          <SheetDescription>Ticket #{ticket.id.slice(0, 8)}</SheetDescription>
+          <SheetDescription>Ticket #{ticket.id.slice(0, 8)} · {CATEGORY_LABEL[ticket.category]}</SheetDescription>
         </SheetHeader>
-        <div className="mt-4 space-y-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge variant={statusVariant(ticket.status)} className="capitalize">{ticket.status}</Badge>
-            <Badge variant={priorityVariant(ticket.priority)} className="capitalize">{ticket.priority}</Badge>
-            <Badge variant="outline">{CATEGORY_LABEL[ticket.category]}</Badge>
-          </div>
-          <div className="grid grid-cols-2 gap-3 text-xs text-muted-foreground">
-            <div>Created<br /><span className="text-foreground">{new Date(ticket.created_at).toLocaleString()}</span></div>
-            <div>Updated<br /><span className="text-foreground">{new Date(ticket.updated_at).toLocaleString()}</span></div>
-            {ticket.assigned_to && <div className="col-span-2">Assigned to<br /><span className="text-foreground font-mono text-xs">{ticket.assigned_to}</span></div>}
-            {ticket.closed_at && <div className="col-span-2">Closed<br /><span className="text-foreground">{new Date(ticket.closed_at).toLocaleString()}</span></div>}
-          </div>
-          <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Description</div>
-            <div className="rounded-md border border-border bg-muted/30 p-3 text-sm whitespace-pre-wrap">{ticket.description}</div>
-          </div>
-          {canClose && (
-            <div className="flex flex-wrap gap-2 border-t border-border pt-4">
-              {ticket.status === "open" && (
-                <Button variant="outline" size="sm" onClick={() => changeStatus("pending")} disabled={!!busy}>
-                  Mark pending
-                </Button>
-              )}
-              {(ticket.status === "open" || ticket.status === "pending") && (
-                <Button variant="outline" size="sm" onClick={() => changeStatus("resolved")} disabled={!!busy}>
-                  Mark resolved
-                </Button>
-              )}
-              <Button variant="destructive" size="sm" onClick={close} disabled={!!busy}>
-                {busy === "close" ? "Closing…" : "Close ticket"}
-              </Button>
-            </div>
-          )}
+        <div className="mt-4">
+          <TicketDetailPanel ticket={ticket} onChanged={onChanged} />
         </div>
       </SheetContent>
     </Sheet>
   );
 }
+
