@@ -19,8 +19,6 @@ import { useAuth } from "@/hooks/use-auth";
 import {
   useSupportTickets,
   createSupportTicket,
-  closeSupportTicket,
-  updateSupportTicket,
   TICKET_CATEGORIES,
   TICKET_PRIORITIES,
   TICKET_STATUSES,
@@ -29,8 +27,10 @@ import {
   type TicketPriority,
   type TicketStatus,
 } from "@/lib/services";
+import { TicketDetailPanel } from "@/components/app/support/TicketDetailPanel";
 import { toast } from "sonner";
 import { AlertCircle, Inbox } from "lucide-react";
+
 
 export const Route = createFileRoute("/dashboard/support")({
   head: () => ({ meta: [{ title: "Support — RemoteDesk" }] }),
