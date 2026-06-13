@@ -1,65 +1,106 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { ExternalLink, Download } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/app/StatusBadge";
 import { toast } from "sonner";
-import { useInvoices, useDevices } from "@/lib/services";
+import { useInvoices, useCurrentSubscription, usePlanLimits, useUsageSummary } from "@/lib/services";
 import { useCurrentTeam } from "@/hooks/use-current-team";
 import { DemoBanner, PanelState } from "@/components/app/DataState";
+import { UsageMeter } from "@/components/app/billing/UsageMeter";
+import { PlanBadge } from "@/components/app/billing/PlanBadge";
+import { PlanComparisonTable } from "@/components/app/billing/PlanComparisonTable";
+import { UpgradePrompt } from "@/components/app/billing/UpgradePrompt";
+import { UsageWarningCard } from "@/components/app/billing/UsageWarningCard";
+import { CUSTOMER_PORTAL_URL } from "@/lib/config/checkout";
+import { format } from "date-fns";
 
 export const Route = createFileRoute("/dashboard/billing")({
   head: () => ({ meta: [{ title: "Billing — RemoteDesk" }] }),
   component: BillingPage,
 });
 
-const PLAN_LIMITS: Record<string, { devices: number; seats: number; minutes: number | null; price: string }> = {
-  free: { devices: 1, seats: 1, minutes: 60, price: "$0.00" },
-  pro: { devices: 5, seats: 1, minutes: null, price: "$19.00" },
-  business: { devices: 25, seats: 10, minutes: null, price: "$49.00" },
-  enterprise: { devices: 999, seats: 999, minutes: null, price: "Custom" },
-};
-
 function BillingPage() {
   const { data: team } = useCurrentTeam();
   const invoices = useInvoices();
-  const devices = useDevices();
-  const plan = ((team?.teams as { plan?: string } | null)?.plan ?? "free").toLowerCase();
-  const limits = PLAN_LIMITS[plan] ?? PLAN_LIMITS.free;
-  const deviceCount = devices.data.length;
+  const subscription = useCurrentSubscription();
+  const plans = usePlanLimits();
+  const usage = useUsageSummary();
+
+  const planKey = (((team?.teams as { plan?: string } | null)?.plan) ?? "free").toLowerCase();
+  const limit = plans.data.find((p) => p.plan_key === planKey) ?? plans.data[0];
 
   return (
     <AppShell title="Billing">
-      {(invoices.isDemo || devices.isDemo) && <DemoBanner />}
+      {(invoices.isDemo || usage.isDemo || plans.isDemo) && (
+        <DemoBanner>Some billing data is computed locally for preview because production billing tables are empty or unavailable.</DemoBanner>
+      )}
+
+      {/* Current plan */}
       <div className="grid gap-4 lg:grid-cols-3">
         <div className="rounded-lg border border-border bg-card p-5 lg:col-span-2">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <div className="text-xs uppercase tracking-wider text-muted-foreground">Current plan</div>
-              <div className="mt-1 text-2xl font-semibold capitalize">RemoteDesk {plan}</div>
-              <div className="mt-1 text-sm text-muted-foreground">{limits.price} / month</div>
+              <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground">
+                Current plan <PlanBadge planKey={planKey} />
+              </div>
+              <div className="mt-1 text-2xl font-semibold">{limit?.display_name ?? "Free"}</div>
+              <div className="mt-1 text-sm text-muted-foreground">
+                {limit?.monthly_price == null ? "Custom pricing" : limit.monthly_price === 0 ? "$0 / month" : `$${limit.monthly_price} / month`}
+                {subscription.data?.billing_interval && ` · billed ${subscription.data.billing_interval}`}
+              </div>
+              {subscription.data?.current_period_end && (
+                <div className="mt-1 text-xs text-muted-foreground">
+                  {subscription.data.cancel_at_period_end ? "Cancels" : "Renews"} on {format(new Date(subscription.data.current_period_end), "MMM d, yyyy")}
+                </div>
+              )}
             </div>
             <div className="flex gap-2">
-              <Button asChild variant="outline" size="sm"><Link to="/pricing">Change plan</Link></Button>
-              <Button size="sm" onClick={() => toast("Opening customer portal")}>
+              <UpgradePrompt plans={plans.data} currentPlanKey={planKey} trigger={<Button size="sm">Upgrade plan</Button>} />
+              <Button size="sm" variant="outline" onClick={() => CUSTOMER_PORTAL_URL.url ? window.open(CUSTOMER_PORTAL_URL.url) : toast("Customer portal not configured")}>
                 <ExternalLink className="mr-1.5 h-4 w-4" /> Customer portal
               </Button>
             </div>
-          </div>
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
-            <Usage label="Devices" used={deviceCount} max={limits.devices} />
-            <Usage label="Session minutes" used={limits.minutes ? Math.min(limits.minutes, 248) : 248} max={limits.minutes ?? Infinity} unit="min" />
-            <Usage label="Team seats" used={1} max={limits.seats} />
           </div>
         </div>
 
         <div className="rounded-lg border border-border bg-card p-5">
           <div className="text-sm font-semibold">Need more?</div>
-          <p className="mt-1 text-sm text-muted-foreground">Business unlocks team management, audit logs, file transfer, and policy controls.</p>
-          <Button asChild className="mt-4 w-full"><Link to="/pricing">Upgrade plan</Link></Button>
+          <p className="mt-1 text-sm text-muted-foreground">Business unlocks team management, audit logs, file transfer, and policy controls. Enterprise adds the admin console and priority support.</p>
+          <UpgradePrompt
+            plans={plans.data}
+            currentPlanKey={planKey}
+            defaultPlan="business"
+            trigger={<Button className="mt-4 w-full">Compare plans</Button>}
+          />
         </div>
       </div>
 
+      {/* Over-limit warning */}
+      <div className="mt-4">
+        <UsageWarningCard meters={usage.meters} />
+      </div>
+
+      {/* Usage meters */}
+      <div className="mt-6 rounded-lg border border-border bg-card p-5">
+        <div className="mb-3 flex items-center justify-between">
+          <div className="text-sm font-semibold">Usage this period</div>
+          {usage.isLoading && <span className="text-xs text-muted-foreground">Refreshing…</span>}
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {usage.meters.map((m) => (
+            <UsageMeter key={m.key} label={m.label} used={m.used} max={m.max} unit={m.unit} />
+          ))}
+        </div>
+      </div>
+
+      {/* Plan comparison */}
+      <div className="mt-6">
+        <div className="mb-2 text-sm font-semibold">Compare plans</div>
+        <PlanComparisonTable plans={plans.data} currentPlanKey={planKey} />
+      </div>
+
+      {/* Invoices */}
       <div className="mt-6 rounded-lg border border-border bg-card">
         <div className="border-b border-border px-4 py-3 text-sm font-semibold">Invoices</div>
         <PanelState loading={invoices.isLoading} error={invoices.error} empty={invoices.data.length === 0} emptyText="No invoices yet — your first invoice will appear after upgrading.">
@@ -94,21 +135,5 @@ function BillingPage() {
         </PanelState>
       </div>
     </AppShell>
-  );
-}
-
-function Usage({ label, used, max, unit }: { label: string; used: number; max: number; unit?: string }) {
-  const pct = max === Infinity ? 25 : Math.min(100, (used / max) * 100);
-  const over = max !== Infinity && used >= max;
-  return (
-    <div className="rounded-md border border-border bg-background p-3">
-      <div className="flex items-center justify-between text-xs">
-        <span className="text-muted-foreground">{label}</span>
-        <span className="font-mono">{used}{unit ? ` ${unit}` : ""} {max !== Infinity && `/ ${max}`}</span>
-      </div>
-      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
-        <div className={`h-full ${over ? "bg-destructive" : "bg-primary"}`} style={{ width: `${pct}%` }} />
-      </div>
-    </div>
   );
 }
