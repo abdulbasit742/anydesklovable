@@ -53,6 +53,12 @@ export function AppShell({
 }: { children: ReactNode; title: string; actions?: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+  const { data: membership } = useCurrentTeam();
+  const displayName = (user?.user_metadata?.full_name as string | undefined) || user?.email?.split("@")[0] || "Account";
+  const planLabel = membership?.teams?.plan ?? "free";
+  const roleLabel = membership?.role ?? "member";
 
   const isActive = (to: string) =>
     to === "/dashboard" ? pathname === "/dashboard" : pathname === to || pathname.startsWith(to + "/");
