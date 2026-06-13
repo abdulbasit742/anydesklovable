@@ -190,16 +190,23 @@ export function useAdminStats() {
   const q = useQuery({
     queryKey: ["admin-stats"],
     queryFn: async () => {
-      const [teams, devices, sessions] = await Promise.all([
+      const [teams, devices, sessions, teamsByPlan] = await Promise.all([
         supabase.from("teams").select("id", { count: "exact", head: true }),
         supabase.from("devices").select("id", { count: "exact", head: true }),
         supabase.from("sessions").select("id", { count: "exact", head: true }).eq("status", "connected"),
+        supabase.from("teams").select("plan"),
       ]);
+      const byPlan: Record<string, number> = {};
+      for (const t of teamsByPlan.data ?? []) {
+        const k = (t as { plan?: string }).plan ?? "free";
+        byPlan[k] = (byPlan[k] ?? 0) + 1;
+      }
       return {
         totalAccounts: teams.count ?? 0,
         activeOrgs: teams.count ?? 0,
         liveSessions: sessions.count ?? 0,
         totalDevices: devices.count ?? 0,
+        accountsByPlan: byPlan,
       };
     },
   });
@@ -212,8 +219,8 @@ export function useAdminStats() {
     error,
     isDemo: useMock,
     data: useMock
-      ? { totalAccounts: mockAdminMetrics.totalAccounts, activeOrgs: mockAdminMetrics.activeOrgs, liveSessions: mockAdminMetrics.liveSessions, totalDevices: 642 }
-      : q.data ?? { totalAccounts: 0, activeOrgs: 0, liveSessions: 0, totalDevices: 0 },
+      ? { totalAccounts: mockAdminMetrics.totalAccounts, activeOrgs: mockAdminMetrics.activeOrgs, liveSessions: mockAdminMetrics.liveSessions, totalDevices: 642, accountsByPlan: { free: 120, pro: 64, business: 22, enterprise: 4 } }
+      : q.data ?? { totalAccounts: 0, activeOrgs: 0, liveSessions: 0, totalDevices: 0, accountsByPlan: {} as Record<string, number> },
     orgs: useMock ? mockAdminOrgs : [],
   };
 }
