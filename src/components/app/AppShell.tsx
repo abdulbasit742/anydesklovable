@@ -3,19 +3,48 @@ import { type ReactNode, useState } from "react";
 import {
   LayoutDashboard, MonitorSmartphone, Activity, ShieldCheck,
   CreditCard, Users, Download, LogOut, Menu, X, Bell, Search,
+  FileText, LifeBuoy, Crown, SlidersHorizontal,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { currentUser } from "@/lib/mock-data";
 
-const nav = [
-  { to: "/dashboard", label: "Overview", icon: LayoutDashboard },
-  { to: "/dashboard/devices", label: "Devices", icon: MonitorSmartphone },
-  { to: "/dashboard/sessions", label: "Sessions", icon: Activity },
-  { to: "/dashboard/security", label: "Security", icon: ShieldCheck },
-  { to: "/dashboard/billing", label: "Billing", icon: CreditCard },
-  { to: "/dashboard/team", label: "Team", icon: Users },
+type NavItem = { to: string; label: string; icon: typeof LayoutDashboard; badge?: string };
+type NavGroup = { label?: string; items: NavItem[] };
+
+const groups: NavGroup[] = [
+  {
+    items: [
+      { to: "/dashboard", label: "Overview", icon: LayoutDashboard },
+      { to: "/dashboard/devices", label: "Devices", icon: MonitorSmartphone },
+      { to: "/dashboard/sessions", label: "Sessions", icon: Activity },
+      { to: "/dashboard/audit", label: "Audit logs", icon: FileText },
+    ],
+  },
+  {
+    label: "Policies",
+    items: [
+      { to: "/dashboard/policies/file-transfer", label: "File transfer", icon: SlidersHorizontal },
+      { to: "/dashboard/policies/clipboard", label: "Clipboard", icon: SlidersHorizontal },
+      { to: "/dashboard/policies/remote-input", label: "Remote input", icon: SlidersHorizontal },
+    ],
+  },
+  {
+    label: "Organization",
+    items: [
+      { to: "/dashboard/team", label: "Team", icon: Users },
+      { to: "/dashboard/security", label: "Security", icon: ShieldCheck },
+      { to: "/dashboard/billing", label: "Billing", icon: CreditCard },
+      { to: "/dashboard/support", label: "Support", icon: LifeBuoy },
+    ],
+  },
+  {
+    label: "Admin",
+    items: [
+      { to: "/dashboard/admin", label: "Admin console", icon: Crown, badge: "owner" },
+    ],
+  },
 ];
 
 export function AppShell({
@@ -24,11 +53,13 @@ export function AppShell({
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [open, setOpen] = useState(false);
 
+  const isActive = (to: string) =>
+    to === "/dashboard" ? pathname === "/dashboard" : pathname === to || pathname.startsWith(to + "/");
+
   return (
     <div className="flex min-h-screen w-full bg-background">
-      {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-60 transform border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-transform md:relative md:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 flex w-64 transform flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-transform md:relative md:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -38,28 +69,45 @@ export function AppShell({
             <X className="h-5 w-5" />
           </button>
         </div>
-        <nav className="flex flex-col gap-0.5 p-3 text-sm">
-          {nav.map((n) => {
-            const active = pathname === n.to || (n.to !== "/dashboard" && pathname.startsWith(n.to));
-            const exactActive = n.to === "/dashboard" ? pathname === "/dashboard" : active;
-            return (
-              <Link
-                key={n.to}
-                to={n.to}
-                onClick={() => setOpen(false)}
-                className={`flex items-center gap-2.5 rounded-md px-2.5 py-2 transition-colors ${
-                  exactActive
-                    ? "bg-sidebar-accent text-white"
-                    : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-white"
-                }`}
-              >
-                <n.icon className="h-4 w-4" />
-                {n.label}
-              </Link>
-            );
-          })}
+        <nav className="flex-1 overflow-y-auto px-3 py-3 text-sm">
+          {groups.map((g, gi) => (
+            <div key={gi} className={gi > 0 ? "mt-4" : ""}>
+              {g.label && (
+                <div className="mb-1 px-2.5 text-[10px] font-semibold uppercase tracking-wider text-sidebar-foreground/40">
+                  {g.label}
+                </div>
+              )}
+              <div className="flex flex-col gap-0.5">
+                {g.items.map((n) => {
+                  const active = isActive(n.to);
+                  return (
+                    <Link
+                      key={n.to}
+                      to={n.to}
+                      onClick={() => setOpen(false)}
+                      className={`flex items-center justify-between gap-2.5 rounded-md px-2.5 py-2 transition-colors ${
+                        active
+                          ? "bg-sidebar-accent text-white"
+                          : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-white"
+                      }`}
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <n.icon className="h-4 w-4" />
+                        {n.label}
+                      </span>
+                      {n.badge && (
+                        <span className="rounded-sm bg-primary/20 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary">
+                          {n.badge}
+                        </span>
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
-        <div className="absolute inset-x-3 bottom-3 space-y-2">
+        <div className="space-y-2 border-t border-sidebar-border p-3">
           <Link
             to="/download"
             className="flex items-center gap-2 rounded-md border border-sidebar-border px-2.5 py-2 text-sm text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-white"
@@ -69,7 +117,7 @@ export function AppShell({
           <div className="flex items-center justify-between rounded-md bg-sidebar-accent px-2.5 py-2">
             <div className="min-w-0">
               <div className="truncate text-xs font-medium text-white">{currentUser.name}</div>
-              <div className="truncate text-[11px] text-sidebar-foreground/60">{currentUser.email}</div>
+              <div className="truncate text-[11px] text-sidebar-foreground/60">{currentUser.role} · {currentUser.plan}</div>
             </div>
             <Link to="/login" aria-label="Sign out" className="text-sidebar-foreground/60 hover:text-white">
               <LogOut className="h-4 w-4" />
@@ -78,7 +126,6 @@ export function AppShell({
         </div>
       </aside>
 
-      {/* Main */}
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border bg-background/95 px-4 backdrop-blur sm:px-6">
           <button className="md:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
