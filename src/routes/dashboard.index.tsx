@@ -1,6 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MonitorSmartphone, Activity, Clock, CreditCard, ShieldCheck, ArrowRight, Wifi, WifiOff } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { MetricCard } from "@/components/app/MetricCard";
@@ -8,9 +6,13 @@ import { RemoteDeskIdDisplay } from "@/components/app/RemoteDeskIdDisplay";
 import { QuickConnectCard } from "@/components/app/QuickConnectCard";
 import { StatusBadge } from "@/components/app/StatusBadge";
 import { Button } from "@/components/ui/button";
-import { useDevices, useSessions, formatDuration } from "@/lib/services";
+import { useDevices, useSessions, useUsageSummary, usePlanLimits, formatDuration } from "@/lib/services";
 import { useCurrentTeam } from "@/hooks/use-current-team";
 import { DemoBanner, LoadingRow, EmptyRow, ErrorRow } from "@/components/app/DataState";
+import { PlanBadge } from "@/components/app/billing/PlanBadge";
+import { UsageMeter } from "@/components/app/billing/UsageMeter";
+import { UsageWarningCard } from "@/components/app/billing/UsageWarningCard";
+
 
 export const Route = createFileRoute("/dashboard/")({
   head: () => ({ meta: [{ title: "Dashboard — RemoteDesk" }] }),
@@ -51,12 +53,43 @@ function Dashboard() {
           />
         </div>
         <div className="space-y-4">
+          <PlanUsageSnapshot />
           <SecurityReminders />
         </div>
       </div>
     </AppShell>
   );
 }
+
+function PlanUsageSnapshot() {
+  const usage = useUsageSummary();
+  const plans = usePlanLimits();
+  const plan = plans.data.find((p) => p.plan_key === usage.planKey) ?? plans.data[0];
+  const headline = usage.meters.filter((m) => ["devices", "session_minutes", "team_members"].includes(m.key));
+  return (
+    <div className="rounded-lg border border-border bg-card p-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2 text-sm font-semibold">
+          <CreditCard className="h-4 w-4 text-primary" /> Plan & usage
+        </div>
+        <PlanBadge planKey={usage.planKey} />
+      </div>
+      <div className="mt-3 space-y-2">
+        {headline.map((m) => (
+          <UsageMeter key={m.key} label={m.label} used={m.used} max={m.max} unit={m.unit} />
+        ))}
+      </div>
+      <div className="mt-3"><UsageWarningCard meters={usage.meters} /></div>
+      <Button asChild variant="outline" size="sm" className="mt-3 w-full">
+        <Link to="/dashboard/billing">Manage billing</Link>
+      </Button>
+      {plan && plan.plan_key === "free" && (
+        <div className="mt-2 text-[11px] text-muted-foreground">Free plan limits in effect.</div>
+      )}
+    </div>
+  );
+}
+
 
 type SessionLite = ReturnType<typeof useSessions>["data"][number];
 

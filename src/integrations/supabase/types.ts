@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      active_sessions: {
+        Row: {
+          created_at: string
+          device_name: string | null
+          id: string
+          ip_address: string | null
+          last_active_at: string
+          location: string | null
+          revoked_at: string | null
+          session_label: string | null
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_name?: string | null
+          id?: string
+          ip_address?: string | null
+          last_active_at?: string
+          location?: string | null
+          revoked_at?: string | null
+          session_label?: string | null
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          device_name?: string | null
+          id?: string
+          ip_address?: string | null
+          last_active_at?: string
+          location?: string | null
+          revoked_at?: string | null
+          session_label?: string | null
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       audit_logs: {
         Row: {
           action: string
@@ -243,6 +282,72 @@ export type Database = {
           },
         ]
       }
+      plan_limits: {
+        Row: {
+          can_use_admin_console: boolean
+          can_use_clipboard_sync: boolean
+          can_use_file_transfer: boolean
+          can_use_priority_support: boolean
+          can_use_team_management: boolean
+          can_use_unattended_access: boolean
+          created_at: string
+          currency: string
+          display_name: string
+          id: string
+          max_audit_retention_days: number | null
+          max_devices: number | null
+          max_file_transfer_mb: number | null
+          max_monthly_session_minutes: number | null
+          max_team_members: number | null
+          monthly_price: number | null
+          plan_key: string
+          updated_at: string
+          yearly_price: number | null
+        }
+        Insert: {
+          can_use_admin_console?: boolean
+          can_use_clipboard_sync?: boolean
+          can_use_file_transfer?: boolean
+          can_use_priority_support?: boolean
+          can_use_team_management?: boolean
+          can_use_unattended_access?: boolean
+          created_at?: string
+          currency?: string
+          display_name: string
+          id?: string
+          max_audit_retention_days?: number | null
+          max_devices?: number | null
+          max_file_transfer_mb?: number | null
+          max_monthly_session_minutes?: number | null
+          max_team_members?: number | null
+          monthly_price?: number | null
+          plan_key: string
+          updated_at?: string
+          yearly_price?: number | null
+        }
+        Update: {
+          can_use_admin_console?: boolean
+          can_use_clipboard_sync?: boolean
+          can_use_file_transfer?: boolean
+          can_use_priority_support?: boolean
+          can_use_team_management?: boolean
+          can_use_unattended_access?: boolean
+          created_at?: string
+          currency?: string
+          display_name?: string
+          id?: string
+          max_audit_retention_days?: number | null
+          max_devices?: number | null
+          max_file_transfer_mb?: number | null
+          max_monthly_session_minutes?: number | null
+          max_team_members?: number | null
+          monthly_price?: number | null
+          plan_key?: string
+          updated_at?: string
+          yearly_price?: number | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -307,6 +412,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      security_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          ip_address: string | null
+          metadata: Json
+          severity: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          ip_address?: string | null
+          metadata?: Json
+          severity?: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          ip_address?: string | null
+          metadata?: Json
+          severity?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
       }
       security_policies: {
         Row: {
@@ -408,9 +546,12 @@ export type Database = {
       }
       subscriptions: {
         Row: {
+          billing_interval: string | null
+          cancel_at_period_end: boolean
           current_period_end: string | null
           id: string
           plan: Database["public"]["Enums"]["plan_tier"]
+          provider: string
           seats: number
           status: string
           stripe_customer_id: string | null
@@ -418,9 +559,12 @@ export type Database = {
           team_id: string
         }
         Insert: {
+          billing_interval?: string | null
+          cancel_at_period_end?: boolean
           current_period_end?: string | null
           id?: string
           plan?: Database["public"]["Enums"]["plan_tier"]
+          provider?: string
           seats?: number
           status?: string
           stripe_customer_id?: string | null
@@ -428,9 +572,12 @@ export type Database = {
           team_id: string
         }
         Update: {
+          billing_interval?: string | null
+          cancel_at_period_end?: boolean
           current_period_end?: string | null
           id?: string
           plan?: Database["public"]["Enums"]["plan_tier"]
+          provider?: string
           seats?: number
           status?: string
           stripe_customer_id?: string | null
@@ -555,6 +702,98 @@ export type Database = {
           plan?: Database["public"]["Enums"]["plan_tier"]
         }
         Relationships: []
+      }
+      trusted_devices: {
+        Row: {
+          browser: string | null
+          created_at: string
+          device_fingerprint: string
+          device_name: string
+          id: string
+          ip_address: string | null
+          last_seen_at: string | null
+          os: string | null
+          revoked_at: string | null
+          trusted_at: string
+          user_id: string
+        }
+        Insert: {
+          browser?: string | null
+          created_at?: string
+          device_fingerprint: string
+          device_name: string
+          id?: string
+          ip_address?: string | null
+          last_seen_at?: string | null
+          os?: string | null
+          revoked_at?: string | null
+          trusted_at?: string
+          user_id: string
+        }
+        Update: {
+          browser?: string | null
+          created_at?: string
+          device_fingerprint?: string
+          device_name?: string
+          id?: string
+          ip_address?: string | null
+          last_seen_at?: string | null
+          os?: string | null
+          revoked_at?: string | null
+          trusted_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      usage_metrics: {
+        Row: {
+          created_at: string
+          id: string
+          metadata: Json
+          metric_key: string
+          metric_value: number
+          period_end: string
+          period_start: string
+          source: string
+          team_id: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          metadata?: Json
+          metric_key: string
+          metric_value?: number
+          period_end: string
+          period_start: string
+          source?: string
+          team_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          metadata?: Json
+          metric_key?: string
+          metric_value?: number
+          period_end?: string
+          period_start?: string
+          source?: string
+          team_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "usage_metrics_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

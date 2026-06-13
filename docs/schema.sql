@@ -244,3 +244,86 @@ create index support_tickets_created_idx  on public.support_tickets(created_at d
 -- TODO: there is no global "platform support" role in the current model.
 -- Internal RemoteDesk staff must use a service_role server function to
 -- view/update tickets across all teams.
+
+-- ================================================================
+-- Security: trusted_devices, active_sessions, security_events
+-- ================================================================
+create table public.trusted_devices (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  device_name text not null,
+  device_fingerprint text not null,
+  browser text, os text, ip_address text,
+  trusted_at timestamptz not null default now(),
+  last_seen_at timestamptz, revoked_at timestamptz,
+  created_at timestamptz not null default now()
+);
+-- RLS: users SELECT/INSERT/UPDATE/DELETE own rows.
+
+create table public.active_sessions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  session_label text, ip_address text, user_agent text,
+  device_name text, location text,
+  last_active_at timestamptz not null default now(),
+  created_at timestamptz not null default now(),
+  revoked_at timestamptz
+);
+-- RLS: users SELECT/INSERT/UPDATE/DELETE own rows.
+
+create table public.security_events (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  event_type text not null,
+  severity text not null default 'info' check (severity in ('info','warning','critical')),
+  ip_address text, user_agent text,
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+-- RLS: users SELECT/INSERT own rows. No UPDATE/DELETE from clients.
+
+-- ================================================================
+-- Billing: plan_limits, usage_metrics, subscriptions ext.
+-- ================================================================
+create table public.plan_limits (
+  id uuid primary key default gen_random_uuid(),
+  plan_key text not null unique,
+  display_name text not null,
+  monthly_price numeric, yearly_price numeric,
+  currency text not null default 'usd',
+  max_devices integer, max_team_members integer,
+  max_monthly_session_minutes integer,
+  max_file_transfer_mb integer,
+  max_audit_retention_days integer,
+  can_use_file_transfer boolean not null default false,
+  can_use_clipboard_sync boolean not null default false,
+  can_use_unattended_access boolean not null default false,
+  can_use_team_management boolean not null default false,
+  can_use_admin_console boolean not null default false,
+  can_use_priority_support boolean not null default false,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+-- RLS: readable to authenticated + anon. Writes via service_role only.
+-- TODO: admin-only write policy once platform-admin role is modeled.
+
+create table public.usage_metrics (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  team_id uuid references public.teams(id) on delete cascade,
+  metric_key text not null,
+  metric_value numeric not null default 0 check (metric_value >= 0),
+  period_start timestamptz not null, period_end timestamptz not null,
+  source text not null default 'system',
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  check (user_id is not null or team_id is not null)
+);
+-- RLS: SELECT own rows + team rows via is_team_member.
+-- NOTE: production INSERT/UPDATE must run server-side (service_role); no client write policy.
+
+alter table public.subscriptions
+  add column if not exists billing_interval text,
+  add column if not exists cancel_at_period_end boolean not null default false,
+  add column if not exists provider text not null default 'manual';

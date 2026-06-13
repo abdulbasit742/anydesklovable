@@ -190,16 +190,23 @@ export function useAdminStats() {
   const q = useQuery({
     queryKey: ["admin-stats"],
     queryFn: async () => {
-      const [teams, devices, sessions] = await Promise.all([
+      const [teams, devices, sessions, teamsByPlan] = await Promise.all([
         supabase.from("teams").select("id", { count: "exact", head: true }),
         supabase.from("devices").select("id", { count: "exact", head: true }),
         supabase.from("sessions").select("id", { count: "exact", head: true }).eq("status", "connected"),
+        supabase.from("teams").select("plan"),
       ]);
+      const byPlan: Record<string, number> = {};
+      for (const t of teamsByPlan.data ?? []) {
+        const k = (t as { plan?: string }).plan ?? "free";
+        byPlan[k] = (byPlan[k] ?? 0) + 1;
+      }
       return {
         totalAccounts: teams.count ?? 0,
         activeOrgs: teams.count ?? 0,
         liveSessions: sessions.count ?? 0,
         totalDevices: devices.count ?? 0,
+        accountsByPlan: byPlan,
       };
     },
   });
@@ -212,8 +219,8 @@ export function useAdminStats() {
     error,
     isDemo: useMock,
     data: useMock
-      ? { totalAccounts: mockAdminMetrics.totalAccounts, activeOrgs: mockAdminMetrics.activeOrgs, liveSessions: mockAdminMetrics.liveSessions, totalDevices: 642 }
-      : q.data ?? { totalAccounts: 0, activeOrgs: 0, liveSessions: 0, totalDevices: 0 },
+      ? { totalAccounts: mockAdminMetrics.totalAccounts, activeOrgs: mockAdminMetrics.activeOrgs, liveSessions: mockAdminMetrics.liveSessions, totalDevices: 642, accountsByPlan: { free: 120, pro: 64, business: 22, enterprise: 4 } }
+      : q.data ?? { totalAccounts: 0, activeOrgs: 0, liveSessions: 0, totalDevices: 0, accountsByPlan: {} as Record<string, number> },
     orgs: useMock ? mockAdminOrgs : [],
   };
 }
@@ -332,3 +339,306 @@ export async function getSupportTicketById(id: string) {
   if (error) throw error;
   return data as SupportTicket | null;
 }
+
+// =====================================================================
+// SECURITY: trusted devices, active sessions, security events, MFA
+// =====================================================================
+
+export type TrustedDevice = {
+  id: string;
+  user_id: string;
+  device_name: string;
+  device_fingerprint: string;
+  browser: string | null;
+  os: string | null;
+  ip_address: string | null;
+  trusted_at: string;
+  last_seen_at: string | null;
+  revoked_at: string | null;
+  created_at: string;
+};
+
+export type ActiveSession = {
+  id: string;
+  user_id: string;
+  session_label: string | null;
+  ip_address: string | null;
+  user_agent: string | null;
+  device_name: string | null;
+  location: string | null;
+  last_active_at: string;
+  created_at: string;
+  revoked_at: string | null;
+};
+
+export type SecurityEventSeverity = "info" | "warning" | "critical";
+export const SECURITY_EVENT_TYPES = [
+  "login","logout","password_changed","mfa_enabled","mfa_disabled",
+  "trusted_device_added","trusted_device_revoked","session_revoked",
+  "global_signout","failed_login",
+] as const;
+export type SecurityEventType = typeof SECURITY_EVENT_TYPES[number] | string;
+
+export type SecurityEvent = {
+  id: string;
+  user_id: string;
+  event_type: SecurityEventType;
+  severity: SecurityEventSeverity;
+  ip_address: string | null;
+  user_agent: string | null;
+  metadata: Record<string, unknown>;
+  created_at: string;
+};
+
+export type SecurityEventFilters = {
+  severity?: SecurityEventSeverity | "all";
+  event_type?: string | "all";
+};
+
+const MOCK_TRUSTED_DEVICES: TrustedDevice[] = [
+  { id: "demo-td-1", user_id: "demo", device_name: "Office MacBook Pro", device_fingerprint: "demo-fp-1", browser: "Safari 17", os: "macOS 14", ip_address: "203.0.113.42", trusted_at: new Date(Date.now() - 12 * 86400_000).toISOString(), last_seen_at: new Date(Date.now() - 2 * 3600_000).toISOString(), revoked_at: null, created_at: new Date(Date.now() - 12 * 86400_000).toISOString() },
+];
+const MOCK_ACTIVE_SESSIONS: ActiveSession[] = [
+  { id: "demo-as-1", user_id: "demo", session_label: "This browser", ip_address: "203.0.113.42", user_agent: "Chrome 124 on macOS", device_name: "MacBook Pro", location: "Berlin, DE", last_active_at: new Date().toISOString(), created_at: new Date(Date.now() - 3600_000).toISOString(), revoked_at: null },
+];
+const MOCK_SECURITY_EVENTS: SecurityEvent[] = [
+  { id: "demo-ev-1", user_id: "demo", event_type: "login", severity: "info", ip_address: "203.0.113.42", user_agent: "Chrome 124", metadata: {}, created_at: new Date(Date.now() - 60_000).toISOString() },
+  { id: "demo-ev-2", user_id: "demo", event_type: "failed_login", severity: "warning", ip_address: "198.51.100.7", user_agent: "Unknown", metadata: { reason: "invalid_password" }, created_at: new Date(Date.now() - 3600_000).toISOString() },
+];
+
+export function useTrustedDevices() {
+  const { user } = useAuthUser();
+  const q = useQuery({
+    queryKey: ["trusted-devices", user?.id],
+    enabled: !!user,
+    queryFn: async () => {
+      const { data, error } = await supabase.from("trusted_devices").select("*").is("revoked_at", null).order("trusted_at", { ascending: false });
+      if (error) throw error;
+      return data as TrustedDevice[];
+    },
+  });
+  return withFallback(q.data, MOCK_TRUSTED_DEVICES, q.isLoading, (q.error as Error) ?? null);
+}
+
+export function useActiveSessions() {
+  const { user } = useAuthUser();
+  const q = useQuery({
+    queryKey: ["active-sessions", user?.id],
+    enabled: !!user,
+    queryFn: async () => {
+      const { data, error } = await supabase.from("active_sessions").select("*").is("revoked_at", null).order("last_active_at", { ascending: false });
+      if (error) throw error;
+      return data as ActiveSession[];
+    },
+  });
+  return withFallback(q.data, MOCK_ACTIVE_SESSIONS, q.isLoading, (q.error as Error) ?? null);
+}
+
+export function useSecurityEvents(filters: SecurityEventFilters = {}) {
+  const { user } = useAuthUser();
+  const q = useQuery({
+    queryKey: ["security-events", user?.id, filters],
+    enabled: !!user,
+    queryFn: async () => {
+      let qb = supabase.from("security_events").select("*").order("created_at", { ascending: false }).limit(100);
+      if (filters.severity && filters.severity !== "all") qb = qb.eq("severity", filters.severity);
+      if (filters.event_type && filters.event_type !== "all") qb = qb.eq("event_type", filters.event_type);
+      const { data, error } = await qb;
+      if (error) throw error;
+      return data as unknown as SecurityEvent[];
+    },
+  });
+  const loading = q.isLoading;
+  const error = (q.error as Error) ?? null;
+  const rows = q.data ?? [];
+  const useMock = !loading && !error && rows.length === 0 && DEMO_FALLBACK;
+  let data: SecurityEvent[] = useMock ? MOCK_SECURITY_EVENTS : rows;
+  if (useMock) {
+    if (filters.severity && filters.severity !== "all") data = data.filter((e) => e.severity === filters.severity);
+    if (filters.event_type && filters.event_type !== "all") data = data.filter((e) => e.event_type === filters.event_type);
+  }
+  return { data, isLoading: loading, error, isDemo: useMock };
+}
+
+export async function revokeTrustedDevice(id: string) {
+  const { error } = await supabase.from("trusted_devices").update({ revoked_at: new Date().toISOString() }).eq("id", id);
+  if (error) throw error;
+  await createSecurityEvent({ event_type: "trusted_device_revoked", severity: "info", metadata: { trusted_device_id: id } }).catch(() => {});
+}
+
+export async function revokeActiveSession(id: string) {
+  const { error } = await supabase.from("active_sessions").update({ revoked_at: new Date().toISOString() }).eq("id", id);
+  if (error) throw error;
+  await createSecurityEvent({ event_type: "session_revoked", severity: "info", metadata: { session_id: id } }).catch(() => {});
+}
+
+export async function createSecurityEvent(input: {
+  event_type: SecurityEventType;
+  severity?: SecurityEventSeverity;
+  ip_address?: string | null;
+  user_agent?: string | null;
+  metadata?: Record<string, unknown>;
+}) {
+  const { data: userRes } = await supabase.auth.getUser();
+  const user = userRes.user;
+  if (!user) return;
+  await supabase.from("security_events").insert({
+    user_id: user.id,
+    event_type: input.event_type,
+    severity: input.severity ?? "info",
+    ip_address: input.ip_address ?? null,
+    user_agent: input.user_agent ?? (typeof navigator !== "undefined" ? navigator.userAgent : null),
+    metadata: (input.metadata ?? {}) as never,
+  });
+}
+
+export function useMfaStatus() {
+  return useQuery({
+    queryKey: ["mfa-status"],
+    queryFn: async () => {
+      // Real Supabase MFA read. Enrollment is not wired in this UI.
+      try {
+        const { data, error } = await supabase.auth.mfa.listFactors();
+        if (error) throw error;
+        const totp = data?.totp ?? [];
+        const verified = totp.filter((f) => f.status === "verified");
+        return {
+          enabled: verified.length > 0,
+          factorCount: verified.length,
+          totpFactors: verified,
+          enrollmentSupported: false as const, // QR/enrollment flow not implemented this turn
+        };
+      } catch {
+        return { enabled: false, factorCount: 0, totpFactors: [], enrollmentSupported: false as const };
+      }
+    },
+  });
+}
+
+// Small helper local to this file — avoids importing useAuth in services.
+function useAuthUser() {
+  const q = useQuery({
+    queryKey: ["__auth_user__"],
+    queryFn: async () => {
+      const { data } = await supabase.auth.getUser();
+      return data.user;
+    },
+    staleTime: 60_000,
+  });
+  return { user: q.data ?? null };
+}
+
+// =====================================================================
+// BILLING: plan limits, current subscription, usage summary
+// =====================================================================
+
+export type PlanLimit = {
+  id: string;
+  plan_key: string;
+  display_name: string;
+  monthly_price: number | null;
+  yearly_price: number | null;
+  currency: string;
+  max_devices: number | null;
+  max_team_members: number | null;
+  max_monthly_session_minutes: number | null;
+  max_file_transfer_mb: number | null;
+  max_audit_retention_days: number | null;
+  can_use_file_transfer: boolean;
+  can_use_clipboard_sync: boolean;
+  can_use_unattended_access: boolean;
+  can_use_team_management: boolean;
+  can_use_admin_console: boolean;
+  can_use_priority_support: boolean;
+};
+
+const DEFAULT_PLAN_LIMITS: PlanLimit[] = [
+  { id: "p-free",  plan_key: "free",       display_name: "Free",       monthly_price: 0,    yearly_price: 0,    currency: "usd", max_devices: 1,    max_team_members: 1,    max_monthly_session_minutes: 60,   max_file_transfer_mb: 50,   max_audit_retention_days: 7,   can_use_file_transfer: false, can_use_clipboard_sync: false, can_use_unattended_access: false, can_use_team_management: false, can_use_admin_console: false, can_use_priority_support: false },
+  { id: "p-pro",   plan_key: "pro",        display_name: "Pro",        monthly_price: 19,   yearly_price: 190,  currency: "usd", max_devices: 5,    max_team_members: 1,    max_monthly_session_minutes: null, max_file_transfer_mb: 500,  max_audit_retention_days: 30,  can_use_file_transfer: true,  can_use_clipboard_sync: true,  can_use_unattended_access: true,  can_use_team_management: false, can_use_admin_console: false, can_use_priority_support: false },
+  { id: "p-biz",   plan_key: "business",   display_name: "Business",   monthly_price: 49,   yearly_price: 490,  currency: "usd", max_devices: 25,   max_team_members: 10,   max_monthly_session_minutes: null, max_file_transfer_mb: 5000, max_audit_retention_days: 90,  can_use_file_transfer: true,  can_use_clipboard_sync: true,  can_use_unattended_access: true,  can_use_team_management: true,  can_use_admin_console: false, can_use_priority_support: true },
+  { id: "p-ent",   plan_key: "enterprise", display_name: "Enterprise", monthly_price: null, yearly_price: null, currency: "usd", max_devices: null, max_team_members: null, max_monthly_session_minutes: null, max_file_transfer_mb: null, max_audit_retention_days: 365, can_use_file_transfer: true,  can_use_clipboard_sync: true,  can_use_unattended_access: true,  can_use_team_management: true,  can_use_admin_console: true,  can_use_priority_support: true },
+];
+
+export function usePlanLimits() {
+  const q = useQuery({
+    queryKey: ["plan-limits"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("plan_limits").select("*").order("monthly_price", { ascending: true, nullsFirst: false });
+      if (error) throw error;
+      return data as PlanLimit[];
+    },
+    staleTime: 5 * 60_000,
+  });
+  const loading = q.isLoading;
+  const error = (q.error as Error) ?? null;
+  const rows = q.data ?? [];
+  const isDemo = !loading && !error && rows.length === 0;
+  return {
+    data: rows.length ? rows : DEFAULT_PLAN_LIMITS,
+    isLoading: loading,
+    error,
+    isDemo,
+  };
+}
+
+export function useCurrentSubscription() {
+  const { data: team } = useCurrentTeam();
+  const teamId = team?.team_id;
+  const q = useQuery({
+    queryKey: ["subscription", teamId],
+    enabled: !!teamId,
+    queryFn: async () => {
+      const { data, error } = await supabase.from("subscriptions").select("*").eq("team_id", teamId!).maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+  return { data: q.data, isLoading: q.isLoading, error: (q.error as Error) ?? null };
+}
+
+export type UsageMeterValue = {
+  key: string;
+  label: string;
+  used: number;
+  max: number | null; // null = unlimited
+  unit?: string;
+};
+
+export type UsageSummary = {
+  meters: UsageMeterValue[];
+  isDemo: boolean;
+  isLoading: boolean;
+  error: Error | null;
+  planKey: string;
+};
+
+export function useUsageSummary(): UsageSummary {
+  const { data: team } = useCurrentTeam();
+  const devices = useDevices();
+  const sessions = useSessions({ limit: 500 });
+  const members = useTeamMembers();
+  const tickets = useSupportTickets();
+  const plans = usePlanLimits();
+
+  const planKey = (((team?.teams as { plan?: string } | null)?.plan) ?? "free").toLowerCase();
+  const limit = plans.data.find((p) => p.plan_key === planKey) ?? plans.data[0];
+
+  const isLoading = devices.isLoading || sessions.isLoading || members.isLoading || tickets.isLoading || plans.isLoading;
+  const error = devices.error || sessions.error || members.error || tickets.error || plans.error;
+  // Demo when any underlying source is demo-fallback OR when plan catalog came from defaults.
+  const isDemo = devices.isDemo || sessions.isDemo || members.isDemo || tickets.isDemo || plans.isDemo;
+
+  const onlineDevices = devices.data.filter((d) => d.status === "online").length;
+  const sessionMinutes = Math.floor(sessions.data.reduce((acc, s) => acc + (s.duration_seconds ?? 0), 0) / 60);
+
+  const meters: UsageMeterValue[] = [
+    { key: "devices",         label: "Devices",         used: devices.data.length, max: limit.max_devices },
+    { key: "active_devices",  label: "Active devices",  used: onlineDevices,        max: limit.max_devices },
+    { key: "session_minutes", label: "Session minutes", used: sessionMinutes,       max: limit.max_monthly_session_minutes, unit: "min" },
+    { key: "team_members",    label: "Team members",    used: members.data.length,  max: limit.max_team_members },
+    { key: "support_tickets", label: "Support tickets", used: tickets.data.length,  max: null },
+  ];
+
+  return { meters, isDemo, isLoading, error, planKey };
+}
+

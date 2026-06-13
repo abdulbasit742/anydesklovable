@@ -15,9 +15,13 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { useTeamMembers } from "@/lib/services";
+import { useTeamMembers, useUsageSummary, usePlanLimits } from "@/lib/services";
+import { useCurrentTeam } from "@/hooks/use-current-team";
 import { DemoBanner, PanelState } from "@/components/app/DataState";
 import { formatDistanceToNow } from "date-fns";
+import { PlanBadge } from "@/components/app/billing/PlanBadge";
+import { UsageMeter } from "@/components/app/billing/UsageMeter";
+import { UpgradePrompt } from "@/components/app/billing/UpgradePrompt";
 
 export const Route = createFileRoute("/dashboard/team")({
   head: () => ({ meta: [{ title: "Team — RemoteDesk" }] }),
@@ -26,9 +30,18 @@ export const Route = createFileRoute("/dashboard/team")({
 
 function TeamPage() {
   const { data: members, isLoading, error, isDemo } = useTeamMembers();
+  const { data: team } = useCurrentTeam();
+  const usage = useUsageSummary();
+  const plans = usePlanLimits();
+  const planKey = (((team?.teams as { plan?: string } | null)?.plan) ?? "free").toLowerCase();
+  const myRole = (team?.role ?? "member").toLowerCase();
+  const canManageBilling = myRole === "owner" || myRole === "admin";
+  const seatMeter = usage.meters.find((m) => m.key === "team_members");
+  const deviceMeter = usage.meters.find((m) => m.key === "devices");
   const [inviteOpen, setInviteOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("member");
+
 
   return (
     <AppShell
@@ -69,6 +82,25 @@ function TeamPage() {
       }
     >
       {isDemo && <DemoBanner>Showing demo team. Invite real members to populate this list.</DemoBanner>}
+
+      <div className="mb-6 rounded-lg border border-border bg-card p-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="text-sm font-semibold">Workspace plan</div>
+            <PlanBadge planKey={planKey} />
+          </div>
+          {canManageBilling ? (
+            <UpgradePrompt plans={plans.data} currentPlanKey={planKey} defaultPlan="business" trigger={<Button size="sm" variant="outline">Upgrade</Button>} />
+          ) : (
+            <Button size="sm" variant="outline" disabled title="Only owners and admins can change billing">Upgrade</Button>
+          )}
+        </div>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          {seatMeter && <UsageMeter label="Team seats" used={seatMeter.used} max={seatMeter.max} />}
+          {deviceMeter && <UsageMeter label="Devices" used={deviceMeter.used} max={deviceMeter.max} />}
+        </div>
+      </div>
+
 
       <div className="grid gap-4 lg:grid-cols-3">
         <PolicyCard icon={ShieldCheck} title="Device policy" desc="Require device password and host approval for all sessions." status="Enforced" />
