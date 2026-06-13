@@ -53,12 +53,43 @@ function Dashboard() {
           />
         </div>
         <div className="space-y-4">
+          <PlanUsageSnapshot />
           <SecurityReminders />
         </div>
       </div>
     </AppShell>
   );
 }
+
+function PlanUsageSnapshot() {
+  const usage = useUsageSummary();
+  const plans = usePlanLimits();
+  const plan = plans.data.find((p) => p.plan_key === usage.planKey) ?? plans.data[0];
+  const headline = usage.meters.filter((m) => ["devices", "session_minutes", "team_members"].includes(m.key));
+  return (
+    <div className="rounded-lg border border-border bg-card p-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2 text-sm font-semibold">
+          <CreditCard className="h-4 w-4 text-primary" /> Plan & usage
+        </div>
+        <PlanBadge planKey={usage.planKey} />
+      </div>
+      <div className="mt-3 space-y-2">
+        {headline.map((m) => (
+          <UsageMeter key={m.key} label={m.label} used={m.used} max={m.max} unit={m.unit} />
+        ))}
+      </div>
+      <div className="mt-3"><UsageWarningCard meters={usage.meters} /></div>
+      <Button asChild variant="outline" size="sm" className="mt-3 w-full">
+        <Link to="/dashboard/billing">Manage billing</Link>
+      </Button>
+      {plan && plan.plan_key === "free" && (
+        <div className="mt-2 text-[11px] text-muted-foreground">Free plan limits in effect.</div>
+      )}
+    </div>
+  );
+}
+
 
 type SessionLite = ReturnType<typeof useSessions>["data"][number];
 
