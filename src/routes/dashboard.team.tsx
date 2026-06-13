@@ -86,6 +86,25 @@ function TeamPage() {
     >
       {isDemo && <DemoBanner>Showing demo team. Invite real members to populate this list.</DemoBanner>}
 
+      <div className="mb-6 rounded-lg border border-border bg-card p-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="text-sm font-semibold">Workspace plan</div>
+            <PlanBadge planKey={planKey} />
+          </div>
+          {canManageBilling ? (
+            <UpgradePrompt plans={plans.data} currentPlanKey={planKey} defaultPlan="business" trigger={<Button size="sm" variant="outline">Upgrade</Button>} />
+          ) : (
+            <Button size="sm" variant="outline" disabled title="Only owners and admins can change billing">Upgrade</Button>
+          )}
+        </div>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          {seatMeter && <UsageMeter label="Team seats" used={seatMeter.used} max={seatMeter.max} />}
+          {deviceMeter && <UsageMeter label="Devices" used={deviceMeter.used} max={deviceMeter.max} />}
+        </div>
+      </div>
+
+
       <div className="grid gap-4 lg:grid-cols-3">
         <PolicyCard icon={ShieldCheck} title="Device policy" desc="Require device password and host approval for all sessions." status="Enforced" />
         <PolicyCard icon={FileText} title="Audit logging" desc="Capture every connection, action, and policy change." status="Active" />
