@@ -59,6 +59,9 @@ function AdminPage() {
             ))}
           </div>
         )}
+      </div>
+
+
 
       <div className="mt-6 grid gap-4 lg:grid-cols-3">
         <div className="rounded-lg border border-border bg-card p-4 lg:col-span-2">
