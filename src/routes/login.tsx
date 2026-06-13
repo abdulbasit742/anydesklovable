@@ -1,10 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ShieldCheck } from "lucide-react";
+import { useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/login")({
   head: () => ({ meta: [{ title: "Sign in — RemoteDesk" }, { name: "description", content: "Sign in to RemoteDesk." }] }),
@@ -13,17 +15,30 @@ export const Route = createFileRoute("/login")({
 
 function Login() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    setLoading(false);
+    if (error) return toast.error(error.message);
+    toast.success("Signed in");
+    navigate({ to: "/dashboard" });
+  }
+
   return (
     <AuthLayout title="Welcome back" subtitle="Sign in to your RemoteDesk workspace.">
-      <form
-        className="space-y-3"
-        onSubmit={(e) => { e.preventDefault(); toast.success("Signed in"); navigate({ to: "/dashboard" }); }}
-      >
-        <Field label="Work email"><Input type="email" required placeholder="you@company.com" /></Field>
-        <Field label="Password" hint={<Link to="/forgot-password" className="text-primary hover:underline">Forgot?</Link>}>
-          <Input type="password" required placeholder="••••••••" />
+      <form className="space-y-3" onSubmit={onSubmit}>
+        <Field label="Work email">
+          <Input type="email" required placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} />
         </Field>
-        <Button type="submit" className="w-full">Sign in</Button>
+        <Field label="Password" hint={<Link to="/forgot-password" className="text-primary hover:underline">Forgot?</Link>}>
+          <Input type="password" required placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </Field>
+        <Button type="submit" className="w-full" disabled={loading}>{loading ? "Signing in…" : "Sign in"}</Button>
       </form>
       <p className="mt-4 text-center text-sm text-muted-foreground">
         New to RemoteDesk? <Link to="/signup" className="text-primary hover:underline">Create an account</Link>
@@ -44,7 +59,7 @@ export function AuthLayout({
             <ShieldCheck className="h-3.5 w-3.5 text-primary" /> Zero-trust by default
           </div>
           <h2 className="mt-4 max-w-md text-3xl font-semibold text-white">
-            Every session starts with the host’s consent.
+            Every session starts with the host's consent.
           </h2>
           <p className="mt-3 max-w-md text-sm text-sidebar-foreground/70">
             RemoteDesk uses end-to-end encrypted WebRTC, requires explicit approval, and lets you stop a session instantly.

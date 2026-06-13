@@ -1,4 +1,4 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { type ReactNode, useState } from "react";
 import {
   LayoutDashboard, MonitorSmartphone, Activity, ShieldCheck,
@@ -8,7 +8,8 @@ import {
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { currentUser } from "@/lib/mock-data";
+import { useAuth } from "@/hooks/use-auth";
+import { useCurrentTeam } from "@/hooks/use-current-team";
 
 type NavItem = { to: string; label: string; icon: typeof LayoutDashboard; badge?: string };
 type NavGroup = { label?: string; items: NavItem[] };
@@ -52,6 +53,12 @@ export function AppShell({
 }: { children: ReactNode; title: string; actions?: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+  const { data: membership } = useCurrentTeam();
+  const displayName = (user?.user_metadata?.full_name as string | undefined) || user?.email?.split("@")[0] || "Account";
+  const planLabel = membership?.teams?.plan ?? "free";
+  const roleLabel = membership?.role ?? "member";
 
   const isActive = (to: string) =>
     to === "/dashboard" ? pathname === "/dashboard" : pathname === to || pathname.startsWith(to + "/");
@@ -116,12 +123,16 @@ export function AppShell({
           </Link>
           <div className="flex items-center justify-between rounded-md bg-sidebar-accent px-2.5 py-2">
             <div className="min-w-0">
-              <div className="truncate text-xs font-medium text-white">{currentUser.name}</div>
-              <div className="truncate text-[11px] text-sidebar-foreground/60">{currentUser.role} · {currentUser.plan}</div>
+              <div className="truncate text-xs font-medium text-white">{displayName}</div>
+              <div className="truncate text-[11px] text-sidebar-foreground/60">{roleLabel} · {planLabel}</div>
             </div>
-            <Link to="/login" aria-label="Sign out" className="text-sidebar-foreground/60 hover:text-white">
+            <button
+              onClick={async () => { await signOut(); navigate({ to: "/login" }); }}
+              aria-label="Sign out"
+              className="text-sidebar-foreground/60 hover:text-white"
+            >
               <LogOut className="h-4 w-4" />
-            </Link>
+            </button>
           </div>
         </div>
       </aside>

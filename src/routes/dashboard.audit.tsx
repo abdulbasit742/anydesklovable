@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Download, Search, ShieldAlert, Info, AlertTriangle } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { Button } from "@/components/ui/button";
@@ -7,8 +8,10 @@ import { Input } from "@/components/ui/input";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
-import { auditLog } from "@/lib/mock-data";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useCurrentTeam } from "@/hooks/use-current-team";
+import { formatDistanceToNow } from "date-fns";
 
 export const Route = createFileRoute("/dashboard/audit")({
   head: () => ({ meta: [{ title: "Audit logs — RemoteDesk" }] }),
@@ -24,13 +27,32 @@ const sevMeta = {
 function AuditPage() {
   const [q, setQ] = useState("");
   const [sev, setSev] = useState<"all" | "info" | "warn" | "critical">("all");
-  const list = auditLog.filter(
+  const { data: team } = useCurrentTeam();
+  const teamId = team?.team_id;
+
+  const { data: rows = [], isLoading, error } = useQuery({
+    queryKey: ["audit", teamId, sev],
+    enabled: !!teamId,
+    queryFn: async () => {
+      let query = supabase
+        .from("audit_logs")
+        .select("*")
+        .eq("team_id", teamId!)
+        .order("created_at", { ascending: false })
+        .limit(500);
+      if (sev !== "all") query = query.eq("severity", sev);
+      const { data, error } = await query;
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const list = rows.filter(
     (a) =>
-      (sev === "all" || a.severity === sev) &&
-      (q === "" ||
-        a.actor.toLowerCase().includes(q.toLowerCase()) ||
-        a.action.toLowerCase().includes(q.toLowerCase()) ||
-        a.target.toLowerCase().includes(q.toLowerCase())),
+      q === "" ||
+      (a.actor_label ?? "").toLowerCase().includes(q.toLowerCase()) ||
+      a.action.toLowerCase().includes(q.toLowerCase()) ||
+      (a.target ?? "").toLowerCase().includes(q.toLowerCase()),
   );
 
   return (
@@ -74,7 +96,13 @@ function AuditPage() {
               </tr>
             </thead>
             <tbody>
-              {list.map((a) => {
+              {isLoading && (
+                <tr><td colSpan={6} className="px-4 py-10 text-center text-sm text-muted-foreground">Loading events…</td></tr>
+              )}
+              {error && (
+                <tr><td colSpan={6} className="px-4 py-10 text-center text-sm text-destructive">{(error as Error).message}</td></tr>
+              )}
+              {!isLoading && !error && list.map((a) => {
                 const m = sevMeta[a.severity];
                 const Icon = m.icon;
                 return (
@@ -84,16 +112,18 @@ function AuditPage() {
                         <Icon className="h-3 w-3" /> {a.severity}
                       </span>
                     </td>
-                    <td className="px-4 py-2 font-medium">{a.actor}</td>
+                    <td className="px-4 py-2 font-medium">{a.actor_label ?? "system"}</td>
                     <td className="px-4 py-2 font-mono text-xs">{a.action}</td>
-                    <td className="px-4 py-2 text-muted-foreground">{a.target}</td>
-                    <td className="px-4 py-2 text-muted-foreground">{a.at}</td>
-                    <td className="px-4 py-2 font-mono text-xs text-muted-foreground">{a.ip}</td>
+                    <td className="px-4 py-2 text-muted-foreground">{a.target ?? "—"}</td>
+                    <td className="px-4 py-2 text-muted-foreground">{formatDistanceToNow(new Date(a.created_at), { addSuffix: true })}</td>
+                    <td className="px-4 py-2 font-mono text-xs text-muted-foreground">{(a.ip as string | null) ?? "—"}</td>
                   </tr>
                 );
               })}
-              {list.length === 0 && (
-                <tr><td colSpan={6} className="px-4 py-10 text-center text-sm text-muted-foreground">No events match your filters.</td></tr>
+              {!isLoading && !error && list.length === 0 && (
+                <tr><td colSpan={6} className="px-4 py-10 text-center text-sm text-muted-foreground">
+                  No audit events yet. Events appear here as your team uses RemoteDesk.
+                </td></tr>
               )}
             </tbody>
           </table>
