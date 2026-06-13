@@ -20,8 +20,11 @@ import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardTeamRouteImport } from './routes/dashboard.team'
 import { Route as DashboardSessionsRouteImport } from './routes/dashboard.sessions'
 import { Route as DashboardSecurityRouteImport } from './routes/dashboard.security'
+import { Route as DashboardPoliciesRouteImport } from './routes/dashboard.policies'
 import { Route as DashboardDevicesRouteImport } from './routes/dashboard.devices'
 import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing'
+import { Route as DashboardAuditRouteImport } from './routes/dashboard.audit'
+import { Route as DashboardDevicesDeviceIdRouteImport } from './routes/dashboard.devices.$deviceId'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -78,6 +81,11 @@ const DashboardSecurityRoute = DashboardSecurityRouteImport.update({
   path: '/security',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardPoliciesRoute = DashboardPoliciesRouteImport.update({
+  id: '/policies',
+  path: '/policies',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardDevicesRoute = DashboardDevicesRouteImport.update({
   id: '/devices',
   path: '/devices',
@@ -88,6 +96,17 @@ const DashboardBillingRoute = DashboardBillingRouteImport.update({
   path: '/billing',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardAuditRoute = DashboardAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardDevicesDeviceIdRoute =
+  DashboardDevicesDeviceIdRouteImport.update({
+    id: '/$deviceId',
+    path: '/$deviceId',
+    getParentRoute: () => DashboardDevicesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -97,12 +116,15 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/signup': typeof SignupRoute
+  '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/billing': typeof DashboardBillingRoute
-  '/dashboard/devices': typeof DashboardDevicesRoute
+  '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
+  '/dashboard/policies': typeof DashboardPoliciesRoute
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -111,12 +133,15 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/signup': typeof SignupRoute
+  '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/billing': typeof DashboardBillingRoute
-  '/dashboard/devices': typeof DashboardDevicesRoute
+  '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
+  '/dashboard/policies': typeof DashboardPoliciesRoute
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -127,12 +152,15 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/signup': typeof SignupRoute
+  '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/billing': typeof DashboardBillingRoute
-  '/dashboard/devices': typeof DashboardDevicesRoute
+  '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
+  '/dashboard/policies': typeof DashboardPoliciesRoute
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -144,12 +172,15 @@ export interface FileRouteTypes {
     | '/login'
     | '/pricing'
     | '/signup'
+    | '/dashboard/audit'
     | '/dashboard/billing'
     | '/dashboard/devices'
+    | '/dashboard/policies'
     | '/dashboard/security'
     | '/dashboard/sessions'
     | '/dashboard/team'
     | '/dashboard/'
+    | '/dashboard/devices/$deviceId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -158,12 +189,15 @@ export interface FileRouteTypes {
     | '/login'
     | '/pricing'
     | '/signup'
+    | '/dashboard/audit'
     | '/dashboard/billing'
     | '/dashboard/devices'
+    | '/dashboard/policies'
     | '/dashboard/security'
     | '/dashboard/sessions'
     | '/dashboard/team'
     | '/dashboard'
+    | '/dashboard/devices/$deviceId'
   id:
     | '__root__'
     | '/'
@@ -173,12 +207,15 @@ export interface FileRouteTypes {
     | '/login'
     | '/pricing'
     | '/signup'
+    | '/dashboard/audit'
     | '/dashboard/billing'
     | '/dashboard/devices'
+    | '/dashboard/policies'
     | '/dashboard/security'
     | '/dashboard/sessions'
     | '/dashboard/team'
     | '/dashboard/'
+    | '/dashboard/devices/$deviceId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -270,6 +307,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardSecurityRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/policies': {
+      id: '/dashboard/policies'
+      path: '/policies'
+      fullPath: '/dashboard/policies'
+      preLoaderRoute: typeof DashboardPoliciesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/devices': {
       id: '/dashboard/devices'
       path: '/devices'
@@ -284,12 +328,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardBillingRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/audit': {
+      id: '/dashboard/audit'
+      path: '/audit'
+      fullPath: '/dashboard/audit'
+      preLoaderRoute: typeof DashboardAuditRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/devices/$deviceId': {
+      id: '/dashboard/devices/$deviceId'
+      path: '/$deviceId'
+      fullPath: '/dashboard/devices/$deviceId'
+      preLoaderRoute: typeof DashboardDevicesDeviceIdRouteImport
+      parentRoute: typeof DashboardDevicesRoute
+    }
   }
 }
 
+interface DashboardDevicesRouteChildren {
+  DashboardDevicesDeviceIdRoute: typeof DashboardDevicesDeviceIdRoute
+}
+
+const DashboardDevicesRouteChildren: DashboardDevicesRouteChildren = {
+  DashboardDevicesDeviceIdRoute: DashboardDevicesDeviceIdRoute,
+}
+
+const DashboardDevicesRouteWithChildren =
+  DashboardDevicesRoute._addFileChildren(DashboardDevicesRouteChildren)
+
 interface DashboardRouteChildren {
+  DashboardAuditRoute: typeof DashboardAuditRoute
   DashboardBillingRoute: typeof DashboardBillingRoute
-  DashboardDevicesRoute: typeof DashboardDevicesRoute
+  DashboardDevicesRoute: typeof DashboardDevicesRouteWithChildren
+  DashboardPoliciesRoute: typeof DashboardPoliciesRoute
   DashboardSecurityRoute: typeof DashboardSecurityRoute
   DashboardSessionsRoute: typeof DashboardSessionsRoute
   DashboardTeamRoute: typeof DashboardTeamRoute
@@ -297,8 +368,10 @@ interface DashboardRouteChildren {
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAuditRoute: DashboardAuditRoute,
   DashboardBillingRoute: DashboardBillingRoute,
-  DashboardDevicesRoute: DashboardDevicesRoute,
+  DashboardDevicesRoute: DashboardDevicesRouteWithChildren,
+  DashboardPoliciesRoute: DashboardPoliciesRoute,
   DashboardSecurityRoute: DashboardSecurityRoute,
   DashboardSessionsRoute: DashboardSessionsRoute,
   DashboardTeamRoute: DashboardTeamRoute,

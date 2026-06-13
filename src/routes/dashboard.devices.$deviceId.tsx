@@ -54,7 +54,7 @@ function DeviceDetail() {
                 <div className="mt-0.5 text-xs text-muted-foreground">{device.os} · {device.osVersion}</div>
                 <div className="mt-2 flex flex-wrap gap-2">
                   <StatusBadge variant={device.status}>{device.status}</StatusBadge>
-                  {device.tags.map((t) => (
+                  {device.tags.map((t: string) => (
                     <span key={t} className="inline-flex items-center gap-1 rounded-full border border-border bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">
                       <Tag className="h-3 w-3" />{t}
                     </span>
