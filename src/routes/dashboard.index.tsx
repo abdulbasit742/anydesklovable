@@ -1,6 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MonitorSmartphone, Activity, Clock, CreditCard, ShieldCheck, ArrowRight, Wifi, WifiOff } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { MetricCard } from "@/components/app/MetricCard";
@@ -8,9 +6,13 @@ import { RemoteDeskIdDisplay } from "@/components/app/RemoteDeskIdDisplay";
 import { QuickConnectCard } from "@/components/app/QuickConnectCard";
 import { StatusBadge } from "@/components/app/StatusBadge";
 import { Button } from "@/components/ui/button";
-import { useDevices, useSessions, formatDuration } from "@/lib/services";
+import { useDevices, useSessions, useUsageSummary, usePlanLimits, formatDuration } from "@/lib/services";
 import { useCurrentTeam } from "@/hooks/use-current-team";
 import { DemoBanner, LoadingRow, EmptyRow, ErrorRow } from "@/components/app/DataState";
+import { PlanBadge } from "@/components/app/billing/PlanBadge";
+import { UsageMeter } from "@/components/app/billing/UsageMeter";
+import { UsageWarningCard } from "@/components/app/billing/UsageWarningCard";
+
 
 export const Route = createFileRoute("/dashboard/")({
   head: () => ({ meta: [{ title: "Dashboard — RemoteDesk" }] }),
