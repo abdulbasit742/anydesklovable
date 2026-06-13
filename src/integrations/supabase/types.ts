@@ -647,26 +647,94 @@ export type Database = {
           },
         ]
       }
+      team_invitations: {
+        Row: {
+          accepted_at: string | null
+          accepted_by: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string | null
+          message: string | null
+          revoked_at: string | null
+          role: string
+          status: string
+          team_id: string
+          token: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          created_at?: string
+          email: string
+          expires_at?: string
+          id?: string
+          invited_by?: string | null
+          message?: string | null
+          revoked_at?: string | null
+          role?: string
+          status?: string
+          team_id: string
+          token?: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          invited_by?: string | null
+          message?: string | null
+          revoked_at?: string | null
+          role?: string
+          status?: string
+          team_id?: string
+          token?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_invitations_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       team_members: {
         Row: {
           id: string
+          invited_by: string | null
           joined_at: string
           role: Database["public"]["Enums"]["app_role"]
+          status: string
           team_id: string
+          updated_at: string
           user_id: string
         }
         Insert: {
           id?: string
+          invited_by?: string | null
           joined_at?: string
           role?: Database["public"]["Enums"]["app_role"]
+          status?: string
           team_id: string
+          updated_at?: string
           user_id: string
         }
         Update: {
           id?: string
+          invited_by?: string | null
           joined_at?: string
           role?: Database["public"]["Enums"]["app_role"]
+          status?: string
           team_id?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: [
@@ -800,6 +868,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      accept_team_invitation: {
+        Args: { invite_token: string }
+        Returns: {
+          role: Database["public"]["Enums"]["app_role"]
+          team_id: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -812,7 +887,23 @@ export type Database = {
         Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
+      map_invite_role: {
+        Args: { _role: string }
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
       my_team_ids: { Args: { _user_id: string }; Returns: string[] }
+      revoke_team_invitation: {
+        Args: { invitation_id: string }
+        Returns: undefined
+      }
+      set_team_member_status: {
+        Args: { member_id: string; new_status: string }
+        Returns: undefined
+      }
+      update_team_member_role: {
+        Args: { member_id: string; new_role: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "owner" | "admin" | "support" | "member"
