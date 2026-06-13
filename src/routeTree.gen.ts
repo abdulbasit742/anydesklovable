@@ -18,6 +18,7 @@ import { Route as DownloadRouteImport } from './routes/download'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as DashboardTeamRouteImport } from './routes/dashboard.team'
 import { Route as DashboardSupportRouteImport } from './routes/dashboard.support'
 import { Route as DashboardSessionsRouteImport } from './routes/dashboard.sessions'
@@ -76,6 +77,11 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DashboardRoute,
+} as any)
+const InviteTokenRoute = InviteTokenRouteImport.update({
+  id: '/invite/$token',
+  path: '/invite/$token',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardTeamRoute = DashboardTeamRouteImport.update({
   id: '/team',
@@ -165,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/sessions': typeof DashboardSessionsRoute
   '/dashboard/support': typeof DashboardSupportRoute
   '/dashboard/team': typeof DashboardTeamRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
   '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
@@ -188,6 +195,7 @@ export interface FileRoutesByTo {
   '/dashboard/sessions': typeof DashboardSessionsRoute
   '/dashboard/support': typeof DashboardSupportRoute
   '/dashboard/team': typeof DashboardTeamRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
   '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
@@ -213,6 +221,7 @@ export interface FileRoutesById {
   '/dashboard/sessions': typeof DashboardSessionsRoute
   '/dashboard/support': typeof DashboardSupportRoute
   '/dashboard/team': typeof DashboardTeamRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
   '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
@@ -239,6 +248,7 @@ export interface FileRouteTypes {
     | '/dashboard/sessions'
     | '/dashboard/support'
     | '/dashboard/team'
+    | '/invite/$token'
     | '/dashboard/'
     | '/dashboard/devices/$deviceId'
     | '/dashboard/policies/clipboard'
@@ -262,6 +272,7 @@ export interface FileRouteTypes {
     | '/dashboard/sessions'
     | '/dashboard/support'
     | '/dashboard/team'
+    | '/invite/$token'
     | '/dashboard'
     | '/dashboard/devices/$deviceId'
     | '/dashboard/policies/clipboard'
@@ -286,6 +297,7 @@ export interface FileRouteTypes {
     | '/dashboard/sessions'
     | '/dashboard/support'
     | '/dashboard/team'
+    | '/invite/$token'
     | '/dashboard/'
     | '/dashboard/devices/$deviceId'
     | '/dashboard/policies/clipboard'
@@ -302,6 +314,7 @@ export interface RootRouteChildren {
   PricingRoute: typeof PricingRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
+  InviteTokenRoute: typeof InviteTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -368,6 +381,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
+    }
+    '/invite/$token': {
+      id: '/invite/$token'
+      path: '/invite/$token'
+      fullPath: '/invite/$token'
+      preLoaderRoute: typeof InviteTokenRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/dashboard/team': {
       id: '/dashboard/team'
@@ -528,6 +548,7 @@ const rootRouteChildren: RootRouteChildren = {
   PricingRoute: PricingRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
+  InviteTokenRoute: InviteTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
