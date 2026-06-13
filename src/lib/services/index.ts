@@ -481,7 +481,7 @@ export async function createSecurityEvent(input: {
     severity: input.severity ?? "info",
     ip_address: input.ip_address ?? null,
     user_agent: input.user_agent ?? (typeof navigator !== "undefined" ? navigator.userAgent : null),
-    metadata: input.metadata ?? {},
+    metadata: (input.metadata ?? {}) as never,
   });
 }
 
