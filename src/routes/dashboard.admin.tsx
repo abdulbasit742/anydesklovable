@@ -137,6 +137,7 @@ function AdminPage() {
           </table>
         </div>
       </div>
+      <AdminSupportTriage />
     </AppShell>
   );
 }
