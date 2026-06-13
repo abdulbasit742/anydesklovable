@@ -109,6 +109,11 @@ function AdminPage() {
                   </td>
                 </tr>
               ))}
+              {orgs.length === 0 && (
+                <tr><td colSpan={6} className="px-4 py-10 text-center text-sm text-muted-foreground">
+                  No organizations to show. Once teams sign up they will appear here.
+                </td></tr>
+              )}
             </tbody>
           </table>
         </div>
