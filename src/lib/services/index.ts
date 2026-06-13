@@ -227,3 +227,108 @@ export async function deleteDevice(id: string) {
   const { error } = await supabase.from("devices").delete().eq("id", id);
   if (error) throw error;
 }
+
+// ----- Support tickets -----
+export const TICKET_CATEGORIES = ["connection","billing","account","desktop_app","security","feature_request","other"] as const;
+export const TICKET_PRIORITIES = ["low","normal","high","urgent"] as const;
+export const TICKET_STATUSES = ["open","pending","resolved","closed"] as const;
+
+export type TicketCategory = typeof TICKET_CATEGORIES[number];
+export type TicketPriority = typeof TICKET_PRIORITIES[number];
+export type TicketStatus = typeof TICKET_STATUSES[number];
+
+export type SupportTicket = {
+  id: string;
+  user_id: string;
+  team_id: string | null;
+  subject: string;
+  description: string;
+  category: TicketCategory;
+  priority: TicketPriority;
+  status: TicketStatus;
+  assigned_to: string | null;
+  created_at: string;
+  updated_at: string;
+  closed_at: string | null;
+};
+
+export type TicketFilters = {
+  status?: TicketStatus | "all";
+  priority?: TicketPriority | "all";
+  category?: TicketCategory | "all";
+  search?: string;
+};
+
+const MOCK_TICKETS: SupportTicket[] = [
+  { id: "demo-1", user_id: "demo", team_id: null, subject: "Cannot connect to Office-Laptop", description: "Connection times out after host approval.", category: "connection", priority: "high", status: "open", assigned_to: null, created_at: new Date(Date.now() - 12 * 60_000).toISOString(), updated_at: new Date(Date.now() - 12 * 60_000).toISOString(), closed_at: null },
+  { id: "demo-2", user_id: "demo", team_id: null, subject: "File transfer stuck at 80%", description: "Large file uploads hang near the end.", category: "desktop_app", priority: "normal", status: "pending", assigned_to: null, created_at: new Date(Date.now() - 2 * 3600_000).toISOString(), updated_at: new Date(Date.now() - 3600_000).toISOString(), closed_at: null },
+  { id: "demo-3", user_id: "demo", team_id: null, subject: "Add SSO for our domain", description: "Looking for SAML SSO support.", category: "feature_request", priority: "low", status: "resolved", assigned_to: null, created_at: new Date(Date.now() - 3 * 86400_000).toISOString(), updated_at: new Date(Date.now() - 86400_000).toISOString(), closed_at: null },
+];
+
+export function useSupportTickets(filters: TicketFilters = {}) {
+  const q = useQuery({
+    queryKey: ["support_tickets", filters],
+    queryFn: async () => {
+      let query = supabase.from("support_tickets").select("*").order("created_at", { ascending: false });
+      if (filters.status && filters.status !== "all") query = query.eq("status", filters.status);
+      if (filters.priority && filters.priority !== "all") query = query.eq("priority", filters.priority);
+      if (filters.category && filters.category !== "all") query = query.eq("category", filters.category);
+      if (filters.search && filters.search.trim()) {
+        const s = filters.search.replace(/[%,]/g, "").trim();
+        query = query.or(`subject.ilike.%${s}%,description.ilike.%${s}%`);
+      }
+      const { data, error } = await query;
+      if (error) throw error;
+      return data as SupportTicket[];
+    },
+  });
+  const loading = q.isLoading;
+  const error = (q.error as Error) ?? null;
+  const rows = q.data ?? [];
+  const useMock = !loading && !error && rows.length === 0 && DEMO_FALLBACK;
+  let data = useMock ? MOCK_TICKETS : rows;
+  if (useMock) {
+    if (filters.status && filters.status !== "all") data = data.filter((t) => t.status === filters.status);
+    if (filters.priority && filters.priority !== "all") data = data.filter((t) => t.priority === filters.priority);
+    if (filters.category && filters.category !== "all") data = data.filter((t) => t.category === filters.category);
+    if (filters.search?.trim()) {
+      const s = filters.search.toLowerCase();
+      data = data.filter((t) => t.subject.toLowerCase().includes(s) || t.description.toLowerCase().includes(s));
+    }
+  }
+  return { data, isLoading: loading, error, isDemo: useMock, refetch: q.refetch };
+}
+
+export async function createSupportTicket(input: {
+  subject: string; description: string; category: TicketCategory; priority: TicketPriority; team_id?: string | null;
+}) {
+  const { data: userRes } = await supabase.auth.getUser();
+  const user = userRes.user;
+  if (!user) throw new Error("You must be signed in to create a ticket.");
+  const { data, error } = await supabase.from("support_tickets").insert({
+    user_id: user.id,
+    team_id: input.team_id ?? null,
+    subject: input.subject.trim(),
+    description: input.description.trim(),
+    category: input.category,
+    priority: input.priority,
+  }).select().single();
+  if (error) throw error;
+  return data as SupportTicket;
+}
+
+export async function updateSupportTicket(id: string, patch: Partial<Pick<SupportTicket, "subject"|"description"|"category"|"priority"|"status"|"assigned_to">>) {
+  const { data, error } = await supabase.from("support_tickets").update(patch).eq("id", id).select().single();
+  if (error) throw error;
+  return data as SupportTicket;
+}
+
+export async function closeSupportTicket(id: string) {
+  return updateSupportTicket(id, { status: "closed" });
+}
+
+export async function getSupportTicketById(id: string) {
+  const { data, error } = await supabase.from("support_tickets").select("*").eq("id", id).maybeSingle();
+  if (error) throw error;
+  return data as SupportTicket | null;
+}
