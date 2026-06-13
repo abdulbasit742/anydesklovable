@@ -17,7 +17,6 @@ import {
 import { toast } from "sonner";
 import { useTeamMembers, useUsageSummary, usePlanLimits } from "@/lib/services";
 import { useCurrentTeam } from "@/hooks/use-current-team";
-import { useAuth } from "@/hooks/use-auth";
 import { DemoBanner, PanelState } from "@/components/app/DataState";
 import { formatDistanceToNow } from "date-fns";
 import { PlanBadge } from "@/components/app/billing/PlanBadge";
