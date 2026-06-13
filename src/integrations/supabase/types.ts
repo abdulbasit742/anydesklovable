@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      active_sessions: {
+        Row: {
+          created_at: string
+          device_name: string | null
+          id: string
+          ip_address: string | null
+          last_active_at: string
+          location: string | null
+          revoked_at: string | null
+          session_label: string | null
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_name?: string | null
+          id?: string
+          ip_address?: string | null
+          last_active_at?: string
+          location?: string | null
+          revoked_at?: string | null
+          session_label?: string | null
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          device_name?: string | null
+          id?: string
+          ip_address?: string | null
+          last_active_at?: string
+          location?: string | null
+          revoked_at?: string | null
+          session_label?: string | null
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       audit_logs: {
         Row: {
           action: string
@@ -308,6 +347,39 @@ export type Database = {
           },
         ]
       }
+      security_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          ip_address: string | null
+          metadata: Json
+          severity: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          ip_address?: string | null
+          metadata?: Json
+          severity?: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          ip_address?: string | null
+          metadata?: Json
+          severity?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       security_policies: {
         Row: {
           emergency_stop_shortcut: string
@@ -553,6 +625,48 @@ export type Database = {
           name?: string
           owner_id?: string
           plan?: Database["public"]["Enums"]["plan_tier"]
+        }
+        Relationships: []
+      }
+      trusted_devices: {
+        Row: {
+          browser: string | null
+          created_at: string
+          device_fingerprint: string
+          device_name: string
+          id: string
+          ip_address: string | null
+          last_seen_at: string | null
+          os: string | null
+          revoked_at: string | null
+          trusted_at: string
+          user_id: string
+        }
+        Insert: {
+          browser?: string | null
+          created_at?: string
+          device_fingerprint: string
+          device_name: string
+          id?: string
+          ip_address?: string | null
+          last_seen_at?: string | null
+          os?: string | null
+          revoked_at?: string | null
+          trusted_at?: string
+          user_id: string
+        }
+        Update: {
+          browser?: string | null
+          created_at?: string
+          device_fingerprint?: string
+          device_name?: string
+          id?: string
+          ip_address?: string | null
+          last_seen_at?: string | null
+          os?: string | null
+          revoked_at?: string | null
+          trusted_at?: string
+          user_id?: string
         }
         Relationships: []
       }
