@@ -108,7 +108,9 @@ function InviteAccept() {
               return <div className="py-6 text-center text-sm text-muted-foreground"><Loader2 className="mx-auto mb-2 h-5 w-5 animate-spin" />Loading session…</div>;
             }
             if (!user) {
-              const next = encodeURIComponent(`/invite/${token}`);
+              if (typeof window !== "undefined") {
+                try { sessionStorage.setItem("pending_invite_token", token); } catch { /* ignore */ }
+              }
               return (
                 <div className="space-y-4">
                   <p className="text-sm">
@@ -118,10 +120,10 @@ function InviteAccept() {
                     Sign in with <strong>{lookup.email}</strong> to accept this invitation.
                   </p>
                   <div className="flex gap-2">
-                    <Button asChild className="flex-1"><Link to="/login" search={{ redirect: `/invite/${token}` } as never}>Sign in</Link></Button>
-                    <Button asChild variant="outline" className="flex-1"><Link to="/signup" search={{ redirect: `/invite/${token}`, email: lookup.email } as never}>Create account</Link></Button>
+                    <Button asChild className="flex-1"><Link to="/login">Sign in</Link></Button>
+                    <Button asChild variant="outline" className="flex-1"><Link to="/signup">Create account</Link></Button>
                   </div>
-                  <p className="text-[11px] text-muted-foreground">After signing in you'll be brought back here automatically. {`(next=${decodeURIComponent(next)})`}</p>
+                  <p className="text-[11px] text-muted-foreground">You'll need to return to this link after signing in.</p>
                 </div>
               );
             }
