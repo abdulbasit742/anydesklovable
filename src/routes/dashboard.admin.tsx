@@ -5,7 +5,9 @@ import { AppShell } from "@/components/app/AppShell";
 import { MetricCard } from "@/components/app/MetricCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { adminMetrics, adminOrgs } from "@/lib/mock-data";
+import { adminMetrics } from "@/lib/mock-data";
+import { useAdminStats } from "@/lib/services";
+import { DemoBanner } from "@/components/app/DataState";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/dashboard/admin")({
@@ -21,7 +23,8 @@ const statusTone: Record<string, string> = {
 
 function AdminPage() {
   const [q, setQ] = useState("");
-  const orgs = adminOrgs.filter((o) => o.name.toLowerCase().includes(q.toLowerCase()));
+  const stats = useAdminStats();
+  const orgs = stats.orgs.filter((o) => o.name.toLowerCase().includes(q.toLowerCase()));
 
   return (
     <AppShell
@@ -32,12 +35,13 @@ function AdminPage() {
         </span>
       }
     >
+      {stats.isDemo && <DemoBanner />}
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <MetricCard label="Total accounts" value={adminMetrics.totalAccounts.toLocaleString()} icon={Users} hint={`+${adminMetrics.signups7d} this week`} />
-        <MetricCard label="Active organizations" value={adminMetrics.activeOrgs.toString()} icon={Building2} hint="Across all plans" />
-        <MetricCard label="Live sessions" value={adminMetrics.liveSessions.toString()} icon={Activity} hint="Right now" />
-        <MetricCard label="Monthly revenue" value={adminMetrics.monthlyRevenue} icon={DollarSign} hint="MRR" />
-        <MetricCard label="Signups (7d)" value={`+${adminMetrics.signups7d}`} icon={TrendingUp} hint="vs 119 prior week" />
+        <MetricCard label="Total accounts" value={stats.data.totalAccounts.toLocaleString()} icon={Users} hint={`+${adminMetrics.signups7d} this week`} />
+        <MetricCard label="Active organizations" value={stats.data.activeOrgs.toString()} icon={Building2} hint="Across all plans" />
+        <MetricCard label="Live sessions" value={stats.data.liveSessions.toString()} icon={Activity} hint="Right now" />
+        <MetricCard label="Total devices" value={stats.data.totalDevices.toLocaleString()} icon={Server} hint="Across all orgs" />
+        <MetricCard label="Monthly revenue" value={adminMetrics.monthlyRevenue} icon={DollarSign} hint="MRR (placeholder)" />
         <MetricCard label="Churn rate" value={adminMetrics.churnRate} icon={TrendingDown} hint="Trailing 30 days" />
       </div>
 
