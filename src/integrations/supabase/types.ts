@@ -14,16 +14,522 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      audit_logs: {
+        Row: {
+          action: string
+          actor_id: string | null
+          actor_label: string | null
+          created_at: string
+          id: string
+          ip: unknown
+          metadata: Json
+          severity: Database["public"]["Enums"]["audit_severity"]
+          target: string | null
+          team_id: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          actor_label?: string | null
+          created_at?: string
+          id?: string
+          ip?: unknown
+          metadata?: Json
+          severity?: Database["public"]["Enums"]["audit_severity"]
+          target?: string | null
+          team_id: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          actor_label?: string | null
+          created_at?: string
+          id?: string
+          ip?: unknown
+          metadata?: Json
+          severity?: Database["public"]["Enums"]["audit_severity"]
+          target?: string | null
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_logs_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clipboard_policies: {
+        Row: {
+          allow_images: boolean
+          direction: string
+          enabled: boolean
+          max_chars: number
+          redact_secrets: boolean
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          allow_images?: boolean
+          direction?: string
+          enabled?: boolean
+          max_chars?: number
+          redact_secrets?: boolean
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          allow_images?: boolean
+          direction?: string
+          enabled?: boolean
+          max_chars?: number
+          redact_secrets?: boolean
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clipboard_policies_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: true
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      devices: {
+        Row: {
+          client_version: string | null
+          cpu: string | null
+          created_at: string
+          device_password_hash: string | null
+          id: string
+          ip: unknown
+          last_seen: string | null
+          name: string
+          os: Database["public"]["Enums"]["device_os"]
+          os_version: string | null
+          owner_id: string
+          ram: string | null
+          remote_desk_id: string
+          status: Database["public"]["Enums"]["device_status"]
+          tags: string[]
+          team_id: string
+        }
+        Insert: {
+          client_version?: string | null
+          cpu?: string | null
+          created_at?: string
+          device_password_hash?: string | null
+          id?: string
+          ip?: unknown
+          last_seen?: string | null
+          name: string
+          os: Database["public"]["Enums"]["device_os"]
+          os_version?: string | null
+          owner_id: string
+          ram?: string | null
+          remote_desk_id: string
+          status?: Database["public"]["Enums"]["device_status"]
+          tags?: string[]
+          team_id: string
+        }
+        Update: {
+          client_version?: string | null
+          cpu?: string | null
+          created_at?: string
+          device_password_hash?: string | null
+          id?: string
+          ip?: unknown
+          last_seen?: string | null
+          name?: string
+          os?: Database["public"]["Enums"]["device_os"]
+          os_version?: string | null
+          owner_id?: string
+          ram?: string | null
+          remote_desk_id?: string
+          status?: Database["public"]["Enums"]["device_status"]
+          tags?: string[]
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "devices_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      file_transfer_policies: {
+        Row: {
+          blocked_extensions: string[]
+          direction: string
+          enabled: boolean
+          max_size_mb: number
+          require_approval: boolean
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          blocked_extensions?: string[]
+          direction?: string
+          enabled?: boolean
+          max_size_mb?: number
+          require_approval?: boolean
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          blocked_extensions?: string[]
+          direction?: string
+          enabled?: boolean
+          max_size_mb?: number
+          require_approval?: boolean
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "file_transfer_policies_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: true
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          amount_cents: number
+          currency: string
+          id: string
+          issued_at: string
+          number: string
+          pdf_url: string | null
+          status: string
+          team_id: string
+        }
+        Insert: {
+          amount_cents: number
+          currency?: string
+          id?: string
+          issued_at?: string
+          number: string
+          pdf_url?: string | null
+          status?: string
+          team_id: string
+        }
+        Update: {
+          amount_cents?: number
+          currency?: string
+          id?: string
+          issued_at?: string
+          number?: string
+          pdf_url?: string | null
+          status?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      remote_input_policies: {
+        Row: {
+          allow_keyboard: boolean
+          allow_mouse: boolean
+          block_elevation: boolean
+          default_mode: string
+          idle_lock_enabled: boolean
+          idle_lock_minutes: number
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          allow_keyboard?: boolean
+          allow_mouse?: boolean
+          block_elevation?: boolean
+          default_mode?: string
+          idle_lock_enabled?: boolean
+          idle_lock_minutes?: number
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          allow_keyboard?: boolean
+          allow_mouse?: boolean
+          block_elevation?: boolean
+          default_mode?: string
+          idle_lock_enabled?: boolean
+          idle_lock_minutes?: number
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "remote_input_policies_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: true
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      security_policies: {
+        Row: {
+          emergency_stop_shortcut: string
+          require_2fa: boolean
+          require_device_password: boolean
+          require_host_approval: boolean
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          emergency_stop_shortcut?: string
+          require_2fa?: boolean
+          require_device_password?: boolean
+          require_host_approval?: boolean
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          emergency_stop_shortcut?: string
+          require_2fa?: boolean
+          require_device_password?: boolean
+          require_host_approval?: boolean
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "security_policies_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: true
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sessions: {
+        Row: {
+          bitrate_kbps: number | null
+          device_id: string
+          end_reason: string | null
+          ended_at: string | null
+          host_user_id: string | null
+          id: string
+          latency_ms: number | null
+          packet_loss_pct: number | null
+          quality: Database["public"]["Enums"]["session_quality"] | null
+          started_at: string
+          status: Database["public"]["Enums"]["session_status"]
+          team_id: string
+          viewer_user_id: string | null
+        }
+        Insert: {
+          bitrate_kbps?: number | null
+          device_id: string
+          end_reason?: string | null
+          ended_at?: string | null
+          host_user_id?: string | null
+          id?: string
+          latency_ms?: number | null
+          packet_loss_pct?: number | null
+          quality?: Database["public"]["Enums"]["session_quality"] | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["session_status"]
+          team_id: string
+          viewer_user_id?: string | null
+        }
+        Update: {
+          bitrate_kbps?: number | null
+          device_id?: string
+          end_reason?: string | null
+          ended_at?: string | null
+          host_user_id?: string | null
+          id?: string
+          latency_ms?: number | null
+          packet_loss_pct?: number | null
+          quality?: Database["public"]["Enums"]["session_quality"] | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["session_status"]
+          team_id?: string
+          viewer_user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sessions_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sessions_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscriptions: {
+        Row: {
+          current_period_end: string | null
+          id: string
+          plan: Database["public"]["Enums"]["plan_tier"]
+          seats: number
+          status: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          team_id: string
+        }
+        Insert: {
+          current_period_end?: string | null
+          id?: string
+          plan?: Database["public"]["Enums"]["plan_tier"]
+          seats?: number
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          team_id: string
+        }
+        Update: {
+          current_period_end?: string | null
+          id?: string
+          plan?: Database["public"]["Enums"]["plan_tier"]
+          seats?: number
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: true
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      team_members: {
+        Row: {
+          id: string
+          joined_at: string
+          role: Database["public"]["Enums"]["app_role"]
+          team_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          joined_at?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          team_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          joined_at?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          team_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_members_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      teams: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          owner_id: string
+          plan: Database["public"]["Enums"]["plan_tier"]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          owner_id: string
+          plan?: Database["public"]["Enums"]["plan_tier"]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          owner_id?: string
+          plan?: Database["public"]["Enums"]["plan_tier"]
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _team_id: string
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_team_member: {
+        Args: { _team_id: string; _user_id: string }
+        Returns: boolean
+      }
+      my_team_ids: { Args: { _user_id: string }; Returns: string[] }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "owner" | "admin" | "support" | "member"
+      audit_severity: "info" | "warn" | "critical"
+      device_os: "windows" | "macos" | "linux"
+      device_status: "online" | "offline"
+      plan_tier: "free" | "pro" | "business" | "enterprise"
+      session_quality: "good" | "fair" | "poor"
+      session_status: "connected" | "ended" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +656,14 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["owner", "admin", "support", "member"],
+      audit_severity: ["info", "warn", "critical"],
+      device_os: ["windows", "macos", "linux"],
+      device_status: ["online", "offline"],
+      plan_tier: ["free", "pro", "business", "enterprise"],
+      session_quality: ["good", "fair", "poor"],
+      session_status: ["connected", "ended", "rejected"],
+    },
   },
 } as const
