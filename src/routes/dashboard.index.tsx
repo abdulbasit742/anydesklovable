@@ -1,12 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MonitorSmartphone, Activity, Clock, CreditCard, ShieldCheck, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { MonitorSmartphone, Activity, Clock, CreditCard, ShieldCheck, ArrowRight, Wifi, WifiOff } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { MetricCard } from "@/components/app/MetricCard";
 import { RemoteDeskIdDisplay } from "@/components/app/RemoteDeskIdDisplay";
 import { QuickConnectCard } from "@/components/app/QuickConnectCard";
 import { StatusBadge } from "@/components/app/StatusBadge";
 import { Button } from "@/components/ui/button";
-import { sessions, currentUser } from "@/lib/mock-data";
+import { useDevices, useSessions, formatDuration } from "@/lib/services";
+import { useCurrentTeam } from "@/hooks/use-current-team";
+import { DemoBanner, LoadingRow, EmptyRow, ErrorRow } from "@/components/app/DataState";
 
 export const Route = createFileRoute("/dashboard/")({
   head: () => ({ meta: [{ title: "Dashboard — RemoteDesk" }] }),
@@ -14,23 +18,37 @@ export const Route = createFileRoute("/dashboard/")({
 });
 
 function Dashboard() {
+  const { data: team } = useCurrentTeam();
+  const devices = useDevices();
+  const sessions = useSessions({ limit: 5 });
+  const online = devices.data.filter((d) => d.status === "online").length;
+  const active = sessions.data.filter((s) => s.status === "connected").length;
+  const totalMinutes = Math.floor(sessions.data.reduce((acc, s) => acc + (s.duration_seconds ?? 0), 0) / 60);
+  const isDemo = devices.isDemo || sessions.isDemo;
+  const plan = (team?.teams as { plan?: string } | null)?.plan ?? "Free";
+
   return (
     <AppShell
       title="Overview"
-      actions={<Button asChild size="sm"><Link to="/dashboard/devices">Add device</Link></Button>}
+      actions={<Button asChild size="sm"><Link to="/dashboard/devices">Manage devices</Link></Button>}
     >
+      {isDemo && <DemoBanner />}
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <MetricCard label="Devices online" value="2 / 3" icon={MonitorSmartphone} hint="1 device offline" />
-        <MetricCard label="Active sessions" value="1" icon={Activity} hint="Connected for 18m" />
-        <MetricCard label="Session minutes" value="248" icon={Clock} hint="This month" />
-        <MetricCard label="Current plan" value={currentUser.plan} icon={CreditCard} hint="5 device slots" />
+        <MetricCard label="Devices online" value={`${online} / ${devices.data.length}`} icon={online > 0 ? Wifi : WifiOff} hint={`${devices.data.length - online} offline`} />
+        <MetricCard label="Active sessions" value={String(active)} icon={Activity} hint={active ? "Live now" : "Idle"} />
+        <MetricCard label="Session minutes" value={String(totalMinutes)} icon={Clock} hint="Recent activity" />
+        <MetricCard label="Current plan" value={plan} icon={CreditCard} hint="Manage in billing" />
       </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-4">
           <RemoteDeskIdDisplay />
           <QuickConnectCard />
-          <RecentSessions />
+          <RecentSessions
+            loading={sessions.isLoading}
+            error={sessions.error}
+            rows={sessions.data.slice(0, 5)}
+          />
         </div>
         <div className="space-y-4">
           <SecurityReminders />
@@ -40,7 +58,9 @@ function Dashboard() {
   );
 }
 
-function RecentSessions() {
+type SessionLite = ReturnType<typeof useSessions>["data"][number];
+
+function RecentSessions({ loading, error, rows }: { loading: boolean; error: Error | null; rows: SessionLite[] }) {
   return (
     <div className="rounded-lg border border-border bg-card">
       <div className="flex items-center justify-between border-b border-border px-4 py-3">
@@ -61,13 +81,16 @@ function RecentSessions() {
             </tr>
           </thead>
           <tbody>
-            {sessions.slice(0, 3).map((s) => (
+            {loading && <LoadingRow cols={5} />}
+            {error && <ErrorRow cols={5} message={error.message} />}
+            {!loading && !error && rows.length === 0 && <EmptyRow cols={5}>No sessions yet.</EmptyRow>}
+            {!loading && !error && rows.map((s) => (
               <tr key={s.id} className="border-t border-border">
-                <td className="px-4 py-2 font-medium">{s.target}</td>
+                <td className="px-4 py-2 font-medium">{s.target_name}</td>
                 <td className="px-4 py-2 text-muted-foreground">{s.role}</td>
                 <td className="px-4 py-2"><StatusBadge variant={s.status}>{s.status}</StatusBadge></td>
-                <td className="px-4 py-2 font-mono text-xs">{s.duration}</td>
-                <td className="px-4 py-2"><StatusBadge variant={s.quality}>{s.quality}</StatusBadge></td>
+                <td className="px-4 py-2 font-mono text-xs">{formatDuration(s.duration_seconds)}</td>
+                <td className="px-4 py-2">{s.quality && <StatusBadge variant={s.quality}>{s.quality}</StatusBadge>}</td>
               </tr>
             ))}
           </tbody>
