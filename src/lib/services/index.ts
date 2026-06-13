@@ -134,7 +134,23 @@ export function formatDuration(secs: number | null) {
 }
 
 // ----- Team members -----
-export type MemberRow = { id: string; name: string; email: string; role: string; devices: number; last_active: string };
+export type TeamRole = "owner" | "admin" | "technician" | "billing" | "viewer" | "support" | "member";
+export type TeamMemberStatus = "active" | "suspended" | "removed";
+export const INVITABLE_ROLES = ["admin", "technician", "billing", "viewer"] as const;
+export type InvitableRole = typeof INVITABLE_ROLES[number];
+
+export type MemberRow = {
+  id: string;            // team_members.id
+  user_id: string;
+  name: string;
+  email: string;
+  role: TeamRole;
+  status: TeamMemberStatus;
+  devices: number;
+  last_active: string;
+  joined_at: string;
+  invited_by: string | null;
+};
 
 export function useTeamMembers() {
   const { data: team } = useCurrentTeam();
@@ -145,23 +161,147 @@ export function useTeamMembers() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("team_members")
-        .select("user_id, role, joined_at, profiles(full_name, email)")
-        .eq("team_id", teamId!);
+        .select("id, user_id, role, status, joined_at, invited_by, profiles(full_name, email)")
+        .eq("team_id", teamId!)
+        .neq("status", "removed");
       if (error) throw error;
       return (data ?? []).map((m): MemberRow => ({
-        id: m.user_id,
+        id: (m as { id: string }).id,
+        user_id: m.user_id,
         name: (m.profiles as { full_name?: string } | null)?.full_name ?? "—",
         email: (m.profiles as { email?: string } | null)?.email ?? "",
-        role: m.role,
+        role: m.role as TeamRole,
+        status: ((m as { status?: TeamMemberStatus }).status ?? "active"),
         devices: 0,
         last_active: m.joined_at,
+        joined_at: m.joined_at,
+        invited_by: (m as { invited_by?: string | null }).invited_by ?? null,
       }));
     },
   });
   const mock: MemberRow[] = mockTeam.map((t) => ({
-    id: t.id, name: t.name, email: t.email, role: t.role, devices: t.devices, last_active: t.lastActive,
+    id: t.id, user_id: t.id, name: t.name, email: t.email, role: t.role as TeamRole, status: "active" as const,
+    devices: t.devices, last_active: t.lastActive, joined_at: t.lastActive, invited_by: null,
   }));
   return withFallback(q.data, mock, q.isLoading, (q.error as Error) ?? null);
+}
+
+// ----- Team invitations -----
+export type TeamInvitationStatus = "pending" | "accepted" | "expired" | "revoked";
+export type TeamInvitationRow = {
+  id: string; team_id: string; email: string; role: string;
+  status: TeamInvitationStatus; invited_by: string | null;
+  expires_at: string; created_at: string;
+  accepted_at: string | null; revoked_at: string | null; message: string | null;
+};
+
+export function useTeamInvitations() {
+  const { data: team } = useCurrentTeam();
+  const teamId = team?.team_id;
+  return useQuery({
+    queryKey: ["team-invitations", teamId],
+    enabled: !!teamId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("team_invitations").select("*").eq("team_id", teamId!)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return (data ?? []) as TeamInvitationRow[];
+    },
+  });
+}
+
+export async function inviteTeamMember(input: { teamId: string; email: string; role: InvitableRole; message?: string }) {
+  const { data: user } = await supabase.auth.getUser();
+  const { data, error } = await supabase.from("team_invitations").insert({
+    team_id: input.teamId,
+    email: input.email.trim().toLowerCase(),
+    role: input.role,
+    invited_by: user.user?.id,
+    message: input.message ?? null,
+  }).select().single();
+  if (error) throw error;
+  await supabase.from("audit_logs").insert({
+    team_id: input.teamId, action: "team_invite_created", target: input.email,
+    severity: "info", metadata: { role: input.role, invitation_id: data.id } as never,
+  }).then(() => null, () => null);
+  return data as TeamInvitationRow;
+}
+
+export async function revokeTeamInvitation(invitationId: string) {
+  const { error } = await supabase.rpc("revoke_team_invitation", { invitation_id: invitationId });
+  if (error) throw error;
+}
+
+export async function resendTeamInvitation(invitationId: string) {
+  const { error } = await supabase
+    .from("team_invitations")
+    .update({ expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() })
+    .eq("id", invitationId).eq("status", "pending");
+  if (error) throw error;
+}
+
+export async function acceptTeamInvitation(token: string) {
+  const { data, error } = await supabase.rpc("accept_team_invitation", { invite_token: token });
+  if (error) throw error;
+  return (Array.isArray(data) ? data[0] : data) as { team_id: string; role: string } | null;
+}
+
+export async function updateTeamMemberRole(memberId: string, role: InvitableRole | "owner") {
+  const { error } = await supabase.rpc("update_team_member_role", { member_id: memberId, new_role: role });
+  if (error) throw error;
+}
+
+export async function setTeamMemberStatus(memberId: string, status: TeamMemberStatus) {
+  const { error } = await supabase.rpc("set_team_member_status", { member_id: memberId, new_status: status });
+  if (error) throw error;
+}
+
+export async function removeTeamMember(memberId: string) {
+  return setTeamMemberStatus(memberId, "removed");
+}
+
+export async function lookupInvitationByToken(token: string) {
+  const { data, error } = await supabase
+    .from("team_invitations")
+    .select("id, team_id, email, role, status, expires_at, teams(name)")
+    .eq("token", token).maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+// ----- Team permission helpers -----
+export function canManageTeam(r?: string | null) { return r === "owner" || r === "admin"; }
+export function canManageBilling(r?: string | null) { return r === "owner" || r === "admin" || r === "billing"; }
+export function canInviteMembers(r?: string | null) { return r === "owner" || r === "admin"; }
+export function canChangeRole(actor?: string | null, target?: string | null, next?: string) {
+  if (!canInviteMembers(actor)) return false;
+  if (next === "owner" || target === "owner") return actor === "owner";
+  return true;
+}
+
+// ----- Team audit timeline -----
+const TEAM_AUDIT_ACTIONS = [
+  "team_invite_created", "team_invite_accepted", "team_invite_revoked",
+  "team_member_role_changed", "team_member_removed", "team_member_suspended", "team_member_reactivated",
+];
+
+export function useTeamAuditEvents(limit = 25) {
+  const { data: team } = useCurrentTeam();
+  const teamId = team?.team_id;
+  return useQuery({
+    queryKey: ["team-audit", teamId, limit],
+    enabled: !!teamId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("audit_logs")
+        .select("id, action, target, actor_id, actor_label, created_at, metadata, severity")
+        .eq("team_id", teamId!).in("action", TEAM_AUDIT_ACTIONS)
+        .order("created_at", { ascending: false }).limit(limit);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
 }
 
 // ----- Invoices -----
