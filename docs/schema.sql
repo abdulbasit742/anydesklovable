@@ -327,3 +327,20 @@ alter table public.subscriptions
   add column if not exists billing_interval text,
   add column if not exists cancel_at_period_end boolean not null default false,
   add column if not exists provider text not null default 'manual';
+
+-- ================================================================
+-- Team invitations & member lifecycle (added)
+-- ================================================================
+-- team_members extended columns: status (active/suspended/removed),
+-- invited_by, updated_at. Existing app_role enum (owner/admin/support/member)
+-- is reused; invitation roles (admin/technician/billing/viewer) map via
+-- public.map_invite_role() to that enum (technician→support, billing→member,
+-- viewer→member).
+--
+-- Tables: public.team_invitations
+-- Functions (SECURITY DEFINER, self-authorized):
+--   public.accept_team_invitation(invite_token text)
+--   public.revoke_team_invitation(invitation_id uuid)
+--   public.update_team_member_role(member_id uuid, new_role text)
+--   public.set_team_member_status(member_id uuid, new_status text)
+-- See migration 20260613154957 for full SQL.
