@@ -123,12 +123,16 @@ export function AppShell({
           </Link>
           <div className="flex items-center justify-between rounded-md bg-sidebar-accent px-2.5 py-2">
             <div className="min-w-0">
-              <div className="truncate text-xs font-medium text-white">{currentUser.name}</div>
-              <div className="truncate text-[11px] text-sidebar-foreground/60">{currentUser.role} · {currentUser.plan}</div>
+              <div className="truncate text-xs font-medium text-white">{displayName}</div>
+              <div className="truncate text-[11px] text-sidebar-foreground/60">{roleLabel} · {planLabel}</div>
             </div>
-            <Link to="/login" aria-label="Sign out" className="text-sidebar-foreground/60 hover:text-white">
+            <button
+              onClick={async () => { await signOut(); navigate({ to: "/login" }); }}
+              aria-label="Sign out"
+              className="text-sidebar-foreground/60 hover:text-white"
+            >
               <LogOut className="h-4 w-4" />
-            </Link>
+            </button>
           </div>
         </div>
       </aside>
