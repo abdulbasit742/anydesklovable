@@ -15,9 +15,14 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { useTeamMembers } from "@/lib/services";
+import { useTeamMembers, useUsageSummary, usePlanLimits } from "@/lib/services";
+import { useCurrentTeam } from "@/hooks/use-current-team";
+import { useAuth } from "@/hooks/use-auth";
 import { DemoBanner, PanelState } from "@/components/app/DataState";
 import { formatDistanceToNow } from "date-fns";
+import { PlanBadge } from "@/components/app/billing/PlanBadge";
+import { UsageMeter } from "@/components/app/billing/UsageMeter";
+import { UpgradePrompt } from "@/components/app/billing/UpgradePrompt";
 
 export const Route = createFileRoute("/dashboard/team")({
   head: () => ({ meta: [{ title: "Team — RemoteDesk" }] }),
