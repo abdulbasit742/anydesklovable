@@ -1,10 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { KeyRound, OctagonAlert, Clipboard, FileUp, ShieldCheck, MonitorSmartphone } from "lucide-react";
+import { KeyRound, OctagonAlert, Clipboard, FileUp, ShieldCheck, MonitorSmartphone, LogOut } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/dashboard/security")({
   head: () => ({ meta: [{ title: "Security — RemoteDesk" }] }),
@@ -12,9 +13,29 @@ export const Route = createFileRoute("/dashboard/security")({
 });
 
 function SecurityPage() {
+  const navigate = useNavigate();
+  const [signingOut, setSigningOut] = useState(false);
+  async function signOutEverywhere() {
+    setSigningOut(true);
+    const { error } = await supabase.auth.signOut({ scope: "global" });
+    setSigningOut(false);
+    if (error) { toast.error(error.message); return; }
+    toast.success("Signed out of all sessions");
+    navigate({ to: "/login" });
+  }
   return (
     <AppShell title="Security">
       <div className="grid gap-4 lg:grid-cols-2">
+        <SecurityCard
+          icon={LogOut}
+          title="Sign out of all sessions"
+          desc="Revoke every active RemoteDesk web session for your account, including this browser. You will need to sign back in."
+        >
+          <Button size="sm" variant="destructive" disabled={signingOut} onClick={signOutEverywhere}>
+            {signingOut ? "Signing out…" : "Sign out everywhere"}
+          </Button>
+        </SecurityCard>
+
         <SecurityCard
           icon={KeyRound}
           title="Device password"

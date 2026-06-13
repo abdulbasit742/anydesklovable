@@ -55,11 +55,23 @@ function AuditPage() {
       (a.target ?? "").toLowerCase().includes(q.toLowerCase()),
   );
 
+  function exportCsv() {
+    if (list.length === 0) { toast("Nothing to export"); return; }
+    const header = ["severity","actor","action","target","created_at","ip"];
+    const rows = list.map((a) => [a.severity, a.actor_label ?? "system", a.action, a.target ?? "", a.created_at, (a.ip as string | null) ?? ""]);
+    const csv = [header, ...rows].map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+    const link = document.createElement("a");
+    link.href = url; link.download = `audit-${new Date().toISOString().slice(0,10)}.csv`;
+    link.click(); URL.revokeObjectURL(url);
+    toast.success(`Exported ${list.length} events`);
+  }
+
   return (
     <AppShell
       title="Audit logs"
       actions={
-        <Button size="sm" variant="outline" onClick={() => toast("Export started")}>
+        <Button size="sm" variant="outline" onClick={exportCsv}>
           <Download className="mr-1.5 h-4 w-4" /> Export CSV
         </Button>
       }
