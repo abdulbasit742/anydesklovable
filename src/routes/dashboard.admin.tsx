@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Crown, Users, Building2, Activity, DollarSign, TrendingUp, TrendingDown, Server, Search } from "lucide-react";
+import { Crown, Users, Building2, Activity, DollarSign, TrendingDown, Server, Search } from "lucide-react";
 import { useState } from "react";
 import { AppShell } from "@/components/app/AppShell";
 import { MetricCard } from "@/components/app/MetricCard";
