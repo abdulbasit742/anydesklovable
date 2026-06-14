@@ -1218,3 +1218,59 @@ export function useAssignableAgents(teamId: string | null | undefined) {
     },
   });
 }
+
+// ----- Billing change requests + seat management -----
+export type BillingChangeRequest = {
+  id: string;
+  team_id: string;
+  requested_by: string;
+  from_plan: string | null;
+  to_plan: string;
+  from_seats: number | null;
+  to_seats: number;
+  billing_interval: string;
+  status: string;
+  note: string | null;
+  processed_at: string | null;
+  created_at: string;
+};
+
+export function useBillingChangeRequests() {
+  const { data: team } = useCurrentTeam();
+  const teamId = team?.team_id;
+  const q = useQuery({
+    queryKey: ["billing_change_requests", teamId],
+    enabled: !!teamId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("billing_change_requests")
+        .select("*")
+        .eq("team_id", teamId!)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return (data ?? []) as BillingChangeRequest[];
+    },
+  });
+  return { data: q.data ?? [], isLoading: q.isLoading, error: (q.error as Error) ?? null };
+}
+
+export async function requestBillingChange(input: {
+  toPlan: string;
+  toSeats: number;
+  billingInterval?: "monthly" | "yearly";
+  note?: string;
+}) {
+  const { data, error } = await supabase.rpc("request_billing_change", {
+    _to_plan: input.toPlan,
+    _to_seats: input.toSeats,
+    _billing_interval: input.billingInterval ?? "monthly",
+    _note: input.note ?? null,
+  });
+  if (error) throw error;
+  return data as string;
+}
+
+export async function setSubscriptionSeats(seats: number) {
+  const { error } = await supabase.rpc("set_subscription_seats", { _seats: seats });
+  if (error) throw error;
+}
