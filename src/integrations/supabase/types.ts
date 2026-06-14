@@ -1284,6 +1284,7 @@ export type Database = {
           device_id: string
           end_reason: string | null
           ended_at: string | null
+          expires_at: string | null
           host_user_id: string | null
           id: string
           latency_ms: number | null
@@ -1292,6 +1293,7 @@ export type Database = {
           started_at: string
           status: Database["public"]["Enums"]["session_status"]
           team_id: string
+          token_hash: string | null
           viewer_user_id: string | null
         }
         Insert: {
@@ -1299,6 +1301,7 @@ export type Database = {
           device_id: string
           end_reason?: string | null
           ended_at?: string | null
+          expires_at?: string | null
           host_user_id?: string | null
           id?: string
           latency_ms?: number | null
@@ -1307,6 +1310,7 @@ export type Database = {
           started_at?: string
           status?: Database["public"]["Enums"]["session_status"]
           team_id: string
+          token_hash?: string | null
           viewer_user_id?: string | null
         }
         Update: {
@@ -1314,6 +1318,7 @@ export type Database = {
           device_id?: string
           end_reason?: string | null
           ended_at?: string | null
+          expires_at?: string | null
           host_user_id?: string | null
           id?: string
           latency_ms?: number | null
@@ -1322,6 +1327,7 @@ export type Database = {
           started_at?: string
           status?: Database["public"]["Enums"]["session_status"]
           team_id?: string
+          token_hash?: string | null
           viewer_user_id?: string | null
         }
         Relationships: [
@@ -1819,6 +1825,10 @@ export type Database = {
       }
       can_triage_ticket: { Args: { _ticket_id: string }; Returns: boolean }
       can_view_ticket: { Args: { _ticket_id: string }; Returns: boolean }
+      end_remote_session: {
+        Args: { _reason?: string; _session_id: string }
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1843,6 +1853,14 @@ export type Database = {
       set_team_member_status: {
         Args: { member_id: string; new_status: string }
         Returns: undefined
+      }
+      start_remote_session: {
+        Args: { _device_id: string }
+        Returns: {
+          expires_at: string
+          session_id: string
+          token: string
+        }[]
       }
       update_team_member_role: {
         Args: { member_id: string; new_role: string }
