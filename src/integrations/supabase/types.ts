@@ -53,6 +53,59 @@ export type Database = {
         }
         Relationships: []
       }
+      api_keys: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          expires_at: string | null
+          id: string
+          key_hash: string
+          key_prefix: string
+          last_used_at: string | null
+          name: string
+          revoked_at: string | null
+          scopes: string[]
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          key_hash: string
+          key_prefix: string
+          last_used_at?: string | null
+          name: string
+          revoked_at?: string | null
+          scopes?: string[]
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          key_hash?: string
+          key_prefix?: string
+          last_used_at?: string | null
+          name?: string
+          revoked_at?: string | null
+          scopes?: string[]
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_keys_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
@@ -1902,6 +1955,17 @@ export type Database = {
       }
       can_triage_ticket: { Args: { _ticket_id: string }; Returns: boolean }
       can_view_ticket: { Args: { _ticket_id: string }; Returns: boolean }
+      create_api_key: {
+        Args: {
+          _expires_at?: string
+          _key_hash: string
+          _key_prefix: string
+          _name: string
+          _scopes?: string[]
+          _team_id: string
+        }
+        Returns: string
+      }
       end_remote_session: {
         Args: { _reason?: string; _session_id: string }
         Returns: undefined
@@ -1936,6 +2000,7 @@ export type Database = {
         }
         Returns: string
       }
+      revoke_api_key: { Args: { _key_id: string }; Returns: undefined }
       revoke_team_invitation: {
         Args: { invitation_id: string }
         Returns: undefined
@@ -1968,6 +2033,16 @@ export type Database = {
           _team_id: string
         }
         Returns: string
+      }
+      verify_api_key_hash: {
+        Args: { _key_hash: string }
+        Returns: {
+          expired: boolean
+          id: string
+          revoked: boolean
+          scopes: string[]
+          team_id: string
+        }[]
       }
     }
     Enums: {
