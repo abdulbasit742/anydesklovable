@@ -163,19 +163,31 @@ export function TicketDetailPanel({ ticket, onChanged }: { ticket: SupportTicket
                   {fmtBytes(a.file_size)} · {a.mime_type ?? "unknown"} · <ScanBadge status={a.scan_status} />
                 </div>
               </div>
-              {(a.uploaded_by === user?.id || canTriage) && (
-                <Button variant="ghost" size="icon" className="h-7 w-7"
-                  onClick={async () => { try { await softDeleteAttachment(a.id); toast.success("Removed"); refetchAll(); } catch (e: any) { toast.error(e?.message ?? "Failed"); } }}>
-                  <Trash2 className="h-3.5 w-3.5" />
-                </Button>
-              )}
+              <div className="flex items-center gap-1">
+                {a.storage_path && (
+                  <Button variant="ghost" size="icon" className="h-7 w-7" title="Download"
+                    onClick={async () => {
+                      try { const url = await getAttachmentDownloadUrl(a); window.open(url, "_blank", "noopener"); }
+                      catch (e: any) { toast.error(e?.message ?? "Download failed"); }
+                    }}>
+                    <Download className="h-3.5 w-3.5" />
+                  </Button>
+                )}
+                {(a.uploaded_by === user?.id || canTriage) && (
+                  <Button variant="ghost" size="icon" className="h-7 w-7" title="Remove"
+                    onClick={async () => { try { await softDeleteAttachment(a.id); toast.success("Removed"); refetchAll(); } catch (e: any) { toast.error(e?.message ?? "Failed"); } }}>
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </Button>
+                )}
+              </div>
             </li>
           ))}
         </ul>
-        {canReply && <AttachmentMetaInput ticketId={ticket.id} onAdded={refetchAll} />}
+        {canReply && <AttachmentUploader ticketId={ticket.id} onAdded={refetchAll} />}
         <p className="mt-2 text-xs text-muted-foreground">
-          Metadata only — file bytes upload requires the <code>support-attachments</code> private bucket and signed URLs.
+          Files are stored in the private <code>support-attachments</code> bucket and served via 60-second signed URLs.
         </p>
+
       </section>
 
       {/* Timeline */}
