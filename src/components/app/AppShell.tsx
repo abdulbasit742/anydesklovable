@@ -102,7 +102,9 @@ export function AppShell({
           </button>
         </div>
         <nav className="flex-1 overflow-y-auto px-3 py-3 text-sm">
-          {groups.map((g, gi) => (
+          {groups
+            .filter((g) => g.label !== "Admin" || roleLabel === "owner" || roleLabel === "admin")
+            .map((g, gi) => (
             <div key={gi} className={gi > 0 ? "mt-4" : ""}>
               {g.label && (
                 <div className="mb-1 px-2.5 text-[10px] font-semibold uppercase tracking-wider text-sidebar-foreground/40">
