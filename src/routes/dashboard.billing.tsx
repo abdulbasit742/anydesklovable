@@ -1,10 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ExternalLink, Download } from "lucide-react";
+import { ExternalLink, Download, Save } from "lucide-react";
+import { useState } from "react";
 import { AppShell } from "@/components/app/AppShell";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { StatusBadge } from "@/components/app/StatusBadge";
 import { toast } from "sonner";
-import { useInvoices, useCurrentSubscription, usePlanLimits, useUsageSummary } from "@/lib/services";
+import { useInvoices, useCurrentSubscription, usePlanLimits, useUsageSummary, useBillingChangeRequests, setSubscriptionSeats } from "@/lib/services";
 import { useCurrentTeam } from "@/hooks/use-current-team";
 import { DemoBanner, PanelState } from "@/components/app/DataState";
 import { UsageMeter } from "@/components/app/billing/UsageMeter";
@@ -13,6 +16,7 @@ import { PlanComparisonTable } from "@/components/app/billing/PlanComparisonTabl
 import { UpgradePrompt } from "@/components/app/billing/UpgradePrompt";
 import { UsageWarningCard } from "@/components/app/billing/UsageWarningCard";
 import { CUSTOMER_PORTAL_URL } from "@/lib/config/checkout";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 
 export const Route = createFileRoute("/dashboard/billing")({
