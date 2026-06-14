@@ -1361,7 +1361,7 @@ export async function createApiKey(opts: {
     _key_prefix: prefix,
     _key_hash: hash,
     _scopes: opts.scopes ?? ["read"],
-    _expires_at: opts.expiresAt ?? null,
+    _expires_at: opts.expiresAt ?? undefined,
   });
   if (error) throw error;
   return { id: data as string, full_key: fullKey, key_prefix: prefix };
