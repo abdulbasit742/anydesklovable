@@ -103,11 +103,21 @@ function DeviceDetail() {
     </AppShell>
   );
 
+  const { data: team } = useCurrentTeam();
+  useRealtimeDevices(isDemo ? undefined : team?.team_id);
+
   const onConnect = async () => {
-    try { if (!isDemo) await recordDeviceConnectAttempt(device); } catch { /* ignore */ }
-    invalidate();
-    toast("Open the desktop client to connect");
+    if (isDemo) { toast("Open the desktop client to connect"); return; }
+    try {
+      const res = await startRemoteSession(device.id);
+      try { await recordDeviceConnectAttempt(device); } catch { /* logged via RPC already */ }
+      invalidate();
+      toast.success("Session token issued", { description: `Expires ${new Date(res.expires_at).toLocaleTimeString()}` });
+    } catch (e: any) {
+      toast.error(e?.message ?? "Could not start session");
+    }
   };
+
 
   return (
     <AppShell
