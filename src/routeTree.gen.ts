@@ -24,7 +24,10 @@ import { Route as DashboardSupportRouteImport } from './routes/dashboard.support
 import { Route as DashboardSessionsRouteImport } from './routes/dashboard.sessions'
 import { Route as DashboardSecurityRouteImport } from './routes/dashboard.security'
 import { Route as DashboardPoliciesRouteImport } from './routes/dashboard.policies'
+import { Route as DashboardMobileRouteImport } from './routes/dashboard.mobile'
 import { Route as DashboardDevicesRouteImport } from './routes/dashboard.devices'
+import { Route as DashboardDeveloperRouteImport } from './routes/dashboard.developer'
+import { Route as DashboardContactsRouteImport } from './routes/dashboard.contacts'
 import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing'
 import { Route as DashboardAutomationRouteImport } from './routes/dashboard.automation'
 import { Route as DashboardAuditRouteImport } from './routes/dashboard.audit'
@@ -119,9 +122,24 @@ const DashboardPoliciesRoute = DashboardPoliciesRouteImport.update({
   path: '/policies',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardMobileRoute = DashboardMobileRouteImport.update({
+  id: '/mobile',
+  path: '/mobile',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardDevicesRoute = DashboardDevicesRouteImport.update({
   id: '/devices',
   path: '/devices',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardDeveloperRoute = DashboardDeveloperRouteImport.update({
+  id: '/developer',
+  path: '/developer',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardContactsRoute = DashboardContactsRouteImport.update({
+  id: '/contacts',
+  path: '/contacts',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardBillingRoute = DashboardBillingRouteImport.update({
@@ -241,7 +259,10 @@ export interface FileRoutesByFullPath {
   '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
+  '/dashboard/contacts': typeof DashboardContactsRoute
+  '/dashboard/developer': typeof DashboardDeveloperRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
+  '/dashboard/mobile': typeof DashboardMobileRoute
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
@@ -275,7 +296,10 @@ export interface FileRoutesByTo {
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/billing': typeof DashboardBillingRoute
+  '/dashboard/contacts': typeof DashboardContactsRoute
+  '/dashboard/developer': typeof DashboardDeveloperRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
+  '/dashboard/mobile': typeof DashboardMobileRoute
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
@@ -312,7 +336,10 @@ export interface FileRoutesById {
   '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
+  '/dashboard/contacts': typeof DashboardContactsRoute
+  '/dashboard/developer': typeof DashboardDeveloperRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
+  '/dashboard/mobile': typeof DashboardMobileRoute
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
@@ -350,7 +377,10 @@ export interface FileRouteTypes {
     | '/dashboard/audit'
     | '/dashboard/automation'
     | '/dashboard/billing'
+    | '/dashboard/contacts'
+    | '/dashboard/developer'
     | '/dashboard/devices'
+    | '/dashboard/mobile'
     | '/dashboard/policies'
     | '/dashboard/security'
     | '/dashboard/sessions'
@@ -384,7 +414,10 @@ export interface FileRouteTypes {
     | '/dashboard/admin'
     | '/dashboard/audit'
     | '/dashboard/billing'
+    | '/dashboard/contacts'
+    | '/dashboard/developer'
     | '/dashboard/devices'
+    | '/dashboard/mobile'
     | '/dashboard/policies'
     | '/dashboard/security'
     | '/dashboard/sessions'
@@ -420,7 +453,10 @@ export interface FileRouteTypes {
     | '/dashboard/audit'
     | '/dashboard/automation'
     | '/dashboard/billing'
+    | '/dashboard/contacts'
+    | '/dashboard/developer'
     | '/dashboard/devices'
+    | '/dashboard/mobile'
     | '/dashboard/policies'
     | '/dashboard/security'
     | '/dashboard/sessions'
@@ -563,11 +599,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardPoliciesRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/mobile': {
+      id: '/dashboard/mobile'
+      path: '/mobile'
+      fullPath: '/dashboard/mobile'
+      preLoaderRoute: typeof DashboardMobileRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/devices': {
       id: '/dashboard/devices'
       path: '/devices'
       fullPath: '/dashboard/devices'
       preLoaderRoute: typeof DashboardDevicesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/developer': {
+      id: '/dashboard/developer'
+      path: '/developer'
+      fullPath: '/dashboard/developer'
+      preLoaderRoute: typeof DashboardDeveloperRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/contacts': {
+      id: '/dashboard/contacts'
+      path: '/contacts'
+      fullPath: '/dashboard/contacts'
+      preLoaderRoute: typeof DashboardContactsRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/billing': {
@@ -759,7 +816,10 @@ interface DashboardRouteChildren {
   DashboardAuditRoute: typeof DashboardAuditRoute
   DashboardAutomationRoute: typeof DashboardAutomationRouteWithChildren
   DashboardBillingRoute: typeof DashboardBillingRoute
+  DashboardContactsRoute: typeof DashboardContactsRoute
+  DashboardDeveloperRoute: typeof DashboardDeveloperRoute
   DashboardDevicesRoute: typeof DashboardDevicesRouteWithChildren
+  DashboardMobileRoute: typeof DashboardMobileRoute
   DashboardPoliciesRoute: typeof DashboardPoliciesRouteWithChildren
   DashboardSecurityRoute: typeof DashboardSecurityRoute
   DashboardSessionsRoute: typeof DashboardSessionsRoute
@@ -773,7 +833,10 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAuditRoute: DashboardAuditRoute,
   DashboardAutomationRoute: DashboardAutomationRouteWithChildren,
   DashboardBillingRoute: DashboardBillingRoute,
+  DashboardContactsRoute: DashboardContactsRoute,
+  DashboardDeveloperRoute: DashboardDeveloperRoute,
   DashboardDevicesRoute: DashboardDevicesRouteWithChildren,
+  DashboardMobileRoute: DashboardMobileRoute,
   DashboardPoliciesRoute: DashboardPoliciesRouteWithChildren,
   DashboardSecurityRoute: DashboardSecurityRoute,
   DashboardSessionsRoute: DashboardSessionsRoute,
