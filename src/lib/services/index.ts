@@ -54,7 +54,14 @@ export type DeviceRow = {
   client_version: string | null;
   tags: string[] | null;
   owner_id: string | null;
+  is_trusted?: boolean | null;
+  unattended_access?: boolean | null;
+  password_updated_at?: string | null;
+  notes?: string | null;
+  group_label?: string | null;
+  team_id?: string | null;
 };
+
 
 export function useDevices() {
   const { data: team } = useCurrentTeam();
