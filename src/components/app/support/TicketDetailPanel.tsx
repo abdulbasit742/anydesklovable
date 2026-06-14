@@ -249,6 +249,7 @@ function ErrorRow({ msg, onRetry }: { msg: string; onRetry: () => void }) {
 function TriageControls({ ticket, onChanged }: { ticket: SupportTicket; onChanged: () => void }) {
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
+  const agents = useAssignableAgents(ticket.team_id);
   return (
     <div className="rounded-lg border border-border bg-muted/30 p-3 space-y-3">
       <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Triage</div>
@@ -262,6 +263,28 @@ function TriageControls({ ticket, onChanged }: { ticket: SupportTicket; onChange
           <SelectContent>{TICKET_PRIORITIES.map((p) => <SelectItem key={p} value={p} className="capitalize">{p}</SelectItem>)}</SelectContent>
         </Select>
       </div>
+
+      <div className="space-y-1.5">
+        <Label className="flex items-center gap-1.5 text-xs"><UserPlus className="h-3.5 w-3.5" /> Assignee</Label>
+        <Select
+          value={ticket.assigned_to ?? "__unassigned"}
+          onValueChange={async (v) => {
+            try {
+              await assignSupportTicket(ticket.id, v === "__unassigned" ? null : v);
+              toast.success(v === "__unassigned" ? "Unassigned" : "Assigned");
+              onChanged();
+            } catch (e: any) { toast.error(e?.message ?? "Failed"); }
+          }}>
+          <SelectTrigger className="h-9"><SelectValue placeholder="Unassigned" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="__unassigned">Unassigned</SelectItem>
+            {(agents.data ?? []).map((a) => (
+              <SelectItem key={a.user_id} value={a.user_id}>{a.name} <span className="ml-1 text-[10px] text-muted-foreground capitalize">· {a.role}</span></SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
       <div className="space-y-1.5">
         <Label htmlFor="internal-note" className="text-xs">Internal note (hidden from customer)</Label>
         <Textarea id="internal-note" rows={2} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Add a note visible only to admins/support…" />
@@ -306,33 +329,72 @@ function ReplyBox({ ticketId, canInternal, onPosted }: { ticketId: string; canIn
   );
 }
 
-function AttachmentMetaInput({ ticketId, onAdded }: { ticketId: string; onAdded: () => void }) {
-  const [name, setName] = useState("");
-  const [size, setSize] = useState("");
-  const [mime, setMime] = useState<string>("application/pdf");
+function AttachmentUploader({ ticketId, onAdded }: { ticketId: string; onAdded: () => void }) {
+  const ref = useRef<HTMLInputElement | null>(null);
   const [busy, setBusy] = useState(false);
-  const submit = async () => {
-    const bytes = Math.floor(Number(size));
-    if (!name.trim() || !Number.isFinite(bytes) || bytes <= 0) { toast.error("File name and size are required."); return; }
-    if (bytes > MAX_SIZE_MB * 1024 * 1024) { toast.error(`Max ${MAX_SIZE_MB} MB.`); return; }
-    if (!ALLOWED_MIME.includes(mime)) { toast.error("Unsupported file type."); return; }
+  const onPick = async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
     setBusy(true);
     try {
-      await createAttachmentMetadata({ ticket_id: ticketId, file_name: name.trim(), file_size: bytes, mime_type: mime });
-      setName(""); setSize(""); toast.success("Attachment metadata added");
+      for (const f of Array.from(files)) {
+        await uploadTicketAttachment(ticketId, f);
+      }
+      toast.success(files.length === 1 ? "File uploaded" : `${files.length} files uploaded`);
       onAdded();
-    } catch (e: any) { toast.error(e?.message ?? "Failed"); }
-    finally { setBusy(false); }
+    } catch (e: any) {
+      toast.error(e?.message ?? "Upload failed");
+    } finally {
+      setBusy(false);
+      if (ref.current) ref.current.value = "";
+    }
   };
   return (
-    <div className="mt-3 grid grid-cols-1 gap-2 rounded-md border border-dashed border-border p-3 sm:grid-cols-[1fr_120px_160px_auto]">
-      <Input placeholder="File name (e.g. logs.zip)" value={name} onChange={(e) => setName(e.target.value)} />
-      <Input placeholder="Size (bytes)" inputMode="numeric" value={size} onChange={(e) => setSize(e.target.value)} />
-      <Select value={mime} onValueChange={setMime}>
-        <SelectTrigger><SelectValue /></SelectTrigger>
-        <SelectContent>{ALLOWED_MIME.map((m) => <SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent>
-      </Select>
-      <Button size="sm" onClick={submit} disabled={busy}>{busy ? "Adding…" : "Add"}</Button>
+    <div className="mt-3 rounded-md border border-dashed border-border p-3">
+      <input ref={ref} type="file" multiple className="hidden"
+        onChange={(e) => onPick(e.target.files)} />
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="text-xs text-muted-foreground">PNG, JPEG, PDF, TXT, ZIP, JSON · up to {SUPPORT_MAX_SIZE_MB} MB each</div>
+        <Button size="sm" variant="outline" disabled={busy} onClick={() => ref.current?.click()}>
+          <Upload className="mr-1.5 h-4 w-4" /> {busy ? "Uploading…" : "Upload files"}
+        </Button>
+      </div>
     </div>
   );
 }
+
+type SlaState = ReturnType<typeof ticketSlaState>;
+function SlaPanel({ sla }: { sla: SlaState }) {
+  return (
+    <div className="grid gap-2 sm:grid-cols-2">
+      <SlaCard label="First response" item={sla.firstResponse} />
+      <SlaCard label="Resolution" item={sla.resolution} />
+    </div>
+  );
+}
+
+function SlaCard({ label, item }: { label: string; item: SlaState["firstResponse"] }) {
+  const tone =
+    item.status === "met" ? "border-emerald-500/40 bg-emerald-500/5 text-emerald-700 dark:text-emerald-400" :
+    item.status === "breached" ? "border-destructive/40 bg-destructive/5 text-destructive" :
+    "border-amber-500/40 bg-amber-500/5 text-amber-700 dark:text-amber-400";
+  const now = Date.now();
+  const verb =
+    item.status === "met" ? `met ${formatDistanceToNow(item.at!, { addSuffix: true })}` :
+    item.status === "breached" && item.at ? `breached, completed ${formatDistanceToNow(item.at, { addSuffix: true })}` :
+    item.status === "breached" ? `breached ${formatDistanceToNow(item.deadline, { addSuffix: true })}` :
+    `due ${formatDistanceToNow(item.deadline, { addSuffix: true })}`;
+  const pct =
+    item.at ? Math.min(100, Math.round(((item.at - (item.deadline - (item.deadline - (item.deadline - now)))) / (item.deadline - now + 1)) * 100))
+    : Math.min(100, Math.max(0, Math.round(((now - (item.deadline - (item.deadline - now))) / Math.max(1, item.deadline - (item.deadline - now))) * 100)));
+  return (
+    <div className={`rounded-md border p-3 ${tone}`}>
+      <div className="flex items-center gap-1.5 text-xs font-semibold"><Timer className="h-3.5 w-3.5" /> {label}</div>
+      <div className="mt-1 text-sm">{verb}</div>
+      <div className="mt-2 h-1.5 w-full overflow-hidden rounded bg-foreground/10">
+        <div className="h-full bg-current opacity-60" style={{ width: `${Math.min(100, Math.max(4, pct))}%` }} />
+      </div>
+      <div className="mt-1 text-[11px] opacity-70">Target {new Date(item.deadline).toLocaleString()}</div>
+    </div>
+  );
+}
+
