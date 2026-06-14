@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { StatusBadge } from "@/components/app/StatusBadge";
 import { toast } from "sonner";
-import { useInvoices, useCurrentSubscription, usePlanLimits, useUsageSummary, useBillingChangeRequests, setSubscriptionSeats } from "@/lib/services";
+import { useInvoices, useCurrentSubscription, usePlanLimits, useUsageSummary, useBillingChangeRequests, setSubscriptionSeats, applyBillingChangeRequest, rejectBillingChangeRequest } from "@/lib/services";
 import { useCurrentTeam } from "@/hooks/use-current-team";
 import { DemoBanner, PanelState } from "@/components/app/DataState";
 import { UsageMeter } from "@/components/app/billing/UsageMeter";
