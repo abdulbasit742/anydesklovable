@@ -36,6 +36,7 @@ import { Route as DashboardPoliciesClipboardRouteImport } from './routes/dashboa
 import { Route as DashboardDevicesDeviceIdRouteImport } from './routes/dashboard.devices.$deviceId'
 import { Route as DashboardAutomationTasksRouteImport } from './routes/dashboard.automation.tasks'
 import { Route as DashboardAutomationPipelinesRouteImport } from './routes/dashboard.automation.pipelines'
+import { Route as DashboardAutomationAccountsRouteImport } from './routes/dashboard.automation.accounts'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -179,6 +180,12 @@ const DashboardAutomationPipelinesRoute =
     path: '/pipelines',
     getParentRoute: () => DashboardAutomationRoute,
   } as any)
+const DashboardAutomationAccountsRoute =
+  DashboardAutomationAccountsRouteImport.update({
+    id: '/accounts',
+    path: '/accounts',
+    getParentRoute: () => DashboardAutomationRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -201,6 +208,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/team': typeof DashboardTeamRoute
   '/invite/$token': typeof InviteTokenRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/automation/accounts': typeof DashboardAutomationAccountsRoute
   '/dashboard/automation/pipelines': typeof DashboardAutomationPipelinesRoute
   '/dashboard/automation/tasks': typeof DashboardAutomationTasksRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
@@ -228,6 +236,7 @@ export interface FileRoutesByTo {
   '/dashboard/team': typeof DashboardTeamRoute
   '/invite/$token': typeof InviteTokenRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/automation/accounts': typeof DashboardAutomationAccountsRoute
   '/dashboard/automation/pipelines': typeof DashboardAutomationPipelinesRoute
   '/dashboard/automation/tasks': typeof DashboardAutomationTasksRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
@@ -258,6 +267,7 @@ export interface FileRoutesById {
   '/dashboard/team': typeof DashboardTeamRoute
   '/invite/$token': typeof InviteTokenRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/automation/accounts': typeof DashboardAutomationAccountsRoute
   '/dashboard/automation/pipelines': typeof DashboardAutomationPipelinesRoute
   '/dashboard/automation/tasks': typeof DashboardAutomationTasksRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
@@ -289,6 +299,7 @@ export interface FileRouteTypes {
     | '/dashboard/team'
     | '/invite/$token'
     | '/dashboard/'
+    | '/dashboard/automation/accounts'
     | '/dashboard/automation/pipelines'
     | '/dashboard/automation/tasks'
     | '/dashboard/devices/$deviceId'
@@ -316,6 +327,7 @@ export interface FileRouteTypes {
     | '/dashboard/team'
     | '/invite/$token'
     | '/dashboard'
+    | '/dashboard/automation/accounts'
     | '/dashboard/automation/pipelines'
     | '/dashboard/automation/tasks'
     | '/dashboard/devices/$deviceId'
@@ -345,6 +357,7 @@ export interface FileRouteTypes {
     | '/dashboard/team'
     | '/invite/$token'
     | '/dashboard/'
+    | '/dashboard/automation/accounts'
     | '/dashboard/automation/pipelines'
     | '/dashboard/automation/tasks'
     | '/dashboard/devices/$deviceId'
@@ -557,16 +570,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAutomationPipelinesRouteImport
       parentRoute: typeof DashboardAutomationRoute
     }
+    '/dashboard/automation/accounts': {
+      id: '/dashboard/automation/accounts'
+      path: '/accounts'
+      fullPath: '/dashboard/automation/accounts'
+      preLoaderRoute: typeof DashboardAutomationAccountsRouteImport
+      parentRoute: typeof DashboardAutomationRoute
+    }
   }
 }
 
 interface DashboardAutomationRouteChildren {
+  DashboardAutomationAccountsRoute: typeof DashboardAutomationAccountsRoute
   DashboardAutomationPipelinesRoute: typeof DashboardAutomationPipelinesRoute
   DashboardAutomationTasksRoute: typeof DashboardAutomationTasksRoute
   DashboardAutomationIndexRoute: typeof DashboardAutomationIndexRoute
 }
 
 const DashboardAutomationRouteChildren: DashboardAutomationRouteChildren = {
+  DashboardAutomationAccountsRoute: DashboardAutomationAccountsRoute,
   DashboardAutomationPipelinesRoute: DashboardAutomationPipelinesRoute,
   DashboardAutomationTasksRoute: DashboardAutomationTasksRoute,
   DashboardAutomationIndexRoute: DashboardAutomationIndexRoute,
