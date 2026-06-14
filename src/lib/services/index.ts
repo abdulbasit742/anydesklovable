@@ -1072,7 +1072,7 @@ export async function startRemoteSession(deviceId: string) {
 }
 
 export async function endRemoteSession(sessionId: string, reason?: string) {
-  const { error } = await supabase.rpc("end_remote_session", { _session_id: sessionId, _reason: reason ?? null });
+  const { error } = await supabase.rpc("end_remote_session", reason ? { _session_id: sessionId, _reason: reason } : { _session_id: sessionId });
   if (error) throw error;
 }
 
