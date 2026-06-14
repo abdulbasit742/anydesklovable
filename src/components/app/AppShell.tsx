@@ -4,6 +4,7 @@ import {
   LayoutDashboard, MonitorSmartphone, Activity, ShieldCheck,
   CreditCard, Users, Download, LogOut, Menu, X, Bell, Search,
   FileText, LifeBuoy, Crown, SlidersHorizontal,
+  Bot, Workflow, ListChecks, KeyRound, Gauge, CalendarClock, BellRing, ScrollText, Package, Settings,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
