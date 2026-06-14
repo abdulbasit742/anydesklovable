@@ -35,6 +35,7 @@ import { Route as DashboardPoliciesFileTransferRouteImport } from './routes/dash
 import { Route as DashboardPoliciesClipboardRouteImport } from './routes/dashboard.policies.clipboard'
 import { Route as DashboardDevicesDeviceIdRouteImport } from './routes/dashboard.devices.$deviceId'
 import { Route as DashboardAutomationTasksRouteImport } from './routes/dashboard.automation.tasks'
+import { Route as DashboardAutomationSchedulerRouteImport } from './routes/dashboard.automation.scheduler'
 import { Route as DashboardAutomationRateLimitsRouteImport } from './routes/dashboard.automation.rate-limits'
 import { Route as DashboardAutomationPipelinesRouteImport } from './routes/dashboard.automation.pipelines'
 import { Route as DashboardAutomationAccountsRouteImport } from './routes/dashboard.automation.accounts'
@@ -175,6 +176,12 @@ const DashboardAutomationTasksRoute =
     path: '/tasks',
     getParentRoute: () => DashboardAutomationRoute,
   } as any)
+const DashboardAutomationSchedulerRoute =
+  DashboardAutomationSchedulerRouteImport.update({
+    id: '/scheduler',
+    path: '/scheduler',
+    getParentRoute: () => DashboardAutomationRoute,
+  } as any)
 const DashboardAutomationRateLimitsRoute =
   DashboardAutomationRateLimitsRouteImport.update({
     id: '/rate-limits',
@@ -218,6 +225,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/automation/accounts': typeof DashboardAutomationAccountsRoute
   '/dashboard/automation/pipelines': typeof DashboardAutomationPipelinesRoute
   '/dashboard/automation/rate-limits': typeof DashboardAutomationRateLimitsRoute
+  '/dashboard/automation/scheduler': typeof DashboardAutomationSchedulerRoute
   '/dashboard/automation/tasks': typeof DashboardAutomationTasksRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
   '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
@@ -247,6 +255,7 @@ export interface FileRoutesByTo {
   '/dashboard/automation/accounts': typeof DashboardAutomationAccountsRoute
   '/dashboard/automation/pipelines': typeof DashboardAutomationPipelinesRoute
   '/dashboard/automation/rate-limits': typeof DashboardAutomationRateLimitsRoute
+  '/dashboard/automation/scheduler': typeof DashboardAutomationSchedulerRoute
   '/dashboard/automation/tasks': typeof DashboardAutomationTasksRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
   '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
@@ -279,6 +288,7 @@ export interface FileRoutesById {
   '/dashboard/automation/accounts': typeof DashboardAutomationAccountsRoute
   '/dashboard/automation/pipelines': typeof DashboardAutomationPipelinesRoute
   '/dashboard/automation/rate-limits': typeof DashboardAutomationRateLimitsRoute
+  '/dashboard/automation/scheduler': typeof DashboardAutomationSchedulerRoute
   '/dashboard/automation/tasks': typeof DashboardAutomationTasksRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
   '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
@@ -312,6 +322,7 @@ export interface FileRouteTypes {
     | '/dashboard/automation/accounts'
     | '/dashboard/automation/pipelines'
     | '/dashboard/automation/rate-limits'
+    | '/dashboard/automation/scheduler'
     | '/dashboard/automation/tasks'
     | '/dashboard/devices/$deviceId'
     | '/dashboard/policies/clipboard'
@@ -341,6 +352,7 @@ export interface FileRouteTypes {
     | '/dashboard/automation/accounts'
     | '/dashboard/automation/pipelines'
     | '/dashboard/automation/rate-limits'
+    | '/dashboard/automation/scheduler'
     | '/dashboard/automation/tasks'
     | '/dashboard/devices/$deviceId'
     | '/dashboard/policies/clipboard'
@@ -372,6 +384,7 @@ export interface FileRouteTypes {
     | '/dashboard/automation/accounts'
     | '/dashboard/automation/pipelines'
     | '/dashboard/automation/rate-limits'
+    | '/dashboard/automation/scheduler'
     | '/dashboard/automation/tasks'
     | '/dashboard/devices/$deviceId'
     | '/dashboard/policies/clipboard'
@@ -576,6 +589,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAutomationTasksRouteImport
       parentRoute: typeof DashboardAutomationRoute
     }
+    '/dashboard/automation/scheduler': {
+      id: '/dashboard/automation/scheduler'
+      path: '/scheduler'
+      fullPath: '/dashboard/automation/scheduler'
+      preLoaderRoute: typeof DashboardAutomationSchedulerRouteImport
+      parentRoute: typeof DashboardAutomationRoute
+    }
     '/dashboard/automation/rate-limits': {
       id: '/dashboard/automation/rate-limits'
       path: '/rate-limits'
@@ -604,6 +624,7 @@ interface DashboardAutomationRouteChildren {
   DashboardAutomationAccountsRoute: typeof DashboardAutomationAccountsRoute
   DashboardAutomationPipelinesRoute: typeof DashboardAutomationPipelinesRoute
   DashboardAutomationRateLimitsRoute: typeof DashboardAutomationRateLimitsRoute
+  DashboardAutomationSchedulerRoute: typeof DashboardAutomationSchedulerRoute
   DashboardAutomationTasksRoute: typeof DashboardAutomationTasksRoute
   DashboardAutomationIndexRoute: typeof DashboardAutomationIndexRoute
 }
@@ -612,6 +633,7 @@ const DashboardAutomationRouteChildren: DashboardAutomationRouteChildren = {
   DashboardAutomationAccountsRoute: DashboardAutomationAccountsRoute,
   DashboardAutomationPipelinesRoute: DashboardAutomationPipelinesRoute,
   DashboardAutomationRateLimitsRoute: DashboardAutomationRateLimitsRoute,
+  DashboardAutomationSchedulerRoute: DashboardAutomationSchedulerRoute,
   DashboardAutomationTasksRoute: DashboardAutomationTasksRoute,
   DashboardAutomationIndexRoute: DashboardAutomationIndexRoute,
 }
