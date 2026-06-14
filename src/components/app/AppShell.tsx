@@ -4,6 +4,7 @@ import {
   LayoutDashboard, MonitorSmartphone, Activity, ShieldCheck,
   CreditCard, Users, Download, LogOut, Menu, X, Bell, Search,
   FileText, LifeBuoy, Crown, SlidersHorizontal,
+  Bot, Workflow, ListChecks, KeyRound, Gauge, CalendarClock, BellRing, ScrollText, Package, Settings,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
@@ -38,6 +39,21 @@ const groups: NavGroup[] = [
       { to: "/dashboard/security", label: "Security", icon: ShieldCheck },
       { to: "/dashboard/billing", label: "Billing", icon: CreditCard },
       { to: "/dashboard/support", label: "Support", icon: LifeBuoy },
+    ],
+  },
+  {
+    label: "Automation",
+    items: [
+      { to: "/dashboard/automation", label: "Overview", icon: Bot },
+      { to: "/dashboard/automation/pipelines", label: "Pipelines", icon: Workflow },
+      { to: "/dashboard/automation/tasks", label: "Tasks", icon: ListChecks },
+      { to: "/dashboard/automation/accounts", label: "Accounts", icon: KeyRound },
+      { to: "/dashboard/automation/rate-limits", label: "Rate limits", icon: Gauge },
+      { to: "/dashboard/automation/scheduler", label: "Scheduler", icon: CalendarClock },
+      { to: "/dashboard/automation/alerts", label: "Alerts", icon: BellRing },
+      { to: "/dashboard/automation/logs", label: "Logs", icon: ScrollText },
+      { to: "/dashboard/automation/artifacts", label: "Artifacts", icon: Package },
+      { to: "/dashboard/automation/settings", label: "Settings", icon: Settings },
     ],
   },
   {

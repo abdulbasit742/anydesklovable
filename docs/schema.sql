@@ -369,3 +369,17 @@ alter table public.subscriptions
 --   public.update_team_member_role(member_id uuid, new_role text)
 --   public.set_team_member_status(member_id uuid, new_status text)
 -- See migration 20260613154957 for full SQL.
+
+-- ================================================================
+-- Automation Center (added)
+-- ================================================================
+-- Tables: automation_systems, automation_pipelines, automation_tasks,
+--   automation_pipeline_runs, automation_accounts (metadata only — no
+--   plaintext secrets), automation_rate_limit_events,
+--   automation_scheduler_rules, automation_alert_routes,
+--   automation_logs, automation_artifacts.
+-- RLS: team_id null OR is_team_member(auth.uid(), team_id) for read+write;
+--   logs are insert-only from clients (no UPDATE/DELETE policy).
+-- Security: account rows store only masked_label + secret_ref; real
+--   passwords/API keys/OAuth/TOTP must live in a server-side secret manager.
+-- See migration 20260614 for full DDL.

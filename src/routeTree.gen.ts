@@ -26,12 +26,23 @@ import { Route as DashboardSecurityRouteImport } from './routes/dashboard.securi
 import { Route as DashboardPoliciesRouteImport } from './routes/dashboard.policies'
 import { Route as DashboardDevicesRouteImport } from './routes/dashboard.devices'
 import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing'
+import { Route as DashboardAutomationRouteImport } from './routes/dashboard.automation'
 import { Route as DashboardAuditRouteImport } from './routes/dashboard.audit'
 import { Route as DashboardAdminRouteImport } from './routes/dashboard.admin'
+import { Route as DashboardAutomationIndexRouteImport } from './routes/dashboard.automation.index'
 import { Route as DashboardPoliciesRemoteInputRouteImport } from './routes/dashboard.policies.remote-input'
 import { Route as DashboardPoliciesFileTransferRouteImport } from './routes/dashboard.policies.file-transfer'
 import { Route as DashboardPoliciesClipboardRouteImport } from './routes/dashboard.policies.clipboard'
 import { Route as DashboardDevicesDeviceIdRouteImport } from './routes/dashboard.devices.$deviceId'
+import { Route as DashboardAutomationTasksRouteImport } from './routes/dashboard.automation.tasks'
+import { Route as DashboardAutomationSettingsRouteImport } from './routes/dashboard.automation.settings'
+import { Route as DashboardAutomationSchedulerRouteImport } from './routes/dashboard.automation.scheduler'
+import { Route as DashboardAutomationRateLimitsRouteImport } from './routes/dashboard.automation.rate-limits'
+import { Route as DashboardAutomationPipelinesRouteImport } from './routes/dashboard.automation.pipelines'
+import { Route as DashboardAutomationLogsRouteImport } from './routes/dashboard.automation.logs'
+import { Route as DashboardAutomationArtifactsRouteImport } from './routes/dashboard.automation.artifacts'
+import { Route as DashboardAutomationAlertsRouteImport } from './routes/dashboard.automation.alerts'
+import { Route as DashboardAutomationAccountsRouteImport } from './routes/dashboard.automation.accounts'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -118,6 +129,11 @@ const DashboardBillingRoute = DashboardBillingRouteImport.update({
   path: '/billing',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardAutomationRoute = DashboardAutomationRouteImport.update({
+  id: '/automation',
+  path: '/automation',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardAuditRoute = DashboardAuditRouteImport.update({
   id: '/audit',
   path: '/audit',
@@ -128,6 +144,12 @@ const DashboardAdminRoute = DashboardAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardAutomationIndexRoute =
+  DashboardAutomationIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => DashboardAutomationRoute,
+  } as any)
 const DashboardPoliciesRemoteInputRoute =
   DashboardPoliciesRemoteInputRouteImport.update({
     id: '/remote-input',
@@ -152,6 +174,59 @@ const DashboardDevicesDeviceIdRoute =
     path: '/$deviceId',
     getParentRoute: () => DashboardDevicesRoute,
   } as any)
+const DashboardAutomationTasksRoute =
+  DashboardAutomationTasksRouteImport.update({
+    id: '/tasks',
+    path: '/tasks',
+    getParentRoute: () => DashboardAutomationRoute,
+  } as any)
+const DashboardAutomationSettingsRoute =
+  DashboardAutomationSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => DashboardAutomationRoute,
+  } as any)
+const DashboardAutomationSchedulerRoute =
+  DashboardAutomationSchedulerRouteImport.update({
+    id: '/scheduler',
+    path: '/scheduler',
+    getParentRoute: () => DashboardAutomationRoute,
+  } as any)
+const DashboardAutomationRateLimitsRoute =
+  DashboardAutomationRateLimitsRouteImport.update({
+    id: '/rate-limits',
+    path: '/rate-limits',
+    getParentRoute: () => DashboardAutomationRoute,
+  } as any)
+const DashboardAutomationPipelinesRoute =
+  DashboardAutomationPipelinesRouteImport.update({
+    id: '/pipelines',
+    path: '/pipelines',
+    getParentRoute: () => DashboardAutomationRoute,
+  } as any)
+const DashboardAutomationLogsRoute = DashboardAutomationLogsRouteImport.update({
+  id: '/logs',
+  path: '/logs',
+  getParentRoute: () => DashboardAutomationRoute,
+} as any)
+const DashboardAutomationArtifactsRoute =
+  DashboardAutomationArtifactsRouteImport.update({
+    id: '/artifacts',
+    path: '/artifacts',
+    getParentRoute: () => DashboardAutomationRoute,
+  } as any)
+const DashboardAutomationAlertsRoute =
+  DashboardAutomationAlertsRouteImport.update({
+    id: '/alerts',
+    path: '/alerts',
+    getParentRoute: () => DashboardAutomationRoute,
+  } as any)
+const DashboardAutomationAccountsRoute =
+  DashboardAutomationAccountsRouteImport.update({
+    id: '/accounts',
+    path: '/accounts',
+    getParentRoute: () => DashboardAutomationRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -164,6 +239,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/audit': typeof DashboardAuditRoute
+  '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
@@ -173,10 +249,20 @@ export interface FileRoutesByFullPath {
   '/dashboard/team': typeof DashboardTeamRoute
   '/invite/$token': typeof InviteTokenRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/automation/accounts': typeof DashboardAutomationAccountsRoute
+  '/dashboard/automation/alerts': typeof DashboardAutomationAlertsRoute
+  '/dashboard/automation/artifacts': typeof DashboardAutomationArtifactsRoute
+  '/dashboard/automation/logs': typeof DashboardAutomationLogsRoute
+  '/dashboard/automation/pipelines': typeof DashboardAutomationPipelinesRoute
+  '/dashboard/automation/rate-limits': typeof DashboardAutomationRateLimitsRoute
+  '/dashboard/automation/scheduler': typeof DashboardAutomationSchedulerRoute
+  '/dashboard/automation/settings': typeof DashboardAutomationSettingsRoute
+  '/dashboard/automation/tasks': typeof DashboardAutomationTasksRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
   '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
   '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
   '/dashboard/policies/remote-input': typeof DashboardPoliciesRemoteInputRoute
+  '/dashboard/automation/': typeof DashboardAutomationIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -197,10 +283,20 @@ export interface FileRoutesByTo {
   '/dashboard/team': typeof DashboardTeamRoute
   '/invite/$token': typeof InviteTokenRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/automation/accounts': typeof DashboardAutomationAccountsRoute
+  '/dashboard/automation/alerts': typeof DashboardAutomationAlertsRoute
+  '/dashboard/automation/artifacts': typeof DashboardAutomationArtifactsRoute
+  '/dashboard/automation/logs': typeof DashboardAutomationLogsRoute
+  '/dashboard/automation/pipelines': typeof DashboardAutomationPipelinesRoute
+  '/dashboard/automation/rate-limits': typeof DashboardAutomationRateLimitsRoute
+  '/dashboard/automation/scheduler': typeof DashboardAutomationSchedulerRoute
+  '/dashboard/automation/settings': typeof DashboardAutomationSettingsRoute
+  '/dashboard/automation/tasks': typeof DashboardAutomationTasksRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
   '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
   '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
   '/dashboard/policies/remote-input': typeof DashboardPoliciesRemoteInputRoute
+  '/dashboard/automation': typeof DashboardAutomationIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -214,6 +310,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/audit': typeof DashboardAuditRoute
+  '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
@@ -223,10 +320,20 @@ export interface FileRoutesById {
   '/dashboard/team': typeof DashboardTeamRoute
   '/invite/$token': typeof InviteTokenRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/automation/accounts': typeof DashboardAutomationAccountsRoute
+  '/dashboard/automation/alerts': typeof DashboardAutomationAlertsRoute
+  '/dashboard/automation/artifacts': typeof DashboardAutomationArtifactsRoute
+  '/dashboard/automation/logs': typeof DashboardAutomationLogsRoute
+  '/dashboard/automation/pipelines': typeof DashboardAutomationPipelinesRoute
+  '/dashboard/automation/rate-limits': typeof DashboardAutomationRateLimitsRoute
+  '/dashboard/automation/scheduler': typeof DashboardAutomationSchedulerRoute
+  '/dashboard/automation/settings': typeof DashboardAutomationSettingsRoute
+  '/dashboard/automation/tasks': typeof DashboardAutomationTasksRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
   '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
   '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
   '/dashboard/policies/remote-input': typeof DashboardPoliciesRemoteInputRoute
+  '/dashboard/automation/': typeof DashboardAutomationIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -241,6 +348,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/dashboard/admin'
     | '/dashboard/audit'
+    | '/dashboard/automation'
     | '/dashboard/billing'
     | '/dashboard/devices'
     | '/dashboard/policies'
@@ -250,10 +358,20 @@ export interface FileRouteTypes {
     | '/dashboard/team'
     | '/invite/$token'
     | '/dashboard/'
+    | '/dashboard/automation/accounts'
+    | '/dashboard/automation/alerts'
+    | '/dashboard/automation/artifacts'
+    | '/dashboard/automation/logs'
+    | '/dashboard/automation/pipelines'
+    | '/dashboard/automation/rate-limits'
+    | '/dashboard/automation/scheduler'
+    | '/dashboard/automation/settings'
+    | '/dashboard/automation/tasks'
     | '/dashboard/devices/$deviceId'
     | '/dashboard/policies/clipboard'
     | '/dashboard/policies/file-transfer'
     | '/dashboard/policies/remote-input'
+    | '/dashboard/automation/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -274,10 +392,20 @@ export interface FileRouteTypes {
     | '/dashboard/team'
     | '/invite/$token'
     | '/dashboard'
+    | '/dashboard/automation/accounts'
+    | '/dashboard/automation/alerts'
+    | '/dashboard/automation/artifacts'
+    | '/dashboard/automation/logs'
+    | '/dashboard/automation/pipelines'
+    | '/dashboard/automation/rate-limits'
+    | '/dashboard/automation/scheduler'
+    | '/dashboard/automation/settings'
+    | '/dashboard/automation/tasks'
     | '/dashboard/devices/$deviceId'
     | '/dashboard/policies/clipboard'
     | '/dashboard/policies/file-transfer'
     | '/dashboard/policies/remote-input'
+    | '/dashboard/automation'
   id:
     | '__root__'
     | '/'
@@ -290,6 +418,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/dashboard/admin'
     | '/dashboard/audit'
+    | '/dashboard/automation'
     | '/dashboard/billing'
     | '/dashboard/devices'
     | '/dashboard/policies'
@@ -299,10 +428,20 @@ export interface FileRouteTypes {
     | '/dashboard/team'
     | '/invite/$token'
     | '/dashboard/'
+    | '/dashboard/automation/accounts'
+    | '/dashboard/automation/alerts'
+    | '/dashboard/automation/artifacts'
+    | '/dashboard/automation/logs'
+    | '/dashboard/automation/pipelines'
+    | '/dashboard/automation/rate-limits'
+    | '/dashboard/automation/scheduler'
+    | '/dashboard/automation/settings'
+    | '/dashboard/automation/tasks'
     | '/dashboard/devices/$deviceId'
     | '/dashboard/policies/clipboard'
     | '/dashboard/policies/file-transfer'
     | '/dashboard/policies/remote-input'
+    | '/dashboard/automation/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -438,6 +577,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardBillingRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/automation': {
+      id: '/dashboard/automation'
+      path: '/automation'
+      fullPath: '/dashboard/automation'
+      preLoaderRoute: typeof DashboardAutomationRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/audit': {
       id: '/dashboard/audit'
       path: '/audit'
@@ -451,6 +597,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/admin'
       preLoaderRoute: typeof DashboardAdminRouteImport
       parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/automation/': {
+      id: '/dashboard/automation/'
+      path: '/'
+      fullPath: '/dashboard/automation/'
+      preLoaderRoute: typeof DashboardAutomationIndexRouteImport
+      parentRoute: typeof DashboardAutomationRoute
     }
     '/dashboard/policies/remote-input': {
       id: '/dashboard/policies/remote-input'
@@ -480,8 +633,100 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardDevicesDeviceIdRouteImport
       parentRoute: typeof DashboardDevicesRoute
     }
+    '/dashboard/automation/tasks': {
+      id: '/dashboard/automation/tasks'
+      path: '/tasks'
+      fullPath: '/dashboard/automation/tasks'
+      preLoaderRoute: typeof DashboardAutomationTasksRouteImport
+      parentRoute: typeof DashboardAutomationRoute
+    }
+    '/dashboard/automation/settings': {
+      id: '/dashboard/automation/settings'
+      path: '/settings'
+      fullPath: '/dashboard/automation/settings'
+      preLoaderRoute: typeof DashboardAutomationSettingsRouteImport
+      parentRoute: typeof DashboardAutomationRoute
+    }
+    '/dashboard/automation/scheduler': {
+      id: '/dashboard/automation/scheduler'
+      path: '/scheduler'
+      fullPath: '/dashboard/automation/scheduler'
+      preLoaderRoute: typeof DashboardAutomationSchedulerRouteImport
+      parentRoute: typeof DashboardAutomationRoute
+    }
+    '/dashboard/automation/rate-limits': {
+      id: '/dashboard/automation/rate-limits'
+      path: '/rate-limits'
+      fullPath: '/dashboard/automation/rate-limits'
+      preLoaderRoute: typeof DashboardAutomationRateLimitsRouteImport
+      parentRoute: typeof DashboardAutomationRoute
+    }
+    '/dashboard/automation/pipelines': {
+      id: '/dashboard/automation/pipelines'
+      path: '/pipelines'
+      fullPath: '/dashboard/automation/pipelines'
+      preLoaderRoute: typeof DashboardAutomationPipelinesRouteImport
+      parentRoute: typeof DashboardAutomationRoute
+    }
+    '/dashboard/automation/logs': {
+      id: '/dashboard/automation/logs'
+      path: '/logs'
+      fullPath: '/dashboard/automation/logs'
+      preLoaderRoute: typeof DashboardAutomationLogsRouteImport
+      parentRoute: typeof DashboardAutomationRoute
+    }
+    '/dashboard/automation/artifacts': {
+      id: '/dashboard/automation/artifacts'
+      path: '/artifacts'
+      fullPath: '/dashboard/automation/artifacts'
+      preLoaderRoute: typeof DashboardAutomationArtifactsRouteImport
+      parentRoute: typeof DashboardAutomationRoute
+    }
+    '/dashboard/automation/alerts': {
+      id: '/dashboard/automation/alerts'
+      path: '/alerts'
+      fullPath: '/dashboard/automation/alerts'
+      preLoaderRoute: typeof DashboardAutomationAlertsRouteImport
+      parentRoute: typeof DashboardAutomationRoute
+    }
+    '/dashboard/automation/accounts': {
+      id: '/dashboard/automation/accounts'
+      path: '/accounts'
+      fullPath: '/dashboard/automation/accounts'
+      preLoaderRoute: typeof DashboardAutomationAccountsRouteImport
+      parentRoute: typeof DashboardAutomationRoute
+    }
   }
 }
+
+interface DashboardAutomationRouteChildren {
+  DashboardAutomationAccountsRoute: typeof DashboardAutomationAccountsRoute
+  DashboardAutomationAlertsRoute: typeof DashboardAutomationAlertsRoute
+  DashboardAutomationArtifactsRoute: typeof DashboardAutomationArtifactsRoute
+  DashboardAutomationLogsRoute: typeof DashboardAutomationLogsRoute
+  DashboardAutomationPipelinesRoute: typeof DashboardAutomationPipelinesRoute
+  DashboardAutomationRateLimitsRoute: typeof DashboardAutomationRateLimitsRoute
+  DashboardAutomationSchedulerRoute: typeof DashboardAutomationSchedulerRoute
+  DashboardAutomationSettingsRoute: typeof DashboardAutomationSettingsRoute
+  DashboardAutomationTasksRoute: typeof DashboardAutomationTasksRoute
+  DashboardAutomationIndexRoute: typeof DashboardAutomationIndexRoute
+}
+
+const DashboardAutomationRouteChildren: DashboardAutomationRouteChildren = {
+  DashboardAutomationAccountsRoute: DashboardAutomationAccountsRoute,
+  DashboardAutomationAlertsRoute: DashboardAutomationAlertsRoute,
+  DashboardAutomationArtifactsRoute: DashboardAutomationArtifactsRoute,
+  DashboardAutomationLogsRoute: DashboardAutomationLogsRoute,
+  DashboardAutomationPipelinesRoute: DashboardAutomationPipelinesRoute,
+  DashboardAutomationRateLimitsRoute: DashboardAutomationRateLimitsRoute,
+  DashboardAutomationSchedulerRoute: DashboardAutomationSchedulerRoute,
+  DashboardAutomationSettingsRoute: DashboardAutomationSettingsRoute,
+  DashboardAutomationTasksRoute: DashboardAutomationTasksRoute,
+  DashboardAutomationIndexRoute: DashboardAutomationIndexRoute,
+}
+
+const DashboardAutomationRouteWithChildren =
+  DashboardAutomationRoute._addFileChildren(DashboardAutomationRouteChildren)
 
 interface DashboardDevicesRouteChildren {
   DashboardDevicesDeviceIdRoute: typeof DashboardDevicesDeviceIdRoute
@@ -512,6 +757,7 @@ const DashboardPoliciesRouteWithChildren =
 interface DashboardRouteChildren {
   DashboardAdminRoute: typeof DashboardAdminRoute
   DashboardAuditRoute: typeof DashboardAuditRoute
+  DashboardAutomationRoute: typeof DashboardAutomationRouteWithChildren
   DashboardBillingRoute: typeof DashboardBillingRoute
   DashboardDevicesRoute: typeof DashboardDevicesRouteWithChildren
   DashboardPoliciesRoute: typeof DashboardPoliciesRouteWithChildren
@@ -525,6 +771,7 @@ interface DashboardRouteChildren {
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAdminRoute: DashboardAdminRoute,
   DashboardAuditRoute: DashboardAuditRoute,
+  DashboardAutomationRoute: DashboardAutomationRouteWithChildren,
   DashboardBillingRoute: DashboardBillingRoute,
   DashboardDevicesRoute: DashboardDevicesRouteWithChildren,
   DashboardPoliciesRoute: DashboardPoliciesRouteWithChildren,
