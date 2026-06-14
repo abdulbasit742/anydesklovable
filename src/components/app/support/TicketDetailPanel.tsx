@@ -1,26 +1,30 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
-  AlertCircle, Paperclip, MessageSquare, Lock, Activity,
-  CheckCircle2, RotateCcw, Inbox, Trash2,
+  AlertCircle, Paperclip, MessageSquare, Lock, Activity, Download,
+  CheckCircle2, RotateCcw, Inbox, Trash2, UserPlus, Timer, Upload,
 } from "lucide-react";
 import {
-  useTicketComments, useTicketAttachments, useTicketEvents,
-  addTicketComment, softDeleteComment, createAttachmentMetadata, softDeleteAttachment,
-  changeTicketStatus, changeTicketPriority, closeSupportTicket, reopenSupportTicket,
+  useTicketComments, useTicketAttachments, useTicketEvents, useTicketRealtime,
+  addTicketComment, softDeleteComment, uploadTicketAttachment, softDeleteAttachment,
+  getAttachmentDownloadUrl, useAssignableAgents,
+  changeTicketStatus, changeTicketPriority, assignSupportTicket,
+  closeSupportTicket, reopenSupportTicket,
   canTriageTicket, TICKET_PRIORITIES, TICKET_STATUSES,
+  ticketSlaState, SUPPORT_MAX_SIZE_MB,
   type SupportTicket, type TicketStatus, type TicketPriority, type SupportTicketEventType,
+  type SupportTicketAttachment,
 } from "@/lib/services";
 import { useAuth } from "@/hooks/use-auth";
 import { useCurrentTeam } from "@/hooks/use-current-team";
 import { toast } from "sonner";
+import { formatDistanceToNow } from "date-fns";
+
 
 const ALLOWED_MIME = ["image/png","image/jpeg","application/pdf","text/plain","application/zip","application/json"];
 const MAX_SIZE_MB = 25;
