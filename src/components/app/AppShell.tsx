@@ -5,6 +5,7 @@ import {
   CreditCard, Users, Download, LogOut, Menu, X, Bell, Search,
   FileText, LifeBuoy, Crown, SlidersHorizontal,
   Bot, Workflow, ListChecks, KeyRound, Gauge, CalendarClock, BellRing, ScrollText, Package, Settings,
+  BookUser, Smartphone, Code2,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,8 @@ const groups: NavGroup[] = [
       { to: "/dashboard", label: "Overview", icon: LayoutDashboard },
       { to: "/dashboard/devices", label: "Devices", icon: MonitorSmartphone },
       { to: "/dashboard/sessions", label: "Sessions", icon: Activity },
+      { to: "/dashboard/contacts", label: "Address book", icon: BookUser },
+      { to: "/dashboard/mobile", label: "Mobile access", icon: Smartphone },
       { to: "/dashboard/audit", label: "Audit logs", icon: FileText },
     ],
   },
@@ -54,6 +57,12 @@ const groups: NavGroup[] = [
       { to: "/dashboard/automation/logs", label: "Logs", icon: ScrollText },
       { to: "/dashboard/automation/artifacts", label: "Artifacts", icon: Package },
       { to: "/dashboard/automation/settings", label: "Settings", icon: Settings },
+    ],
+  },
+  {
+    label: "Developers",
+    items: [
+      { to: "/dashboard/developer", label: "Developer & SDK", icon: Code2 },
     ],
   },
   {
