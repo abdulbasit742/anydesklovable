@@ -180,18 +180,44 @@ function BillingPage() {
                   <th className="px-4 py-2 text-left font-medium">Seats</th>
                   <th className="px-4 py-2 text-left font-medium">Interval</th>
                   <th className="px-4 py-2 text-left font-medium">Status</th>
+                  <th className="px-4 py-2"></th>
                 </tr>
               </thead>
               <tbody>
-                {changeRequests.data.map((r) => (
-                  <tr key={r.id} className="border-t border-border">
-                    <td className="px-4 py-2 text-muted-foreground">{format(new Date(r.created_at), "MMM d, yyyy HH:mm")}</td>
-                    <td className="px-4 py-2"><span className="font-mono text-xs">{r.from_plan ?? "—"} → {r.to_plan}</span></td>
-                    <td className="px-4 py-2">{r.from_seats ?? "—"} → {r.to_seats}</td>
-                    <td className="px-4 py-2 capitalize">{r.billing_interval}</td>
-                    <td className="px-4 py-2"><StatusBadge variant={r.status === "applied" ? "paid" : r.status === "rejected" ? "rejected" : "neutral"}>{r.status}</StatusBadge></td>
-                  </tr>
-                ))}
+                {changeRequests.data.map((r) => {
+                  const canTriage = (team?.role === "owner" || team?.role === "admin") && r.status === "pending";
+                  return (
+                    <tr key={r.id} className="border-t border-border">
+                      <td className="px-4 py-2 text-muted-foreground">{format(new Date(r.created_at), "MMM d, yyyy HH:mm")}</td>
+                      <td className="px-4 py-2"><span className="font-mono text-xs">{r.from_plan ?? "—"} → {r.to_plan}</span></td>
+                      <td className="px-4 py-2">{r.from_seats ?? "—"} → {r.to_seats}</td>
+                      <td className="px-4 py-2 capitalize">{r.billing_interval}</td>
+                      <td className="px-4 py-2"><StatusBadge variant={r.status === "applied" ? "paid" : r.status === "rejected" ? "rejected" : "neutral"}>{r.status}</StatusBadge></td>
+                      <td className="px-4 py-2 text-right">
+                        {canTriage && (
+                          <div className="flex justify-end gap-2">
+                            <Button size="sm" variant="outline" onClick={async () => {
+                              try {
+                                await rejectBillingChangeRequest(r.id);
+                                toast.success("Request rejected");
+                                qc.invalidateQueries({ queryKey: ["billing_change_requests"] });
+                              } catch (e) { toast.error((e as Error).message); }
+                            }}>Reject</Button>
+                            <Button size="sm" onClick={async () => {
+                              try {
+                                await applyBillingChangeRequest(r.id);
+                                toast.success("Plan change applied");
+                                qc.invalidateQueries({ queryKey: ["billing_change_requests"] });
+                                qc.invalidateQueries({ queryKey: ["subscription"] });
+                                qc.invalidateQueries({ queryKey: ["current-team"] });
+                              } catch (e) { toast.error((e as Error).message); }
+                            }}>Approve</Button>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
