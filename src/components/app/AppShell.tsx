@@ -42,6 +42,21 @@ const groups: NavGroup[] = [
     ],
   },
   {
+    label: "Automation",
+    items: [
+      { to: "/dashboard/automation", label: "Overview", icon: Bot },
+      { to: "/dashboard/automation/pipelines", label: "Pipelines", icon: Workflow },
+      { to: "/dashboard/automation/tasks", label: "Tasks", icon: ListChecks },
+      { to: "/dashboard/automation/accounts", label: "Accounts", icon: KeyRound },
+      { to: "/dashboard/automation/rate-limits", label: "Rate limits", icon: Gauge },
+      { to: "/dashboard/automation/scheduler", label: "Scheduler", icon: CalendarClock },
+      { to: "/dashboard/automation/alerts", label: "Alerts", icon: BellRing },
+      { to: "/dashboard/automation/logs", label: "Logs", icon: ScrollText },
+      { to: "/dashboard/automation/artifacts", label: "Artifacts", icon: Package },
+      { to: "/dashboard/automation/settings", label: "Settings", icon: Settings },
+    ],
+  },
+  {
     label: "Admin",
     items: [
       { to: "/dashboard/admin", label: "Admin console", icon: Crown, badge: "owner" },
