@@ -741,6 +741,57 @@ export type Database = {
           },
         ]
       }
+      device_audit_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          device_id: string
+          event_type: string
+          from_value: string | null
+          id: string
+          metadata: Json
+          team_id: string
+          to_value: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          device_id: string
+          event_type: string
+          from_value?: string | null
+          id?: string
+          metadata?: Json
+          team_id: string
+          to_value?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          device_id?: string
+          event_type?: string
+          from_value?: string | null
+          id?: string
+          metadata?: Json
+          team_id?: string
+          to_value?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "device_audit_events_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "device_audit_events_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       device_contacts: {
         Row: {
           created_at: string
@@ -810,54 +861,69 @@ export type Database = {
           cpu: string | null
           created_at: string
           device_password_hash: string | null
+          group_label: string | null
           id: string
           ip: unknown
+          is_trusted: boolean
           last_seen: string | null
           name: string
+          notes: string | null
           os: Database["public"]["Enums"]["device_os"]
           os_version: string | null
           owner_id: string
+          password_updated_at: string | null
           ram: string | null
           remote_desk_id: string
           status: Database["public"]["Enums"]["device_status"]
           tags: string[]
           team_id: string
+          unattended_access: boolean
         }
         Insert: {
           client_version?: string | null
           cpu?: string | null
           created_at?: string
           device_password_hash?: string | null
+          group_label?: string | null
           id?: string
           ip?: unknown
+          is_trusted?: boolean
           last_seen?: string | null
           name: string
+          notes?: string | null
           os: Database["public"]["Enums"]["device_os"]
           os_version?: string | null
           owner_id: string
+          password_updated_at?: string | null
           ram?: string | null
           remote_desk_id: string
           status?: Database["public"]["Enums"]["device_status"]
           tags?: string[]
           team_id: string
+          unattended_access?: boolean
         }
         Update: {
           client_version?: string | null
           cpu?: string | null
           created_at?: string
           device_password_hash?: string | null
+          group_label?: string | null
           id?: string
           ip?: unknown
+          is_trusted?: boolean
           last_seen?: string | null
           name?: string
+          notes?: string | null
           os?: Database["public"]["Enums"]["device_os"]
           os_version?: string | null
           owner_id?: string
+          password_updated_at?: string | null
           ram?: string | null
           remote_desk_id?: string
           status?: Database["public"]["Enums"]["device_status"]
           tags?: string[]
           team_id?: string
+          unattended_access?: boolean
         }
         Relationships: [
           {

@@ -54,7 +54,14 @@ export type DeviceRow = {
   client_version: string | null;
   tags: string[] | null;
   owner_id: string | null;
+  is_trusted?: boolean | null;
+  unattended_access?: boolean | null;
+  password_updated_at?: string | null;
+  notes?: string | null;
+  group_label?: string | null;
+  team_id?: string | null;
 };
+
 
 export function useDevices() {
   const { data: team } = useCurrentTeam();
@@ -374,6 +381,109 @@ export async function deleteDevice(id: string) {
   const { error } = await supabase.from("devices").delete().eq("id", id);
   if (error) throw error;
 }
+
+// ----- Device management / audit -----
+export type DeviceAuditEvent = {
+  id: string;
+  device_id: string;
+  team_id: string;
+  actor_id: string | null;
+  event_type: string;
+  from_value: string | null;
+  to_value: string | null;
+  metadata: Record<string, any>;
+  created_at: string;
+};
+
+async function logDeviceEvent(args: {
+  device_id: string; team_id: string; event_type: string;
+  from_value?: string | null; to_value?: string | null; metadata?: Record<string, any>;
+}) {
+  const { data: userRes } = await supabase.auth.getUser();
+  await supabase.from("device_audit_events").insert({
+    device_id: args.device_id,
+    team_id: args.team_id,
+    actor_id: userRes.user?.id ?? null,
+    event_type: args.event_type,
+    from_value: args.from_value ?? null,
+    to_value: args.to_value ?? null,
+    metadata: (args.metadata ?? {}) as any,
+  });
+}
+
+export function useDeviceAudit(deviceId: string | undefined) {
+  return useQuery({
+    queryKey: ["device-audit", deviceId],
+    enabled: !!deviceId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("device_audit_events")
+        .select("*")
+        .eq("device_id", deviceId!)
+        .order("created_at", { ascending: false })
+        .limit(50);
+      if (error) throw error;
+      return (data ?? []) as DeviceAuditEvent[];
+    },
+  });
+}
+
+export async function setDeviceTrust(device: DeviceRow, trusted: boolean) {
+  const { error } = await supabase.from("devices").update({ is_trusted: trusted }).eq("id", device.id);
+  if (error) throw error;
+  if (device.team_id) await logDeviceEvent({
+    device_id: device.id, team_id: device.team_id,
+    event_type: trusted ? "trust_granted" : "trust_revoked",
+    from_value: String(!!device.is_trusted), to_value: String(trusted),
+  });
+}
+
+export async function setUnattendedAccess(device: DeviceRow, enabled: boolean) {
+  const { error } = await supabase.from("devices").update({ unattended_access: enabled }).eq("id", device.id);
+  if (error) throw error;
+  if (device.team_id) await logDeviceEvent({
+    device_id: device.id, team_id: device.team_id,
+    event_type: enabled ? "unattended_enabled" : "unattended_disabled",
+    from_value: String(!!device.unattended_access), to_value: String(enabled),
+  });
+}
+
+// Store only an opaque hash reference — never plaintext.
+export async function rotateUnattendedPassword(device: DeviceRow, password: string) {
+  if (!password || password.length < 8) throw new Error("Password must be at least 8 characters.");
+  const enc = new TextEncoder().encode(password + ":" + device.id);
+  const buf = await crypto.subtle.digest("SHA-256", enc);
+  const hash = Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+  const { error } = await supabase.from("devices")
+    .update({ device_password_hash: hash, password_updated_at: new Date().toISOString() })
+    .eq("id", device.id);
+  if (error) throw error;
+  if (device.team_id) await logDeviceEvent({
+    device_id: device.id, team_id: device.team_id, event_type: "unattended_password_rotated",
+  });
+}
+
+export async function recordDeviceConnectAttempt(device: DeviceRow) {
+  if (!device.team_id) return;
+  await logDeviceEvent({
+    device_id: device.id, team_id: device.team_id,
+    event_type: "connect_attempted", metadata: { status: device.status },
+  });
+}
+
+export async function updateDeviceMeta(device: DeviceRow, patch: { name?: string; notes?: string | null; group_label?: string | null; tags?: string[] }) {
+  const { error } = await supabase.from("devices").update(patch).eq("id", device.id);
+  if (error) throw error;
+  if (device.team_id) {
+    if (patch.name && patch.name !== device.name) {
+      await logDeviceEvent({ device_id: device.id, team_id: device.team_id, event_type: "renamed", from_value: device.name, to_value: patch.name });
+    }
+    if (patch.group_label !== undefined && patch.group_label !== device.group_label) {
+      await logDeviceEvent({ device_id: device.id, team_id: device.team_id, event_type: "group_changed", from_value: device.group_label ?? null, to_value: patch.group_label ?? null });
+    }
+  }
+}
+
 
 // ----- Support tickets -----
 export const TICKET_CATEGORIES = ["connection","billing","account","desktop_app","security","feature_request","other"] as const;
