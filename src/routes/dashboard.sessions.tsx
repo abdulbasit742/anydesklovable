@@ -167,6 +167,12 @@ function SessionsPage() {
                 <Row label="Reason" value={<span className="text-muted-foreground">{drawer.reason ?? "—"}</span>} />
                 <Row label="Session ID" value={<span className="font-mono text-xs text-muted-foreground">{drawer.id}</span>} />
               </div>
+              {drawer.status === "connected" && canEndAny && !isDemo && (
+                <Button className="mt-6 w-full" variant="destructive" disabled={endMut.isPending} onClick={() => endMut.mutate(drawer.id)}>
+                  <PhoneOff className="mr-1.5 h-4 w-4" /> End session
+                </Button>
+              )}
+
             </>
           )}
         </SheetContent>
