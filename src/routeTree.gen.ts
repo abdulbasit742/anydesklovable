@@ -34,6 +34,7 @@ import { Route as DashboardPoliciesRemoteInputRouteImport } from './routes/dashb
 import { Route as DashboardPoliciesFileTransferRouteImport } from './routes/dashboard.policies.file-transfer'
 import { Route as DashboardPoliciesClipboardRouteImport } from './routes/dashboard.policies.clipboard'
 import { Route as DashboardDevicesDeviceIdRouteImport } from './routes/dashboard.devices.$deviceId'
+import { Route as DashboardAutomationTasksRouteImport } from './routes/dashboard.automation.tasks'
 import { Route as DashboardAutomationPipelinesRouteImport } from './routes/dashboard.automation.pipelines'
 
 const SignupRoute = SignupRouteImport.update({
@@ -166,6 +167,12 @@ const DashboardDevicesDeviceIdRoute =
     path: '/$deviceId',
     getParentRoute: () => DashboardDevicesRoute,
   } as any)
+const DashboardAutomationTasksRoute =
+  DashboardAutomationTasksRouteImport.update({
+    id: '/tasks',
+    path: '/tasks',
+    getParentRoute: () => DashboardAutomationRoute,
+  } as any)
 const DashboardAutomationPipelinesRoute =
   DashboardAutomationPipelinesRouteImport.update({
     id: '/pipelines',
@@ -195,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/invite/$token': typeof InviteTokenRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/automation/pipelines': typeof DashboardAutomationPipelinesRoute
+  '/dashboard/automation/tasks': typeof DashboardAutomationTasksRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
   '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
   '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
@@ -221,6 +229,7 @@ export interface FileRoutesByTo {
   '/invite/$token': typeof InviteTokenRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/automation/pipelines': typeof DashboardAutomationPipelinesRoute
+  '/dashboard/automation/tasks': typeof DashboardAutomationTasksRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
   '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
   '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
@@ -250,6 +259,7 @@ export interface FileRoutesById {
   '/invite/$token': typeof InviteTokenRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/automation/pipelines': typeof DashboardAutomationPipelinesRoute
+  '/dashboard/automation/tasks': typeof DashboardAutomationTasksRoute
   '/dashboard/devices/$deviceId': typeof DashboardDevicesDeviceIdRoute
   '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
   '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
@@ -280,6 +290,7 @@ export interface FileRouteTypes {
     | '/invite/$token'
     | '/dashboard/'
     | '/dashboard/automation/pipelines'
+    | '/dashboard/automation/tasks'
     | '/dashboard/devices/$deviceId'
     | '/dashboard/policies/clipboard'
     | '/dashboard/policies/file-transfer'
@@ -306,6 +317,7 @@ export interface FileRouteTypes {
     | '/invite/$token'
     | '/dashboard'
     | '/dashboard/automation/pipelines'
+    | '/dashboard/automation/tasks'
     | '/dashboard/devices/$deviceId'
     | '/dashboard/policies/clipboard'
     | '/dashboard/policies/file-transfer'
@@ -334,6 +346,7 @@ export interface FileRouteTypes {
     | '/invite/$token'
     | '/dashboard/'
     | '/dashboard/automation/pipelines'
+    | '/dashboard/automation/tasks'
     | '/dashboard/devices/$deviceId'
     | '/dashboard/policies/clipboard'
     | '/dashboard/policies/file-transfer'
@@ -530,6 +543,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardDevicesDeviceIdRouteImport
       parentRoute: typeof DashboardDevicesRoute
     }
+    '/dashboard/automation/tasks': {
+      id: '/dashboard/automation/tasks'
+      path: '/tasks'
+      fullPath: '/dashboard/automation/tasks'
+      preLoaderRoute: typeof DashboardAutomationTasksRouteImport
+      parentRoute: typeof DashboardAutomationRoute
+    }
     '/dashboard/automation/pipelines': {
       id: '/dashboard/automation/pipelines'
       path: '/pipelines'
@@ -542,11 +562,13 @@ declare module '@tanstack/react-router' {
 
 interface DashboardAutomationRouteChildren {
   DashboardAutomationPipelinesRoute: typeof DashboardAutomationPipelinesRoute
+  DashboardAutomationTasksRoute: typeof DashboardAutomationTasksRoute
   DashboardAutomationIndexRoute: typeof DashboardAutomationIndexRoute
 }
 
 const DashboardAutomationRouteChildren: DashboardAutomationRouteChildren = {
   DashboardAutomationPipelinesRoute: DashboardAutomationPipelinesRoute,
+  DashboardAutomationTasksRoute: DashboardAutomationTasksRoute,
   DashboardAutomationIndexRoute: DashboardAutomationIndexRoute,
 }
 
