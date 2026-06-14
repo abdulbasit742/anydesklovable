@@ -1283,3 +1283,91 @@ export async function rejectBillingChangeRequest(id: string, reason?: string) {
   const { error } = await supabase.rpc("reject_billing_change_request", reason ? { _request_id: id, _reason: reason } : { _request_id: id });
   if (error) throw error;
 }
+
+// ============================================================
+// API Keys (Developer & SDK)
+// ============================================================
+
+export type ApiKeyRow = {
+  id: string;
+  team_id: string;
+  name: string;
+  key_prefix: string;
+  scopes: string[];
+  last_used_at: string | null;
+  expires_at: string | null;
+  revoked_at: string | null;
+  created_at: string;
+  created_by: string | null;
+};
+
+export function useApiKeys() {
+  const { data: team } = useCurrentTeam();
+  const teamId = team?.team_id ?? null;
+  const q = useQuery({
+    queryKey: ["api-keys", teamId],
+    enabled: !!teamId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("api_keys")
+        .select("id, team_id, name, key_prefix, scopes, last_used_at, expires_at, revoked_at, created_at, created_by")
+        .eq("team_id", teamId!)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return (data ?? []) as ApiKeyRow[];
+    },
+  });
+  return {
+    data: q.data ?? [],
+    isLoading: q.isLoading,
+    error: (q.error as Error) ?? null,
+  };
+}
+
+async function sha256Hex(input: string): Promise<string> {
+  const enc = new TextEncoder().encode(input);
+  const buf = await crypto.subtle.digest("SHA-256", enc);
+  return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+function randomToken(bytes = 32): string {
+  const arr = new Uint8Array(bytes);
+  crypto.getRandomValues(arr);
+  // url-safe base64 (no padding)
+  let bin = "";
+  for (const b of arr) bin += String.fromCharCode(b);
+  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+export type CreatedApiKey = {
+  id: string;
+  full_key: string; // shown once
+  key_prefix: string;
+};
+
+export async function createApiKey(opts: {
+  teamId: string;
+  name: string;
+  scopes?: string[];
+  expiresAt?: string | null;
+}): Promise<CreatedApiKey> {
+  const secret = randomToken(32);
+  const fullKey = `rd_live_${secret}`;
+  const prefix = fullKey.slice(0, 12);
+  const hash = await sha256Hex(fullKey);
+  const { data, error } = await supabase.rpc("create_api_key", {
+    _team_id: opts.teamId,
+    _name: opts.name,
+    _key_prefix: prefix,
+    _key_hash: hash,
+    _scopes: opts.scopes ?? ["read"],
+    _expires_at: opts.expiresAt ?? undefined,
+  });
+  if (error) throw error;
+  return { id: data as string, full_key: fullKey, key_prefix: prefix };
+}
+
+export async function revokeApiKey(id: string) {
+  const { error } = await supabase.rpc("revoke_api_key", { _key_id: id });
+  if (error) throw error;
+}
