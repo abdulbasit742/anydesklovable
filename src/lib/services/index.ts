@@ -1101,3 +1101,120 @@ export function useRealtimeDevices(teamId: string | undefined) {
     return () => { supabase.removeChannel(ch); };
   }, [teamId, qc]);
 }
+
+// ----- Support attachments: real file upload + signed URLs -----
+export const SUPPORT_BUCKET = "support-attachments";
+export const SUPPORT_ALLOWED_MIME = ["image/png","image/jpeg","image/webp","application/pdf","text/plain","application/zip","application/json","application/octet-stream"];
+export const SUPPORT_MAX_SIZE_MB = 25;
+
+export async function uploadTicketAttachment(ticketId: string, file: File) {
+  const { data: userRes } = await supabase.auth.getUser();
+  if (!userRes.user) throw new Error("Sign in required.");
+  if (file.size > SUPPORT_MAX_SIZE_MB * 1024 * 1024) throw new Error(`Max ${SUPPORT_MAX_SIZE_MB} MB per file.`);
+  const mime = file.type || "application/octet-stream";
+  if (!SUPPORT_ALLOWED_MIME.includes(mime)) throw new Error(`Unsupported file type: ${mime}`);
+  const safe = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+  const path = `${ticketId}/${Date.now()}-${safe}`;
+  const up = await supabase.storage.from(SUPPORT_BUCKET).upload(path, file, { contentType: mime, upsert: false });
+  if (up.error) throw up.error;
+  const { data, error } = await supabase.from("support_ticket_attachments").insert({
+    ticket_id: ticketId,
+    uploaded_by: userRes.user.id,
+    file_name: file.name,
+    file_size: file.size,
+    mime_type: mime,
+    storage_bucket: SUPPORT_BUCKET,
+    storage_path: path,
+  }).select().single();
+  if (error) {
+    await supabase.storage.from(SUPPORT_BUCKET).remove([path]).catch(() => {});
+    throw error;
+  }
+  return data as unknown as SupportTicketAttachment;
+}
+
+export async function getAttachmentDownloadUrl(att: SupportTicketAttachment) {
+  if (!att.storage_path) throw new Error("Attachment has no stored file.");
+  const { data, error } = await supabase.storage.from(att.storage_bucket || SUPPORT_BUCKET)
+    .createSignedUrl(att.storage_path, 60);
+  if (error) throw error;
+  return data.signedUrl;
+}
+
+// ----- Realtime: ticket conversation -----
+export function useTicketRealtime(ticketId: string | null | undefined) {
+  const qc = useQueryClient();
+  useEffect(() => {
+    if (!ticketId) return;
+    const ch = supabase
+      .channel(`rt-ticket-${ticketId}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "support_ticket_comments", filter: `ticket_id=eq.${ticketId}` },
+        () => qc.invalidateQueries({ queryKey: ["ticket_comments", ticketId] }))
+      .on("postgres_changes", { event: "*", schema: "public", table: "support_ticket_attachments", filter: `ticket_id=eq.${ticketId}` },
+        () => qc.invalidateQueries({ queryKey: ["ticket_attachments", ticketId] }))
+      .on("postgres_changes", { event: "*", schema: "public", table: "support_ticket_events", filter: `ticket_id=eq.${ticketId}` },
+        () => qc.invalidateQueries({ queryKey: ["ticket_events", ticketId] }))
+      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "support_tickets", filter: `id=eq.${ticketId}` },
+        () => qc.invalidateQueries({ queryKey: ["support_tickets"] }))
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
+  }, [ticketId, qc]);
+}
+
+// ----- SLA targets -----
+export const SLA_FIRST_RESPONSE_MINUTES: Record<TicketPriority, number> = {
+  urgent: 15, high: 60, normal: 4 * 60, low: 24 * 60,
+};
+export const SLA_RESOLUTION_HOURS: Record<TicketPriority, number> = {
+  urgent: 4, high: 24, normal: 72, low: 7 * 24,
+};
+
+export function ticketSlaState(ticket: SupportTicket, firstReplyAt: string | null) {
+  const created = new Date(ticket.created_at).getTime();
+  const now = Date.now();
+  const targetReplyMs = SLA_FIRST_RESPONSE_MINUTES[ticket.priority] * 60_000;
+  const targetResolveMs = SLA_RESOLUTION_HOURS[ticket.priority] * 3600_000;
+
+  const replyDeadline = created + targetReplyMs;
+  const resolveDeadline = created + targetResolveMs;
+
+  const firstReplyMs = firstReplyAt ? new Date(firstReplyAt).getTime() : null;
+  const resolvedAt = ticket.status === "resolved" || ticket.status === "closed" ? new Date(ticket.updated_at).getTime() : null;
+
+  const firstResponse = firstReplyMs
+    ? { status: firstReplyMs <= replyDeadline ? "met" as const : "breached" as const, deadline: replyDeadline, at: firstReplyMs }
+    : { status: now > replyDeadline ? "breached" as const : "pending" as const, deadline: replyDeadline, at: null };
+
+  const resolution = resolvedAt
+    ? { status: resolvedAt <= resolveDeadline ? "met" as const : "breached" as const, deadline: resolveDeadline, at: resolvedAt }
+    : { status: now > resolveDeadline ? "breached" as const : "pending" as const, deadline: resolveDeadline, at: null };
+
+  return { firstResponse, resolution };
+}
+
+// ----- Assignable agents (admins/support of the ticket's team) -----
+export function useAssignableAgents(teamId: string | null | undefined) {
+  return useQuery({
+    queryKey: ["assignable-agents", teamId],
+    enabled: !!teamId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("team_members")
+        .select("user_id, role, status")
+        .eq("team_id", teamId!)
+        .in("role", ["owner", "admin", "support"])
+        .eq("status", "active");
+      if (error) throw error;
+      const ids = (data ?? []).map((m: any) => m.user_id);
+      if (ids.length === 0) return [] as { user_id: string; role: string; name: string; email: string }[];
+      const { data: profs } = await supabase.from("profiles").select("id, full_name, email").in("id", ids);
+      const byId = new Map((profs ?? []).map((p: any) => [p.id, p]));
+      return (data ?? []).map((m: any) => ({
+        user_id: m.user_id,
+        role: m.role,
+        name: byId.get(m.user_id)?.full_name ?? byId.get(m.user_id)?.email ?? m.user_id.slice(0, 8),
+        email: byId.get(m.user_id)?.email ?? "",
+      }));
+    },
+  });
+}
