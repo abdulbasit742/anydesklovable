@@ -30,9 +30,23 @@ function BillingPage() {
   const subscription = useCurrentSubscription();
   const plans = usePlanLimits();
   const usage = useUsageSummary();
+  const changeRequests = useBillingChangeRequests();
+  const qc = useQueryClient();
 
   const planKey = (((team?.teams as { plan?: string } | null)?.plan) ?? "free").toLowerCase();
   const limit = plans.data.find((p) => p.plan_key === planKey) ?? plans.data[0];
+  const currentSeats = subscription.data?.seats ?? 1;
+  const [seats, setSeats] = useState<number>(currentSeats);
+  const isOwner = team?.role === "owner";
+
+  const seatsMut = useMutation({
+    mutationFn: (n: number) => setSubscriptionSeats(n),
+    onSuccess: () => {
+      toast.success("Seats updated");
+      qc.invalidateQueries({ queryKey: ["subscription"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
 
   return (
     <AppShell title="Billing">
