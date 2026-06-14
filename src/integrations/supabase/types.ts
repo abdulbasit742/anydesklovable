@@ -741,6 +741,69 @@ export type Database = {
           },
         ]
       }
+      device_contacts: {
+        Row: {
+          created_at: string
+          device_id: string | null
+          display_name: string
+          email: string | null
+          id: string
+          is_favorite: boolean
+          notes: string | null
+          owner_id: string
+          phone: string | null
+          remote_desk_id: string | null
+          tags: string[]
+          team_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          device_id?: string | null
+          display_name: string
+          email?: string | null
+          id?: string
+          is_favorite?: boolean
+          notes?: string | null
+          owner_id: string
+          phone?: string | null
+          remote_desk_id?: string | null
+          tags?: string[]
+          team_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          device_id?: string | null
+          display_name?: string
+          email?: string | null
+          id?: string
+          is_favorite?: boolean
+          notes?: string | null
+          owner_id?: string
+          phone?: string | null
+          remote_desk_id?: string | null
+          tags?: string[]
+          team_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "device_contacts_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "device_contacts_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       devices: {
         Row: {
           client_version: string | null
@@ -878,6 +941,71 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "invoices_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mobile_devices: {
+        Row: {
+          app_version: string | null
+          created_at: string
+          device_label: string
+          id: string
+          last_ip: string | null
+          last_seen_at: string | null
+          pairing_code: string | null
+          pairing_expires_at: string | null
+          platform: string
+          push_token: string | null
+          revoked_at: string | null
+          team_id: string | null
+          trusted: boolean
+          trusted_at: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          app_version?: string | null
+          created_at?: string
+          device_label: string
+          id?: string
+          last_ip?: string | null
+          last_seen_at?: string | null
+          pairing_code?: string | null
+          pairing_expires_at?: string | null
+          platform: string
+          push_token?: string | null
+          revoked_at?: string | null
+          team_id?: string | null
+          trusted?: boolean
+          trusted_at?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          app_version?: string | null
+          created_at?: string
+          device_label?: string
+          id?: string
+          last_ip?: string | null
+          last_seen_at?: string | null
+          pairing_code?: string | null
+          pairing_expires_at?: string | null
+          platform?: string
+          push_token?: string | null
+          revoked_at?: string | null
+          team_id?: string | null
+          trusted?: boolean
+          trusted_at?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mobile_devices_team_id_fkey"
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
