@@ -1264,7 +1264,7 @@ export async function requestBillingChange(input: {
     _to_plan: input.toPlan,
     _to_seats: input.toSeats,
     _billing_interval: input.billingInterval ?? "monthly",
-    _note: input.note ?? null,
+    _note: input.note,
   });
   if (error) throw error;
   return data as string;
