@@ -105,7 +105,10 @@ export function TicketDetailPanel({ ticket, onChanged }: { ticket: SupportTicket
         <div className="rounded-md border border-border bg-muted/30 p-3 text-sm whitespace-pre-wrap">{ticket.description}</div>
       </div>
 
+      <SlaPanel sla={sla} />
+
       {canTriage && <TriageControls ticket={ticket} onChanged={refetchAll} />}
+
 
       {/* Comments */}
       <section>
