@@ -90,8 +90,11 @@ function SessionsPage() {
           <div className="mt-4 flex flex-wrap gap-2">
             <Button size="sm" variant="outline" onClick={() => toast("Chat opened")}><MessageSquare className="mr-1.5 h-4 w-4" /> Chat</Button>
             <Button size="sm" variant="outline" onClick={() => toast("Diagnostics opened")}><Signal className="mr-1.5 h-4 w-4" /> Diagnostics</Button>
-            <Button size="sm" variant="destructive" onClick={() => toast.error("Emergency stop triggered")}><OctagonAlert className="mr-1.5 h-4 w-4" /> Emergency stop</Button>
+            <Button size="sm" variant="destructive" disabled={isDemo || endMut.isPending} onClick={() => endMut.mutate(active.id)}>
+              <OctagonAlert className="mr-1.5 h-4 w-4" /> End session
+            </Button>
           </div>
+
         </div>
       )}
 
