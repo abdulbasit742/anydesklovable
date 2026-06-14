@@ -61,15 +61,18 @@ export const Route = createFileRoute("/api/public/webhooks/stripe")({
               const inv = event.data.object as StripeInvoice;
               const teamId = inv.metadata?.team_id || inv.subscription_details?.metadata?.team_id;
               if (!teamId) break;
-              await supabaseAdmin.rpc("upsert_invoice_from_webhook", {
-                _team_id: teamId,
-                _number: inv.number || inv.id,
-                _amount_cents: inv.amount_paid ?? inv.amount_due ?? 0,
-                _currency: (inv.currency || "usd").toLowerCase(),
-                _status: inv.status || (event.type === "invoice.paid" ? "paid" : "open"),
-                _issued_at: inv.created ? new Date(inv.created * 1000).toISOString() : new Date().toISOString(),
-                _pdf_url: inv.invoice_pdf || inv.hosted_invoice_url || null,
-              });
+              await (supabaseAdmin.rpc as unknown as (fn: string, args: Record<string, unknown>) => Promise<{ error: unknown }>) (
+                "upsert_invoice_from_webhook",
+                {
+                  _team_id: teamId,
+                  _number: inv.number || inv.id,
+                  _amount_cents: inv.amount_paid ?? inv.amount_due ?? 0,
+                  _currency: (inv.currency || "usd").toLowerCase(),
+                  _status: inv.status || (event.type === "invoice.paid" ? "paid" : "open"),
+                  _issued_at: inv.created ? new Date(inv.created * 1000).toISOString() : new Date().toISOString(),
+                  _pdf_url: inv.invoice_pdf || inv.hosted_invoice_url || null,
+                },
+              );
               break;
             }
             default:
