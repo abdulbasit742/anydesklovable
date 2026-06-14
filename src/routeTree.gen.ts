@@ -26,8 +26,10 @@ import { Route as DashboardSecurityRouteImport } from './routes/dashboard.securi
 import { Route as DashboardPoliciesRouteImport } from './routes/dashboard.policies'
 import { Route as DashboardDevicesRouteImport } from './routes/dashboard.devices'
 import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing'
+import { Route as DashboardAutomationRouteImport } from './routes/dashboard.automation'
 import { Route as DashboardAuditRouteImport } from './routes/dashboard.audit'
 import { Route as DashboardAdminRouteImport } from './routes/dashboard.admin'
+import { Route as DashboardAutomationIndexRouteImport } from './routes/dashboard.automation.index'
 import { Route as DashboardPoliciesRemoteInputRouteImport } from './routes/dashboard.policies.remote-input'
 import { Route as DashboardPoliciesFileTransferRouteImport } from './routes/dashboard.policies.file-transfer'
 import { Route as DashboardPoliciesClipboardRouteImport } from './routes/dashboard.policies.clipboard'
@@ -118,6 +120,11 @@ const DashboardBillingRoute = DashboardBillingRouteImport.update({
   path: '/billing',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardAutomationRoute = DashboardAutomationRouteImport.update({
+  id: '/automation',
+  path: '/automation',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardAuditRoute = DashboardAuditRouteImport.update({
   id: '/audit',
   path: '/audit',
@@ -128,6 +135,12 @@ const DashboardAdminRoute = DashboardAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardAutomationIndexRoute =
+  DashboardAutomationIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => DashboardAutomationRoute,
+  } as any)
 const DashboardPoliciesRemoteInputRoute =
   DashboardPoliciesRemoteInputRouteImport.update({
     id: '/remote-input',
@@ -164,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/audit': typeof DashboardAuditRoute
+  '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
@@ -177,6 +191,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
   '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
   '/dashboard/policies/remote-input': typeof DashboardPoliciesRemoteInputRoute
+  '/dashboard/automation/': typeof DashboardAutomationIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -201,6 +216,7 @@ export interface FileRoutesByTo {
   '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
   '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
   '/dashboard/policies/remote-input': typeof DashboardPoliciesRemoteInputRoute
+  '/dashboard/automation': typeof DashboardAutomationIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -214,6 +230,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/audit': typeof DashboardAuditRoute
+  '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
@@ -227,6 +244,7 @@ export interface FileRoutesById {
   '/dashboard/policies/clipboard': typeof DashboardPoliciesClipboardRoute
   '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
   '/dashboard/policies/remote-input': typeof DashboardPoliciesRemoteInputRoute
+  '/dashboard/automation/': typeof DashboardAutomationIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -241,6 +259,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/dashboard/admin'
     | '/dashboard/audit'
+    | '/dashboard/automation'
     | '/dashboard/billing'
     | '/dashboard/devices'
     | '/dashboard/policies'
@@ -254,6 +273,7 @@ export interface FileRouteTypes {
     | '/dashboard/policies/clipboard'
     | '/dashboard/policies/file-transfer'
     | '/dashboard/policies/remote-input'
+    | '/dashboard/automation/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -278,6 +298,7 @@ export interface FileRouteTypes {
     | '/dashboard/policies/clipboard'
     | '/dashboard/policies/file-transfer'
     | '/dashboard/policies/remote-input'
+    | '/dashboard/automation'
   id:
     | '__root__'
     | '/'
@@ -290,6 +311,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/dashboard/admin'
     | '/dashboard/audit'
+    | '/dashboard/automation'
     | '/dashboard/billing'
     | '/dashboard/devices'
     | '/dashboard/policies'
@@ -303,6 +325,7 @@ export interface FileRouteTypes {
     | '/dashboard/policies/clipboard'
     | '/dashboard/policies/file-transfer'
     | '/dashboard/policies/remote-input'
+    | '/dashboard/automation/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -438,6 +461,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardBillingRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/automation': {
+      id: '/dashboard/automation'
+      path: '/automation'
+      fullPath: '/dashboard/automation'
+      preLoaderRoute: typeof DashboardAutomationRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/audit': {
       id: '/dashboard/audit'
       path: '/audit'
@@ -451,6 +481,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/admin'
       preLoaderRoute: typeof DashboardAdminRouteImport
       parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/automation/': {
+      id: '/dashboard/automation/'
+      path: '/'
+      fullPath: '/dashboard/automation/'
+      preLoaderRoute: typeof DashboardAutomationIndexRouteImport
+      parentRoute: typeof DashboardAutomationRoute
     }
     '/dashboard/policies/remote-input': {
       id: '/dashboard/policies/remote-input'
@@ -483,6 +520,17 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DashboardAutomationRouteChildren {
+  DashboardAutomationIndexRoute: typeof DashboardAutomationIndexRoute
+}
+
+const DashboardAutomationRouteChildren: DashboardAutomationRouteChildren = {
+  DashboardAutomationIndexRoute: DashboardAutomationIndexRoute,
+}
+
+const DashboardAutomationRouteWithChildren =
+  DashboardAutomationRoute._addFileChildren(DashboardAutomationRouteChildren)
+
 interface DashboardDevicesRouteChildren {
   DashboardDevicesDeviceIdRoute: typeof DashboardDevicesDeviceIdRoute
 }
@@ -512,6 +560,7 @@ const DashboardPoliciesRouteWithChildren =
 interface DashboardRouteChildren {
   DashboardAdminRoute: typeof DashboardAdminRoute
   DashboardAuditRoute: typeof DashboardAuditRoute
+  DashboardAutomationRoute: typeof DashboardAutomationRouteWithChildren
   DashboardBillingRoute: typeof DashboardBillingRoute
   DashboardDevicesRoute: typeof DashboardDevicesRouteWithChildren
   DashboardPoliciesRoute: typeof DashboardPoliciesRouteWithChildren
@@ -525,6 +574,7 @@ interface DashboardRouteChildren {
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAdminRoute: DashboardAdminRoute,
   DashboardAuditRoute: DashboardAuditRoute,
+  DashboardAutomationRoute: DashboardAutomationRouteWithChildren,
   DashboardBillingRoute: DashboardBillingRoute,
   DashboardDevicesRoute: DashboardDevicesRouteWithChildren,
   DashboardPoliciesRoute: DashboardPoliciesRouteWithChildren,
@@ -553,3 +603,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
