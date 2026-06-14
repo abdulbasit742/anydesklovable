@@ -39,6 +39,7 @@ import { Route as DashboardAutomationSchedulerRouteImport } from './routes/dashb
 import { Route as DashboardAutomationRateLimitsRouteImport } from './routes/dashboard.automation.rate-limits'
 import { Route as DashboardAutomationPipelinesRouteImport } from './routes/dashboard.automation.pipelines'
 import { Route as DashboardAutomationLogsRouteImport } from './routes/dashboard.automation.logs'
+import { Route as DashboardAutomationArtifactsRouteImport } from './routes/dashboard.automation.artifacts'
 import { Route as DashboardAutomationAlertsRouteImport } from './routes/dashboard.automation.alerts'
 import { Route as DashboardAutomationAccountsRouteImport } from './routes/dashboard.automation.accounts'
 
@@ -201,6 +202,12 @@ const DashboardAutomationLogsRoute = DashboardAutomationLogsRouteImport.update({
   path: '/logs',
   getParentRoute: () => DashboardAutomationRoute,
 } as any)
+const DashboardAutomationArtifactsRoute =
+  DashboardAutomationArtifactsRouteImport.update({
+    id: '/artifacts',
+    path: '/artifacts',
+    getParentRoute: () => DashboardAutomationRoute,
+  } as any)
 const DashboardAutomationAlertsRoute =
   DashboardAutomationAlertsRouteImport.update({
     id: '/alerts',
@@ -237,6 +244,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/automation/accounts': typeof DashboardAutomationAccountsRoute
   '/dashboard/automation/alerts': typeof DashboardAutomationAlertsRoute
+  '/dashboard/automation/artifacts': typeof DashboardAutomationArtifactsRoute
   '/dashboard/automation/logs': typeof DashboardAutomationLogsRoute
   '/dashboard/automation/pipelines': typeof DashboardAutomationPipelinesRoute
   '/dashboard/automation/rate-limits': typeof DashboardAutomationRateLimitsRoute
@@ -269,6 +277,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/automation/accounts': typeof DashboardAutomationAccountsRoute
   '/dashboard/automation/alerts': typeof DashboardAutomationAlertsRoute
+  '/dashboard/automation/artifacts': typeof DashboardAutomationArtifactsRoute
   '/dashboard/automation/logs': typeof DashboardAutomationLogsRoute
   '/dashboard/automation/pipelines': typeof DashboardAutomationPipelinesRoute
   '/dashboard/automation/rate-limits': typeof DashboardAutomationRateLimitsRoute
@@ -304,6 +313,7 @@ export interface FileRoutesById {
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/automation/accounts': typeof DashboardAutomationAccountsRoute
   '/dashboard/automation/alerts': typeof DashboardAutomationAlertsRoute
+  '/dashboard/automation/artifacts': typeof DashboardAutomationArtifactsRoute
   '/dashboard/automation/logs': typeof DashboardAutomationLogsRoute
   '/dashboard/automation/pipelines': typeof DashboardAutomationPipelinesRoute
   '/dashboard/automation/rate-limits': typeof DashboardAutomationRateLimitsRoute
@@ -340,6 +350,7 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/dashboard/automation/accounts'
     | '/dashboard/automation/alerts'
+    | '/dashboard/automation/artifacts'
     | '/dashboard/automation/logs'
     | '/dashboard/automation/pipelines'
     | '/dashboard/automation/rate-limits'
@@ -372,6 +383,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dashboard/automation/accounts'
     | '/dashboard/automation/alerts'
+    | '/dashboard/automation/artifacts'
     | '/dashboard/automation/logs'
     | '/dashboard/automation/pipelines'
     | '/dashboard/automation/rate-limits'
@@ -406,6 +418,7 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/dashboard/automation/accounts'
     | '/dashboard/automation/alerts'
+    | '/dashboard/automation/artifacts'
     | '/dashboard/automation/logs'
     | '/dashboard/automation/pipelines'
     | '/dashboard/automation/rate-limits'
@@ -642,6 +655,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAutomationLogsRouteImport
       parentRoute: typeof DashboardAutomationRoute
     }
+    '/dashboard/automation/artifacts': {
+      id: '/dashboard/automation/artifacts'
+      path: '/artifacts'
+      fullPath: '/dashboard/automation/artifacts'
+      preLoaderRoute: typeof DashboardAutomationArtifactsRouteImport
+      parentRoute: typeof DashboardAutomationRoute
+    }
     '/dashboard/automation/alerts': {
       id: '/dashboard/automation/alerts'
       path: '/alerts'
@@ -662,6 +682,7 @@ declare module '@tanstack/react-router' {
 interface DashboardAutomationRouteChildren {
   DashboardAutomationAccountsRoute: typeof DashboardAutomationAccountsRoute
   DashboardAutomationAlertsRoute: typeof DashboardAutomationAlertsRoute
+  DashboardAutomationArtifactsRoute: typeof DashboardAutomationArtifactsRoute
   DashboardAutomationLogsRoute: typeof DashboardAutomationLogsRoute
   DashboardAutomationPipelinesRoute: typeof DashboardAutomationPipelinesRoute
   DashboardAutomationRateLimitsRoute: typeof DashboardAutomationRateLimitsRoute
@@ -673,6 +694,7 @@ interface DashboardAutomationRouteChildren {
 const DashboardAutomationRouteChildren: DashboardAutomationRouteChildren = {
   DashboardAutomationAccountsRoute: DashboardAutomationAccountsRoute,
   DashboardAutomationAlertsRoute: DashboardAutomationAlertsRoute,
+  DashboardAutomationArtifactsRoute: DashboardAutomationArtifactsRoute,
   DashboardAutomationLogsRoute: DashboardAutomationLogsRoute,
   DashboardAutomationPipelinesRoute: DashboardAutomationPipelinesRoute,
   DashboardAutomationRateLimitsRoute: DashboardAutomationRateLimitsRoute,
