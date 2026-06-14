@@ -70,6 +70,11 @@ export function TicketDetailPanel({ ticket, onChanged }: { ticket: SupportTicket
   const comments = useTicketComments(ticket.id);
   const attachments = useTicketAttachments(ticket.id);
   const events = useTicketEvents(ticket.id);
+  useTicketRealtime(ticket.id);
+
+  // First public reply from someone other than the requester == first response
+  const firstReplyAt = (comments.data ?? []).find((c) => !c.is_internal && c.author_id !== ticket.user_id)?.created_at ?? null;
+  const sla = ticketSlaState(ticket, firstReplyAt);
 
   const qc = useQueryClient();
   const refetchAll = () => {
@@ -79,6 +84,7 @@ export function TicketDetailPanel({ ticket, onChanged }: { ticket: SupportTicket
     qc.invalidateQueries({ queryKey: ["support_tickets"] });
     onChanged();
   };
+
 
   return (
     <div className="space-y-5">
