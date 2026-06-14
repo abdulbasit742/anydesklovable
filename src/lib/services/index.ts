@@ -1062,3 +1062,42 @@ export function useUsageSummary(): UsageSummary {
   return { meters, isDemo, isLoading, error, planKey };
 }
 
+
+// ----- Realtime + remote session lifecycle -----
+export async function startRemoteSession(deviceId: string) {
+  const { data, error } = await supabase.rpc("start_remote_session", { _device_id: deviceId });
+  if (error) throw error;
+  const row = Array.isArray(data) ? data[0] : data;
+  return row as { session_id: string; token: string; expires_at: string };
+}
+
+export async function endRemoteSession(sessionId: string, reason?: string) {
+  const { error } = await supabase.rpc("end_remote_session", { _session_id: sessionId, _reason: reason ?? null });
+  if (error) throw error;
+}
+
+export function useRealtimeSessions(teamId: string | undefined) {
+  const qc = useQueryClient();
+  useEffect(() => {
+    if (!teamId) return;
+    const ch = supabase
+      .channel(`rt-sessions-${teamId}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "sessions", filter: `team_id=eq.${teamId}` },
+        () => { qc.invalidateQueries({ queryKey: ["sessions", teamId] }); })
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
+  }, [teamId, qc]);
+}
+
+export function useRealtimeDevices(teamId: string | undefined) {
+  const qc = useQueryClient();
+  useEffect(() => {
+    if (!teamId) return;
+    const ch = supabase
+      .channel(`rt-devices-${teamId}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "devices", filter: `team_id=eq.${teamId}` },
+        () => { qc.invalidateQueries({ queryKey: ["devices", teamId] }); })
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
+  }, [teamId, qc]);
+}
