@@ -39,17 +39,20 @@ export const Route = createFileRoute("/api/public/webhooks/stripe")({
               if (!teamId) break;
               const item = sub.items?.data?.[0];
               const plan = (sub.metadata?.plan || item?.price?.lookup_key || item?.price?.nickname || "free").toLowerCase();
-              await supabaseAdmin.rpc("apply_subscription_from_webhook", {
-                _team_id: teamId,
-                _plan: plan,
-                _seats: item?.quantity ?? sub.quantity ?? 1,
-                _status: event.type === "customer.subscription.deleted" ? "canceled" : sub.status,
-                _interval: item?.price?.recurring?.interval === "year" ? "yearly" : "monthly",
-                _stripe_customer_id: typeof sub.customer === "string" ? sub.customer : undefined,
-                _stripe_subscription_id: sub.id,
-                _current_period_end: sub.current_period_end ? new Date(sub.current_period_end * 1000).toISOString() : undefined,
-                _cancel_at_period_end: !!sub.cancel_at_period_end,
-              });
+              await (supabaseAdmin.rpc as unknown as (fn: string, args: Record<string, unknown>) => Promise<{ error: unknown }>) (
+                "apply_subscription_from_webhook",
+                {
+                  _team_id: teamId,
+                  _plan: plan,
+                  _seats: item?.quantity ?? sub.quantity ?? 1,
+                  _status: event.type === "customer.subscription.deleted" ? "canceled" : sub.status,
+                  _interval: item?.price?.recurring?.interval === "year" ? "yearly" : "monthly",
+                  _stripe_customer_id: typeof sub.customer === "string" ? sub.customer : null,
+                  _stripe_subscription_id: sub.id,
+                  _current_period_end: sub.current_period_end ? new Date(sub.current_period_end * 1000).toISOString() : null,
+                  _cancel_at_period_end: !!sub.cancel_at_period_end,
+                },
+              );
               break;
             }
             case "invoice.paid":
