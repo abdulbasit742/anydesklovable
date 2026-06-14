@@ -74,7 +74,7 @@ function BillingPage() {
               )}
             </div>
             <div className="flex gap-2">
-              <UpgradePrompt plans={plans.data} currentPlanKey={planKey} trigger={<Button size="sm">Upgrade plan</Button>} />
+              <UpgradePrompt plans={plans.data} currentPlanKey={planKey} currentSeats={currentSeats} trigger={<Button size="sm">Change plan</Button>} />
               <Button size="sm" variant="outline" onClick={() => CUSTOMER_PORTAL_URL.url ? window.open(CUSTOMER_PORTAL_URL.url) : toast("Customer portal not configured")}>
                 <ExternalLink className="mr-1.5 h-4 w-4" /> Customer portal
               </Button>
@@ -83,13 +83,27 @@ function BillingPage() {
         </div>
 
         <div className="rounded-lg border border-border bg-card p-5">
-          <div className="text-sm font-semibold">Need more?</div>
-          <p className="mt-1 text-sm text-muted-foreground">Business unlocks team management, audit logs, file transfer, and policy controls. Enterprise adds the admin console and priority support.</p>
+          <div className="text-sm font-semibold">Seats</div>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Currently {currentSeats} seat{currentSeats === 1 ? "" : "s"}.
+            {isOwner ? " Owners can update seat count directly." : " Ask the team owner to change seats."}
+          </p>
+          <div className="mt-3 flex items-end gap-2">
+            <div className="flex-1">
+              <Label htmlFor="seats" className="text-xs">Seat count</Label>
+              <Input id="seats" type="number" min={1} value={seats} disabled={!isOwner}
+                onChange={(e) => setSeats(Math.max(1, parseInt(e.target.value || "1", 10) || 1))} />
+            </div>
+            <Button size="sm" disabled={!isOwner || seats === currentSeats || seatsMut.isPending} onClick={() => seatsMut.mutate(seats)}>
+              <Save className="mr-1.5 h-4 w-4" /> Save
+            </Button>
+          </div>
           <UpgradePrompt
             plans={plans.data}
             currentPlanKey={planKey}
-            defaultPlan="business"
-            trigger={<Button className="mt-4 w-full">Compare plans</Button>}
+            currentSeats={currentSeats}
+            defaultPlan={planKey === "free" ? "pro" : planKey}
+            trigger={<Button variant="outline" size="sm" className="mt-3 w-full">Request plan or seat change</Button>}
           />
         </div>
       </div>
