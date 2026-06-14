@@ -703,6 +703,65 @@ export type Database = {
           },
         ]
       }
+      billing_change_requests: {
+        Row: {
+          billing_interval: string
+          created_at: string
+          from_plan: string | null
+          from_seats: number | null
+          id: string
+          note: string | null
+          processed_at: string | null
+          processed_by: string | null
+          requested_by: string
+          status: string
+          team_id: string
+          to_plan: string
+          to_seats: number
+          updated_at: string
+        }
+        Insert: {
+          billing_interval?: string
+          created_at?: string
+          from_plan?: string | null
+          from_seats?: number | null
+          id?: string
+          note?: string | null
+          processed_at?: string | null
+          processed_by?: string | null
+          requested_by: string
+          status?: string
+          team_id: string
+          to_plan: string
+          to_seats: number
+          updated_at?: string
+        }
+        Update: {
+          billing_interval?: string
+          created_at?: string
+          from_plan?: string | null
+          from_seats?: number | null
+          id?: string
+          note?: string | null
+          processed_at?: string | null
+          processed_by?: string | null
+          requested_by?: string
+          status?: string
+          team_id?: string
+          to_plan?: string
+          to_seats?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_change_requests_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clipboard_policies: {
         Row: {
           allow_images: boolean
@@ -1823,6 +1882,20 @@ export type Database = {
           team_id: string
         }[]
       }
+      apply_subscription_from_webhook: {
+        Args: {
+          _cancel_at_period_end: boolean
+          _current_period_end: string
+          _interval: string
+          _plan: string
+          _seats: number
+          _status: string
+          _stripe_customer_id: string
+          _stripe_subscription_id: string
+          _team_id: string
+        }
+        Returns: undefined
+      }
       can_triage_ticket: { Args: { _ticket_id: string }; Returns: boolean }
       can_view_ticket: { Args: { _ticket_id: string }; Returns: boolean }
       end_remote_session: {
@@ -1846,10 +1919,20 @@ export type Database = {
         Returns: Database["public"]["Enums"]["app_role"]
       }
       my_team_ids: { Args: { _user_id: string }; Returns: string[] }
+      request_billing_change: {
+        Args: {
+          _billing_interval?: string
+          _note?: string
+          _to_plan: string
+          _to_seats: number
+        }
+        Returns: string
+      }
       revoke_team_invitation: {
         Args: { invitation_id: string }
         Returns: undefined
       }
+      set_subscription_seats: { Args: { _seats: number }; Returns: undefined }
       set_team_member_status: {
         Args: { member_id: string; new_status: string }
         Returns: undefined
@@ -1865,6 +1948,18 @@ export type Database = {
       update_team_member_role: {
         Args: { member_id: string; new_role: string }
         Returns: undefined
+      }
+      upsert_invoice_from_webhook: {
+        Args: {
+          _amount_cents: number
+          _currency: string
+          _issued_at: string
+          _number: string
+          _pdf_url: string
+          _status: string
+          _team_id: string
+        }
+        Returns: string
       }
     }
     Enums: {
