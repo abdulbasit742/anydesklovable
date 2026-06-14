@@ -1274,3 +1274,12 @@ export async function setSubscriptionSeats(seats: number) {
   const { error } = await supabase.rpc("set_subscription_seats", { _seats: seats });
   if (error) throw error;
 }
+
+export async function applyBillingChangeRequest(id: string) {
+  const { error } = await supabase.rpc("apply_billing_change_request", { _request_id: id });
+  if (error) throw error;
+}
+export async function rejectBillingChangeRequest(id: string, reason?: string) {
+  const { error } = await supabase.rpc("reject_billing_change_request", reason ? { _request_id: id, _reason: reason } : { _request_id: id });
+  if (error) throw error;
+}

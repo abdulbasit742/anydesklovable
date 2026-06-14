@@ -1882,6 +1882,10 @@ export type Database = {
           team_id: string
         }[]
       }
+      apply_billing_change_request: {
+        Args: { _request_id: string }
+        Returns: undefined
+      }
       apply_subscription_from_webhook: {
         Args: {
           _cancel_at_period_end: boolean
@@ -1919,6 +1923,10 @@ export type Database = {
         Returns: Database["public"]["Enums"]["app_role"]
       }
       my_team_ids: { Args: { _user_id: string }; Returns: string[] }
+      reject_billing_change_request: {
+        Args: { _reason?: string; _request_id: string }
+        Returns: undefined
+      }
       request_billing_change: {
         Args: {
           _billing_interval?: string
