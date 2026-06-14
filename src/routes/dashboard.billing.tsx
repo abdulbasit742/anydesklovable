@@ -166,6 +166,37 @@ function BillingPage() {
           </div>
         </PanelState>
       </div>
+
+      {/* Change requests */}
+      <div className="mt-6 rounded-lg border border-border bg-card">
+        <div className="border-b border-border px-4 py-3 text-sm font-semibold">Plan change requests</div>
+        <PanelState loading={changeRequests.isLoading} error={changeRequests.error} empty={changeRequests.data.length === 0} emptyText="No pending plan or seat change requests.">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/40 text-xs uppercase text-muted-foreground">
+                <tr>
+                  <th className="px-4 py-2 text-left font-medium">Requested</th>
+                  <th className="px-4 py-2 text-left font-medium">From → To</th>
+                  <th className="px-4 py-2 text-left font-medium">Seats</th>
+                  <th className="px-4 py-2 text-left font-medium">Interval</th>
+                  <th className="px-4 py-2 text-left font-medium">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {changeRequests.data.map((r) => (
+                  <tr key={r.id} className="border-t border-border">
+                    <td className="px-4 py-2 text-muted-foreground">{format(new Date(r.created_at), "MMM d, yyyy HH:mm")}</td>
+                    <td className="px-4 py-2"><span className="font-mono text-xs">{r.from_plan ?? "—"} → {r.to_plan}</span></td>
+                    <td className="px-4 py-2">{r.from_seats ?? "—"} → {r.to_seats}</td>
+                    <td className="px-4 py-2 capitalize">{r.billing_interval}</td>
+                    <td className="px-4 py-2"><StatusBadge variant={r.status === "applied" ? "paid" : r.status === "rejected" ? "destructive" : "neutral"}>{r.status}</StatusBadge></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </PanelState>
+      </div>
     </AppShell>
   );
 }
