@@ -46,6 +46,7 @@ import { Route as DashboardAutomationLogsRouteImport } from './routes/dashboard.
 import { Route as DashboardAutomationArtifactsRouteImport } from './routes/dashboard.automation.artifacts'
 import { Route as DashboardAutomationAlertsRouteImport } from './routes/dashboard.automation.alerts'
 import { Route as DashboardAutomationAccountsRouteImport } from './routes/dashboard.automation.accounts'
+import { Route as ApiPublicWebhooksStripeRouteImport } from './routes/api/public/webhooks/stripe'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -245,6 +246,11 @@ const DashboardAutomationAccountsRoute =
     path: '/accounts',
     getParentRoute: () => DashboardAutomationRoute,
   } as any)
+const ApiPublicWebhooksStripeRoute = ApiPublicWebhooksStripeRouteImport.update({
+  id: '/api/public/webhooks/stripe',
+  path: '/api/public/webhooks/stripe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -284,6 +290,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
   '/dashboard/policies/remote-input': typeof DashboardPoliciesRemoteInputRoute
   '/dashboard/automation/': typeof DashboardAutomationIndexRoute
+  '/api/public/webhooks/stripe': typeof ApiPublicWebhooksStripeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -321,6 +328,7 @@ export interface FileRoutesByTo {
   '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
   '/dashboard/policies/remote-input': typeof DashboardPoliciesRemoteInputRoute
   '/dashboard/automation': typeof DashboardAutomationIndexRoute
+  '/api/public/webhooks/stripe': typeof ApiPublicWebhooksStripeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -361,6 +369,7 @@ export interface FileRoutesById {
   '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
   '/dashboard/policies/remote-input': typeof DashboardPoliciesRemoteInputRoute
   '/dashboard/automation/': typeof DashboardAutomationIndexRoute
+  '/api/public/webhooks/stripe': typeof ApiPublicWebhooksStripeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -402,6 +411,7 @@ export interface FileRouteTypes {
     | '/dashboard/policies/file-transfer'
     | '/dashboard/policies/remote-input'
     | '/dashboard/automation/'
+    | '/api/public/webhooks/stripe'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -439,6 +449,7 @@ export interface FileRouteTypes {
     | '/dashboard/policies/file-transfer'
     | '/dashboard/policies/remote-input'
     | '/dashboard/automation'
+    | '/api/public/webhooks/stripe'
   id:
     | '__root__'
     | '/'
@@ -478,6 +489,7 @@ export interface FileRouteTypes {
     | '/dashboard/policies/file-transfer'
     | '/dashboard/policies/remote-input'
     | '/dashboard/automation/'
+    | '/api/public/webhooks/stripe'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -490,6 +502,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
   InviteTokenRoute: typeof InviteTokenRoute
+  ApiPublicWebhooksStripeRoute: typeof ApiPublicWebhooksStripeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -753,6 +766,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAutomationAccountsRouteImport
       parentRoute: typeof DashboardAutomationRoute
     }
+    '/api/public/webhooks/stripe': {
+      id: '/api/public/webhooks/stripe'
+      path: '/api/public/webhooks/stripe'
+      fullPath: '/api/public/webhooks/stripe'
+      preLoaderRoute: typeof ApiPublicWebhooksStripeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -859,6 +879,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
   InviteTokenRoute: InviteTokenRoute,
+  ApiPublicWebhooksStripeRoute: ApiPublicWebhooksStripeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
