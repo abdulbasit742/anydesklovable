@@ -100,6 +100,609 @@ export type Database = {
           },
         ]
       }
+      automation_accounts: {
+        Row: {
+          cooldown_until: string | null
+          created_at: string
+          created_by: string | null
+          daily_task_count: number
+          health_score: number
+          id: string
+          label: string
+          last_used_at: string | null
+          masked_label: string | null
+          notes: string | null
+          provider: string
+          secret_ref: string | null
+          status: string
+          success_rate: number
+          team_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          cooldown_until?: string | null
+          created_at?: string
+          created_by?: string | null
+          daily_task_count?: number
+          health_score?: number
+          id?: string
+          label: string
+          last_used_at?: string | null
+          masked_label?: string | null
+          notes?: string | null
+          provider: string
+          secret_ref?: string | null
+          status?: string
+          success_rate?: number
+          team_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          cooldown_until?: string | null
+          created_at?: string
+          created_by?: string | null
+          daily_task_count?: number
+          health_score?: number
+          id?: string
+          label?: string
+          last_used_at?: string | null
+          masked_label?: string | null
+          notes?: string | null
+          provider?: string
+          secret_ref?: string | null
+          status?: string
+          success_rate?: number
+          team_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_accounts_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automation_alert_routes: {
+        Row: {
+          channel: string
+          config: Json
+          created_at: string
+          created_by: string | null
+          enabled: boolean
+          id: string
+          name: string
+          team_id: string | null
+        }
+        Insert: {
+          channel: string
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          id?: string
+          name: string
+          team_id?: string | null
+        }
+        Update: {
+          channel?: string
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          id?: string
+          name?: string
+          team_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_alert_routes_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automation_artifacts: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          pipeline_run_id: string | null
+          preview: string | null
+          size_bytes: number | null
+          storage_path: string | null
+          task_id: string | null
+          team_id: string | null
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          pipeline_run_id?: string | null
+          preview?: string | null
+          size_bytes?: number | null
+          storage_path?: string | null
+          task_id?: string | null
+          team_id?: string | null
+          type?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          pipeline_run_id?: string | null
+          preview?: string | null
+          size_bytes?: number | null
+          storage_path?: string | null
+          task_id?: string | null
+          team_id?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_artifacts_pipeline_run_id_fkey"
+            columns: ["pipeline_run_id"]
+            isOneToOne: false
+            referencedRelation: "automation_pipeline_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automation_artifacts_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "automation_tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automation_artifacts_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automation_logs: {
+        Row: {
+          category: string | null
+          created_at: string
+          id: string
+          level: string
+          message: string
+          metadata: Json
+          system_id: string | null
+          task_id: string | null
+          team_id: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          level?: string
+          message: string
+          metadata?: Json
+          system_id?: string | null
+          task_id?: string | null
+          team_id?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          level?: string
+          message?: string
+          metadata?: Json
+          system_id?: string | null
+          task_id?: string | null
+          team_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_logs_system_id_fkey"
+            columns: ["system_id"]
+            isOneToOne: false
+            referencedRelation: "automation_systems"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automation_logs_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "automation_tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automation_logs_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automation_pipeline_runs: {
+        Row: {
+          checkpoint: Json | null
+          created_at: string
+          duration_ms: number | null
+          finished_at: string | null
+          id: string
+          pipeline_id: string | null
+          stage_results: Json
+          started_at: string | null
+          status: string
+          task_id: string | null
+          team_id: string | null
+        }
+        Insert: {
+          checkpoint?: Json | null
+          created_at?: string
+          duration_ms?: number | null
+          finished_at?: string | null
+          id?: string
+          pipeline_id?: string | null
+          stage_results?: Json
+          started_at?: string | null
+          status?: string
+          task_id?: string | null
+          team_id?: string | null
+        }
+        Update: {
+          checkpoint?: Json | null
+          created_at?: string
+          duration_ms?: number | null
+          finished_at?: string | null
+          id?: string
+          pipeline_id?: string | null
+          stage_results?: Json
+          started_at?: string | null
+          status?: string
+          task_id?: string | null
+          team_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_pipeline_runs_pipeline_id_fkey"
+            columns: ["pipeline_id"]
+            isOneToOne: false
+            referencedRelation: "automation_pipelines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automation_pipeline_runs_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "automation_tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automation_pipeline_runs_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automation_pipelines: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          input_schema: Json | null
+          mode: string
+          name: string
+          output_schema: Json | null
+          stages: Json
+          status: string
+          system_id: string | null
+          team_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          input_schema?: Json | null
+          mode?: string
+          name: string
+          output_schema?: Json | null
+          stages?: Json
+          status?: string
+          system_id?: string | null
+          team_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          input_schema?: Json | null
+          mode?: string
+          name?: string
+          output_schema?: Json | null
+          stages?: Json
+          status?: string
+          system_id?: string | null
+          team_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_pipelines_system_id_fkey"
+            columns: ["system_id"]
+            isOneToOne: false
+            referencedRelation: "automation_systems"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automation_pipelines_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automation_rate_limit_events: {
+        Row: {
+          account_id: string | null
+          cooldown_seconds: number | null
+          detected_at: string
+          id: string
+          message: string | null
+          provider: string | null
+          resolved_at: string | null
+          severity: string
+          signal: string | null
+          team_id: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          cooldown_seconds?: number | null
+          detected_at?: string
+          id?: string
+          message?: string | null
+          provider?: string | null
+          resolved_at?: string | null
+          severity?: string
+          signal?: string | null
+          team_id?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          cooldown_seconds?: number | null
+          detected_at?: string
+          id?: string
+          message?: string | null
+          provider?: string | null
+          resolved_at?: string | null
+          severity?: string
+          signal?: string | null
+          team_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_rate_limit_events_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "automation_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automation_rate_limit_events_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automation_scheduler_rules: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          cron_expression: string | null
+          enabled: boolean
+          heavy_task_window: Json | null
+          id: string
+          interval_minutes: number | null
+          light_task_window: Json | null
+          name: string
+          pipeline_id: string | null
+          schedule_type: string
+          team_id: string | null
+          timezone: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          cron_expression?: string | null
+          enabled?: boolean
+          heavy_task_window?: Json | null
+          id?: string
+          interval_minutes?: number | null
+          light_task_window?: Json | null
+          name: string
+          pipeline_id?: string | null
+          schedule_type?: string
+          team_id?: string | null
+          timezone?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          cron_expression?: string | null
+          enabled?: boolean
+          heavy_task_window?: Json | null
+          id?: string
+          interval_minutes?: number | null
+          light_task_window?: Json | null
+          name?: string
+          pipeline_id?: string | null
+          schedule_type?: string
+          team_id?: string | null
+          timezone?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_scheduler_rules_pipeline_id_fkey"
+            columns: ["pipeline_id"]
+            isOneToOne: false
+            referencedRelation: "automation_pipelines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automation_scheduler_rules_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automation_systems: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          health_score: number
+          id: string
+          last_heartbeat_at: string | null
+          name: string
+          slug: string
+          status: string
+          team_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          health_score?: number
+          id?: string
+          last_heartbeat_at?: string | null
+          name: string
+          slug: string
+          status?: string
+          team_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          health_score?: number
+          id?: string
+          last_heartbeat_at?: string | null
+          name?: string
+          slug?: string
+          status?: string
+          team_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_systems_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automation_tasks: {
+        Row: {
+          assigned_account_id: string | null
+          created_at: string
+          created_by: string | null
+          current_stage: number
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          input_payload: Json | null
+          output_payload: Json | null
+          pipeline_id: string | null
+          priority: string
+          progress: number
+          prompt: string
+          scheduled_for: string | null
+          started_at: string | null
+          status: string
+          team_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_account_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          current_stage?: number
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          input_payload?: Json | null
+          output_payload?: Json | null
+          pipeline_id?: string | null
+          priority?: string
+          progress?: number
+          prompt: string
+          scheduled_for?: string | null
+          started_at?: string | null
+          status?: string
+          team_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_account_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          current_stage?: number
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          input_payload?: Json | null
+          output_payload?: Json | null
+          pipeline_id?: string | null
+          priority?: string
+          progress?: number
+          prompt?: string
+          scheduled_for?: string | null
+          started_at?: string | null
+          status?: string
+          team_id?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_tasks_pipeline_id_fkey"
+            columns: ["pipeline_id"]
+            isOneToOne: false
+            referencedRelation: "automation_pipelines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "automation_tasks_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clipboard_policies: {
         Row: {
           allow_images: boolean
