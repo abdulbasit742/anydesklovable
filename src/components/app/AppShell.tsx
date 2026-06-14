@@ -5,6 +5,7 @@ import {
   CreditCard, Users, Download, LogOut, Menu, X, Bell, Search,
   FileText, LifeBuoy, Crown, SlidersHorizontal,
   Bot, Workflow, ListChecks, KeyRound, Gauge, CalendarClock, BellRing, ScrollText, Package, Settings,
+  BookUser, Smartphone, Code2,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,8 @@ const groups: NavGroup[] = [
       { to: "/dashboard", label: "Overview", icon: LayoutDashboard },
       { to: "/dashboard/devices", label: "Devices", icon: MonitorSmartphone },
       { to: "/dashboard/sessions", label: "Sessions", icon: Activity },
+      { to: "/dashboard/contacts", label: "Address book", icon: BookUser },
+      { to: "/dashboard/mobile", label: "Mobile access", icon: Smartphone },
       { to: "/dashboard/audit", label: "Audit logs", icon: FileText },
     ],
   },
@@ -54,6 +57,12 @@ const groups: NavGroup[] = [
       { to: "/dashboard/automation/logs", label: "Logs", icon: ScrollText },
       { to: "/dashboard/automation/artifacts", label: "Artifacts", icon: Package },
       { to: "/dashboard/automation/settings", label: "Settings", icon: Settings },
+    ],
+  },
+  {
+    label: "Developers",
+    items: [
+      { to: "/dashboard/developer", label: "Developer & SDK", icon: Code2 },
     ],
   },
   {
@@ -93,7 +102,9 @@ export function AppShell({
           </button>
         </div>
         <nav className="flex-1 overflow-y-auto px-3 py-3 text-sm">
-          {groups.map((g, gi) => (
+          {groups
+            .filter((g) => g.label !== "Admin" || roleLabel === "owner" || roleLabel === "admin")
+            .map((g, gi) => (
             <div key={gi} className={gi > 0 ? "mt-4" : ""}>
               {g.label && (
                 <div className="mb-1 px-2.5 text-[10px] font-semibold uppercase tracking-wider text-sidebar-foreground/40">
