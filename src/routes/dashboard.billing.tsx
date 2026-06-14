@@ -189,7 +189,7 @@ function BillingPage() {
                     <td className="px-4 py-2"><span className="font-mono text-xs">{r.from_plan ?? "—"} → {r.to_plan}</span></td>
                     <td className="px-4 py-2">{r.from_seats ?? "—"} → {r.to_seats}</td>
                     <td className="px-4 py-2 capitalize">{r.billing_interval}</td>
-                    <td className="px-4 py-2"><StatusBadge variant={r.status === "applied" ? "paid" : r.status === "rejected" ? "destructive" : "neutral"}>{r.status}</StatusBadge></td>
+                    <td className="px-4 py-2"><StatusBadge variant={r.status === "applied" ? "paid" : r.status === "rejected" ? "rejected" : "neutral"}>{r.status}</StatusBadge></td>
                   </tr>
                 ))}
               </tbody>
