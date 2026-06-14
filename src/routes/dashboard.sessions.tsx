@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
-import { Activity, OctagonAlert, MessageSquare, Signal, Search, Download } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Activity, OctagonAlert, MessageSquare, Signal, Search, Download, PhoneOff } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { StatusBadge } from "@/components/app/StatusBadge";
 import { Button } from "@/components/ui/button";
@@ -12,9 +13,11 @@ import {
   Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle,
 } from "@/components/ui/sheet";
 import { toast } from "sonner";
-import { useSessions, formatDuration, type SessionRow } from "@/lib/services";
+import { useSessions, formatDuration, type SessionRow, endRemoteSession, useRealtimeSessions } from "@/lib/services";
+import { useCurrentTeam } from "@/hooks/use-current-team";
 import { DemoBanner, LoadingRow, EmptyRow, ErrorRow } from "@/components/app/DataState";
 import { formatDistanceToNow } from "date-fns";
+
 
 export const Route = createFileRoute("/dashboard/sessions")({
   head: () => ({ meta: [{ title: "Sessions — RemoteDesk" }] }),
