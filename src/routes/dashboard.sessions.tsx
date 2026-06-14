@@ -31,12 +31,24 @@ function SessionsPage() {
   const [q, setQ] = useState("");
   const [drawer, setDrawer] = useState<SessionRow | null>(null);
   const { data: all, isLoading, error, isDemo } = useSessions();
+  const { data: team } = useCurrentTeam();
+  const qc = useQueryClient();
+  useRealtimeSessions(isDemo ? undefined : team?.team_id);
+
+  const canEndAny = team?.role === "owner" || team?.role === "admin" || team?.role === "support";
+
+  const endMut = useMutation({
+    mutationFn: (id: string) => endRemoteSession(id, "manual"),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["sessions"] }); toast.success("Session ended"); setDrawer(null); },
+    onError: (e: Error) => toast.error(e.message),
+  });
 
   const list = useMemo(
     () => all.filter((s) => (filter === "all" || s.status === filter) && (q === "" || s.target_name.toLowerCase().includes(q.toLowerCase()) || s.initiator.toLowerCase().includes(q.toLowerCase()))),
     [all, filter, q],
   );
   const active = all.find((s) => s.status === "connected");
+
 
   const exportCsv = () => {
     const header = ["target", "role", "initiator", "status", "duration_s", "quality", "started_at", "reason"];
