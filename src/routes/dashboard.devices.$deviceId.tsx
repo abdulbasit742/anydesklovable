@@ -19,8 +19,10 @@ import { toast } from "sonner";
 import {
   useDevice, useSessions, deleteDevice, formatDuration,
   useDeviceAudit, setDeviceTrust, setUnattendedAccess, rotateUnattendedPassword,
-  recordDeviceConnectAttempt, updateDeviceMeta,
+  recordDeviceConnectAttempt, updateDeviceMeta, startRemoteSession, useRealtimeDevices,
 } from "@/lib/services";
+import { useCurrentTeam } from "@/hooks/use-current-team";
+
 import { DemoBanner, PanelState } from "@/components/app/DataState";
 import { formatDistanceToNow } from "date-fns";
 
