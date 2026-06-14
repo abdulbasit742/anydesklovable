@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
-import { Activity, OctagonAlert, MessageSquare, Signal, Search, Download } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Activity, OctagonAlert, MessageSquare, Signal, Search, Download, PhoneOff } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { StatusBadge } from "@/components/app/StatusBadge";
 import { Button } from "@/components/ui/button";
@@ -12,9 +13,11 @@ import {
   Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle,
 } from "@/components/ui/sheet";
 import { toast } from "sonner";
-import { useSessions, formatDuration, type SessionRow } from "@/lib/services";
+import { useSessions, formatDuration, type SessionRow, endRemoteSession, useRealtimeSessions } from "@/lib/services";
+import { useCurrentTeam } from "@/hooks/use-current-team";
 import { DemoBanner, LoadingRow, EmptyRow, ErrorRow } from "@/components/app/DataState";
 import { formatDistanceToNow } from "date-fns";
+
 
 export const Route = createFileRoute("/dashboard/sessions")({
   head: () => ({ meta: [{ title: "Sessions — RemoteDesk" }] }),
@@ -28,12 +31,24 @@ function SessionsPage() {
   const [q, setQ] = useState("");
   const [drawer, setDrawer] = useState<SessionRow | null>(null);
   const { data: all, isLoading, error, isDemo } = useSessions();
+  const { data: team } = useCurrentTeam();
+  const qc = useQueryClient();
+  useRealtimeSessions(isDemo ? undefined : team?.team_id);
+
+  const canEndAny = team?.role === "owner" || team?.role === "admin" || team?.role === "support";
+
+  const endMut = useMutation({
+    mutationFn: (id: string) => endRemoteSession(id, "manual"),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["sessions"] }); toast.success("Session ended"); setDrawer(null); },
+    onError: (e: Error) => toast.error(e.message),
+  });
 
   const list = useMemo(
     () => all.filter((s) => (filter === "all" || s.status === filter) && (q === "" || s.target_name.toLowerCase().includes(q.toLowerCase()) || s.initiator.toLowerCase().includes(q.toLowerCase()))),
     [all, filter, q],
   );
   const active = all.find((s) => s.status === "connected");
+
 
   const exportCsv = () => {
     const header = ["target", "role", "initiator", "status", "duration_s", "quality", "started_at", "reason"];
@@ -75,8 +90,11 @@ function SessionsPage() {
           <div className="mt-4 flex flex-wrap gap-2">
             <Button size="sm" variant="outline" onClick={() => toast("Chat opened")}><MessageSquare className="mr-1.5 h-4 w-4" /> Chat</Button>
             <Button size="sm" variant="outline" onClick={() => toast("Diagnostics opened")}><Signal className="mr-1.5 h-4 w-4" /> Diagnostics</Button>
-            <Button size="sm" variant="destructive" onClick={() => toast.error("Emergency stop triggered")}><OctagonAlert className="mr-1.5 h-4 w-4" /> Emergency stop</Button>
+            <Button size="sm" variant="destructive" disabled={isDemo || endMut.isPending} onClick={() => endMut.mutate(active.id)}>
+              <OctagonAlert className="mr-1.5 h-4 w-4" /> End session
+            </Button>
           </div>
+
         </div>
       )}
 
@@ -149,6 +167,12 @@ function SessionsPage() {
                 <Row label="Reason" value={<span className="text-muted-foreground">{drawer.reason ?? "—"}</span>} />
                 <Row label="Session ID" value={<span className="font-mono text-xs text-muted-foreground">{drawer.id}</span>} />
               </div>
+              {drawer.status === "connected" && canEndAny && !isDemo && (
+                <Button className="mt-6 w-full" variant="destructive" disabled={endMut.isPending} onClick={() => endMut.mutate(drawer.id)}>
+                  <PhoneOff className="mr-1.5 h-4 w-4" /> End session
+                </Button>
+              )}
+
             </>
           )}
         </SheetContent>
