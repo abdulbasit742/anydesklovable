@@ -14,6 +14,119 @@ export type Database = {
   }
   public: {
     Tables: {
+      access_review_campaigns: {
+        Row: {
+          completed_at: string | null
+          completed_by: string | null
+          created_at: string
+          created_by: string | null
+          due_at: string | null
+          id: string
+          name: string
+          scope: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          due_at?: string | null
+          id?: string
+          name: string
+          scope?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          due_at?: string | null
+          id?: string
+          name?: string
+          scope?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "access_review_campaigns_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      access_review_items: {
+        Row: {
+          campaign_id: string
+          created_at: string
+          current_permissions: string[]
+          current_role_key: string | null
+          decision: string | null
+          id: string
+          member_id: string
+          note: string | null
+          recommended_role: string | null
+          reviewed_at: string | null
+          reviewer_id: string | null
+          team_id: string
+          user_id: string
+        }
+        Insert: {
+          campaign_id: string
+          created_at?: string
+          current_permissions?: string[]
+          current_role_key?: string | null
+          decision?: string | null
+          id?: string
+          member_id: string
+          note?: string | null
+          recommended_role?: string | null
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          team_id: string
+          user_id: string
+        }
+        Update: {
+          campaign_id?: string
+          created_at?: string
+          current_permissions?: string[]
+          current_role_key?: string | null
+          decision?: string | null
+          id?: string
+          member_id?: string
+          note?: string | null
+          recommended_role?: string | null
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          team_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "access_review_items_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "access_review_campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "access_review_items_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       active_sessions: {
         Row: {
           created_at: string
@@ -1454,6 +1567,80 @@ export type Database = {
           },
         ]
       }
+      governance_approval_requests: {
+        Row: {
+          approved_by: string | null
+          created_at: string
+          decided_at: string | null
+          decision_note: string | null
+          description: string | null
+          expires_at: string | null
+          id: string
+          payload: Json
+          rejected_by: string | null
+          request_type: string
+          requested_by: string | null
+          resource_id: string | null
+          resource_type: string | null
+          status: string
+          target_member_id: string | null
+          target_user_id: string | null
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          approved_by?: string | null
+          created_at?: string
+          decided_at?: string | null
+          decision_note?: string | null
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          payload?: Json
+          rejected_by?: string | null
+          request_type: string
+          requested_by?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          status?: string
+          target_member_id?: string | null
+          target_user_id?: string | null
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          approved_by?: string | null
+          created_at?: string
+          decided_at?: string | null
+          decision_note?: string | null
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          payload?: Json
+          rejected_by?: string | null
+          request_type?: string
+          requested_by?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          status?: string
+          target_member_id?: string | null
+          target_user_id?: string | null
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "governance_approval_requests_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       invoices: {
         Row: {
           amount_cents: number
@@ -1488,6 +1675,115 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "invoices_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_permission_overrides: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          denied_permissions: string[]
+          granted_permissions: string[]
+          id: string
+          member_id: string
+          reason: string | null
+          team_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          denied_permissions?: string[]
+          granted_permissions?: string[]
+          id?: string
+          member_id: string
+          reason?: string | null
+          team_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          denied_permissions?: string[]
+          granted_permissions?: string[]
+          id?: string
+          member_id?: string
+          reason?: string | null
+          team_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_permission_overrides_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_risk_scores: {
+        Row: {
+          broad_api_key_count: number
+          created_at: string
+          failed_security_events_30d: number
+          id: string
+          last_calculated_at: string
+          last_login_at: string | null
+          member_id: string
+          mfa_enabled: boolean
+          reasons: string[]
+          risk_level: string
+          risk_score: number
+          stale_session_count: number
+          team_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          broad_api_key_count?: number
+          created_at?: string
+          failed_security_events_30d?: number
+          id?: string
+          last_calculated_at?: string
+          last_login_at?: string | null
+          member_id: string
+          mfa_enabled?: boolean
+          reasons?: string[]
+          risk_level?: string
+          risk_score?: number
+          stale_session_count?: number
+          team_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          broad_api_key_count?: number
+          created_at?: string
+          failed_security_events_30d?: number
+          id?: string
+          last_calculated_at?: string
+          last_login_at?: string | null
+          member_id?: string
+          mfa_enabled?: boolean
+          reasons?: string[]
+          risk_level?: string
+          risk_score?: number
+          stale_session_count?: number
+          team_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_risk_scores_team_id_fkey"
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
@@ -1798,6 +2094,106 @@ export type Database = {
             foreignKeyName: "remote_input_policies_team_id_fkey"
             columns: ["team_id"]
             isOneToOne: true
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      role_definitions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          is_assignable: boolean
+          key: string
+          name: string
+          permissions: string[]
+          role_type: string
+          team_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_assignable?: boolean
+          key: string
+          name: string
+          permissions?: string[]
+          role_type?: string
+          team_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_assignable?: boolean
+          key?: string
+          name?: string
+          permissions?: string[]
+          role_type?: string
+          team_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "role_definitions_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      seat_change_requests: {
+        Row: {
+          approved_by: string | null
+          created_at: string
+          current_seats: number | null
+          decided_at: string | null
+          id: string
+          reason: string | null
+          rejected_by: string | null
+          requested_by: string | null
+          requested_seats: number
+          status: string
+          team_id: string
+        }
+        Insert: {
+          approved_by?: string | null
+          created_at?: string
+          current_seats?: number | null
+          decided_at?: string | null
+          id?: string
+          reason?: string | null
+          rejected_by?: string | null
+          requested_by?: string | null
+          requested_seats: number
+          status?: string
+          team_id: string
+        }
+        Update: {
+          approved_by?: string | null
+          created_at?: string
+          current_seats?: number | null
+          decided_at?: string | null
+          id?: string
+          reason?: string | null
+          rejected_by?: string | null
+          requested_by?: string | null
+          requested_seats?: number
+          status?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "seat_change_requests_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
             referencedRelation: "teams"
             referencedColumns: ["id"]
           },
@@ -2183,6 +2579,112 @@ export type Database = {
             foreignKeyName: "support_tickets_team_id_fkey"
             columns: ["team_id"]
             isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      team_domains: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          domain: string
+          id: string
+          status: string
+          team_id: string
+          updated_at: string
+          verification_token: string | null
+          verified_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          domain: string
+          id?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+          verification_token?: string | null
+          verified_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          domain?: string
+          id?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+          verification_token?: string | null
+          verified_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_domains_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      team_governance_settings: {
+        Row: {
+          access_review_frequency: string
+          allowed_email_domains: string[]
+          created_at: string
+          id: string
+          invite_expiry_days: number
+          max_trusted_device_days: number
+          require_approval_for_billing_changes: boolean
+          require_approval_for_broad_api_keys: boolean
+          require_approval_for_owner_transfer: boolean
+          require_approval_for_policy_changes: boolean
+          require_mfa_for_admins: boolean
+          require_mfa_for_all_members: boolean
+          session_timeout_minutes: number
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          access_review_frequency?: string
+          allowed_email_domains?: string[]
+          created_at?: string
+          id?: string
+          invite_expiry_days?: number
+          max_trusted_device_days?: number
+          require_approval_for_billing_changes?: boolean
+          require_approval_for_broad_api_keys?: boolean
+          require_approval_for_owner_transfer?: boolean
+          require_approval_for_policy_changes?: boolean
+          require_mfa_for_admins?: boolean
+          require_mfa_for_all_members?: boolean
+          session_timeout_minutes?: number
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          access_review_frequency?: string
+          allowed_email_domains?: string[]
+          created_at?: string
+          id?: string
+          invite_expiry_days?: number
+          max_trusted_device_days?: number
+          require_approval_for_billing_changes?: boolean
+          require_approval_for_broad_api_keys?: boolean
+          require_approval_for_owner_transfer?: boolean
+          require_approval_for_policy_changes?: boolean
+          require_mfa_for_admins?: boolean
+          require_mfa_for_all_members?: boolean
+          session_timeout_minutes?: number
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_governance_settings_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: true
             referencedRelation: "teams"
             referencedColumns: ["id"]
           },
