@@ -2463,6 +2463,81 @@ export type Database = {
           },
         ]
       }
+      compliance_controls: {
+        Row: {
+          control_domain: string | null
+          control_key: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          evidence_summary: string | null
+          framework_id: string | null
+          id: string
+          last_reviewed_at: string | null
+          metadata: Json
+          next_review_due_at: string | null
+          owner_user_id: string | null
+          public_visible: boolean
+          status: string
+          team_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          control_domain?: string | null
+          control_key: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          evidence_summary?: string | null
+          framework_id?: string | null
+          id?: string
+          last_reviewed_at?: string | null
+          metadata?: Json
+          next_review_due_at?: string | null
+          owner_user_id?: string | null
+          public_visible?: boolean
+          status?: string
+          team_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          control_domain?: string | null
+          control_key?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          evidence_summary?: string | null
+          framework_id?: string | null
+          id?: string
+          last_reviewed_at?: string | null
+          metadata?: Json
+          next_review_due_at?: string | null
+          owner_user_id?: string | null
+          public_visible?: boolean
+          status?: string
+          team_id?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compliance_controls_framework_id_fkey"
+            columns: ["framework_id"]
+            isOneToOne: false
+            referencedRelation: "compliance_frameworks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compliance_controls_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       compliance_evidence_reports: {
         Row: {
           artifact_id: string | null
@@ -2504,6 +2579,45 @@ export type Database = {
           status?: string
           team_id?: string
           title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      compliance_frameworks: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          framework_key: string
+          id: string
+          metadata: Json
+          name: string
+          official_url: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          framework_key: string
+          id?: string
+          metadata?: Json
+          name: string
+          official_url?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          framework_key?: string
+          id?: string
+          metadata?: Json
+          name?: string
+          official_url?: string | null
+          status?: string
           updated_at?: string
         }
         Relationships: []
@@ -8224,6 +8338,147 @@ export type Database = {
         }
         Relationships: []
       }
+      public_incident_updates: {
+        Row: {
+          approved_by: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          message: string
+          public_incident_id: string
+          published_at: string | null
+          team_id: string | null
+          title: string | null
+          update_status: string
+          updated_at: string
+          visibility: string
+        }
+        Insert: {
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          message: string
+          public_incident_id: string
+          published_at?: string | null
+          team_id?: string | null
+          title?: string | null
+          update_status: string
+          updated_at?: string
+          visibility?: string
+        }
+        Update: {
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          message?: string
+          public_incident_id?: string
+          published_at?: string | null
+          team_id?: string | null
+          title?: string | null
+          update_status?: string
+          updated_at?: string
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_incident_updates_public_incident_id_fkey"
+            columns: ["public_incident_id"]
+            isOneToOne: false
+            referencedRelation: "public_incidents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_incident_updates_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      public_incidents: {
+        Row: {
+          affected_component_ids: string[]
+          approved_by: string | null
+          created_at: string
+          created_by: string | null
+          customer_visible: boolean
+          id: string
+          impact: string
+          postmortem_url: string | null
+          public_summary: string | null
+          published_at: string | null
+          resolved_at: string | null
+          severity: string
+          source_incident_id: string | null
+          started_at: string
+          status: string
+          status_page_id: string
+          team_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          affected_component_ids?: string[]
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_visible?: boolean
+          id?: string
+          impact?: string
+          postmortem_url?: string | null
+          public_summary?: string | null
+          published_at?: string | null
+          resolved_at?: string | null
+          severity?: string
+          source_incident_id?: string | null
+          started_at?: string
+          status?: string
+          status_page_id: string
+          team_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          affected_component_ids?: string[]
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_visible?: boolean
+          id?: string
+          impact?: string
+          postmortem_url?: string | null
+          public_summary?: string | null
+          published_at?: string | null
+          resolved_at?: string | null
+          severity?: string
+          source_incident_id?: string | null
+          started_at?: string
+          status?: string
+          status_page_id?: string
+          team_id?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_incidents_status_page_id_fkey"
+            columns: ["status_page_id"]
+            isOneToOne: false
+            referencedRelation: "status_pages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_incidents_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       remote_input_policies: {
         Row: {
           allow_keyboard: boolean
@@ -8308,6 +8563,81 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "role_definitions_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scheduled_maintenance_windows: {
+        Row: {
+          actual_end: string | null
+          actual_start: string | null
+          affected_component_ids: string[]
+          approved_by: string | null
+          created_at: string
+          created_by: string | null
+          customer_impact: string
+          description: string | null
+          id: string
+          published_at: string | null
+          scheduled_end: string
+          scheduled_start: string
+          status: string
+          status_page_id: string
+          team_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          actual_end?: string | null
+          actual_start?: string | null
+          affected_component_ids?: string[]
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_impact?: string
+          description?: string | null
+          id?: string
+          published_at?: string | null
+          scheduled_end: string
+          scheduled_start: string
+          status?: string
+          status_page_id: string
+          team_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          actual_end?: string | null
+          actual_start?: string | null
+          affected_component_ids?: string[]
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_impact?: string
+          description?: string | null
+          id?: string
+          published_at?: string | null
+          scheduled_end?: string
+          scheduled_start?: string
+          status?: string
+          status_page_id?: string
+          team_id?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scheduled_maintenance_windows_status_page_id_fkey"
+            columns: ["status_page_id"]
+            isOneToOne: false
+            referencedRelation: "status_pages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scheduled_maintenance_windows_team_id_fkey"
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
@@ -8660,6 +8990,125 @@ export type Database = {
             foreignKeyName: "security_policies_team_id_fkey"
             columns: ["team_id"]
             isOneToOne: true
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      security_questionnaire_responses: {
+        Row: {
+          answer: string
+          approved_at: string | null
+          approved_by: string | null
+          category: string
+          created_at: string
+          created_by: string | null
+          id: string
+          last_reviewed_at: string | null
+          question: string
+          question_key: string
+          status: string
+          team_id: string | null
+          trust_center_id: string | null
+          updated_at: string
+          visibility: string
+        }
+        Insert: {
+          answer: string
+          approved_at?: string | null
+          approved_by?: string | null
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          last_reviewed_at?: string | null
+          question: string
+          question_key: string
+          status?: string
+          team_id?: string | null
+          trust_center_id?: string | null
+          updated_at?: string
+          visibility?: string
+        }
+        Update: {
+          answer?: string
+          approved_at?: string | null
+          approved_by?: string | null
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          last_reviewed_at?: string | null
+          question?: string
+          question_key?: string
+          status?: string
+          team_id?: string | null
+          trust_center_id?: string | null
+          updated_at?: string
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "security_questionnaire_responses_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "security_questionnaire_responses_trust_center_id_fkey"
+            columns: ["trust_center_id"]
+            isOneToOne: false
+            referencedRelation: "trust_centers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      security_questionnaire_templates: {
+        Row: {
+          active: boolean
+          category: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          name: string
+          questions: Json
+          team_id: string | null
+          template_key: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          questions?: Json
+          team_id?: string | null
+          template_key: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          questions?: Json
+          team_id?: string | null
+          template_key?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "security_questionnaire_templates_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
             referencedRelation: "teams"
             referencedColumns: ["id"]
           },
@@ -9405,6 +9854,72 @@ export type Database = {
           },
         ]
       }
+      status_components: {
+        Row: {
+          category: string
+          component_key: string
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          observability_service_id: string | null
+          public_visible: boolean
+          region_id: string | null
+          sort_order: number
+          status: string
+          status_page_id: string
+          team_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          component_key: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          observability_service_id?: string | null
+          public_visible?: boolean
+          region_id?: string | null
+          sort_order?: number
+          status?: string
+          status_page_id: string
+          team_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          component_key?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          observability_service_id?: string | null
+          public_visible?: boolean
+          region_id?: string | null
+          sort_order?: number
+          status?: string
+          status_page_id?: string
+          team_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "status_components_status_page_id_fkey"
+            columns: ["status_page_id"]
+            isOneToOne: false
+            referencedRelation: "status_pages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "status_components_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       status_page_updates: {
         Row: {
           created_at: string
@@ -9461,6 +9976,174 @@ export type Database = {
             columns: ["service_id"]
             isOneToOne: false
             referencedRelation: "observability_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      status_pages: {
+        Row: {
+          activated_at: string | null
+          brand_profile_id: string | null
+          created_at: string
+          created_by: string | null
+          custom_domain_id: string | null
+          description: string | null
+          id: string
+          name: string
+          partner_id: string | null
+          public_subscribe_enabled: boolean
+          show_component_history: boolean
+          show_incident_history: boolean
+          show_maintenance: boolean
+          show_uptime_metrics: boolean
+          status: string
+          status_page_key: string
+          team_id: string | null
+          trust_center_id: string | null
+          updated_at: string
+          visibility: string
+        }
+        Insert: {
+          activated_at?: string | null
+          brand_profile_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          custom_domain_id?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          partner_id?: string | null
+          public_subscribe_enabled?: boolean
+          show_component_history?: boolean
+          show_incident_history?: boolean
+          show_maintenance?: boolean
+          show_uptime_metrics?: boolean
+          status?: string
+          status_page_key: string
+          team_id?: string | null
+          trust_center_id?: string | null
+          updated_at?: string
+          visibility?: string
+        }
+        Update: {
+          activated_at?: string | null
+          brand_profile_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          custom_domain_id?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          partner_id?: string | null
+          public_subscribe_enabled?: boolean
+          show_component_history?: boolean
+          show_incident_history?: boolean
+          show_maintenance?: boolean
+          show_uptime_metrics?: boolean
+          status?: string
+          status_page_key?: string
+          team_id?: string | null
+          trust_center_id?: string | null
+          updated_at?: string
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "status_pages_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "status_pages_trust_center_id_fkey"
+            columns: ["trust_center_id"]
+            isOneToOne: false
+            referencedRelation: "trust_centers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subprocessor_register: {
+        Row: {
+          added_at: string | null
+          countries: string[]
+          created_at: string
+          created_by: string | null
+          data_processed: string[]
+          description: string | null
+          dpa_status: string
+          id: string
+          privacy_url: string | null
+          public_visible: boolean
+          region_ids: string[]
+          removed_at: string | null
+          security_url: string | null
+          service_category: string
+          status: string
+          team_id: string | null
+          trust_center_id: string | null
+          updated_at: string
+          vendor_name: string
+          website_url: string | null
+        }
+        Insert: {
+          added_at?: string | null
+          countries?: string[]
+          created_at?: string
+          created_by?: string | null
+          data_processed?: string[]
+          description?: string | null
+          dpa_status?: string
+          id?: string
+          privacy_url?: string | null
+          public_visible?: boolean
+          region_ids?: string[]
+          removed_at?: string | null
+          security_url?: string | null
+          service_category: string
+          status?: string
+          team_id?: string | null
+          trust_center_id?: string | null
+          updated_at?: string
+          vendor_name: string
+          website_url?: string | null
+        }
+        Update: {
+          added_at?: string | null
+          countries?: string[]
+          created_at?: string
+          created_by?: string | null
+          data_processed?: string[]
+          description?: string | null
+          dpa_status?: string
+          id?: string
+          privacy_url?: string | null
+          public_visible?: boolean
+          region_ids?: string[]
+          removed_at?: string | null
+          security_url?: string | null
+          service_category?: string
+          status?: string
+          team_id?: string | null
+          trust_center_id?: string | null
+          updated_at?: string
+          vendor_name?: string
+          website_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subprocessor_register_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subprocessor_register_trust_center_id_fkey"
+            columns: ["trust_center_id"]
+            isOneToOne: false
+            referencedRelation: "trust_centers"
             referencedColumns: ["id"]
           },
         ]
@@ -10647,6 +11330,524 @@ export type Database = {
         }
         Relationships: []
       }
+      trust_access_policies: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          enabled: boolean
+          id: string
+          name: string
+          policy_type: string
+          priority: number
+          rules: Json
+          team_id: string | null
+          trust_center_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          id?: string
+          name: string
+          policy_type: string
+          priority?: number
+          rules?: Json
+          team_id?: string | null
+          trust_center_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          id?: string
+          name?: string
+          policy_type?: string
+          priority?: number
+          rules?: Json
+          team_id?: string | null
+          trust_center_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trust_access_policies_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trust_access_policies_trust_center_id_fkey"
+            columns: ["trust_center_id"]
+            isOneToOne: false
+            referencedRelation: "trust_centers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trust_center_audit_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          description: string | null
+          event_type: string
+          id: string
+          metadata: Json
+          resource_id: string | null
+          resource_type: string | null
+          severity: string
+          status_page_id: string | null
+          team_id: string | null
+          title: string
+          trust_center_id: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          status_page_id?: string | null
+          team_id?: string | null
+          title: string
+          trust_center_id?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          status_page_id?: string | null
+          team_id?: string | null
+          title?: string
+          trust_center_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trust_center_audit_events_status_page_id_fkey"
+            columns: ["status_page_id"]
+            isOneToOne: false
+            referencedRelation: "status_pages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trust_center_audit_events_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trust_center_audit_events_trust_center_id_fkey"
+            columns: ["trust_center_id"]
+            isOneToOne: false
+            referencedRelation: "trust_centers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trust_center_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string | null
+          title: string
+          trust_center_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string | null
+          title: string
+          trust_center_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string | null
+          title?: string
+          trust_center_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trust_center_reports_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trust_center_reports_trust_center_id_fkey"
+            columns: ["trust_center_id"]
+            isOneToOne: false
+            referencedRelation: "trust_centers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trust_centers: {
+        Row: {
+          activated_at: string | null
+          brand_name: string | null
+          brand_profile_id: string | null
+          created_at: string
+          created_by: string | null
+          custom_domain_id: string | null
+          description: string | null
+          id: string
+          logo_url: string | null
+          name: string
+          partner_id: string | null
+          primary_color: string | null
+          privacy_email: string | null
+          public_summary: string | null
+          security_email: string | null
+          status: string
+          support_email: string | null
+          team_id: string | null
+          trust_center_key: string
+          trust_url: string | null
+          updated_at: string
+          visibility: string
+        }
+        Insert: {
+          activated_at?: string | null
+          brand_name?: string | null
+          brand_profile_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          custom_domain_id?: string | null
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          name: string
+          partner_id?: string | null
+          primary_color?: string | null
+          privacy_email?: string | null
+          public_summary?: string | null
+          security_email?: string | null
+          status?: string
+          support_email?: string | null
+          team_id?: string | null
+          trust_center_key: string
+          trust_url?: string | null
+          updated_at?: string
+          visibility?: string
+        }
+        Update: {
+          activated_at?: string | null
+          brand_name?: string | null
+          brand_profile_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          custom_domain_id?: string | null
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          name?: string
+          partner_id?: string | null
+          primary_color?: string | null
+          privacy_email?: string | null
+          public_summary?: string | null
+          security_email?: string | null
+          status?: string
+          support_email?: string | null
+          team_id?: string | null
+          trust_center_key?: string
+          trust_url?: string | null
+          updated_at?: string
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trust_centers_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trust_document_access_events: {
+        Row: {
+          created_at: string
+          document_id: string | null
+          event_type: string
+          id: string
+          ip_address: unknown
+          metadata: Json
+          request_id: string | null
+          requester_email: string | null
+          team_id: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          document_id?: string | null
+          event_type: string
+          id?: string
+          ip_address?: unknown
+          metadata?: Json
+          request_id?: string | null
+          requester_email?: string | null
+          team_id?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          document_id?: string | null
+          event_type?: string
+          id?: string
+          ip_address?: unknown
+          metadata?: Json
+          request_id?: string | null
+          requester_email?: string | null
+          team_id?: string | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trust_document_access_events_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "trust_documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trust_document_access_events_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "trust_document_access_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trust_document_access_events_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trust_document_access_requests: {
+        Row: {
+          access_token_hash: string | null
+          created_at: string
+          decision_note: string | null
+          document_id: string | null
+          expires_at: string | null
+          id: string
+          ip_address: unknown
+          purpose: string | null
+          requester_company: string | null
+          requester_email: string
+          requester_name: string
+          requester_title: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          team_id: string | null
+          trust_center_id: string | null
+          updated_at: string
+          user_agent: string | null
+        }
+        Insert: {
+          access_token_hash?: string | null
+          created_at?: string
+          decision_note?: string | null
+          document_id?: string | null
+          expires_at?: string | null
+          id?: string
+          ip_address?: unknown
+          purpose?: string | null
+          requester_company?: string | null
+          requester_email: string
+          requester_name: string
+          requester_title?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          team_id?: string | null
+          trust_center_id?: string | null
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Update: {
+          access_token_hash?: string | null
+          created_at?: string
+          decision_note?: string | null
+          document_id?: string | null
+          expires_at?: string | null
+          id?: string
+          ip_address?: unknown
+          purpose?: string | null
+          requester_company?: string | null
+          requester_email?: string
+          requester_name?: string
+          requester_title?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          team_id?: string | null
+          trust_center_id?: string | null
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trust_document_access_requests_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "trust_documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trust_document_access_requests_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trust_document_access_requests_trust_center_id_fkey"
+            columns: ["trust_center_id"]
+            isOneToOne: false
+            referencedRelation: "trust_centers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trust_documents: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          checksum_sha256: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          document_type: string
+          effective_date: string | null
+          expiry_date: string | null
+          external_url: string | null
+          file_name: string | null
+          id: string
+          metadata: Json
+          published_at: string | null
+          sensitivity_level: string
+          status: string
+          storage_bucket: string | null
+          storage_path: string | null
+          team_id: string | null
+          title: string
+          trust_center_id: string | null
+          updated_at: string
+          version: string | null
+          visibility: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          checksum_sha256?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          document_type: string
+          effective_date?: string | null
+          expiry_date?: string | null
+          external_url?: string | null
+          file_name?: string | null
+          id?: string
+          metadata?: Json
+          published_at?: string | null
+          sensitivity_level?: string
+          status?: string
+          storage_bucket?: string | null
+          storage_path?: string | null
+          team_id?: string | null
+          title: string
+          trust_center_id?: string | null
+          updated_at?: string
+          version?: string | null
+          visibility?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          checksum_sha256?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          document_type?: string
+          effective_date?: string | null
+          expiry_date?: string | null
+          external_url?: string | null
+          file_name?: string | null
+          id?: string
+          metadata?: Json
+          published_at?: string | null
+          sensitivity_level?: string
+          status?: string
+          storage_bucket?: string | null
+          storage_path?: string | null
+          team_id?: string | null
+          title?: string
+          trust_center_id?: string | null
+          updated_at?: string
+          version?: string | null
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trust_documents_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trust_documents_trust_center_id_fkey"
+            columns: ["trust_center_id"]
+            isOneToOne: false
+            referencedRelation: "trust_centers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       trusted_devices: {
         Row: {
           browser: string | null
@@ -10688,6 +11889,85 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      uptime_summaries: {
+        Row: {
+          calculation_source: string
+          component_id: string | null
+          created_at: string
+          degraded_minutes: number
+          id: string
+          incident_count: number
+          maintenance_minutes: number
+          metadata: Json
+          outage_minutes: number
+          period_end: string
+          period_start: string
+          status: string
+          status_page_id: string
+          team_id: string | null
+          updated_at: string
+          uptime_percent: number | null
+        }
+        Insert: {
+          calculation_source?: string
+          component_id?: string | null
+          created_at?: string
+          degraded_minutes?: number
+          id?: string
+          incident_count?: number
+          maintenance_minutes?: number
+          metadata?: Json
+          outage_minutes?: number
+          period_end: string
+          period_start: string
+          status?: string
+          status_page_id: string
+          team_id?: string | null
+          updated_at?: string
+          uptime_percent?: number | null
+        }
+        Update: {
+          calculation_source?: string
+          component_id?: string | null
+          created_at?: string
+          degraded_minutes?: number
+          id?: string
+          incident_count?: number
+          maintenance_minutes?: number
+          metadata?: Json
+          outage_minutes?: number
+          period_end?: string
+          period_start?: string
+          status?: string
+          status_page_id?: string
+          team_id?: string | null
+          updated_at?: string
+          uptime_percent?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "uptime_summaries_component_id_fkey"
+            columns: ["component_id"]
+            isOneToOne: false
+            referencedRelation: "status_components"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "uptime_summaries_status_page_id_fkey"
+            columns: ["status_page_id"]
+            isOneToOne: false
+            referencedRelation: "status_pages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "uptime_summaries_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       usage_metrics: {
         Row: {
@@ -11634,6 +12914,10 @@ export type Database = {
         Returns: boolean
       }
       is_team_member: {
+        Args: { _team_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_trust_center_manager: {
         Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
