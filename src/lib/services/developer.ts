@@ -145,10 +145,10 @@ export function useUpdateWebhookEndpoint() {
     mutationFn: async (input: { id: string; name?: string; url?: string; events?: string[]; status?: string }) => {
       const { data, error } = await supabase.rpc("update_webhook_endpoint", {
         p_endpoint_id: input.id,
-        p_name: input.name ?? null,
-        p_url: input.url ?? null,
-        p_events: input.events ?? null,
-        p_status: input.status ?? null,
+        p_name: input.name ?? undefined,
+        p_url: input.url ?? undefined,
+        p_events: input.events ?? undefined,
+        p_status: input.status ?? undefined,
       });
       if (error) throw error;
       return data as unknown as WebhookEndpoint;
