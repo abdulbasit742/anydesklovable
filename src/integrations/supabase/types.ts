@@ -2463,6 +2463,354 @@ export type Database = {
           },
         ]
       }
+      command_approval_requests: {
+        Row: {
+          created_at: string
+          decision_note: string | null
+          description: string | null
+          expires_at: string | null
+          id: string
+          job_id: string | null
+          metadata: Json
+          request_type: string
+          requested_by: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          risk_level: string
+          script_id: string | null
+          status: string
+          target_summary: Json
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          decision_note?: string | null
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          job_id?: string | null
+          metadata?: Json
+          request_type: string
+          requested_by?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          risk_level?: string
+          script_id?: string | null
+          status?: string
+          target_summary?: Json
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          decision_note?: string | null
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          job_id?: string | null
+          metadata?: Json
+          request_type?: string
+          requested_by?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          risk_level?: string
+          script_id?: string | null
+          status?: string
+          target_summary?: Json
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      command_policy_evaluations: {
+        Row: {
+          created_at: string
+          decision: string
+          evaluated_at: string
+          evaluated_by: string
+          id: string
+          job_id: string | null
+          matched_pattern: string | null
+          metadata: Json
+          reason: string | null
+          risk_score: number | null
+          rule_id: string | null
+          script_id: string | null
+          team_id: string
+        }
+        Insert: {
+          created_at?: string
+          decision: string
+          evaluated_at?: string
+          evaluated_by?: string
+          id?: string
+          job_id?: string | null
+          matched_pattern?: string | null
+          metadata?: Json
+          reason?: string | null
+          risk_score?: number | null
+          rule_id?: string | null
+          script_id?: string | null
+          team_id: string
+        }
+        Update: {
+          created_at?: string
+          decision?: string
+          evaluated_at?: string
+          evaluated_by?: string
+          id?: string
+          job_id?: string | null
+          matched_pattern?: string | null
+          metadata?: Json
+          reason?: string | null
+          risk_score?: number | null
+          rule_id?: string | null
+          script_id?: string | null
+          team_id?: string
+        }
+        Relationships: []
+      }
+      command_policy_rules: {
+        Row: {
+          config: Json
+          created_at: string
+          created_by: string | null
+          description: string | null
+          enforcement_mode: string
+          id: string
+          name: string
+          pattern: string | null
+          rule_type: string
+          severity: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          enforcement_mode?: string
+          id?: string
+          name: string
+          pattern?: string | null
+          rule_type: string
+          severity?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          enforcement_mode?: string
+          id?: string
+          name?: string
+          pattern?: string | null
+          rule_type?: string
+          severity?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      command_rollback_plans: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          job_id: string | null
+          rollback_script_id: string | null
+          rollback_steps: Json
+          rollback_type: string
+          script_id: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          job_id?: string | null
+          rollback_script_id?: string | null
+          rollback_steps?: Json
+          rollback_type?: string
+          script_id?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          job_id?: string | null
+          rollback_script_id?: string | null
+          rollback_steps?: Json
+          rollback_type?: string
+          script_id?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      command_script_library: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          category: string
+          command_template: Json
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          max_parallel_devices: number | null
+          name: string
+          platform: string
+          requires_approval: boolean | null
+          requires_customer_consent: boolean | null
+          risk_level: string
+          rollback_script_id: string | null
+          script_body: string | null
+          script_hash: string | null
+          script_key: string
+          shell_type: string
+          status: string
+          supports_dry_run: boolean | null
+          supports_rollback: boolean | null
+          team_id: string
+          timeout_seconds: number | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          category?: string
+          command_template?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          max_parallel_devices?: number | null
+          name: string
+          platform?: string
+          requires_approval?: boolean | null
+          requires_customer_consent?: boolean | null
+          risk_level?: string
+          rollback_script_id?: string | null
+          script_body?: string | null
+          script_hash?: string | null
+          script_key: string
+          shell_type?: string
+          status?: string
+          supports_dry_run?: boolean | null
+          supports_rollback?: boolean | null
+          team_id: string
+          timeout_seconds?: number | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          category?: string
+          command_template?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          max_parallel_devices?: number | null
+          name?: string
+          platform?: string
+          requires_approval?: boolean | null
+          requires_customer_consent?: boolean | null
+          risk_level?: string
+          rollback_script_id?: string | null
+          script_body?: string | null
+          script_hash?: string | null
+          script_key?: string
+          shell_type?: string
+          status?: string
+          supports_dry_run?: boolean | null
+          supports_rollback?: boolean | null
+          team_id?: string
+          timeout_seconds?: number | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      command_script_versions: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          change_summary: string | null
+          command_template: Json
+          created_at: string
+          created_by: string | null
+          id: string
+          script_body: string | null
+          script_hash: string | null
+          script_id: string
+          status: string
+          team_id: string
+          version_number: number
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          change_summary?: string | null
+          command_template?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          script_body?: string | null
+          script_hash?: string | null
+          script_id: string
+          status?: string
+          team_id: string
+          version_number: number
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          change_summary?: string | null
+          command_template?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          script_body?: string | null
+          script_hash?: string | null
+          script_id?: string
+          status?: string
+          team_id?: string
+          version_number?: number
+        }
+        Relationships: []
+      }
       compliance_controls: {
         Row: {
           control_domain: string | null
@@ -3372,6 +3720,165 @@ export type Database = {
         }
         Relationships: []
       }
+      device_agent_audit_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          description: string | null
+          device_id: string | null
+          event_type: string
+          id: string
+          job_id: string | null
+          metadata: Json
+          playbook_id: string | null
+          resource_id: string | null
+          resource_type: string | null
+          script_id: string | null
+          severity: string
+          team_id: string
+          title: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          device_id?: string | null
+          event_type: string
+          id?: string
+          job_id?: string | null
+          metadata?: Json
+          playbook_id?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          script_id?: string | null
+          severity?: string
+          team_id: string
+          title: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          device_id?: string | null
+          event_type?: string
+          id?: string
+          job_id?: string | null
+          metadata?: Json
+          playbook_id?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          script_id?: string | null
+          severity?: string
+          team_id?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      device_agent_profiles: {
+        Row: {
+          agent_status: string
+          agent_version: string | null
+          architecture: string | null
+          capabilities: string[]
+          created_at: string
+          device_id: string
+          execution_mode: string
+          id: string
+          last_capability_report_at: string | null
+          last_heartbeat_at: string | null
+          metadata: Json
+          platform: string | null
+          policy_status: string
+          supported_shells: string[]
+          team_id: string
+          trust_level: string
+          updated_at: string
+        }
+        Insert: {
+          agent_status?: string
+          agent_version?: string | null
+          architecture?: string | null
+          capabilities?: string[]
+          created_at?: string
+          device_id: string
+          execution_mode?: string
+          id?: string
+          last_capability_report_at?: string | null
+          last_heartbeat_at?: string | null
+          metadata?: Json
+          platform?: string | null
+          policy_status?: string
+          supported_shells?: string[]
+          team_id: string
+          trust_level?: string
+          updated_at?: string
+        }
+        Update: {
+          agent_status?: string
+          agent_version?: string | null
+          architecture?: string | null
+          capabilities?: string[]
+          created_at?: string
+          device_id?: string
+          execution_mode?: string
+          id?: string
+          last_capability_report_at?: string | null
+          last_heartbeat_at?: string | null
+          metadata?: Json
+          platform?: string | null
+          policy_status?: string
+          supported_shells?: string[]
+          team_id?: string
+          trust_level?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      device_agent_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       device_audit_events: {
         Row: {
           actor_id: string | null
@@ -3422,6 +3929,273 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      device_command_job_targets: {
+        Row: {
+          agent_profile_id: string | null
+          completed_at: string | null
+          created_at: string
+          customer_account_id: string | null
+          device_id: string
+          dispatch_attempts: number | null
+          dispatch_token_hash: string | null
+          error_code: string | null
+          error_message: string | null
+          id: string
+          job_id: string
+          last_dispatched_at: string | null
+          metadata: Json
+          result_summary: string | null
+          started_at: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          agent_profile_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          device_id: string
+          dispatch_attempts?: number | null
+          dispatch_token_hash?: string | null
+          error_code?: string | null
+          error_message?: string | null
+          id?: string
+          job_id: string
+          last_dispatched_at?: string | null
+          metadata?: Json
+          result_summary?: string | null
+          started_at?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          agent_profile_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          device_id?: string
+          dispatch_attempts?: number | null
+          dispatch_token_hash?: string | null
+          error_code?: string | null
+          error_message?: string | null
+          id?: string
+          job_id?: string
+          last_dispatched_at?: string | null
+          metadata?: Json
+          result_summary?: string | null
+          started_at?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      device_command_jobs: {
+        Row: {
+          approval_request_id: string | null
+          approved_by: string | null
+          canceled_at: string | null
+          canceled_by: string | null
+          command_source: string
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          customer_account_id: string | null
+          description: string | null
+          execution_mode: string
+          id: string
+          incident_id: string | null
+          job_number: string | null
+          job_type: string
+          max_parallel_devices: number | null
+          metadata: Json
+          requires_approval: boolean | null
+          risk_level: string
+          rollback_job_id: string | null
+          scheduled_for: string | null
+          script_id: string | null
+          script_version_id: string | null
+          started_at: string | null
+          status: string
+          support_ticket_id: string | null
+          target_config: Json
+          target_type: string
+          team_id: string
+          timeout_seconds: number | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          approval_request_id?: string | null
+          approved_by?: string | null
+          canceled_at?: string | null
+          canceled_by?: string | null
+          command_source?: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          description?: string | null
+          execution_mode?: string
+          id?: string
+          incident_id?: string | null
+          job_number?: string | null
+          job_type?: string
+          max_parallel_devices?: number | null
+          metadata?: Json
+          requires_approval?: boolean | null
+          risk_level?: string
+          rollback_job_id?: string | null
+          scheduled_for?: string | null
+          script_id?: string | null
+          script_version_id?: string | null
+          started_at?: string | null
+          status?: string
+          support_ticket_id?: string | null
+          target_config?: Json
+          target_type?: string
+          team_id: string
+          timeout_seconds?: number | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          approval_request_id?: string | null
+          approved_by?: string | null
+          canceled_at?: string | null
+          canceled_by?: string | null
+          command_source?: string
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          description?: string | null
+          execution_mode?: string
+          id?: string
+          incident_id?: string | null
+          job_number?: string | null
+          job_type?: string
+          max_parallel_devices?: number | null
+          metadata?: Json
+          requires_approval?: boolean | null
+          risk_level?: string
+          rollback_job_id?: string | null
+          scheduled_for?: string | null
+          script_id?: string | null
+          script_version_id?: string | null
+          started_at?: string | null
+          status?: string
+          support_ticket_id?: string | null
+          target_config?: Json
+          target_type?: string
+          team_id?: string
+          timeout_seconds?: number | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      device_command_logs: {
+        Row: {
+          created_at: string
+          device_id: string | null
+          id: string
+          job_id: string
+          log_level: string
+          message: string
+          metadata: Json
+          source: string
+          target_id: string | null
+          team_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_id?: string | null
+          id?: string
+          job_id: string
+          log_level?: string
+          message: string
+          metadata?: Json
+          source?: string
+          target_id?: string | null
+          team_id: string
+        }
+        Update: {
+          created_at?: string
+          device_id?: string | null
+          id?: string
+          job_id?: string
+          log_level?: string
+          message?: string
+          metadata?: Json
+          source?: string
+          target_id?: string | null
+          team_id?: string
+        }
+        Relationships: []
+      }
+      device_command_results: {
+        Row: {
+          artifact_id: string | null
+          checksum_sha256: string | null
+          created_at: string
+          device_id: string
+          exit_code: number | null
+          id: string
+          job_id: string
+          metadata: Json
+          output_json: Json
+          reported_at: string
+          reported_by: string
+          status: string
+          stderr_preview: string | null
+          stdout_preview: string | null
+          storage_path: string | null
+          target_id: string
+          team_id: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          checksum_sha256?: string | null
+          created_at?: string
+          device_id: string
+          exit_code?: number | null
+          id?: string
+          job_id: string
+          metadata?: Json
+          output_json?: Json
+          reported_at?: string
+          reported_by?: string
+          status: string
+          stderr_preview?: string | null
+          stdout_preview?: string | null
+          storage_path?: string | null
+          target_id: string
+          team_id: string
+        }
+        Update: {
+          artifact_id?: string | null
+          checksum_sha256?: string | null
+          created_at?: string
+          device_id?: string
+          exit_code?: number | null
+          id?: string
+          job_id?: string
+          metadata?: Json
+          output_json?: Json
+          reported_at?: string
+          reported_by?: string
+          status?: string
+          stderr_preview?: string | null
+          stdout_preview?: string | null
+          storage_path?: string | null
+          target_id?: string
+          team_id?: string
+        }
+        Relationships: []
       }
       device_contacts: {
         Row: {
@@ -3485,6 +4259,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      device_diagnostic_snapshots: {
+        Row: {
+          collected_at: string
+          collected_by_job_id: string | null
+          created_at: string
+          data: Json
+          device_id: string
+          id: string
+          sensitivity_level: string
+          snapshot_type: string
+          status: string
+          summary: string | null
+          team_id: string
+        }
+        Insert: {
+          collected_at?: string
+          collected_by_job_id?: string | null
+          created_at?: string
+          data?: Json
+          device_id: string
+          id?: string
+          sensitivity_level?: string
+          snapshot_type: string
+          status?: string
+          summary?: string | null
+          team_id: string
+        }
+        Update: {
+          collected_at?: string
+          collected_by_job_id?: string | null
+          created_at?: string
+          data?: Json
+          device_id?: string
+          id?: string
+          sensitivity_level?: string
+          snapshot_type?: string
+          status?: string
+          summary?: string | null
+          team_id?: string
+        }
+        Relationships: []
       }
       device_group_members: {
         Row: {
@@ -9316,6 +10132,165 @@ export type Database = {
           },
         ]
       }
+      remediation_playbook_run_steps: {
+        Row: {
+          command_job_id: string | null
+          completed_at: string | null
+          created_at: string
+          error_message: string | null
+          id: string
+          output: Json
+          playbook_run_id: string
+          started_at: string | null
+          status: string
+          step_order: number
+          step_type: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          command_job_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          output?: Json
+          playbook_run_id: string
+          started_at?: string | null
+          status?: string
+          step_order: number
+          step_type: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          command_job_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          output?: Json
+          playbook_run_id?: string
+          started_at?: string | null
+          status?: string
+          step_order?: number
+          step_type?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      remediation_playbook_runs: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          incident_id: string | null
+          metadata: Json
+          playbook_id: string
+          started_at: string | null
+          status: string
+          support_ticket_id: string | null
+          target_config: Json
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          incident_id?: string | null
+          metadata?: Json
+          playbook_id: string
+          started_at?: string | null
+          status?: string
+          support_ticket_id?: string | null
+          target_config?: Json
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          incident_id?: string | null
+          metadata?: Json
+          playbook_id?: string
+          started_at?: string | null
+          status?: string
+          support_ticket_id?: string | null
+          target_config?: Json
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      remediation_playbooks: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          category: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          name: string
+          playbook_key: string
+          required_permissions: string[]
+          requires_approval: boolean | null
+          risk_level: string
+          status: string
+          steps: Json
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          playbook_key: string
+          required_permissions?: string[]
+          requires_approval?: boolean | null
+          risk_level?: string
+          status?: string
+          steps?: Json
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          playbook_key?: string
+          required_permissions?: string[]
+          requires_approval?: boolean | null
+          risk_level?: string
+          status?: string
+          steps?: Json
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       remote_input_policies: {
         Row: {
           allow_keyboard: boolean
@@ -13827,6 +14802,10 @@ export type Database = {
         Returns: boolean
       }
       is_billing_manager: {
+        Args: { _team_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_command_admin: {
         Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
