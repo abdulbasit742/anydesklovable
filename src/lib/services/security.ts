@@ -91,7 +91,7 @@ export type EnrollResult = {
 };
 
 export async function startMfaEnrollment(friendlyName = "RemoteDesk"): Promise<EnrollResult> {
-  await supabase.rpc("record_mfa_enrollment_started").catch(() => {});
+  try { await supabase.rpc("record_mfa_enrollment_started"); } catch { /* non-fatal */ }
   const { data, error } = await supabase.auth.mfa.enroll({ factorType: "totp", friendlyName });
   if (error) throw error;
   return {
