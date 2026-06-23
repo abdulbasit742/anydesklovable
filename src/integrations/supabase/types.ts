@@ -6509,6 +6509,504 @@ export type Database = {
           },
         ]
       }
+      data_access_requests: {
+        Row: {
+          asset_id: string | null
+          business_justification: string | null
+          created_at: string
+          decided_at: string | null
+          decision_note: string | null
+          expires_at: string | null
+          field_id: string | null
+          id: string
+          metadata: Json
+          purpose: string | null
+          request_key: string | null
+          request_type: string
+          requester_user_id: string | null
+          reviewer_user_id: string | null
+          sensitivity_level: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          asset_id?: string | null
+          business_justification?: string | null
+          created_at?: string
+          decided_at?: string | null
+          decision_note?: string | null
+          expires_at?: string | null
+          field_id?: string | null
+          id?: string
+          metadata?: Json
+          purpose?: string | null
+          request_key?: string | null
+          request_type?: string
+          requester_user_id?: string | null
+          reviewer_user_id?: string | null
+          sensitivity_level?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          asset_id?: string | null
+          business_justification?: string | null
+          created_at?: string
+          decided_at?: string | null
+          decision_note?: string | null
+          expires_at?: string | null
+          field_id?: string | null
+          id?: string
+          metadata?: Json
+          purpose?: string | null
+          request_key?: string | null
+          request_type?: string
+          requester_user_id?: string | null
+          reviewer_user_id?: string | null
+          sensitivity_level?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_access_requests_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "data_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "data_access_requests_field_id_fkey"
+            columns: ["field_id"]
+            isOneToOne: false
+            referencedRelation: "data_asset_fields"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_asset_fields: {
+        Row: {
+          asset_id: string
+          classification_status: string
+          created_at: string
+          data_type: string
+          description: string | null
+          display_name: string | null
+          field_key: string
+          glossary_term_id: string | null
+          id: string
+          is_foreign_key: boolean
+          is_primary_key: boolean
+          metadata: Json
+          name: string
+          nullable: boolean
+          pii_type: string
+          referenced_asset_id: string | null
+          referenced_field_id: string | null
+          sample_value_redacted: string | null
+          sensitivity_level: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          asset_id: string
+          classification_status?: string
+          created_at?: string
+          data_type?: string
+          description?: string | null
+          display_name?: string | null
+          field_key: string
+          glossary_term_id?: string | null
+          id?: string
+          is_foreign_key?: boolean
+          is_primary_key?: boolean
+          metadata?: Json
+          name: string
+          nullable?: boolean
+          pii_type?: string
+          referenced_asset_id?: string | null
+          referenced_field_id?: string | null
+          sample_value_redacted?: string | null
+          sensitivity_level?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          asset_id?: string
+          classification_status?: string
+          created_at?: string
+          data_type?: string
+          description?: string | null
+          display_name?: string | null
+          field_key?: string
+          glossary_term_id?: string | null
+          id?: string
+          is_foreign_key?: boolean
+          is_primary_key?: boolean
+          metadata?: Json
+          name?: string
+          nullable?: boolean
+          pii_type?: string
+          referenced_asset_id?: string | null
+          referenced_field_id?: string | null
+          sample_value_redacted?: string | null
+          sensitivity_level?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_asset_fields_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "data_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "data_asset_fields_referenced_asset_id_fkey"
+            columns: ["referenced_asset_id"]
+            isOneToOne: false
+            referencedRelation: "data_assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_asset_ownership_history: {
+        Row: {
+          asset_id: string
+          change_reason: string | null
+          changed_at: string
+          changed_by: string | null
+          id: string
+          new_owner_user_id: string | null
+          new_steward_user_id: string | null
+          previous_owner_user_id: string | null
+          previous_steward_user_id: string | null
+          team_id: string
+        }
+        Insert: {
+          asset_id: string
+          change_reason?: string | null
+          changed_at?: string
+          changed_by?: string | null
+          id?: string
+          new_owner_user_id?: string | null
+          new_steward_user_id?: string | null
+          previous_owner_user_id?: string | null
+          previous_steward_user_id?: string | null
+          team_id: string
+        }
+        Update: {
+          asset_id?: string
+          change_reason?: string | null
+          changed_at?: string
+          changed_by?: string | null
+          id?: string
+          new_owner_user_id?: string | null
+          new_steward_user_id?: string | null
+          previous_owner_user_id?: string | null
+          previous_steward_user_id?: string | null
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_asset_ownership_history_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "data_assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_assets: {
+        Row: {
+          asset_key: string
+          asset_type: string
+          classification_status: string
+          created_at: string
+          created_by: string | null
+          data_residency_region_id: string | null
+          description: string | null
+          domain_id: string | null
+          id: string
+          is_system_asset: boolean
+          legal_hold_applicable: boolean
+          metadata: Json
+          name: string
+          owner_user_id: string | null
+          retention_policy_id: string | null
+          sensitivity_level: string
+          source_module: string | null
+          source_resource_id: string | null
+          source_resource_type: string | null
+          source_system: string
+          status: string
+          steward_user_id: string | null
+          team_id: string
+          technical_owner_user_id: string | null
+          updated_at: string
+          workspace_id: string | null
+        }
+        Insert: {
+          asset_key: string
+          asset_type?: string
+          classification_status?: string
+          created_at?: string
+          created_by?: string | null
+          data_residency_region_id?: string | null
+          description?: string | null
+          domain_id?: string | null
+          id?: string
+          is_system_asset?: boolean
+          legal_hold_applicable?: boolean
+          metadata?: Json
+          name: string
+          owner_user_id?: string | null
+          retention_policy_id?: string | null
+          sensitivity_level?: string
+          source_module?: string | null
+          source_resource_id?: string | null
+          source_resource_type?: string | null
+          source_system?: string
+          status?: string
+          steward_user_id?: string | null
+          team_id: string
+          technical_owner_user_id?: string | null
+          updated_at?: string
+          workspace_id?: string | null
+        }
+        Update: {
+          asset_key?: string
+          asset_type?: string
+          classification_status?: string
+          created_at?: string
+          created_by?: string | null
+          data_residency_region_id?: string | null
+          description?: string | null
+          domain_id?: string | null
+          id?: string
+          is_system_asset?: boolean
+          legal_hold_applicable?: boolean
+          metadata?: Json
+          name?: string
+          owner_user_id?: string | null
+          retention_policy_id?: string | null
+          sensitivity_level?: string
+          source_module?: string | null
+          source_resource_id?: string | null
+          source_resource_type?: string | null
+          source_system?: string
+          status?: string
+          steward_user_id?: string | null
+          team_id?: string
+          technical_owner_user_id?: string | null
+          updated_at?: string
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_assets_domain_id_fkey"
+            columns: ["domain_id"]
+            isOneToOne: false
+            referencedRelation: "data_domains"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "data_assets_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "data_catalog_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_catalog_workspaces: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          default_sensitivity: string
+          description: string | null
+          id: string
+          metadata: Json
+          name: string
+          owner_user_id: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          workspace_key: string
+          workspace_type: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          default_sensitivity?: string
+          description?: string | null
+          id?: string
+          metadata?: Json
+          name: string
+          owner_user_id?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+          workspace_key: string
+          workspace_type?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          default_sensitivity?: string
+          description?: string | null
+          id?: string
+          metadata?: Json
+          name?: string
+          owner_user_id?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+          workspace_key?: string
+          workspace_type?: string
+        }
+        Relationships: []
+      }
+      data_classification_findings: {
+        Row: {
+          asset_id: string | null
+          confidence: string
+          created_at: string
+          evidence: Json
+          field_id: string | null
+          finding_type: string
+          id: string
+          pii_type: string | null
+          reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          rule_id: string | null
+          sensitivity_level: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          asset_id?: string | null
+          confidence?: string
+          created_at?: string
+          evidence?: Json
+          field_id?: string | null
+          finding_type?: string
+          id?: string
+          pii_type?: string | null
+          reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          rule_id?: string | null
+          sensitivity_level?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          asset_id?: string | null
+          confidence?: string
+          created_at?: string
+          evidence?: Json
+          field_id?: string | null
+          finding_type?: string
+          id?: string
+          pii_type?: string | null
+          reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          rule_id?: string | null
+          sensitivity_level?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_classification_findings_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "data_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "data_classification_findings_field_id_fkey"
+            columns: ["field_id"]
+            isOneToOne: false
+            referencedRelation: "data_asset_fields"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "data_classification_findings_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "data_classification_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_classification_rules: {
+        Row: {
+          conditions: Json
+          confidence: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          enforcement_mode: string
+          id: string
+          name: string
+          pattern: string | null
+          pii_type: string
+          rule_key: string
+          rule_type: string
+          sensitivity_level: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          conditions?: Json
+          confidence?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          enforcement_mode?: string
+          id?: string
+          name: string
+          pattern?: string | null
+          pii_type?: string
+          rule_key: string
+          rule_type?: string
+          sensitivity_level: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          conditions?: Json
+          confidence?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          enforcement_mode?: string
+          id?: string
+          name?: string
+          pattern?: string | null
+          pii_type?: string
+          rule_key?: string
+          rule_type?: string
+          sensitivity_level?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       data_deletion_requests: {
         Row: {
           action: string
@@ -6570,6 +7068,295 @@ export type Database = {
             columns: ["legal_hold_id"]
             isOneToOne: false
             referencedRelation: "legal_holds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_domains: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          domain_key: string
+          domain_type: string
+          id: string
+          metadata: Json
+          name: string
+          owner_user_id: string | null
+          parent_domain_id: string | null
+          status: string
+          steward_user_id: string | null
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          domain_key: string
+          domain_type?: string
+          id?: string
+          metadata?: Json
+          name: string
+          owner_user_id?: string | null
+          parent_domain_id?: string | null
+          status?: string
+          steward_user_id?: string | null
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          domain_key?: string
+          domain_type?: string
+          id?: string
+          metadata?: Json
+          name?: string
+          owner_user_id?: string | null
+          parent_domain_id?: string | null
+          status?: string
+          steward_user_id?: string | null
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_domains_parent_domain_id_fkey"
+            columns: ["parent_domain_id"]
+            isOneToOne: false
+            referencedRelation: "data_domains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_lineage_edges: {
+        Row: {
+          confidence: string
+          created_at: string
+          created_by: string | null
+          id: string
+          lineage_type: string
+          metadata: Json
+          source_asset_id: string
+          source_field_id: string | null
+          source_module: string | null
+          status: string
+          target_asset_id: string
+          target_field_id: string | null
+          target_module: string | null
+          team_id: string
+          transformation_summary: string | null
+          updated_at: string
+        }
+        Insert: {
+          confidence?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          lineage_type?: string
+          metadata?: Json
+          source_asset_id: string
+          source_field_id?: string | null
+          source_module?: string | null
+          status?: string
+          target_asset_id: string
+          target_field_id?: string | null
+          target_module?: string | null
+          team_id: string
+          transformation_summary?: string | null
+          updated_at?: string
+        }
+        Update: {
+          confidence?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          lineage_type?: string
+          metadata?: Json
+          source_asset_id?: string
+          source_field_id?: string | null
+          source_module?: string | null
+          status?: string
+          target_asset_id?: string
+          target_field_id?: string | null
+          target_module?: string | null
+          team_id?: string
+          transformation_summary?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_lineage_edges_source_asset_id_fkey"
+            columns: ["source_asset_id"]
+            isOneToOne: false
+            referencedRelation: "data_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "data_lineage_edges_source_field_id_fkey"
+            columns: ["source_field_id"]
+            isOneToOne: false
+            referencedRelation: "data_asset_fields"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "data_lineage_edges_target_asset_id_fkey"
+            columns: ["target_asset_id"]
+            isOneToOne: false
+            referencedRelation: "data_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "data_lineage_edges_target_field_id_fkey"
+            columns: ["target_field_id"]
+            isOneToOne: false
+            referencedRelation: "data_asset_fields"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_quality_check_runs: {
+        Row: {
+          asset_id: string | null
+          checked_count: number | null
+          created_at: string
+          error_message: string | null
+          failed_count: number | null
+          findings: Json
+          finished_at: string | null
+          id: string
+          quality_score: number | null
+          result_summary: string | null
+          rule_id: string
+          run_type: string
+          started_at: string
+          started_by: string | null
+          status: string
+          team_id: string
+        }
+        Insert: {
+          asset_id?: string | null
+          checked_count?: number | null
+          created_at?: string
+          error_message?: string | null
+          failed_count?: number | null
+          findings?: Json
+          finished_at?: string | null
+          id?: string
+          quality_score?: number | null
+          result_summary?: string | null
+          rule_id: string
+          run_type?: string
+          started_at?: string
+          started_by?: string | null
+          status?: string
+          team_id: string
+        }
+        Update: {
+          asset_id?: string | null
+          checked_count?: number | null
+          created_at?: string
+          error_message?: string | null
+          failed_count?: number | null
+          findings?: Json
+          finished_at?: string | null
+          id?: string
+          quality_score?: number | null
+          result_summary?: string | null
+          rule_id?: string
+          run_type?: string
+          started_at?: string
+          started_by?: string | null
+          status?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_quality_check_runs_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "data_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "data_quality_check_runs_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "data_quality_rule_registry"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_quality_rule_registry: {
+        Row: {
+          asset_id: string | null
+          config: Json
+          created_at: string
+          created_by: string | null
+          description: string | null
+          field_id: string | null
+          id: string
+          name: string
+          owner_user_id: string | null
+          rule_key: string
+          rule_type: string
+          schedule_label: string | null
+          severity: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          asset_id?: string | null
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          field_id?: string | null
+          id?: string
+          name: string
+          owner_user_id?: string | null
+          rule_key: string
+          rule_type?: string
+          schedule_label?: string | null
+          severity?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          asset_id?: string | null
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          field_id?: string | null
+          id?: string
+          name?: string
+          owner_user_id?: string | null
+          rule_key?: string
+          rule_type?: string
+          schedule_label?: string | null
+          severity?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_quality_rule_registry_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "data_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "data_quality_rule_registry_field_id_fkey"
+            columns: ["field_id"]
+            isOneToOne: false
+            referencedRelation: "data_asset_fields"
             referencedColumns: ["id"]
           },
         ]
@@ -13321,6 +14108,75 @@ export type Database = {
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      metadata_scan_jobs: {
+        Row: {
+          asset_id: string | null
+          created_at: string
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          input: Json
+          output: Json
+          provider: string
+          requested_by: string | null
+          scan_type: string
+          started_at: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          workspace_id: string | null
+        }
+        Insert: {
+          asset_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          input?: Json
+          output?: Json
+          provider?: string
+          requested_by?: string | null
+          scan_type?: string
+          started_at?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+          workspace_id?: string | null
+        }
+        Update: {
+          asset_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          input?: Json
+          output?: Json
+          provider?: string
+          requested_by?: string | null
+          scan_type?: string
+          started_at?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "metadata_scan_jobs_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "data_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "metadata_scan_jobs_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "data_catalog_workspaces"
             referencedColumns: ["id"]
           },
         ]
