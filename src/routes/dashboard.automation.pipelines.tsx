@@ -21,6 +21,8 @@ export const Route = createFileRoute("/dashboard/automation/pipelines")({
 function PipelinesPage() {
   const { data } = useAutomationPipelines();
   const create = useCreateAutomationRow("automation_pipelines", "automation_pipelines");
+  const runPipeline = useRunAutomationPipeline();
+  const archivePipeline = useArchiveAutomationPipeline();
   const [status, setStatus] = useState<string>("all");
   const [mode, setMode] = useState<string>("all");
   const [openCreate, setOpenCreate] = useState(false);
