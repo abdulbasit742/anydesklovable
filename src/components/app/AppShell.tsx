@@ -25,6 +25,7 @@ const groups: NavGroup[] = [
       { to: "/dashboard/sessions", label: "Sessions", icon: Activity },
       { to: "/dashboard/contacts", label: "Address book", icon: BookUser },
       { to: "/dashboard/mobile", label: "Mobile access", icon: Smartphone },
+      { to: "/dashboard/notifications", label: "Notifications", icon: BellRing },
       { to: "/dashboard/audit", label: "Audit logs", icon: FileText },
     ],
   },
