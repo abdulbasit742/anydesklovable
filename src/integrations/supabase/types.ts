@@ -64,7 +64,9 @@ export type Database = {
           last_used_at: string | null
           name: string
           revoked_at: string | null
+          revoked_by: string | null
           scopes: string[]
+          status: string
           team_id: string
           updated_at: string
         }
@@ -78,7 +80,9 @@ export type Database = {
           last_used_at?: string | null
           name: string
           revoked_at?: string | null
+          revoked_by?: string | null
           scopes?: string[]
+          status?: string
           team_id: string
           updated_at?: string
         }
@@ -92,7 +96,9 @@ export type Database = {
           last_used_at?: string | null
           name?: string
           revoked_at?: string | null
+          revoked_by?: string | null
           scopes?: string[]
+          status?: string
           team_id?: string
           updated_at?: string
         }
@@ -105,6 +111,102 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      api_rate_limit_events: {
+        Row: {
+          allowed: boolean
+          api_key_id: string | null
+          created_at: string
+          id: string
+          limit_count: number | null
+          limit_key: string
+          metadata: Json
+          reason: string | null
+          remaining: number | null
+          reset_at: string | null
+          scope: string
+          team_id: string
+        }
+        Insert: {
+          allowed: boolean
+          api_key_id?: string | null
+          created_at?: string
+          id?: string
+          limit_count?: number | null
+          limit_key: string
+          metadata?: Json
+          reason?: string | null
+          remaining?: number | null
+          reset_at?: string | null
+          scope: string
+          team_id: string
+        }
+        Update: {
+          allowed?: boolean
+          api_key_id?: string | null
+          created_at?: string
+          id?: string
+          limit_count?: number | null
+          limit_key?: string
+          metadata?: Json
+          reason?: string | null
+          remaining?: number | null
+          reset_at?: string | null
+          scope?: string
+          team_id?: string
+        }
+        Relationships: []
+      }
+      api_requests: {
+        Row: {
+          api_key_id: string | null
+          created_at: string
+          error_code: string | null
+          error_message: string | null
+          id: string
+          ip_address: unknown
+          latency_ms: number | null
+          metadata: Json
+          method: string
+          path: string
+          request_id: string
+          status_code: number
+          team_id: string
+          user_agent: string | null
+        }
+        Insert: {
+          api_key_id?: string | null
+          created_at?: string
+          error_code?: string | null
+          error_message?: string | null
+          id?: string
+          ip_address?: unknown
+          latency_ms?: number | null
+          metadata?: Json
+          method: string
+          path: string
+          request_id: string
+          status_code: number
+          team_id: string
+          user_agent?: string | null
+        }
+        Update: {
+          api_key_id?: string | null
+          created_at?: string
+          error_code?: string | null
+          error_message?: string | null
+          id?: string
+          ip_address?: unknown
+          latency_ms?: number | null
+          metadata?: Json
+          method?: string
+          path?: string
+          request_id?: string
+          status_code?: number
+          team_id?: string
+          user_agent?: string | null
+        }
+        Relationships: []
       }
       audit_logs: {
         Row: {
@@ -945,6 +1047,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      developer_docs_feedback: {
+        Row: {
+          created_at: string
+          feedback: string | null
+          id: string
+          page: string
+          rating: number | null
+          team_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          page: string
+          rating?: number | null
+          team_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          page?: string
+          rating?: number | null
+          team_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
       }
       device_audit_events: {
         Row: {
@@ -2338,6 +2470,162 @@ export type Database = {
         }
         Relationships: []
       }
+      webhook_deliveries: {
+        Row: {
+          attempt_count: number
+          created_at: string
+          delivered_at: string | null
+          endpoint_id: string
+          error_message: string | null
+          event_id: string | null
+          event_type: string
+          id: string
+          max_attempts: number
+          next_retry_at: string | null
+          payload: Json
+          response_body: string | null
+          response_status: number | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          attempt_count?: number
+          created_at?: string
+          delivered_at?: string | null
+          endpoint_id: string
+          error_message?: string | null
+          event_id?: string | null
+          event_type: string
+          id?: string
+          max_attempts?: number
+          next_retry_at?: string | null
+          payload?: Json
+          response_body?: string | null
+          response_status?: number | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          attempt_count?: number
+          created_at?: string
+          delivered_at?: string | null
+          endpoint_id?: string
+          error_message?: string | null
+          event_id?: string | null
+          event_type?: string
+          id?: string
+          max_attempts?: number
+          next_retry_at?: string | null
+          payload?: Json
+          response_body?: string | null
+          response_status?: number | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "webhook_deliveries_endpoint_id_fkey"
+            columns: ["endpoint_id"]
+            isOneToOne: false
+            referencedRelation: "webhook_endpoints"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "webhook_deliveries_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "webhook_events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      webhook_endpoints: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          events: string[]
+          failure_count: number
+          id: string
+          last_delivery_at: string | null
+          last_failure_at: string | null
+          last_success_at: string | null
+          name: string
+          secret_hash: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          events?: string[]
+          failure_count?: number
+          id?: string
+          last_delivery_at?: string | null
+          last_failure_at?: string | null
+          last_success_at?: string | null
+          name: string
+          secret_hash?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          events?: string[]
+          failure_count?: number
+          id?: string
+          last_delivery_at?: string | null
+          last_failure_at?: string | null
+          last_success_at?: string | null
+          name?: string
+          secret_hash?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      webhook_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          payload: Json
+          resource_id: string | null
+          resource_type: string | null
+          source: string
+          team_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          payload?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          source?: string
+          team_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          payload?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          source?: string
+          team_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -2447,6 +2735,33 @@ export type Database = {
         SetofOptions: {
           from: "*"
           to: "automation_tasks"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      claim_next_webhook_delivery: {
+        Args: never
+        Returns: {
+          attempt_count: number
+          created_at: string
+          delivered_at: string | null
+          endpoint_id: string
+          error_message: string | null
+          event_id: string | null
+          event_type: string
+          id: string
+          max_attempts: number
+          next_retry_at: string | null
+          payload: Json
+          response_body: string | null
+          response_status: number | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "webhook_deliveries"
           isOneToOne: true
           isSetofReturn: false
         }
@@ -2632,6 +2947,46 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      create_webhook_endpoint: {
+        Args: {
+          p_events: string[]
+          p_name: string
+          p_secret_hash?: string
+          p_url: string
+        }
+        Returns: {
+          created_at: string
+          created_by: string | null
+          events: string[]
+          failure_count: number
+          id: string
+          last_delivery_at: string | null
+          last_failure_at: string | null
+          last_success_at: string | null
+          name: string
+          secret_hash: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          url: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "webhook_endpoints"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      create_webhook_event: {
+        Args: {
+          p_event_type: string
+          p_payload?: Json
+          p_resource_id?: string
+          p_resource_type?: string
+          p_team_id: string
+        }
+        Returns: string
+      }
       disable_mfa: {
         Args: { p_reason?: string }
         Returns: {
@@ -2650,6 +3005,31 @@ export type Database = {
         SetofOptions: {
           from: "*"
           to: "user_mfa_settings"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      disable_webhook_endpoint: {
+        Args: { p_endpoint_id: string }
+        Returns: {
+          created_at: string
+          created_by: string | null
+          events: string[]
+          failure_count: number
+          id: string
+          last_delivery_at: string | null
+          last_failure_at: string | null
+          last_success_at: string | null
+          name: string
+          secret_hash: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          url: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "webhook_endpoints"
           isOneToOne: true
           isSetofReturn: false
         }
@@ -2681,6 +3061,33 @@ export type Database = {
         Returns: undefined
       }
       enqueue_due_scheduled_runs: { Args: never; Returns: number }
+      enqueue_test_webhook_delivery: {
+        Args: { p_endpoint_id: string }
+        Returns: {
+          attempt_count: number
+          created_at: string
+          delivered_at: string | null
+          endpoint_id: string
+          error_message: string | null
+          event_id: string | null
+          event_type: string
+          id: string
+          max_attempts: number
+          next_retry_at: string | null
+          payload: Json
+          response_body: string | null
+          response_status: number | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "webhook_deliveries"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       fail_automation_run: {
         Args: { p_error_message: string; p_output?: Json; p_run_id: string }
         Returns: {
@@ -2787,6 +3194,21 @@ export type Database = {
           successful_runs_24h: number
         }[]
       }
+      get_developer_overview: {
+        Args: { p_team_id: string }
+        Returns: {
+          active_keys: number
+          failed_requests_24h: number
+          rate_limited_24h: number
+          requests_24h: number
+          revoked_keys: number
+          total_keys: number
+          webhook_deliveries_24h: number
+          webhook_endpoints: number
+          webhook_failed_24h: number
+          webhook_success_24h: number
+        }[]
+      }
       get_device_presence_summary: {
         Args: never
         Returns: {
@@ -2835,6 +3257,23 @@ export type Database = {
       is_team_member: {
         Args: { _team_id: string; _user_id: string }
         Returns: boolean
+      }
+      log_api_request: {
+        Args: {
+          p_api_key_id: string
+          p_error_code?: string
+          p_error_message?: string
+          p_ip?: unknown
+          p_latency_ms?: number
+          p_metadata?: Json
+          p_method: string
+          p_path: string
+          p_request_id: string
+          p_status_code: number
+          p_team_id: string
+          p_user_agent?: string
+        }
+        Returns: string
       }
       map_invite_role: {
         Args: { _role: string }
@@ -2901,7 +3340,85 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      mark_webhook_delivery_failed: {
+        Args: {
+          p_delivery_id: string
+          p_error_message: string
+          p_response_body?: string
+          p_response_status?: number
+        }
+        Returns: {
+          attempt_count: number
+          created_at: string
+          delivered_at: string | null
+          endpoint_id: string
+          error_message: string | null
+          event_id: string | null
+          event_type: string
+          id: string
+          max_attempts: number
+          next_retry_at: string | null
+          payload: Json
+          response_body: string | null
+          response_status: number | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "webhook_deliveries"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      mark_webhook_delivery_success: {
+        Args: {
+          p_delivery_id: string
+          p_response_body?: string
+          p_response_status?: number
+        }
+        Returns: {
+          attempt_count: number
+          created_at: string
+          delivered_at: string | null
+          endpoint_id: string
+          error_message: string | null
+          event_id: string | null
+          event_type: string
+          id: string
+          max_attempts: number
+          next_retry_at: string | null
+          payload: Json
+          response_body: string | null
+          response_status: number | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "webhook_deliveries"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       my_team_ids: { Args: { _user_id: string }; Returns: string[] }
+      record_api_rate_limit_event: {
+        Args: {
+          p_allowed: boolean
+          p_api_key_id: string
+          p_limit_count?: number
+          p_limit_key: string
+          p_metadata?: Json
+          p_reason?: string
+          p_remaining?: number
+          p_reset_at?: string
+          p_scope: string
+          p_team_id: string
+        }
+        Returns: string
+      }
       record_automation_log: {
         Args: {
           p_context?: Json
@@ -3098,6 +3615,37 @@ export type Database = {
         Args: { member_id: string; new_role: string }
         Returns: undefined
       }
+      update_webhook_endpoint: {
+        Args: {
+          p_endpoint_id: string
+          p_events?: string[]
+          p_name?: string
+          p_status?: string
+          p_url?: string
+        }
+        Returns: {
+          created_at: string
+          created_by: string | null
+          events: string[]
+          failure_count: number
+          id: string
+          last_delivery_at: string | null
+          last_failure_at: string | null
+          last_success_at: string | null
+          name: string
+          secret_hash: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          url: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "webhook_endpoints"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       upsert_device_presence: {
         Args: {
           p_battery_percent?: number
@@ -3157,6 +3705,15 @@ export type Database = {
           _team_id: string
         }
         Returns: string
+      }
+      verify_api_key_for_request: {
+        Args: { _key_hash: string; _required_scope?: string }
+        Returns: {
+          api_key_id: string
+          scopes: string[]
+          status: string
+          team_id: string
+        }[]
       }
       verify_api_key_hash: {
         Args: { _key_hash: string }

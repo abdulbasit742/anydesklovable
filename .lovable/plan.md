@@ -1,63 +1,88 @@
-This is a large request that bundles two independent features. I'll ship both, scoped tight so we don't balloon the codebase. Confirm and I'll execute end-to-end.
 
-## Part A — Security backend
+# Task #10 — Public API v1 + Webhook Developer Platform
 
-**Migration 1** adds three tables, all owner-scoped via `auth.uid()`:
-- `trusted_devices` — name, fingerprint, browser, os, ip, trusted_at, last_seen_at, revoked_at
-- `active_sessions` — label, ip, user_agent, device_name, location, last_active_at, revoked_at
-- `security_events` — event_type, severity (`info|warning|critical`), ip, user_agent, metadata jsonb
+This is a large feature pack. I'll ship it in 4 phases so each phase is reviewable, builds cleanly, and doesn't break existing features (API keys, presence, MFA, automation).
 
-RLS: users SELECT/UPDATE own rows (revoke = `update revoked_at`); users INSERT own `security_events`; no cross-user reads. GRANTs to `authenticated` + `service_role`. Indexes per spec.
+## Phase 1 — Data model, RLS, RPCs (single migration)
 
-**Service layer** (`src/lib/services/index.ts`): `useTrustedDevices`, `useActiveSessions`, `useSecurityEvents(filters)`, `revokeTrustedDevice`, `revokeActiveSession`, `createSecurityEvent`, `getMfaStatus()` (reads `supabase.auth.mfa.listFactors()` — real read, no fake writes).
+Tables (new or extended):
+- `api_keys` — already exists; add `status`, `expires_at`, `created_by`, `revoked_by` if missing (safe `ADD COLUMN IF NOT EXISTS`).
+- `api_requests` — request log.
+- `api_rate_limit_events` — rate-limit log.
+- `webhook_endpoints` — outbound endpoints (secret stored hashed).
+- `webhook_events` — normalized events.
+- `webhook_deliveries` — queued deliveries with retry metadata.
+- `developer_docs_feedback`.
 
-**Security page** (`dashboard.security.tsx`) — upgrade in place, keep existing cards:
-- MFA card: real status from `listFactors()`; enable/disable buttons disabled with "Requires desktop app enrollment" helper text (since TOTP enroll needs QR flow we're not building this turn).
-- Trusted devices table: list + revoke + empty/loading/error.
-- Active sessions table: list + revoke + "Sign out everywhere" (already wired).
-- Security events timeline: severity + event_type filters, badges, states.
-- All log `createSecurityEvent` on revoke/global signout.
-- Demo banner when tables empty.
+For every new table: GRANT to authenticated + service_role, enable RLS, scope policies via `is_team_member` / `has_role`. Inserts into logs/deliveries only via security-definer RPCs.
 
-## Part B — Billing / usage
+Indexes per spec (team_id+created_at desc, key_prefix, next_retry_at+status, etc.).
 
-**Migration 2** adds:
-- `plan_limits` (seeded: free/pro/business/enterprise with device/seat/minute caps + feature flags). Public read to authenticated; no client writes.
-- `usage_metrics` (user_id XOR team_id, metric_key, metric_value, period_start/end, source, metadata). RLS: own user rows + team rows via `is_team_member`. No client INSERT (schema comment: server-side only).
-- `billing_invoices` (extends concept of existing `invoices` — keep existing table, add this richer one only if needed). **Decision: reuse existing `invoices` table; skip `billing_invoices`** to avoid duplication.
-- `account_subscriptions` — **skip; existing `subscriptions` table covers this.** Add missing columns via ALTER if needed (`billing_interval`, `cancel_at_period_end`, `provider`).
+RPCs (security definer):
+- `log_api_request(...)`, `record_api_rate_limit_event(...)`
+- `verify_api_key_for_request(_key_hash, _required_scope)` → returns team_id, api_key_id, scopes, status, expires_at; updates last_used_at; raises typed errors.
+- `create_webhook_endpoint`, `update_webhook_endpoint`, `disable_webhook_endpoint`, `enqueue_test_webhook_delivery`
+- `create_webhook_event` — inserts event + fan-out deliveries for matching active endpoints.
+- `claim_next_webhook_delivery` (FOR UPDATE SKIP LOCKED), `mark_webhook_delivery_success`, `mark_webhook_delivery_failed` (schedules retry with backoff).
+- Helper: `get_developer_overview()` — counts for dashboard.
 
-**Service layer**: `useCurrentSubscription`, `usePlanLimits`, `useUsageSummary` (computes from `devices`/`sessions`/`team_members`/`support_tickets` when `usage_metrics` empty — fallback banner shown), `useBillingInvoices` (already exists).
+## Phase 2 — Public API auth helper + endpoints
 
-**Billing page** upgrade in place:
-- Current plan card (existing) — add status + period + interval.
-- Usage meters (existing) — expand to: devices, active devices, session minutes, team members, support tickets. Color thresholds 70/90/100. "Unlimited" when null.
-- Over-limit warning card when any meter ≥90%.
-- Plan comparison table (free/pro/business/enterprise) with current-plan badge.
-- Invoice table (existing) — keep.
-- Upgrade modal: target plan + price + CTA → `src/lib/config/checkout.ts` placeholder URLs (clearly marked).
+`src/lib/api/public-auth.ts` — server-only helper:
+- Parses `Authorization: Bearer rd_live_...`
+- SHA-256 hashes the key (Web Crypto), calls `verify_api_key_for_request` via service-role admin client (loaded inside handler).
+- Checks scope, status, expiry.
+- Token-bucket-ish rate limit using `api_rate_limit_events` count in window.
+- Wraps handler: generates `request_id`, captures latency, logs `api_requests`, returns standard `{ error: { code, message, request_id } }` JSON.
 
-**Reusable components** (`src/components/app/billing/`): `UsageMeter`, `PlanBadge`, `PlanComparisonTable`, `UsageWarningCard`, `UpgradePrompt`.
+Routes under `src/routes/api/public/v1/`:
+- `me.ts` (extend existing)
+- `devices.ts`, `devices.$deviceId.ts`, `devices.$deviceId.presence.ts`
+- `sessions.ts`, `sessions.$sessionId.ts`, `sessions.$sessionId.end.ts`
+- `support.tickets.ts`
+- `automation.pipelines.ts`, `automation.pipelines.$pipelineId.run.ts`, `automation.runs.$runId.ts`
+- `notifications.ts`, `audit.logs.ts`, `billing.usage.ts`
+- `webhooks.endpoints.ts`, `webhooks.endpoints.$endpointId.ts`, `webhooks.endpoints.$endpointId.test.ts`
 
-**Dashboard snapshot**: small "Plan & usage" card on `dashboard.index.tsx` (plan badge + devices/sessions meters + upgrade warning if near limit).
+All validated with zod, paginated via cursor where lists.
 
-**Team page**: plan badge + seat usage meter; upgrade CTA disabled for non-owner/admin.
+## Phase 3 — Developer dashboard UI
 
-**Admin page**: accounts-by-plan + over-limit accounts rollup with graceful empty state.
+Rebuild `src/routes/dashboard.developer.tsx` as tabbed shell (Tabs from shadcn):
+1. **Overview** — `DeveloperOverviewCards` (req 24h, failures, rate-limited, webhook success/fail).
+2. **API Keys** — keep existing CRUD + reveal dialog; add scopes via `ApiScopeSelector` (grouped).
+3. **API Logs** — `ApiRequestLogsTable` with filters + detail drawer.
+4. **Rate Limits** — `ApiRateLimitPanel`.
+5. **Webhooks** — `WebhookEndpointsTable`, `WebhookEndpointForm`, `WebhookDeliveryTable`, test button.
+6. **Docs** — `DeveloperDocsPanel` (auth, scopes, endpoints, pagination, errors, rate limits, webhook signing, curl + TS examples).
+7. **Playground** — `ApiPlayground` (method/path/body → generated curl + safe response).
 
-## What I'm explicitly NOT doing
-- No Stripe wiring (placeholder checkout URLs in config only).
-- No MFA enroll flow (status read only — clearly labeled).
-- No new `billing_invoices`/`account_subscriptions` tables — reuse existing `invoices`/`subscriptions` to avoid schema duplication. I'll ALTER `subscriptions` to add `billing_interval`, `cancel_at_period_end`, `provider` if missing.
-- No server-side usage rollup jobs (computed client-side from existing tables with banner).
-- No redesign — every change is in-place on existing routes/components.
+Shared: `CodeBlockWithCopy`.
 
-## Order of execution
-1. Migration 1 (security tables) → wait for approval.
-2. Migration 2 (plan_limits + usage_metrics + subscriptions ALTER + seed) → wait for approval.
-3. Service layer additions.
-4. Security page upgrade.
-5. Billing components + page upgrade.
-6. Dashboard/team/admin touch-ups.
+Hooks/services in `src/lib/services/developer.ts`:
+`useDeveloperOverview`, `useApiKeys`, `useCreateApiKey`, `useRevokeApiKey`, `useApiRequestLogs`, `useApiRateLimitEvents`, `useWebhookEndpoints`, `useCreateWebhookEndpoint`, `useUpdateWebhookEndpoint`, `useDisableWebhookEndpoint`, `useTestWebhookEndpoint`, `useWebhookDeliveries`, `useWebhookEvents`, `useDeveloperDocsFeedback`, `useSubmitDeveloperDocsFeedback`.
 
-Approve and I'll start with Migration 1.
+## Phase 4 — Cross-feature integration
+
+- `dashboard.index` — small "API usage today" card.
+- `dashboard.security` — API security posture panel (active/stale/broad-scope keys, failed auth attempts).
+- `dashboard.automation.index` — show API-triggered runs count.
+- Audit logs + notifications wired into RPCs (key created/revoked, webhook created/disabled, test triggered, repeated failures).
+- Security events recorded for key lifecycle / suspicious activity.
+
+## Honest webhook delivery messaging
+
+Deliveries are **queued only**. UI banner on Webhooks tab and on test action: "Delivery queued. Connect a webhook worker to deliver outbound HTTPS requests." `claim_next_webhook_delivery` is ready for a future worker; signing format documented in Docs tab.
+
+## Acceptance check before completion
+
+- `GET /api/public/v1/me` still works (existing behavior preserved).
+- Revoked/expired/no-scope keys → 401/403 with standard error JSON.
+- RLS prevents cross-team access (verified by policy review).
+- TypeScript builds clean; no duplicate routes; existing pages untouched except the three add-on cards in Phase 4.
+
+---
+
+### Confirm to start
+
+Reply **go** to begin Phase 1 (migration). I'll pause after each phase for review so we don't ship 30+ files in one unreviewable blob.
