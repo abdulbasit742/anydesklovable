@@ -21,6 +21,8 @@ import {
   useDeviceAudit, setDeviceTrust, setUnattendedAccess, rotateUnattendedPassword,
   recordDeviceConnectAttempt, updateDeviceMeta, startRemoteSession, useRealtimeDevices,
 } from "@/lib/services";
+import { useDevicePresence, useDevicePresenceEvents, useMarkDeviceOffline } from "@/lib/services/presence";
+import { DeviceHeartbeatCard } from "@/components/app/presence/DeviceHeartbeatCard";
 import { useCurrentTeam } from "@/hooks/use-current-team";
 
 import { DemoBanner, PanelState } from "@/components/app/DataState";
