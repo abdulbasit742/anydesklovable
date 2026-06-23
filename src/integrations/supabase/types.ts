@@ -20836,6 +20836,1032 @@ export type Database = {
         }
         Relationships: []
       }
+      workflow_action_runs: {
+        Row: {
+          action_id: string
+          app_id: string | null
+          approval_request_id: string | null
+          created_at: string
+          error_message: string | null
+          finished_at: string | null
+          form_submission_id: string | null
+          id: string
+          input: Json
+          output: Json
+          page_id: string | null
+          started_at: string | null
+          status: string
+          team_id: string
+          triggered_by: string | null
+          triggered_source: string
+          updated_at: string
+          workflow_run_id: string | null
+        }
+        Insert: {
+          action_id: string
+          app_id?: string | null
+          approval_request_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          finished_at?: string | null
+          form_submission_id?: string | null
+          id?: string
+          input?: Json
+          output?: Json
+          page_id?: string | null
+          started_at?: string | null
+          status?: string
+          team_id: string
+          triggered_by?: string | null
+          triggered_source?: string
+          updated_at?: string
+          workflow_run_id?: string | null
+        }
+        Update: {
+          action_id?: string
+          app_id?: string | null
+          approval_request_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          finished_at?: string | null
+          form_submission_id?: string | null
+          id?: string
+          input?: Json
+          output?: Json
+          page_id?: string | null
+          started_at?: string | null
+          status?: string
+          team_id?: string
+          triggered_by?: string | null
+          triggered_source?: string
+          updated_at?: string
+          workflow_run_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_action_runs_action_id_fkey"
+            columns: ["action_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_actions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_actions: {
+        Row: {
+          action_key: string
+          action_type: string
+          allowed_roles: string[]
+          app_id: string | null
+          approval_type: string | null
+          config: Json
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          input_schema: Json
+          name: string
+          requires_approval: boolean
+          risk_level: string
+          status: string
+          team_id: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          action_key: string
+          action_type: string
+          allowed_roles?: string[]
+          app_id?: string | null
+          approval_type?: string | null
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          input_schema?: Json
+          name: string
+          requires_approval?: boolean
+          risk_level?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          action_key?: string
+          action_type?: string
+          allowed_roles?: string[]
+          app_id?: string | null
+          approval_type?: string | null
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          input_schema?: Json
+          name?: string
+          requires_approval?: boolean
+          risk_level?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_actions_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_app_pages: {
+        Row: {
+          app_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          layout: Json
+          name: string
+          page_key: string
+          page_type: string
+          route_slug: string | null
+          sort_order: number
+          status: string
+          team_id: string
+          updated_at: string
+          visibility_rules: Json
+        }
+        Insert: {
+          app_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          layout?: Json
+          name: string
+          page_key: string
+          page_type?: string
+          route_slug?: string | null
+          sort_order?: number
+          status?: string
+          team_id: string
+          updated_at?: string
+          visibility_rules?: Json
+        }
+        Update: {
+          app_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          layout?: Json
+          name?: string
+          page_key?: string
+          page_type?: string
+          route_slug?: string | null
+          sort_order?: number
+          status?: string
+          team_id?: string
+          updated_at?: string
+          visibility_rules?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_app_pages_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_app_permissions: {
+        Row: {
+          app_id: string
+          created_at: string
+          expires_at: string | null
+          granted_by: string | null
+          id: string
+          permission: string
+          principal_id: string | null
+          principal_type: string
+          role_name: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          app_id: string
+          created_at?: string
+          expires_at?: string | null
+          granted_by?: string | null
+          id?: string
+          permission: string
+          principal_id?: string | null
+          principal_type?: string
+          role_name?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          app_id?: string
+          created_at?: string
+          expires_at?: string | null
+          granted_by?: string | null
+          id?: string
+          permission?: string
+          principal_id?: string | null
+          principal_type?: string
+          role_name?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_app_permissions_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_apps: {
+        Row: {
+          app_key: string
+          app_type: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          home_page_id: string | null
+          icon: string | null
+          id: string
+          layout: Json
+          name: string
+          owner_user_id: string | null
+          published_at: string | null
+          published_by: string | null
+          status: string
+          team_id: string
+          theme: Json
+          updated_at: string
+          updated_by: string | null
+          visibility: string
+        }
+        Insert: {
+          app_key: string
+          app_type?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          home_page_id?: string | null
+          icon?: string | null
+          id?: string
+          layout?: Json
+          name: string
+          owner_user_id?: string | null
+          published_at?: string | null
+          published_by?: string | null
+          status?: string
+          team_id: string
+          theme?: Json
+          updated_at?: string
+          updated_by?: string | null
+          visibility?: string
+        }
+        Update: {
+          app_key?: string
+          app_type?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          home_page_id?: string | null
+          icon?: string | null
+          id?: string
+          layout?: Json
+          name?: string
+          owner_user_id?: string | null
+          published_at?: string | null
+          published_by?: string | null
+          status?: string
+          team_id?: string
+          theme?: Json
+          updated_at?: string
+          updated_by?: string | null
+          visibility?: string
+        }
+        Relationships: []
+      }
+      workflow_audit_events: {
+        Row: {
+          actor_id: string | null
+          app_id: string | null
+          created_at: string
+          description: string | null
+          event_type: string
+          id: string
+          metadata: Json
+          resource_id: string | null
+          resource_type: string | null
+          severity: string
+          team_id: string
+          title: string
+          workflow_run_id: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          app_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id: string
+          title: string
+          workflow_run_id?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          app_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id?: string
+          title?: string
+          workflow_run_id?: string | null
+        }
+        Relationships: []
+      }
+      workflow_components: {
+        Row: {
+          action_id: string | null
+          app_id: string
+          component_key: string
+          component_type: string
+          config: Json
+          created_at: string
+          data_binding_id: string | null
+          id: string
+          page_id: string
+          sort_order: number
+          status: string
+          team_id: string
+          title: string | null
+          updated_at: string
+          visibility_rules: Json
+        }
+        Insert: {
+          action_id?: string | null
+          app_id: string
+          component_key: string
+          component_type: string
+          config?: Json
+          created_at?: string
+          data_binding_id?: string | null
+          id?: string
+          page_id: string
+          sort_order?: number
+          status?: string
+          team_id: string
+          title?: string | null
+          updated_at?: string
+          visibility_rules?: Json
+        }
+        Update: {
+          action_id?: string | null
+          app_id?: string
+          component_key?: string
+          component_type?: string
+          config?: Json
+          created_at?: string
+          data_binding_id?: string | null
+          id?: string
+          page_id?: string
+          sort_order?: number
+          status?: string
+          team_id?: string
+          title?: string | null
+          updated_at?: string
+          visibility_rules?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_components_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_apps"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_components_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_app_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_data_bindings: {
+        Row: {
+          allowed_operations: string[]
+          app_id: string | null
+          binding_key: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          fields: Json
+          filters: Json
+          id: string
+          name: string
+          resource_type: string | null
+          sensitivity_level: string
+          sort_config: Json
+          source_type: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          allowed_operations?: string[]
+          app_id?: string | null
+          binding_key: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          fields?: Json
+          filters?: Json
+          id?: string
+          name: string
+          resource_type?: string | null
+          sensitivity_level?: string
+          sort_config?: Json
+          source_type?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          allowed_operations?: string[]
+          app_id?: string | null
+          binding_key?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          fields?: Json
+          filters?: Json
+          id?: string
+          name?: string
+          resource_type?: string | null
+          sensitivity_level?: string
+          sort_config?: Json
+          source_type?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_data_bindings_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_form_definitions: {
+        Row: {
+          allow_customer_submit: boolean
+          allow_partner_submit: boolean
+          app_id: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          form_key: string
+          form_type: string
+          id: string
+          name: string
+          page_id: string | null
+          requires_auth: boolean
+          schema: Json
+          status: string
+          submission_target_config: Json
+          submission_target_type: string
+          team_id: string
+          updated_at: string
+          updated_by: string | null
+          validation_rules: Json
+        }
+        Insert: {
+          allow_customer_submit?: boolean
+          allow_partner_submit?: boolean
+          app_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          form_key: string
+          form_type?: string
+          id?: string
+          name: string
+          page_id?: string | null
+          requires_auth?: boolean
+          schema?: Json
+          status?: string
+          submission_target_config?: Json
+          submission_target_type?: string
+          team_id: string
+          updated_at?: string
+          updated_by?: string | null
+          validation_rules?: Json
+        }
+        Update: {
+          allow_customer_submit?: boolean
+          allow_partner_submit?: boolean
+          app_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          form_key?: string
+          form_type?: string
+          id?: string
+          name?: string
+          page_id?: string | null
+          requires_auth?: boolean
+          schema?: Json
+          status?: string
+          submission_target_config?: Json
+          submission_target_type?: string
+          team_id?: string
+          updated_at?: string
+          updated_by?: string | null
+          validation_rules?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_form_definitions_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_apps"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_form_definitions_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_app_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_form_submissions: {
+        Row: {
+          app_id: string | null
+          created_at: string
+          form_id: string
+          id: string
+          linked_resource_id: string | null
+          linked_resource_type: string | null
+          metadata: Json
+          page_id: string | null
+          payload: Json
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          submitted_at: string
+          submitter_customer_user_id: string | null
+          submitter_partner_member_id: string | null
+          submitter_user_id: string | null
+          team_id: string
+          updated_at: string
+          validation_result: Json
+          workflow_run_id: string | null
+        }
+        Insert: {
+          app_id?: string | null
+          created_at?: string
+          form_id: string
+          id?: string
+          linked_resource_id?: string | null
+          linked_resource_type?: string | null
+          metadata?: Json
+          page_id?: string | null
+          payload?: Json
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          submitted_at?: string
+          submitter_customer_user_id?: string | null
+          submitter_partner_member_id?: string | null
+          submitter_user_id?: string | null
+          team_id: string
+          updated_at?: string
+          validation_result?: Json
+          workflow_run_id?: string | null
+        }
+        Update: {
+          app_id?: string | null
+          created_at?: string
+          form_id?: string
+          id?: string
+          linked_resource_id?: string | null
+          linked_resource_type?: string | null
+          metadata?: Json
+          page_id?: string | null
+          payload?: Json
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          submitted_at?: string
+          submitter_customer_user_id?: string | null
+          submitter_partner_member_id?: string | null
+          submitter_user_id?: string | null
+          team_id?: string
+          updated_at?: string
+          validation_result?: Json
+          workflow_run_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_form_submissions_form_id_fkey"
+            columns: ["form_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_form_definitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_published_routes: {
+        Row: {
+          allowed_visibility: string
+          app_id: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          published_at: string
+          published_by: string | null
+          requires_auth: boolean
+          route_slug: string
+          route_type: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          allowed_visibility?: string
+          app_id: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          published_at?: string
+          published_by?: string | null
+          requires_auth?: boolean
+          route_slug: string
+          route_type?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          allowed_visibility?: string
+          app_id?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          published_at?: string
+          published_by?: string | null
+          requires_auth?: boolean
+          route_slug?: string
+          route_type?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_published_routes_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      workflow_run_steps: {
+        Row: {
+          action_run_id: string | null
+          assigned_to: string | null
+          completed_at: string | null
+          created_at: string
+          due_at: string | null
+          error_message: string | null
+          id: string
+          output: Json
+          started_at: string | null
+          status: string
+          step_key: string
+          step_type: string
+          team_id: string
+          title: string
+          updated_at: string
+          workflow_run_id: string
+        }
+        Insert: {
+          action_run_id?: string | null
+          assigned_to?: string | null
+          completed_at?: string | null
+          created_at?: string
+          due_at?: string | null
+          error_message?: string | null
+          id?: string
+          output?: Json
+          started_at?: string | null
+          status?: string
+          step_key: string
+          step_type?: string
+          team_id: string
+          title: string
+          updated_at?: string
+          workflow_run_id: string
+        }
+        Update: {
+          action_run_id?: string | null
+          assigned_to?: string | null
+          completed_at?: string | null
+          created_at?: string
+          due_at?: string | null
+          error_message?: string | null
+          id?: string
+          output?: Json
+          started_at?: string | null
+          status?: string
+          step_key?: string
+          step_type?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+          workflow_run_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_run_steps_workflow_run_id_fkey"
+            columns: ["workflow_run_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_runs: {
+        Row: {
+          app_id: string | null
+          completed_at: string | null
+          created_at: string
+          current_state: string | null
+          customer_account_id: string | null
+          description: string | null
+          due_at: string | null
+          id: string
+          initiated_by: string | null
+          machine_id: string | null
+          metadata: Json
+          partner_client_team_id: string | null
+          priority: string
+          resource_id: string | null
+          resource_type: string | null
+          run_key: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          app_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          current_state?: string | null
+          customer_account_id?: string | null
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          initiated_by?: string | null
+          machine_id?: string | null
+          metadata?: Json
+          partner_client_team_id?: string | null
+          priority?: string
+          resource_id?: string | null
+          resource_type?: string | null
+          run_key?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          app_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          current_state?: string | null
+          customer_account_id?: string | null
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          initiated_by?: string | null
+          machine_id?: string | null
+          metadata?: Json
+          partner_client_team_id?: string | null
+          priority?: string
+          resource_id?: string | null
+          resource_type?: string | null
+          run_key?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_runs_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_apps"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_runs_machine_id_fkey"
+            columns: ["machine_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_state_machines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_state_machines: {
+        Row: {
+          app_id: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          initial_state: string | null
+          machine_key: string
+          name: string
+          resource_type: string | null
+          states: Json
+          status: string
+          team_id: string
+          terminal_states: string[]
+          transitions: Json
+          updated_at: string
+        }
+        Insert: {
+          app_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          initial_state?: string | null
+          machine_key: string
+          name: string
+          resource_type?: string | null
+          states?: Json
+          status?: string
+          team_id: string
+          terminal_states?: string[]
+          transitions?: Json
+          updated_at?: string
+        }
+        Update: {
+          app_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          initial_state?: string | null
+          machine_key?: string
+          name?: string
+          resource_type?: string | null
+          states?: Json
+          status?: string
+          team_id?: string
+          terminal_states?: string[]
+          transitions?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_state_machines_app_id_fkey"
+            columns: ["app_id"]
+            isOneToOne: false
+            referencedRelation: "workflow_apps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_templates: {
+        Row: {
+          category: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          name: string
+          status: string
+          team_id: string | null
+          template_config: Json
+          template_key: string
+          template_type: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          status?: string
+          team_id?: string | null
+          template_config?: Json
+          template_key: string
+          template_type?: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          status?: string
+          team_id?: string | null
+          template_config?: Json
+          template_key?: string
+          template_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -21545,6 +22571,10 @@ export type Database = {
         Returns: boolean
       }
       is_trust_center_manager: {
+        Args: { _team_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_workflow_admin: {
         Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
