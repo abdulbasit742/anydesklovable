@@ -166,6 +166,158 @@ export type Database = {
         }
         Relationships: []
       }
+      alert_events: {
+        Row: {
+          acknowledged_at: string | null
+          acknowledged_by: string | null
+          alert_rule_id: string | null
+          created_at: string
+          dedupe_key: string | null
+          fired_at: string
+          id: string
+          incident_id: string | null
+          message: string | null
+          payload: Json
+          resolved_at: string | null
+          resolved_by: string | null
+          resource_id: string | null
+          resource_type: string | null
+          service_id: string | null
+          severity: string
+          source: string
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          alert_rule_id?: string | null
+          created_at?: string
+          dedupe_key?: string | null
+          fired_at?: string
+          id?: string
+          incident_id?: string | null
+          message?: string | null
+          payload?: Json
+          resolved_at?: string | null
+          resolved_by?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          service_id?: string | null
+          severity?: string
+          source?: string
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          alert_rule_id?: string | null
+          created_at?: string
+          dedupe_key?: string | null
+          fired_at?: string
+          id?: string
+          incident_id?: string | null
+          message?: string | null
+          payload?: Json
+          resolved_at?: string | null
+          resolved_by?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          service_id?: string | null
+          severity?: string
+          source?: string
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alert_events_alert_rule_id_fkey"
+            columns: ["alert_rule_id"]
+            isOneToOne: false
+            referencedRelation: "alert_rules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "alert_events_incident_fk"
+            columns: ["incident_id"]
+            isOneToOne: false
+            referencedRelation: "incidents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      alert_rules: {
+        Row: {
+          auto_create_incident: boolean
+          condition_config: Json
+          cooldown_minutes: number
+          created_at: string
+          created_by: string | null
+          dedupe_key: string | null
+          description: string | null
+          enabled: boolean
+          id: string
+          name: string
+          notification_channels: Json
+          rule_type: string
+          service_id: string | null
+          severity: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          auto_create_incident?: boolean
+          condition_config?: Json
+          cooldown_minutes?: number
+          created_at?: string
+          created_by?: string | null
+          dedupe_key?: string | null
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          name: string
+          notification_channels?: Json
+          rule_type: string
+          service_id?: string | null
+          severity?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          auto_create_incident?: boolean
+          condition_config?: Json
+          cooldown_minutes?: number
+          created_at?: string
+          created_by?: string | null
+          dedupe_key?: string | null
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          name?: string
+          notification_channels?: Json
+          rule_type?: string
+          service_id?: string | null
+          severity?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alert_rules_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "observability_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       api_keys: {
         Row: {
           created_at: string
@@ -2283,6 +2435,424 @@ export type Database = {
           },
         ]
       }
+      health_check_results: {
+        Row: {
+          check_id: string
+          checked_at: string
+          created_at: string
+          details: Json
+          id: string
+          measured_value: number | null
+          message: string | null
+          service_id: string | null
+          severity: string
+          status: string
+          team_id: string
+          threshold_value: number | null
+        }
+        Insert: {
+          check_id: string
+          checked_at?: string
+          created_at?: string
+          details?: Json
+          id?: string
+          measured_value?: number | null
+          message?: string | null
+          service_id?: string | null
+          severity?: string
+          status: string
+          team_id: string
+          threshold_value?: number | null
+        }
+        Update: {
+          check_id?: string
+          checked_at?: string
+          created_at?: string
+          details?: Json
+          id?: string
+          measured_value?: number | null
+          message?: string | null
+          service_id?: string | null
+          severity?: string
+          status?: string
+          team_id?: string
+          threshold_value?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "health_check_results_check_id_fkey"
+            columns: ["check_id"]
+            isOneToOne: false
+            referencedRelation: "health_checks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      health_checks: {
+        Row: {
+          check_type: string
+          created_at: string
+          created_by: string | null
+          enabled: boolean
+          id: string
+          last_checked_at: string | null
+          last_status: string
+          name: string
+          next_check_at: string | null
+          schedule_config: Json
+          service_id: string
+          severity: string
+          team_id: string
+          threshold_config: Json
+          updated_at: string
+        }
+        Insert: {
+          check_type: string
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          id?: string
+          last_checked_at?: string | null
+          last_status?: string
+          name: string
+          next_check_at?: string | null
+          schedule_config?: Json
+          service_id: string
+          severity?: string
+          team_id: string
+          threshold_config?: Json
+          updated_at?: string
+        }
+        Update: {
+          check_type?: string
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          id?: string
+          last_checked_at?: string | null
+          last_status?: string
+          name?: string
+          next_check_at?: string | null
+          schedule_config?: Json
+          service_id?: string
+          severity?: string
+          team_id?: string
+          threshold_config?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "health_checks_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "observability_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      incident_action_items: {
+        Row: {
+          assigned_to: string | null
+          completed_at: string | null
+          completed_by: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          due_at: string | null
+          id: string
+          incident_id: string
+          priority: string
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          incident_id: string
+          priority?: string
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          incident_id?: string
+          priority?: string
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "incident_action_items_incident_id_fkey"
+            columns: ["incident_id"]
+            isOneToOne: false
+            referencedRelation: "incidents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      incident_postmortems: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          detection_summary: string | null
+          id: string
+          impact_summary: string | null
+          incident_id: string
+          prevention_actions: Json
+          published_at: string | null
+          resolution_summary: string | null
+          root_cause: string | null
+          status: string
+          summary: string | null
+          team_id: string
+          updated_at: string
+          updated_by: string | null
+          what_went_well: string | null
+          what_went_wrong: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          detection_summary?: string | null
+          id?: string
+          impact_summary?: string | null
+          incident_id: string
+          prevention_actions?: Json
+          published_at?: string | null
+          resolution_summary?: string | null
+          root_cause?: string | null
+          status?: string
+          summary?: string | null
+          team_id: string
+          updated_at?: string
+          updated_by?: string | null
+          what_went_well?: string | null
+          what_went_wrong?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          detection_summary?: string | null
+          id?: string
+          impact_summary?: string | null
+          incident_id?: string
+          prevention_actions?: Json
+          published_at?: string | null
+          resolution_summary?: string | null
+          root_cause?: string | null
+          status?: string
+          summary?: string | null
+          team_id?: string
+          updated_at?: string
+          updated_by?: string | null
+          what_went_well?: string | null
+          what_went_wrong?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "incident_postmortems_incident_id_fkey"
+            columns: ["incident_id"]
+            isOneToOne: true
+            referencedRelation: "incidents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      incident_service_impacts: {
+        Row: {
+          created_at: string
+          ended_at: string | null
+          id: string
+          impact_status: string
+          incident_id: string
+          notes: string | null
+          service_id: string
+          started_at: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          impact_status?: string
+          incident_id: string
+          notes?: string | null
+          service_id: string
+          started_at?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          impact_status?: string
+          incident_id?: string
+          notes?: string | null
+          service_id?: string
+          started_at?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "incident_service_impacts_incident_id_fkey"
+            columns: ["incident_id"]
+            isOneToOne: false
+            referencedRelation: "incidents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "incident_service_impacts_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "observability_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      incident_timeline_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          description: string | null
+          event_type: string
+          id: string
+          incident_id: string
+          metadata: Json
+          team_id: string
+          title: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type: string
+          id?: string
+          incident_id: string
+          metadata?: Json
+          team_id: string
+          title: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          id?: string
+          incident_id?: string
+          metadata?: Json
+          team_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "incident_timeline_events_incident_id_fkey"
+            columns: ["incident_id"]
+            isOneToOne: false
+            referencedRelation: "incidents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      incidents: {
+        Row: {
+          acknowledged_at: string | null
+          affected_services: string[]
+          closed_at: string | null
+          commander_id: string | null
+          created_at: string
+          created_by: string | null
+          customer_visible: boolean
+          description: string | null
+          detected_at: string | null
+          id: string
+          impact: string
+          incident_number: string | null
+          metadata: Json
+          resolution_summary: string | null
+          resolved_at: string | null
+          root_cause: string | null
+          severity: string
+          started_at: string
+          status: string
+          status_page_message: string | null
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          affected_services?: string[]
+          closed_at?: string | null
+          commander_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_visible?: boolean
+          description?: string | null
+          detected_at?: string | null
+          id?: string
+          impact?: string
+          incident_number?: string | null
+          metadata?: Json
+          resolution_summary?: string | null
+          resolved_at?: string | null
+          root_cause?: string | null
+          severity?: string
+          started_at?: string
+          status?: string
+          status_page_message?: string | null
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          acknowledged_at?: string | null
+          affected_services?: string[]
+          closed_at?: string | null
+          commander_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_visible?: boolean
+          description?: string | null
+          detected_at?: string | null
+          id?: string
+          impact?: string
+          incident_number?: string | null
+          metadata?: Json
+          resolution_summary?: string | null
+          resolved_at?: string | null
+          root_cause?: string | null
+          severity?: string
+          started_at?: string
+          status?: string
+          status_page_message?: string | null
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       invoices: {
         Row: {
           amount_cents: number
@@ -2609,6 +3179,198 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      observability_dashboards: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          filters: Json
+          id: string
+          layout: Json
+          name: string
+          team_id: string
+          updated_at: string
+          visibility: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          filters?: Json
+          id?: string
+          layout?: Json
+          name: string
+          team_id: string
+          updated_at?: string
+          visibility?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          filters?: Json
+          id?: string
+          layout?: Json
+          name?: string
+          team_id?: string
+          updated_at?: string
+          visibility?: string
+        }
+        Relationships: []
+      }
+      observability_metrics: {
+        Row: {
+          captured_at: string
+          created_at: string
+          dimensions: Json
+          id: string
+          metric_key: string
+          metric_name: string
+          metric_type: string
+          service_id: string | null
+          source: string
+          team_id: string
+          unit: string | null
+          value: number
+        }
+        Insert: {
+          captured_at?: string
+          created_at?: string
+          dimensions?: Json
+          id?: string
+          metric_key: string
+          metric_name: string
+          metric_type?: string
+          service_id?: string | null
+          source?: string
+          team_id: string
+          unit?: string | null
+          value?: number
+        }
+        Update: {
+          captured_at?: string
+          created_at?: string
+          dimensions?: Json
+          id?: string
+          metric_key?: string
+          metric_name?: string
+          metric_type?: string
+          service_id?: string | null
+          source?: string
+          team_id?: string
+          unit?: string | null
+          value?: number
+        }
+        Relationships: []
+      }
+      observability_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          finished_at: string | null
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          started_at: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          finished_at?: string | null
+          id?: string
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          started_at?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          finished_at?: string | null
+          id?: string
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          started_at?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      observability_services: {
+        Row: {
+          active: boolean
+          created_at: string
+          created_by: string | null
+          description: string | null
+          docs_url: string | null
+          id: string
+          metadata: Json
+          name: string
+          owner_team: string | null
+          owner_user_id: string | null
+          runbook_id: string | null
+          service_key: string
+          service_type: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          docs_url?: string | null
+          id?: string
+          metadata?: Json
+          name: string
+          owner_team?: string | null
+          owner_user_id?: string | null
+          runbook_id?: string | null
+          service_key: string
+          service_type?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          docs_url?: string | null
+          id?: string
+          metadata?: Json
+          name?: string
+          owner_team?: string | null
+          owner_user_id?: string | null
+          runbook_id?: string | null
+          service_key?: string
+          service_type?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       plan_limits: {
         Row: {
@@ -4165,6 +4927,66 @@ export type Database = {
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      status_page_updates: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          incident_id: string | null
+          message: string
+          published_at: string | null
+          service_id: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+          visibility: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          incident_id?: string | null
+          message: string
+          published_at?: string | null
+          service_id?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+          visibility?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          incident_id?: string | null
+          message?: string
+          published_at?: string | null
+          service_id?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "status_page_updates_incident_id_fkey"
+            columns: ["incident_id"]
+            isOneToOne: false
+            referencedRelation: "incidents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "status_page_updates_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "observability_services"
             referencedColumns: ["id"]
           },
         ]
@@ -6229,6 +7051,10 @@ export type Database = {
           _team_id: string
           _user_id: string
         }
+        Returns: boolean
+      }
+      is_observability_manager: {
+        Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
       is_team_member: {
