@@ -1305,6 +1305,153 @@ export type Database = {
           },
         ]
       }
+      device_group_members: {
+        Row: {
+          added_at: string
+          added_by: string | null
+          device_id: string
+          group_id: string
+          id: string
+          membership_type: string
+          team_id: string
+        }
+        Insert: {
+          added_at?: string
+          added_by?: string | null
+          device_id: string
+          group_id: string
+          id?: string
+          membership_type?: string
+          team_id: string
+        }
+        Update: {
+          added_at?: string
+          added_by?: string | null
+          device_id?: string
+          group_id?: string
+          id?: string
+          membership_type?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "device_group_members_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "device_group_members_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "device_groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "device_group_members_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      device_groups: {
+        Row: {
+          color: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          dynamic_query: Json
+          group_type: string
+          id: string
+          name: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          dynamic_query?: Json
+          group_type?: string
+          id?: string
+          name: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          dynamic_query?: Json
+          group_type?: string
+          id?: string
+          name?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "device_groups_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      device_policy_snapshots: {
+        Row: {
+          created_at: string
+          device_id: string
+          effective_policy: Json
+          generated_at: string
+          generated_by: string | null
+          id: string
+          policy_hash: string | null
+          team_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_id: string
+          effective_policy?: Json
+          generated_at?: string
+          generated_by?: string | null
+          id?: string
+          policy_hash?: string | null
+          team_id: string
+        }
+        Update: {
+          created_at?: string
+          device_id?: string
+          effective_policy?: Json
+          generated_at?: string
+          generated_by?: string | null
+          id?: string
+          policy_hash?: string | null
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "device_policy_snapshots_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "device_policy_snapshots_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       device_presence: {
         Row: {
           active_session_id: string | null
@@ -2033,6 +2180,385 @@ export type Database = {
           yearly_price?: number | null
         }
         Relationships: []
+      }
+      policy_assignments: {
+        Row: {
+          assigned_at: string
+          assigned_by: string | null
+          enabled: boolean
+          id: string
+          policy_id: string
+          priority: number
+          target_id: string | null
+          target_key: string | null
+          target_type: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_at?: string
+          assigned_by?: string | null
+          enabled?: boolean
+          id?: string
+          policy_id: string
+          priority?: number
+          target_id?: string | null
+          target_key?: string | null
+          target_type: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_at?: string
+          assigned_by?: string | null
+          enabled?: boolean
+          id?: string
+          policy_id?: string
+          priority?: number
+          target_id?: string | null
+          target_key?: string | null
+          target_type?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "policy_assignments_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "policy_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "policy_assignments_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      policy_change_requests: {
+        Row: {
+          after_snapshot: Json
+          before_snapshot: Json
+          created_at: string
+          decided_at: string | null
+          decision_note: string | null
+          description: string | null
+          id: string
+          policy_id: string | null
+          request_type: string
+          requested_by: string | null
+          reviewed_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          after_snapshot?: Json
+          before_snapshot?: Json
+          created_at?: string
+          decided_at?: string | null
+          decision_note?: string | null
+          description?: string | null
+          id?: string
+          policy_id?: string | null
+          request_type: string
+          requested_by?: string | null
+          reviewed_by?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          after_snapshot?: Json
+          before_snapshot?: Json
+          created_at?: string
+          decided_at?: string | null
+          decision_note?: string | null
+          description?: string | null
+          id?: string
+          policy_id?: string | null
+          request_type?: string
+          requested_by?: string | null
+          reviewed_by?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "policy_change_requests_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "policy_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "policy_change_requests_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      policy_evaluation_results: {
+        Row: {
+          context: Json
+          created_at: string
+          decision: string
+          device_id: string | null
+          evaluation_type: string
+          id: string
+          matched_rules: Json
+          policy_id: string | null
+          reason: string | null
+          session_id: string | null
+          team_id: string
+          user_id: string | null
+        }
+        Insert: {
+          context?: Json
+          created_at?: string
+          decision: string
+          device_id?: string | null
+          evaluation_type: string
+          id?: string
+          matched_rules?: Json
+          policy_id?: string | null
+          reason?: string | null
+          session_id?: string | null
+          team_id: string
+          user_id?: string | null
+        }
+        Update: {
+          context?: Json
+          created_at?: string
+          decision?: string
+          device_id?: string | null
+          evaluation_type?: string
+          id?: string
+          matched_rules?: Json
+          policy_id?: string | null
+          reason?: string | null
+          session_id?: string | null
+          team_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "policy_evaluation_results_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "policy_evaluation_results_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "policy_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "policy_evaluation_results_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      policy_profiles: {
+        Row: {
+          activated_at: string | null
+          archived_at: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          enforcement_mode: string
+          id: string
+          name: string
+          policy_type: string
+          priority: number
+          rules: Json
+          status: string
+          team_id: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          activated_at?: string | null
+          archived_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          enforcement_mode?: string
+          id?: string
+          name: string
+          policy_type?: string
+          priority?: number
+          rules?: Json
+          status?: string
+          team_id: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          activated_at?: string | null
+          archived_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          enforcement_mode?: string
+          id?: string
+          name?: string
+          policy_type?: string
+          priority?: number
+          rules?: Json
+          status?: string
+          team_id?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "policy_profiles_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      policy_templates: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          is_enterprise: boolean
+          key: string
+          name: string
+          recommended_enforcement_mode: string
+          rules: Json
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_enterprise?: boolean
+          key: string
+          name: string
+          recommended_enforcement_mode?: string
+          rules?: Json
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_enterprise?: boolean
+          key?: string
+          name?: string
+          recommended_enforcement_mode?: string
+          rules?: Json
+        }
+        Relationships: []
+      }
+      policy_violations: {
+        Row: {
+          acknowledged_at: string | null
+          acknowledged_by: string | null
+          created_at: string
+          description: string | null
+          detected_at: string
+          device_id: string | null
+          id: string
+          metadata: Json
+          policy_id: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          session_id: string | null
+          severity: string
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+          user_id: string | null
+          violation_type: string
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          created_at?: string
+          description?: string | null
+          detected_at?: string
+          device_id?: string | null
+          id?: string
+          metadata?: Json
+          policy_id?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          session_id?: string | null
+          severity?: string
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+          user_id?: string | null
+          violation_type: string
+        }
+        Update: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          created_at?: string
+          description?: string | null
+          detected_at?: string
+          device_id?: string | null
+          id?: string
+          metadata?: Json
+          policy_id?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          session_id?: string | null
+          severity?: string
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+          violation_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "policy_violations_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "policy_violations_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "policy_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "policy_violations_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
