@@ -12,6 +12,7 @@ import { DemoBanner, LoadingRow, EmptyRow, ErrorRow } from "@/components/app/Dat
 import { PlanBadge } from "@/components/app/billing/PlanBadge";
 import { UsageMeter } from "@/components/app/billing/UsageMeter";
 import { UsageWarningCard } from "@/components/app/billing/UsageWarningCard";
+import { PresenceSummaryCards } from "@/components/app/presence/PresenceSummaryCards";
 
 
 export const Route = createFileRoute("/dashboard/")({
@@ -41,6 +42,8 @@ function Dashboard() {
         <MetricCard label="Session minutes" value={String(totalMinutes)} icon={Clock} hint="Recent activity" />
         <MetricCard label="Current plan" value={plan} icon={CreditCard} hint="Manage in billing" />
       </div>
+
+      <div className="mt-4"><PresenceSummaryCards /></div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-4">

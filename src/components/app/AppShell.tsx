@@ -2,7 +2,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { type ReactNode, useState } from "react";
 import {
   LayoutDashboard, MonitorSmartphone, Activity, ShieldCheck,
-  CreditCard, Users, Download, LogOut, Menu, X, Bell, Search,
+  CreditCard, Users, Download, LogOut, Menu, X, Search,
   FileText, LifeBuoy, Crown, SlidersHorizontal,
   Bot, Workflow, ListChecks, KeyRound, Gauge, CalendarClock, BellRing, ScrollText, Package, Settings,
   BookUser, Smartphone, Code2,
@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/use-auth";
 import { useCurrentTeam } from "@/hooks/use-current-team";
+import { NotificationBell } from "@/components/app/notifications/NotificationBell";
 
 type NavItem = { to: string; label: string; icon: typeof LayoutDashboard; badge?: string };
 type NavGroup = { label?: string; items: NavItem[] };
@@ -24,6 +25,7 @@ const groups: NavGroup[] = [
       { to: "/dashboard/sessions", label: "Sessions", icon: Activity },
       { to: "/dashboard/contacts", label: "Address book", icon: BookUser },
       { to: "/dashboard/mobile", label: "Mobile access", icon: Smartphone },
+      { to: "/dashboard/notifications", label: "Notifications", icon: BellRing },
       { to: "/dashboard/audit", label: "Audit logs", icon: FileText },
     ],
   },
@@ -176,9 +178,7 @@ export function AppShell({
             <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input className="h-9 w-64 pl-8" placeholder="Search devices, sessions…" />
           </div>
-          <Button variant="ghost" size="icon" aria-label="Notifications">
-            <Bell className="h-4 w-4" />
-          </Button>
+          <NotificationBell />
           {actions}
         </header>
         <main className="min-w-0 flex-1 p-4 sm:p-6">{children}</main>
