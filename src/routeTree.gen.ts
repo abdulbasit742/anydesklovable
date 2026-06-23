@@ -48,7 +48,23 @@ import { Route as DashboardAutomationArtifactsRouteImport } from './routes/dashb
 import { Route as DashboardAutomationAlertsRouteImport } from './routes/dashboard.automation.alerts'
 import { Route as DashboardAutomationAccountsRouteImport } from './routes/dashboard.automation.accounts'
 import { Route as ApiPublicWebhooksStripeRouteImport } from './routes/api/public/webhooks/stripe'
+import { Route as ApiPublicV1SessionsRouteImport } from './routes/api/public/v1/sessions'
+import { Route as ApiPublicV1NotificationsRouteImport } from './routes/api/public/v1/notifications'
 import { Route as ApiPublicV1MeRouteImport } from './routes/api/public/v1/me'
+import { Route as ApiPublicV1DevicesRouteImport } from './routes/api/public/v1/devices'
+import { Route as ApiPublicV1WebhooksEndpointsRouteImport } from './routes/api/public/v1/webhooks.endpoints'
+import { Route as ApiPublicV1SupportTicketsRouteImport } from './routes/api/public/v1/support.tickets'
+import { Route as ApiPublicV1SessionsSessionIdRouteImport } from './routes/api/public/v1/sessions.$sessionId'
+import { Route as ApiPublicV1DevicesDeviceIdRouteImport } from './routes/api/public/v1/devices.$deviceId'
+import { Route as ApiPublicV1BillingUsageRouteImport } from './routes/api/public/v1/billing.usage'
+import { Route as ApiPublicV1AutomationPipelinesRouteImport } from './routes/api/public/v1/automation.pipelines'
+import { Route as ApiPublicV1AuditLogsRouteImport } from './routes/api/public/v1/audit.logs'
+import { Route as ApiPublicV1WebhooksEndpointsEndpointIdRouteImport } from './routes/api/public/v1/webhooks.endpoints.$endpointId'
+import { Route as ApiPublicV1SessionsSessionIdEndRouteImport } from './routes/api/public/v1/sessions.$sessionId.end'
+import { Route as ApiPublicV1DevicesDeviceIdPresenceRouteImport } from './routes/api/public/v1/devices.$deviceId.presence'
+import { Route as ApiPublicV1AutomationRunsRunIdRouteImport } from './routes/api/public/v1/automation.runs.$runId'
+import { Route as ApiPublicV1WebhooksEndpointsEndpointIdTestRouteImport } from './routes/api/public/v1/webhooks.endpoints.$endpointId.test'
+import { Route as ApiPublicV1AutomationPipelinesPipelineIdRunRouteImport } from './routes/api/public/v1/automation.pipelines.$pipelineId.run'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -258,11 +274,103 @@ const ApiPublicWebhooksStripeRoute = ApiPublicWebhooksStripeRouteImport.update({
   path: '/api/public/webhooks/stripe',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicV1SessionsRoute = ApiPublicV1SessionsRouteImport.update({
+  id: '/api/public/v1/sessions',
+  path: '/api/public/v1/sessions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicV1NotificationsRoute =
+  ApiPublicV1NotificationsRouteImport.update({
+    id: '/api/public/v1/notifications',
+    path: '/api/public/v1/notifications',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicV1MeRoute = ApiPublicV1MeRouteImport.update({
   id: '/api/public/v1/me',
   path: '/api/public/v1/me',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicV1DevicesRoute = ApiPublicV1DevicesRouteImport.update({
+  id: '/api/public/v1/devices',
+  path: '/api/public/v1/devices',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicV1WebhooksEndpointsRoute =
+  ApiPublicV1WebhooksEndpointsRouteImport.update({
+    id: '/api/public/v1/webhooks/endpoints',
+    path: '/api/public/v1/webhooks/endpoints',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicV1SupportTicketsRoute =
+  ApiPublicV1SupportTicketsRouteImport.update({
+    id: '/api/public/v1/support/tickets',
+    path: '/api/public/v1/support/tickets',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicV1SessionsSessionIdRoute =
+  ApiPublicV1SessionsSessionIdRouteImport.update({
+    id: '/$sessionId',
+    path: '/$sessionId',
+    getParentRoute: () => ApiPublicV1SessionsRoute,
+  } as any)
+const ApiPublicV1DevicesDeviceIdRoute =
+  ApiPublicV1DevicesDeviceIdRouteImport.update({
+    id: '/$deviceId',
+    path: '/$deviceId',
+    getParentRoute: () => ApiPublicV1DevicesRoute,
+  } as any)
+const ApiPublicV1BillingUsageRoute = ApiPublicV1BillingUsageRouteImport.update({
+  id: '/api/public/v1/billing/usage',
+  path: '/api/public/v1/billing/usage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicV1AutomationPipelinesRoute =
+  ApiPublicV1AutomationPipelinesRouteImport.update({
+    id: '/api/public/v1/automation/pipelines',
+    path: '/api/public/v1/automation/pipelines',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicV1AuditLogsRoute = ApiPublicV1AuditLogsRouteImport.update({
+  id: '/api/public/v1/audit/logs',
+  path: '/api/public/v1/audit/logs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicV1WebhooksEndpointsEndpointIdRoute =
+  ApiPublicV1WebhooksEndpointsEndpointIdRouteImport.update({
+    id: '/$endpointId',
+    path: '/$endpointId',
+    getParentRoute: () => ApiPublicV1WebhooksEndpointsRoute,
+  } as any)
+const ApiPublicV1SessionsSessionIdEndRoute =
+  ApiPublicV1SessionsSessionIdEndRouteImport.update({
+    id: '/end',
+    path: '/end',
+    getParentRoute: () => ApiPublicV1SessionsSessionIdRoute,
+  } as any)
+const ApiPublicV1DevicesDeviceIdPresenceRoute =
+  ApiPublicV1DevicesDeviceIdPresenceRouteImport.update({
+    id: '/presence',
+    path: '/presence',
+    getParentRoute: () => ApiPublicV1DevicesDeviceIdRoute,
+  } as any)
+const ApiPublicV1AutomationRunsRunIdRoute =
+  ApiPublicV1AutomationRunsRunIdRouteImport.update({
+    id: '/api/public/v1/automation/runs/$runId',
+    path: '/api/public/v1/automation/runs/$runId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicV1WebhooksEndpointsEndpointIdTestRoute =
+  ApiPublicV1WebhooksEndpointsEndpointIdTestRouteImport.update({
+    id: '/test',
+    path: '/test',
+    getParentRoute: () => ApiPublicV1WebhooksEndpointsEndpointIdRoute,
+  } as any)
+const ApiPublicV1AutomationPipelinesPipelineIdRunRoute =
+  ApiPublicV1AutomationPipelinesPipelineIdRunRouteImport.update({
+    id: '/$pipelineId/run',
+    path: '/$pipelineId/run',
+    getParentRoute: () => ApiPublicV1AutomationPipelinesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -303,8 +411,24 @@ export interface FileRoutesByFullPath {
   '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
   '/dashboard/policies/remote-input': typeof DashboardPoliciesRemoteInputRoute
   '/dashboard/automation/': typeof DashboardAutomationIndexRoute
+  '/api/public/v1/devices': typeof ApiPublicV1DevicesRouteWithChildren
   '/api/public/v1/me': typeof ApiPublicV1MeRoute
+  '/api/public/v1/notifications': typeof ApiPublicV1NotificationsRoute
+  '/api/public/v1/sessions': typeof ApiPublicV1SessionsRouteWithChildren
   '/api/public/webhooks/stripe': typeof ApiPublicWebhooksStripeRoute
+  '/api/public/v1/audit/logs': typeof ApiPublicV1AuditLogsRoute
+  '/api/public/v1/automation/pipelines': typeof ApiPublicV1AutomationPipelinesRouteWithChildren
+  '/api/public/v1/billing/usage': typeof ApiPublicV1BillingUsageRoute
+  '/api/public/v1/devices/$deviceId': typeof ApiPublicV1DevicesDeviceIdRouteWithChildren
+  '/api/public/v1/sessions/$sessionId': typeof ApiPublicV1SessionsSessionIdRouteWithChildren
+  '/api/public/v1/support/tickets': typeof ApiPublicV1SupportTicketsRoute
+  '/api/public/v1/webhooks/endpoints': typeof ApiPublicV1WebhooksEndpointsRouteWithChildren
+  '/api/public/v1/automation/runs/$runId': typeof ApiPublicV1AutomationRunsRunIdRoute
+  '/api/public/v1/devices/$deviceId/presence': typeof ApiPublicV1DevicesDeviceIdPresenceRoute
+  '/api/public/v1/sessions/$sessionId/end': typeof ApiPublicV1SessionsSessionIdEndRoute
+  '/api/public/v1/webhooks/endpoints/$endpointId': typeof ApiPublicV1WebhooksEndpointsEndpointIdRouteWithChildren
+  '/api/public/v1/automation/pipelines/$pipelineId/run': typeof ApiPublicV1AutomationPipelinesPipelineIdRunRoute
+  '/api/public/v1/webhooks/endpoints/$endpointId/test': typeof ApiPublicV1WebhooksEndpointsEndpointIdTestRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -343,8 +467,24 @@ export interface FileRoutesByTo {
   '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
   '/dashboard/policies/remote-input': typeof DashboardPoliciesRemoteInputRoute
   '/dashboard/automation': typeof DashboardAutomationIndexRoute
+  '/api/public/v1/devices': typeof ApiPublicV1DevicesRouteWithChildren
   '/api/public/v1/me': typeof ApiPublicV1MeRoute
+  '/api/public/v1/notifications': typeof ApiPublicV1NotificationsRoute
+  '/api/public/v1/sessions': typeof ApiPublicV1SessionsRouteWithChildren
   '/api/public/webhooks/stripe': typeof ApiPublicWebhooksStripeRoute
+  '/api/public/v1/audit/logs': typeof ApiPublicV1AuditLogsRoute
+  '/api/public/v1/automation/pipelines': typeof ApiPublicV1AutomationPipelinesRouteWithChildren
+  '/api/public/v1/billing/usage': typeof ApiPublicV1BillingUsageRoute
+  '/api/public/v1/devices/$deviceId': typeof ApiPublicV1DevicesDeviceIdRouteWithChildren
+  '/api/public/v1/sessions/$sessionId': typeof ApiPublicV1SessionsSessionIdRouteWithChildren
+  '/api/public/v1/support/tickets': typeof ApiPublicV1SupportTicketsRoute
+  '/api/public/v1/webhooks/endpoints': typeof ApiPublicV1WebhooksEndpointsRouteWithChildren
+  '/api/public/v1/automation/runs/$runId': typeof ApiPublicV1AutomationRunsRunIdRoute
+  '/api/public/v1/devices/$deviceId/presence': typeof ApiPublicV1DevicesDeviceIdPresenceRoute
+  '/api/public/v1/sessions/$sessionId/end': typeof ApiPublicV1SessionsSessionIdEndRoute
+  '/api/public/v1/webhooks/endpoints/$endpointId': typeof ApiPublicV1WebhooksEndpointsEndpointIdRouteWithChildren
+  '/api/public/v1/automation/pipelines/$pipelineId/run': typeof ApiPublicV1AutomationPipelinesPipelineIdRunRoute
+  '/api/public/v1/webhooks/endpoints/$endpointId/test': typeof ApiPublicV1WebhooksEndpointsEndpointIdTestRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -386,8 +526,24 @@ export interface FileRoutesById {
   '/dashboard/policies/file-transfer': typeof DashboardPoliciesFileTransferRoute
   '/dashboard/policies/remote-input': typeof DashboardPoliciesRemoteInputRoute
   '/dashboard/automation/': typeof DashboardAutomationIndexRoute
+  '/api/public/v1/devices': typeof ApiPublicV1DevicesRouteWithChildren
   '/api/public/v1/me': typeof ApiPublicV1MeRoute
+  '/api/public/v1/notifications': typeof ApiPublicV1NotificationsRoute
+  '/api/public/v1/sessions': typeof ApiPublicV1SessionsRouteWithChildren
   '/api/public/webhooks/stripe': typeof ApiPublicWebhooksStripeRoute
+  '/api/public/v1/audit/logs': typeof ApiPublicV1AuditLogsRoute
+  '/api/public/v1/automation/pipelines': typeof ApiPublicV1AutomationPipelinesRouteWithChildren
+  '/api/public/v1/billing/usage': typeof ApiPublicV1BillingUsageRoute
+  '/api/public/v1/devices/$deviceId': typeof ApiPublicV1DevicesDeviceIdRouteWithChildren
+  '/api/public/v1/sessions/$sessionId': typeof ApiPublicV1SessionsSessionIdRouteWithChildren
+  '/api/public/v1/support/tickets': typeof ApiPublicV1SupportTicketsRoute
+  '/api/public/v1/webhooks/endpoints': typeof ApiPublicV1WebhooksEndpointsRouteWithChildren
+  '/api/public/v1/automation/runs/$runId': typeof ApiPublicV1AutomationRunsRunIdRoute
+  '/api/public/v1/devices/$deviceId/presence': typeof ApiPublicV1DevicesDeviceIdPresenceRoute
+  '/api/public/v1/sessions/$sessionId/end': typeof ApiPublicV1SessionsSessionIdEndRoute
+  '/api/public/v1/webhooks/endpoints/$endpointId': typeof ApiPublicV1WebhooksEndpointsEndpointIdRouteWithChildren
+  '/api/public/v1/automation/pipelines/$pipelineId/run': typeof ApiPublicV1AutomationPipelinesPipelineIdRunRoute
+  '/api/public/v1/webhooks/endpoints/$endpointId/test': typeof ApiPublicV1WebhooksEndpointsEndpointIdTestRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -430,8 +586,24 @@ export interface FileRouteTypes {
     | '/dashboard/policies/file-transfer'
     | '/dashboard/policies/remote-input'
     | '/dashboard/automation/'
+    | '/api/public/v1/devices'
     | '/api/public/v1/me'
+    | '/api/public/v1/notifications'
+    | '/api/public/v1/sessions'
     | '/api/public/webhooks/stripe'
+    | '/api/public/v1/audit/logs'
+    | '/api/public/v1/automation/pipelines'
+    | '/api/public/v1/billing/usage'
+    | '/api/public/v1/devices/$deviceId'
+    | '/api/public/v1/sessions/$sessionId'
+    | '/api/public/v1/support/tickets'
+    | '/api/public/v1/webhooks/endpoints'
+    | '/api/public/v1/automation/runs/$runId'
+    | '/api/public/v1/devices/$deviceId/presence'
+    | '/api/public/v1/sessions/$sessionId/end'
+    | '/api/public/v1/webhooks/endpoints/$endpointId'
+    | '/api/public/v1/automation/pipelines/$pipelineId/run'
+    | '/api/public/v1/webhooks/endpoints/$endpointId/test'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -470,8 +642,24 @@ export interface FileRouteTypes {
     | '/dashboard/policies/file-transfer'
     | '/dashboard/policies/remote-input'
     | '/dashboard/automation'
+    | '/api/public/v1/devices'
     | '/api/public/v1/me'
+    | '/api/public/v1/notifications'
+    | '/api/public/v1/sessions'
     | '/api/public/webhooks/stripe'
+    | '/api/public/v1/audit/logs'
+    | '/api/public/v1/automation/pipelines'
+    | '/api/public/v1/billing/usage'
+    | '/api/public/v1/devices/$deviceId'
+    | '/api/public/v1/sessions/$sessionId'
+    | '/api/public/v1/support/tickets'
+    | '/api/public/v1/webhooks/endpoints'
+    | '/api/public/v1/automation/runs/$runId'
+    | '/api/public/v1/devices/$deviceId/presence'
+    | '/api/public/v1/sessions/$sessionId/end'
+    | '/api/public/v1/webhooks/endpoints/$endpointId'
+    | '/api/public/v1/automation/pipelines/$pipelineId/run'
+    | '/api/public/v1/webhooks/endpoints/$endpointId/test'
   id:
     | '__root__'
     | '/'
@@ -512,8 +700,24 @@ export interface FileRouteTypes {
     | '/dashboard/policies/file-transfer'
     | '/dashboard/policies/remote-input'
     | '/dashboard/automation/'
+    | '/api/public/v1/devices'
     | '/api/public/v1/me'
+    | '/api/public/v1/notifications'
+    | '/api/public/v1/sessions'
     | '/api/public/webhooks/stripe'
+    | '/api/public/v1/audit/logs'
+    | '/api/public/v1/automation/pipelines'
+    | '/api/public/v1/billing/usage'
+    | '/api/public/v1/devices/$deviceId'
+    | '/api/public/v1/sessions/$sessionId'
+    | '/api/public/v1/support/tickets'
+    | '/api/public/v1/webhooks/endpoints'
+    | '/api/public/v1/automation/runs/$runId'
+    | '/api/public/v1/devices/$deviceId/presence'
+    | '/api/public/v1/sessions/$sessionId/end'
+    | '/api/public/v1/webhooks/endpoints/$endpointId'
+    | '/api/public/v1/automation/pipelines/$pipelineId/run'
+    | '/api/public/v1/webhooks/endpoints/$endpointId/test'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -526,8 +730,17 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
   InviteTokenRoute: typeof InviteTokenRoute
+  ApiPublicV1DevicesRoute: typeof ApiPublicV1DevicesRouteWithChildren
   ApiPublicV1MeRoute: typeof ApiPublicV1MeRoute
+  ApiPublicV1NotificationsRoute: typeof ApiPublicV1NotificationsRoute
+  ApiPublicV1SessionsRoute: typeof ApiPublicV1SessionsRouteWithChildren
   ApiPublicWebhooksStripeRoute: typeof ApiPublicWebhooksStripeRoute
+  ApiPublicV1AuditLogsRoute: typeof ApiPublicV1AuditLogsRoute
+  ApiPublicV1AutomationPipelinesRoute: typeof ApiPublicV1AutomationPipelinesRouteWithChildren
+  ApiPublicV1BillingUsageRoute: typeof ApiPublicV1BillingUsageRoute
+  ApiPublicV1SupportTicketsRoute: typeof ApiPublicV1SupportTicketsRoute
+  ApiPublicV1WebhooksEndpointsRoute: typeof ApiPublicV1WebhooksEndpointsRouteWithChildren
+  ApiPublicV1AutomationRunsRunIdRoute: typeof ApiPublicV1AutomationRunsRunIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -805,12 +1018,124 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicWebhooksStripeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/v1/sessions': {
+      id: '/api/public/v1/sessions'
+      path: '/api/public/v1/sessions'
+      fullPath: '/api/public/v1/sessions'
+      preLoaderRoute: typeof ApiPublicV1SessionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/v1/notifications': {
+      id: '/api/public/v1/notifications'
+      path: '/api/public/v1/notifications'
+      fullPath: '/api/public/v1/notifications'
+      preLoaderRoute: typeof ApiPublicV1NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/v1/me': {
       id: '/api/public/v1/me'
       path: '/api/public/v1/me'
       fullPath: '/api/public/v1/me'
       preLoaderRoute: typeof ApiPublicV1MeRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/api/public/v1/devices': {
+      id: '/api/public/v1/devices'
+      path: '/api/public/v1/devices'
+      fullPath: '/api/public/v1/devices'
+      preLoaderRoute: typeof ApiPublicV1DevicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/v1/webhooks/endpoints': {
+      id: '/api/public/v1/webhooks/endpoints'
+      path: '/api/public/v1/webhooks/endpoints'
+      fullPath: '/api/public/v1/webhooks/endpoints'
+      preLoaderRoute: typeof ApiPublicV1WebhooksEndpointsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/v1/support/tickets': {
+      id: '/api/public/v1/support/tickets'
+      path: '/api/public/v1/support/tickets'
+      fullPath: '/api/public/v1/support/tickets'
+      preLoaderRoute: typeof ApiPublicV1SupportTicketsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/v1/sessions/$sessionId': {
+      id: '/api/public/v1/sessions/$sessionId'
+      path: '/$sessionId'
+      fullPath: '/api/public/v1/sessions/$sessionId'
+      preLoaderRoute: typeof ApiPublicV1SessionsSessionIdRouteImport
+      parentRoute: typeof ApiPublicV1SessionsRoute
+    }
+    '/api/public/v1/devices/$deviceId': {
+      id: '/api/public/v1/devices/$deviceId'
+      path: '/$deviceId'
+      fullPath: '/api/public/v1/devices/$deviceId'
+      preLoaderRoute: typeof ApiPublicV1DevicesDeviceIdRouteImport
+      parentRoute: typeof ApiPublicV1DevicesRoute
+    }
+    '/api/public/v1/billing/usage': {
+      id: '/api/public/v1/billing/usage'
+      path: '/api/public/v1/billing/usage'
+      fullPath: '/api/public/v1/billing/usage'
+      preLoaderRoute: typeof ApiPublicV1BillingUsageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/v1/automation/pipelines': {
+      id: '/api/public/v1/automation/pipelines'
+      path: '/api/public/v1/automation/pipelines'
+      fullPath: '/api/public/v1/automation/pipelines'
+      preLoaderRoute: typeof ApiPublicV1AutomationPipelinesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/v1/audit/logs': {
+      id: '/api/public/v1/audit/logs'
+      path: '/api/public/v1/audit/logs'
+      fullPath: '/api/public/v1/audit/logs'
+      preLoaderRoute: typeof ApiPublicV1AuditLogsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/v1/webhooks/endpoints/$endpointId': {
+      id: '/api/public/v1/webhooks/endpoints/$endpointId'
+      path: '/$endpointId'
+      fullPath: '/api/public/v1/webhooks/endpoints/$endpointId'
+      preLoaderRoute: typeof ApiPublicV1WebhooksEndpointsEndpointIdRouteImport
+      parentRoute: typeof ApiPublicV1WebhooksEndpointsRoute
+    }
+    '/api/public/v1/sessions/$sessionId/end': {
+      id: '/api/public/v1/sessions/$sessionId/end'
+      path: '/end'
+      fullPath: '/api/public/v1/sessions/$sessionId/end'
+      preLoaderRoute: typeof ApiPublicV1SessionsSessionIdEndRouteImport
+      parentRoute: typeof ApiPublicV1SessionsSessionIdRoute
+    }
+    '/api/public/v1/devices/$deviceId/presence': {
+      id: '/api/public/v1/devices/$deviceId/presence'
+      path: '/presence'
+      fullPath: '/api/public/v1/devices/$deviceId/presence'
+      preLoaderRoute: typeof ApiPublicV1DevicesDeviceIdPresenceRouteImport
+      parentRoute: typeof ApiPublicV1DevicesDeviceIdRoute
+    }
+    '/api/public/v1/automation/runs/$runId': {
+      id: '/api/public/v1/automation/runs/$runId'
+      path: '/api/public/v1/automation/runs/$runId'
+      fullPath: '/api/public/v1/automation/runs/$runId'
+      preLoaderRoute: typeof ApiPublicV1AutomationRunsRunIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/v1/webhooks/endpoints/$endpointId/test': {
+      id: '/api/public/v1/webhooks/endpoints/$endpointId/test'
+      path: '/test'
+      fullPath: '/api/public/v1/webhooks/endpoints/$endpointId/test'
+      preLoaderRoute: typeof ApiPublicV1WebhooksEndpointsEndpointIdTestRouteImport
+      parentRoute: typeof ApiPublicV1WebhooksEndpointsEndpointIdRoute
+    }
+    '/api/public/v1/automation/pipelines/$pipelineId/run': {
+      id: '/api/public/v1/automation/pipelines/$pipelineId/run'
+      path: '/$pipelineId/run'
+      fullPath: '/api/public/v1/automation/pipelines/$pipelineId/run'
+      preLoaderRoute: typeof ApiPublicV1AutomationPipelinesPipelineIdRunRouteImport
+      parentRoute: typeof ApiPublicV1AutomationPipelinesRoute
     }
   }
 }
@@ -910,6 +1235,103 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
   DashboardRouteChildren,
 )
 
+interface ApiPublicV1DevicesDeviceIdRouteChildren {
+  ApiPublicV1DevicesDeviceIdPresenceRoute: typeof ApiPublicV1DevicesDeviceIdPresenceRoute
+}
+
+const ApiPublicV1DevicesDeviceIdRouteChildren: ApiPublicV1DevicesDeviceIdRouteChildren =
+  {
+    ApiPublicV1DevicesDeviceIdPresenceRoute:
+      ApiPublicV1DevicesDeviceIdPresenceRoute,
+  }
+
+const ApiPublicV1DevicesDeviceIdRouteWithChildren =
+  ApiPublicV1DevicesDeviceIdRoute._addFileChildren(
+    ApiPublicV1DevicesDeviceIdRouteChildren,
+  )
+
+interface ApiPublicV1DevicesRouteChildren {
+  ApiPublicV1DevicesDeviceIdRoute: typeof ApiPublicV1DevicesDeviceIdRouteWithChildren
+}
+
+const ApiPublicV1DevicesRouteChildren: ApiPublicV1DevicesRouteChildren = {
+  ApiPublicV1DevicesDeviceIdRoute: ApiPublicV1DevicesDeviceIdRouteWithChildren,
+}
+
+const ApiPublicV1DevicesRouteWithChildren =
+  ApiPublicV1DevicesRoute._addFileChildren(ApiPublicV1DevicesRouteChildren)
+
+interface ApiPublicV1SessionsSessionIdRouteChildren {
+  ApiPublicV1SessionsSessionIdEndRoute: typeof ApiPublicV1SessionsSessionIdEndRoute
+}
+
+const ApiPublicV1SessionsSessionIdRouteChildren: ApiPublicV1SessionsSessionIdRouteChildren =
+  {
+    ApiPublicV1SessionsSessionIdEndRoute: ApiPublicV1SessionsSessionIdEndRoute,
+  }
+
+const ApiPublicV1SessionsSessionIdRouteWithChildren =
+  ApiPublicV1SessionsSessionIdRoute._addFileChildren(
+    ApiPublicV1SessionsSessionIdRouteChildren,
+  )
+
+interface ApiPublicV1SessionsRouteChildren {
+  ApiPublicV1SessionsSessionIdRoute: typeof ApiPublicV1SessionsSessionIdRouteWithChildren
+}
+
+const ApiPublicV1SessionsRouteChildren: ApiPublicV1SessionsRouteChildren = {
+  ApiPublicV1SessionsSessionIdRoute:
+    ApiPublicV1SessionsSessionIdRouteWithChildren,
+}
+
+const ApiPublicV1SessionsRouteWithChildren =
+  ApiPublicV1SessionsRoute._addFileChildren(ApiPublicV1SessionsRouteChildren)
+
+interface ApiPublicV1AutomationPipelinesRouteChildren {
+  ApiPublicV1AutomationPipelinesPipelineIdRunRoute: typeof ApiPublicV1AutomationPipelinesPipelineIdRunRoute
+}
+
+const ApiPublicV1AutomationPipelinesRouteChildren: ApiPublicV1AutomationPipelinesRouteChildren =
+  {
+    ApiPublicV1AutomationPipelinesPipelineIdRunRoute:
+      ApiPublicV1AutomationPipelinesPipelineIdRunRoute,
+  }
+
+const ApiPublicV1AutomationPipelinesRouteWithChildren =
+  ApiPublicV1AutomationPipelinesRoute._addFileChildren(
+    ApiPublicV1AutomationPipelinesRouteChildren,
+  )
+
+interface ApiPublicV1WebhooksEndpointsEndpointIdRouteChildren {
+  ApiPublicV1WebhooksEndpointsEndpointIdTestRoute: typeof ApiPublicV1WebhooksEndpointsEndpointIdTestRoute
+}
+
+const ApiPublicV1WebhooksEndpointsEndpointIdRouteChildren: ApiPublicV1WebhooksEndpointsEndpointIdRouteChildren =
+  {
+    ApiPublicV1WebhooksEndpointsEndpointIdTestRoute:
+      ApiPublicV1WebhooksEndpointsEndpointIdTestRoute,
+  }
+
+const ApiPublicV1WebhooksEndpointsEndpointIdRouteWithChildren =
+  ApiPublicV1WebhooksEndpointsEndpointIdRoute._addFileChildren(
+    ApiPublicV1WebhooksEndpointsEndpointIdRouteChildren,
+  )
+
+interface ApiPublicV1WebhooksEndpointsRouteChildren {
+  ApiPublicV1WebhooksEndpointsEndpointIdRoute: typeof ApiPublicV1WebhooksEndpointsEndpointIdRouteWithChildren
+}
+
+const ApiPublicV1WebhooksEndpointsRouteChildren: ApiPublicV1WebhooksEndpointsRouteChildren =
+  {
+    ApiPublicV1WebhooksEndpointsEndpointIdRoute:
+      ApiPublicV1WebhooksEndpointsEndpointIdRouteWithChildren,
+  }
+
+const ApiPublicV1WebhooksEndpointsRouteWithChildren =
+  ApiPublicV1WebhooksEndpointsRoute._addFileChildren(
+    ApiPublicV1WebhooksEndpointsRouteChildren,
+  )
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRouteWithChildren,
@@ -920,8 +1342,19 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
   InviteTokenRoute: InviteTokenRoute,
+  ApiPublicV1DevicesRoute: ApiPublicV1DevicesRouteWithChildren,
   ApiPublicV1MeRoute: ApiPublicV1MeRoute,
+  ApiPublicV1NotificationsRoute: ApiPublicV1NotificationsRoute,
+  ApiPublicV1SessionsRoute: ApiPublicV1SessionsRouteWithChildren,
   ApiPublicWebhooksStripeRoute: ApiPublicWebhooksStripeRoute,
+  ApiPublicV1AuditLogsRoute: ApiPublicV1AuditLogsRoute,
+  ApiPublicV1AutomationPipelinesRoute:
+    ApiPublicV1AutomationPipelinesRouteWithChildren,
+  ApiPublicV1BillingUsageRoute: ApiPublicV1BillingUsageRoute,
+  ApiPublicV1SupportTicketsRoute: ApiPublicV1SupportTicketsRoute,
+  ApiPublicV1WebhooksEndpointsRoute:
+    ApiPublicV1WebhooksEndpointsRouteWithChildren,
+  ApiPublicV1AutomationRunsRunIdRoute: ApiPublicV1AutomationRunsRunIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
