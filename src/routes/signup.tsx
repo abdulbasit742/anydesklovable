@@ -49,9 +49,15 @@ function Signup() {
     const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
     if (result.error) return toast.error(result.error.message ?? "Google sign-up failed");
     if (result.redirected) return;
+    for (let i = 0; i < 20; i++) {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) break;
+      await new Promise((r) => setTimeout(r, 100));
+    }
     toast.success("Account created");
-    navigate({ to: "/dashboard" });
+    window.location.assign("/dashboard");
   }
+
 
   return (
     <AuthLayout title="Create your account" subtitle="Free for personal use. No credit card required.">
