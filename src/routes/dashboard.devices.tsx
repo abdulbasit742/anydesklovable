@@ -29,6 +29,9 @@ function DevicesPage() {
   const teamId = team?.team_id;
   const qc = useQueryClient();
 
+  const presenceQ = useDevicePresenceMap();
+  const presenceMap = presenceQ.data?.map;
+
   const { data: devices = [], isLoading, error } = useQuery({
     queryKey: ["devices", teamId],
     enabled: !!teamId,
@@ -78,7 +81,8 @@ function DevicesPage() {
               <tr>
                 <th className="px-4 py-2 text-left font-medium">Device</th>
                 <th className="px-4 py-2 text-left font-medium">OS</th>
-                <th className="px-4 py-2 text-left font-medium">Status</th>
+                <th className="px-4 py-2 text-left font-medium">Presence</th>
+                <th className="px-4 py-2 text-left font-medium">Quality</th>
                 <th className="px-4 py-2 text-left font-medium">RemoteDesk ID</th>
                 <th className="px-4 py-2 text-left font-medium">Last seen</th>
                 <th className="px-4 py-2"></th>
@@ -86,12 +90,14 @@ function DevicesPage() {
             </thead>
             <tbody>
               {isLoading && (
-                <tr><td colSpan={6} className="px-4 py-10 text-center text-sm text-muted-foreground">Loading devices…</td></tr>
+                <tr><td colSpan={7} className="px-4 py-10 text-center text-sm text-muted-foreground">Loading devices…</td></tr>
               )}
               {error && (
-                <tr><td colSpan={6} className="px-4 py-10 text-center text-sm text-destructive">{(error as Error).message}</td></tr>
+                <tr><td colSpan={7} className="px-4 py-10 text-center text-sm text-destructive">{(error as Error).message}</td></tr>
               )}
-              {!isLoading && !error && filtered.map((d) => (
+              {!isLoading && !error && filtered.map((d) => {
+                const presence = presenceMap?.get(d.id) ?? null;
+                return (
                 <tr key={d.id} className="border-t border-border hover:bg-muted/30">
                   <td className="px-4 py-2 font-medium">
                     <Link
@@ -106,10 +112,17 @@ function DevicesPage() {
                   <td className="px-4 py-2">
                     <span className="rounded-md border border-border bg-muted px-1.5 py-0.5 text-xs">{d.os}</span>
                   </td>
-                  <td className="px-4 py-2"><StatusBadge variant={d.status}>{d.status}</StatusBadge></td>
+                  <td className="px-4 py-2">
+                    {presence
+                      ? <DevicePresenceBadge presence={presence} />
+                      : <StatusBadge variant={d.status}>{d.status}</StatusBadge>}
+                  </td>
+                  <td className="px-4 py-2"><ConnectionQualityIndicator presence={presence} /></td>
                   <td className="px-4 py-2 font-mono text-xs">{formatRemoteDeskId(d.remote_desk_id)}</td>
                   <td className="px-4 py-2 text-muted-foreground">
-                    {d.last_seen ? formatDistanceToNow(new Date(d.last_seen), { addSuffix: true }) : "—"}
+                    {(presence?.last_seen_at || d.last_seen)
+                      ? formatDistanceToNow(new Date(presence?.last_seen_at ?? d.last_seen!), { addSuffix: true })
+                      : "—"}
                   </td>
                   <td className="px-4 py-2 text-right">
                     <DropdownMenu>
@@ -126,9 +139,9 @@ function DevicesPage() {
                     </DropdownMenu>
                   </td>
                 </tr>
-              ))}
+              );})}
               {!isLoading && !error && filtered.length === 0 && (
-                <tr><td colSpan={6} className="px-4 py-10 text-center text-sm text-muted-foreground">
+                <tr><td colSpan={7} className="px-4 py-10 text-center text-sm text-muted-foreground">
                   {devices.length === 0
                     ? "No devices yet. Install the desktop client and pair your first device."
                     : "No devices match your search."}
