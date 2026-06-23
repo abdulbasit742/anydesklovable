@@ -235,7 +235,44 @@ function DeviceDetail() {
         </div>
       </div>
 
+      <div className="mt-6"><DeviceHeartbeatCard presence={presenceQ.data} /></div>
+
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <div className="rounded-lg border border-border bg-card">
+          <div className="flex items-center justify-between border-b border-border px-4 py-3">
+            <div className="text-sm font-semibold">Recent presence events</div>
+            {!isDemo && presenceQ.data?.status !== "offline" && (
+              <Button size="sm" variant="ghost" onClick={() => markOffline.mutate(deviceId)} disabled={markOffline.isPending}>
+                Mark offline
+              </Button>
+            )}
+          </div>
+          <PanelState
+            loading={presenceEventsQ.isLoading}
+            error={presenceEventsQ.error}
+            empty={(presenceEventsQ.data ?? []).length === 0}
+            emptyText="No presence events recorded yet."
+          >
+            <ul className="divide-y divide-border">
+              {(presenceEventsQ.data ?? []).map((e) => (
+                <li key={e.id} className="flex items-start justify-between gap-3 px-4 py-3">
+                  <div className="min-w-0">
+                    <div className="text-sm font-medium capitalize">{e.event_type.replace(/_/g, " ")}</div>
+                    <div className="mt-0.5 text-xs text-muted-foreground">
+                      {e.previous_status && <span className="font-mono">{e.previous_status}</span>}
+                      {e.previous_status && <span> → </span>}
+                      <span className="font-mono">{e.new_status}</span>
+                      {e.reason && <span> · {e.reason}</span>}
+                    </div>
+                  </div>
+                  <span className="shrink-0 text-[11px] text-muted-foreground">{formatDistanceToNow(new Date(e.created_at), { addSuffix: true })}</span>
+                </li>
+              ))}
+            </ul>
+          </PanelState>
+        </div>
+
+      <div className="mt-0 grid gap-4 lg:grid-cols-1">
         <div className="rounded-lg border border-border bg-card">
           <div className="border-b border-border px-4 py-3 text-sm font-semibold">Session history</div>
           <PanelState loading={history.isLoading} error={history.error} empty={history.data.length === 0} emptyText="No sessions recorded for this device.">
