@@ -24,6 +24,7 @@ import { Route as DashboardSupportRouteImport } from './routes/dashboard.support
 import { Route as DashboardSessionsRouteImport } from './routes/dashboard.sessions'
 import { Route as DashboardSecurityRouteImport } from './routes/dashboard.security'
 import { Route as DashboardPoliciesRouteImport } from './routes/dashboard.policies'
+import { Route as DashboardNotificationsRouteImport } from './routes/dashboard.notifications'
 import { Route as DashboardMobileRouteImport } from './routes/dashboard.mobile'
 import { Route as DashboardDevicesRouteImport } from './routes/dashboard.devices'
 import { Route as DashboardDeveloperRouteImport } from './routes/dashboard.developer'
@@ -122,6 +123,11 @@ const DashboardSecurityRoute = DashboardSecurityRouteImport.update({
 const DashboardPoliciesRoute = DashboardPoliciesRouteImport.update({
   id: '/policies',
   path: '/policies',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardNotificationsRoute = DashboardNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardMobileRoute = DashboardMobileRouteImport.update({
@@ -275,6 +281,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/developer': typeof DashboardDeveloperRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
   '/dashboard/mobile': typeof DashboardMobileRoute
+  '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
@@ -314,6 +321,7 @@ export interface FileRoutesByTo {
   '/dashboard/developer': typeof DashboardDeveloperRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
   '/dashboard/mobile': typeof DashboardMobileRoute
+  '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
@@ -356,6 +364,7 @@ export interface FileRoutesById {
   '/dashboard/developer': typeof DashboardDeveloperRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
   '/dashboard/mobile': typeof DashboardMobileRoute
+  '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
@@ -399,6 +408,7 @@ export interface FileRouteTypes {
     | '/dashboard/developer'
     | '/dashboard/devices'
     | '/dashboard/mobile'
+    | '/dashboard/notifications'
     | '/dashboard/policies'
     | '/dashboard/security'
     | '/dashboard/sessions'
@@ -438,6 +448,7 @@ export interface FileRouteTypes {
     | '/dashboard/developer'
     | '/dashboard/devices'
     | '/dashboard/mobile'
+    | '/dashboard/notifications'
     | '/dashboard/policies'
     | '/dashboard/security'
     | '/dashboard/sessions'
@@ -479,6 +490,7 @@ export interface FileRouteTypes {
     | '/dashboard/developer'
     | '/dashboard/devices'
     | '/dashboard/mobile'
+    | '/dashboard/notifications'
     | '/dashboard/policies'
     | '/dashboard/security'
     | '/dashboard/sessions'
@@ -623,6 +635,13 @@ declare module '@tanstack/react-router' {
       path: '/policies'
       fullPath: '/dashboard/policies'
       preLoaderRoute: typeof DashboardPoliciesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/notifications': {
+      id: '/dashboard/notifications'
+      path: '/notifications'
+      fullPath: '/dashboard/notifications'
+      preLoaderRoute: typeof DashboardNotificationsRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/mobile': {
@@ -860,6 +879,7 @@ interface DashboardRouteChildren {
   DashboardDeveloperRoute: typeof DashboardDeveloperRoute
   DashboardDevicesRoute: typeof DashboardDevicesRouteWithChildren
   DashboardMobileRoute: typeof DashboardMobileRoute
+  DashboardNotificationsRoute: typeof DashboardNotificationsRoute
   DashboardPoliciesRoute: typeof DashboardPoliciesRouteWithChildren
   DashboardSecurityRoute: typeof DashboardSecurityRoute
   DashboardSessionsRoute: typeof DashboardSessionsRoute
@@ -877,6 +897,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardDeveloperRoute: DashboardDeveloperRoute,
   DashboardDevicesRoute: DashboardDevicesRouteWithChildren,
   DashboardMobileRoute: DashboardMobileRoute,
+  DashboardNotificationsRoute: DashboardNotificationsRoute,
   DashboardPoliciesRoute: DashboardPoliciesRouteWithChildren,
   DashboardSecurityRoute: DashboardSecurityRoute,
   DashboardSessionsRoute: DashboardSessionsRoute,
