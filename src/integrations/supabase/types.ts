@@ -1220,6 +1220,364 @@ export type Database = {
           },
         ]
       }
+      customer_accounts: {
+        Row: {
+          account_type: string
+          created_at: string
+          created_by: string | null
+          id: string
+          metadata: Json
+          name: string
+          notes: string | null
+          phone: string | null
+          primary_contact_email: string | null
+          primary_contact_name: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          account_type?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          metadata?: Json
+          name: string
+          notes?: string | null
+          phone?: string | null
+          primary_contact_email?: string | null
+          primary_contact_name?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          account_type?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          metadata?: Json
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          primary_contact_email?: string | null
+          primary_contact_name?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      customer_device_links: {
+        Row: {
+          access_status: string
+          added_at: string
+          added_by: string | null
+          created_at: string
+          customer_account_id: string | null
+          customer_user_id: string | null
+          device_id: string
+          display_name: string | null
+          id: string
+          metadata: Json
+          relationship: string
+          revoked_at: string | null
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          access_status?: string
+          added_at?: string
+          added_by?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          device_id: string
+          display_name?: string | null
+          id?: string
+          metadata?: Json
+          relationship?: string
+          revoked_at?: string | null
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          access_status?: string
+          added_at?: string
+          added_by?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          device_id?: string
+          display_name?: string | null
+          id?: string
+          metadata?: Json
+          relationship?: string
+          revoked_at?: string | null
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_device_links_customer_account_id_fkey"
+            columns: ["customer_account_id"]
+            isOneToOne: false
+            referencedRelation: "customer_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_device_links_customer_user_id_fkey"
+            columns: ["customer_user_id"]
+            isOneToOne: false
+            referencedRelation: "customer_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customer_portal_events: {
+        Row: {
+          actor_user_id: string | null
+          created_at: string
+          customer_account_id: string | null
+          customer_user_id: string | null
+          description: string | null
+          device_id: string | null
+          event_type: string
+          id: string
+          metadata: Json
+          session_id: string | null
+          severity: string
+          support_ticket_id: string | null
+          team_id: string
+          title: string
+        }
+        Insert: {
+          actor_user_id?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          description?: string | null
+          device_id?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json
+          session_id?: string | null
+          severity?: string
+          support_ticket_id?: string | null
+          team_id: string
+          title: string
+        }
+        Update: {
+          actor_user_id?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          description?: string | null
+          device_id?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json
+          session_id?: string | null
+          severity?: string
+          support_ticket_id?: string | null
+          team_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_portal_events_customer_account_id_fkey"
+            columns: ["customer_account_id"]
+            isOneToOne: false
+            referencedRelation: "customer_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_portal_events_customer_user_id_fkey"
+            columns: ["customer_user_id"]
+            isOneToOne: false
+            referencedRelation: "customer_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customer_portal_invitations: {
+        Row: {
+          accepted_at: string | null
+          accepted_by: string | null
+          created_at: string
+          customer_account_id: string | null
+          email: string
+          expires_at: string
+          full_name: string | null
+          id: string
+          invited_by: string | null
+          metadata: Json
+          role: string
+          status: string
+          team_id: string
+          token_hash: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          email: string
+          expires_at: string
+          full_name?: string | null
+          id?: string
+          invited_by?: string | null
+          metadata?: Json
+          role?: string
+          status?: string
+          team_id: string
+          token_hash: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          email?: string
+          expires_at?: string
+          full_name?: string | null
+          id?: string
+          invited_by?: string | null
+          metadata?: Json
+          role?: string
+          status?: string
+          team_id?: string
+          token_hash?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_portal_invitations_customer_account_id_fkey"
+            columns: ["customer_account_id"]
+            isOneToOne: false
+            referencedRelation: "customer_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customer_portal_settings: {
+        Row: {
+          allow_customer_device_onboarding: boolean
+          allow_customer_session_requests: boolean
+          allow_customer_ticket_creation: boolean
+          brand_name: string | null
+          created_at: string
+          id: string
+          portal_enabled: boolean
+          portal_slug: string | null
+          privacy_notice: string | null
+          require_consent_for_each_session: boolean
+          require_customer_mfa: boolean
+          support_email: string | null
+          support_phone: string | null
+          team_id: string
+          terms_url: string | null
+          updated_at: string
+          welcome_message: string | null
+        }
+        Insert: {
+          allow_customer_device_onboarding?: boolean
+          allow_customer_session_requests?: boolean
+          allow_customer_ticket_creation?: boolean
+          brand_name?: string | null
+          created_at?: string
+          id?: string
+          portal_enabled?: boolean
+          portal_slug?: string | null
+          privacy_notice?: string | null
+          require_consent_for_each_session?: boolean
+          require_customer_mfa?: boolean
+          support_email?: string | null
+          support_phone?: string | null
+          team_id: string
+          terms_url?: string | null
+          updated_at?: string
+          welcome_message?: string | null
+        }
+        Update: {
+          allow_customer_device_onboarding?: boolean
+          allow_customer_session_requests?: boolean
+          allow_customer_ticket_creation?: boolean
+          brand_name?: string | null
+          created_at?: string
+          id?: string
+          portal_enabled?: boolean
+          portal_slug?: string | null
+          privacy_notice?: string | null
+          require_consent_for_each_session?: boolean
+          require_customer_mfa?: boolean
+          support_email?: string | null
+          support_phone?: string | null
+          team_id?: string
+          terms_url?: string | null
+          updated_at?: string
+          welcome_message?: string | null
+        }
+        Relationships: []
+      }
+      customer_users: {
+        Row: {
+          activated_at: string | null
+          created_at: string
+          customer_account_id: string
+          email: string
+          full_name: string | null
+          id: string
+          invited_by: string | null
+          last_login_at: string | null
+          role: string
+          status: string
+          team_id: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          activated_at?: string | null
+          created_at?: string
+          customer_account_id: string
+          email: string
+          full_name?: string | null
+          id?: string
+          invited_by?: string | null
+          last_login_at?: string | null
+          role?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          activated_at?: string | null
+          created_at?: string
+          customer_account_id?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          invited_by?: string | null
+          last_login_at?: string | null
+          role?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_users_customer_account_id_fkey"
+            columns: ["customer_account_id"]
+            isOneToOne: false
+            referencedRelation: "customer_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       developer_docs_feedback: {
         Row: {
           created_at: string
@@ -1459,6 +1817,84 @@ export type Database = {
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      device_onboarding_invites: {
+        Row: {
+          claimed_at: string | null
+          claimed_by: string | null
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          customer_account_id: string | null
+          customer_user_id: string | null
+          device_id: string | null
+          device_name_hint: string | null
+          display_code: string | null
+          expires_at: string
+          id: string
+          invite_code_hash: string
+          metadata: Json
+          platform_hint: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          claimed_at?: string | null
+          claimed_by?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          device_id?: string | null
+          device_name_hint?: string | null
+          display_code?: string | null
+          expires_at: string
+          id?: string
+          invite_code_hash: string
+          metadata?: Json
+          platform_hint?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          claimed_at?: string | null
+          claimed_by?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          device_id?: string | null
+          device_name_hint?: string | null
+          display_code?: string | null
+          expires_at?: string
+          id?: string
+          invite_code_hash?: string
+          metadata?: Json
+          platform_hint?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "device_onboarding_invites_customer_account_id_fkey"
+            columns: ["customer_account_id"]
+            isOneToOne: false
+            referencedRelation: "customer_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "device_onboarding_invites_customer_user_id_fkey"
+            columns: ["customer_user_id"]
+            isOneToOne: false
+            referencedRelation: "customer_users"
             referencedColumns: ["id"]
           },
         ]
@@ -2615,6 +3051,219 @@ export type Database = {
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      portal_consent_records: {
+        Row: {
+          consent_text: string | null
+          consent_type: string
+          created_at: string
+          customer_account_id: string | null
+          customer_user_id: string | null
+          denied_at: string | null
+          device_id: string | null
+          expires_at: string | null
+          granted_at: string | null
+          id: string
+          ip_address: unknown
+          metadata: Json
+          response_note: string | null
+          session_id: string | null
+          status: string
+          support_ticket_id: string | null
+          team_id: string
+          user_agent: string | null
+          withdrawn_at: string | null
+        }
+        Insert: {
+          consent_text?: string | null
+          consent_type: string
+          created_at?: string
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          denied_at?: string | null
+          device_id?: string | null
+          expires_at?: string | null
+          granted_at?: string | null
+          id?: string
+          ip_address?: unknown
+          metadata?: Json
+          response_note?: string | null
+          session_id?: string | null
+          status: string
+          support_ticket_id?: string | null
+          team_id: string
+          user_agent?: string | null
+          withdrawn_at?: string | null
+        }
+        Update: {
+          consent_text?: string | null
+          consent_type?: string
+          created_at?: string
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          denied_at?: string | null
+          device_id?: string | null
+          expires_at?: string | null
+          granted_at?: string | null
+          id?: string
+          ip_address?: unknown
+          metadata?: Json
+          response_note?: string | null
+          session_id?: string | null
+          status?: string
+          support_ticket_id?: string | null
+          team_id?: string
+          user_agent?: string | null
+          withdrawn_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portal_consent_records_customer_account_id_fkey"
+            columns: ["customer_account_id"]
+            isOneToOne: false
+            referencedRelation: "customer_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "portal_consent_records_customer_user_id_fkey"
+            columns: ["customer_user_id"]
+            isOneToOne: false
+            referencedRelation: "customer_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      portal_download_links: {
+        Row: {
+          active: boolean
+          checksum: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          label: string
+          notes: string | null
+          platform: string
+          team_id: string
+          updated_at: string
+          url: string | null
+          version: string | null
+        }
+        Insert: {
+          active?: boolean
+          checksum?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          label: string
+          notes?: string | null
+          platform: string
+          team_id: string
+          updated_at?: string
+          url?: string | null
+          version?: string | null
+        }
+        Update: {
+          active?: boolean
+          checksum?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          label?: string
+          notes?: string | null
+          platform?: string
+          team_id?: string
+          updated_at?: string
+          url?: string | null
+          version?: string | null
+        }
+        Relationships: []
+      }
+      portal_session_requests: {
+        Row: {
+          approved_at: string | null
+          completed_at: string | null
+          created_at: string
+          customer_account_id: string | null
+          customer_message: string | null
+          customer_user_id: string | null
+          denied_at: string | null
+          device_id: string | null
+          expires_at: string | null
+          id: string
+          metadata: Json
+          reason: string | null
+          request_type: string
+          requested_by: string | null
+          session_id: string | null
+          status: string
+          support_ticket_id: string | null
+          team_id: string
+          technician_id: string | null
+          technician_message: string | null
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string | null
+          completed_at?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          customer_message?: string | null
+          customer_user_id?: string | null
+          denied_at?: string | null
+          device_id?: string | null
+          expires_at?: string | null
+          id?: string
+          metadata?: Json
+          reason?: string | null
+          request_type?: string
+          requested_by?: string | null
+          session_id?: string | null
+          status?: string
+          support_ticket_id?: string | null
+          team_id: string
+          technician_id?: string | null
+          technician_message?: string | null
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string | null
+          completed_at?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          customer_message?: string | null
+          customer_user_id?: string | null
+          denied_at?: string | null
+          device_id?: string | null
+          expires_at?: string | null
+          id?: string
+          metadata?: Json
+          reason?: string | null
+          request_type?: string
+          requested_by?: string | null
+          session_id?: string | null
+          status?: string
+          support_ticket_id?: string | null
+          team_id?: string
+          technician_id?: string | null
+          technician_message?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portal_session_requests_customer_account_id_fkey"
+            columns: ["customer_account_id"]
+            isOneToOne: false
+            referencedRelation: "customer_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "portal_session_requests_customer_user_id_fkey"
+            columns: ["customer_user_id"]
+            isOneToOne: false
+            referencedRelation: "customer_users"
             referencedColumns: ["id"]
           },
         ]
