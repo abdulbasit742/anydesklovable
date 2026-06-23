@@ -128,7 +128,7 @@ export function useDisableMfa() {
       for (const f of all) {
         await supabase.auth.mfa.unenroll({ factorId: f.id }).catch(() => {});
       }
-      const { error } = await supabase.rpc("disable_mfa", { p_reason: reason ?? null });
+      const { error } = await supabase.rpc("disable_mfa", { p_reason: reason ?? undefined });
       if (error) throw error;
     },
     onSuccess: () => {
