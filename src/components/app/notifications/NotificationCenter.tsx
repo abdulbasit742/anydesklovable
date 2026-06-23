@@ -8,7 +8,6 @@ import {
   type Severity,
 } from "@/lib/services/presence";
 import { cn } from "@/lib/utils";
-import { Link } from "@tanstack/react-router";
 
 const sevIcon = { info: Info, warning: AlertTriangle, critical: AlertCircle } as const;
 const sevCls = { info: "text-primary", warning: "text-warning", critical: "text-destructive" } as const;
@@ -70,7 +69,7 @@ export function NotificationCenter() {
           );
           return (
             <div key={n.id}>
-              {n.action_url ? <Link to={n.action_url}>{inner}</Link> : inner}
+              {n.action_url ? <a href={n.action_url}>{inner}</a> : inner}
             </div>
           );
         })}

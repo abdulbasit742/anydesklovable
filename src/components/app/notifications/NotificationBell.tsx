@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+
 import { Bell, CheckCheck, AlertTriangle, AlertCircle, Info } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { Button } from "@/components/ui/button";
@@ -38,7 +38,7 @@ function Row({ n, onRead }: { n: Notification; onRead: (id: string) => void }) {
       onClick={() => { if (!n.read_at) onRead(n.id); }}
       className="block w-full text-left"
     >
-      {n.action_url ? <Link to={n.action_url}>{body}</Link> : body}
+      {n.action_url ? <a href={n.action_url}>{body}</a> : body}
     </button>
   );
 }
@@ -80,9 +80,9 @@ export function NotificationBell() {
           {notifications.map((n) => <Row key={n.id} n={n} onRead={(id) => markRead.mutate(id)} />)}
         </div>
         <div className="border-t border-border px-4 py-2 text-center">
-          <Link to="/dashboard/notifications" className="text-xs font-medium text-primary hover:underline">
+          <a href="/dashboard/notifications" className="text-xs font-medium text-primary hover:underline">
             View all notifications
-          </Link>
+          </a>
         </div>
       </DropdownMenuContent>
     </DropdownMenu>
