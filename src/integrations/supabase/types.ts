@@ -1932,6 +1932,877 @@ export type Database = {
           },
         ]
       }
+      bi_access_audit_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          description: string | null
+          event_type: string
+          id: string
+          metadata: Json
+          resource_id: string | null
+          resource_type: string | null
+          severity: string
+          team_id: string
+          title: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id: string
+          title: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      bi_business_glossary_terms: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          definition: string
+          domain: string
+          id: string
+          owner_user_id: string | null
+          related_dataset_ids: string[]
+          related_metric_ids: string[]
+          status: string
+          team_id: string
+          term: string
+          term_key: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          definition: string
+          domain?: string
+          id?: string
+          owner_user_id?: string | null
+          related_dataset_ids?: string[]
+          related_metric_ids?: string[]
+          status?: string
+          team_id: string
+          term: string
+          term_key: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          definition?: string
+          domain?: string
+          id?: string
+          owner_user_id?: string | null
+          related_dataset_ids?: string[]
+          related_metric_ids?: string[]
+          status?: string
+          team_id?: string
+          term?: string
+          term_key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      bi_dashboard_widgets: {
+        Row: {
+          config: Json
+          created_at: string
+          dashboard_id: string
+          dataset_id: string | null
+          description: string | null
+          id: string
+          metric_id: string | null
+          sort_order: number
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+          widget_key: string
+          widget_type: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          dashboard_id: string
+          dataset_id?: string | null
+          description?: string | null
+          id?: string
+          metric_id?: string | null
+          sort_order?: number
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+          widget_key: string
+          widget_type?: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          dashboard_id?: string
+          dataset_id?: string | null
+          description?: string | null
+          id?: string
+          metric_id?: string | null
+          sort_order?: number
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+          widget_key?: string
+          widget_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bi_dashboard_widgets_dashboard_id_fkey"
+            columns: ["dashboard_id"]
+            isOneToOne: false
+            referencedRelation: "bi_dashboards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bi_dashboard_widgets_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "bi_dataset_definitions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bi_dashboard_widgets_metric_id_fkey"
+            columns: ["metric_id"]
+            isOneToOne: false
+            referencedRelation: "bi_metric_definitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bi_dashboards: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          dashboard_key: string
+          dashboard_type: string
+          description: string | null
+          filters: Json
+          id: string
+          layout: Json
+          name: string
+          owner_user_id: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          visibility: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          dashboard_key: string
+          dashboard_type?: string
+          description?: string | null
+          filters?: Json
+          id?: string
+          layout?: Json
+          name: string
+          owner_user_id?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+          visibility?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          dashboard_key?: string
+          dashboard_type?: string
+          description?: string | null
+          filters?: Json
+          id?: string
+          layout?: Json
+          name?: string
+          owner_user_id?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+          visibility?: string
+        }
+        Relationships: []
+      }
+      bi_data_quality_results: {
+        Row: {
+          actual_result: string | null
+          checked_at: string
+          created_at: string
+          dataset_id: string | null
+          details: Json
+          error_message: string | null
+          id: string
+          metric_id: string | null
+          rule_id: string
+          score: number | null
+          status: string
+          team_id: string
+        }
+        Insert: {
+          actual_result?: string | null
+          checked_at?: string
+          created_at?: string
+          dataset_id?: string | null
+          details?: Json
+          error_message?: string | null
+          id?: string
+          metric_id?: string | null
+          rule_id: string
+          score?: number | null
+          status: string
+          team_id: string
+        }
+        Update: {
+          actual_result?: string | null
+          checked_at?: string
+          created_at?: string
+          dataset_id?: string | null
+          details?: Json
+          error_message?: string | null
+          id?: string
+          metric_id?: string | null
+          rule_id?: string
+          score?: number | null
+          status?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bi_data_quality_results_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "bi_data_quality_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bi_data_quality_rules: {
+        Row: {
+          config: Json
+          created_at: string
+          created_by: string | null
+          dataset_id: string | null
+          description: string | null
+          expected_result: string | null
+          id: string
+          metric_id: string | null
+          name: string
+          owner_user_id: string | null
+          rule_key: string
+          rule_type: string
+          severity: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          dataset_id?: string | null
+          description?: string | null
+          expected_result?: string | null
+          id?: string
+          metric_id?: string | null
+          name: string
+          owner_user_id?: string | null
+          rule_key: string
+          rule_type: string
+          severity?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          dataset_id?: string | null
+          description?: string | null
+          expected_result?: string | null
+          id?: string
+          metric_id?: string | null
+          name?: string
+          owner_user_id?: string | null
+          rule_key?: string
+          rule_type?: string
+          severity?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bi_data_quality_rules_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "bi_dataset_definitions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bi_data_quality_rules_metric_id_fkey"
+            columns: ["metric_id"]
+            isOneToOne: false
+            referencedRelation: "bi_metric_definitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bi_data_sources: {
+        Row: {
+          config: Json
+          connection_status: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          metadata: Json
+          name: string
+          owner_user_id: string | null
+          sensitivity_level: string
+          source_key: string
+          source_type: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          config?: Json
+          connection_status?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json
+          name: string
+          owner_user_id?: string | null
+          sensitivity_level?: string
+          source_key: string
+          source_type?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          config?: Json
+          connection_status?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json
+          name?: string
+          owner_user_id?: string | null
+          sensitivity_level?: string
+          source_key?: string
+          source_type?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      bi_dataset_definitions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          data_source_id: string | null
+          dataset_key: string
+          dataset_type: string
+          description: string | null
+          domain: string
+          fields: Json
+          filters: Json
+          id: string
+          name: string
+          owner_user_id: string | null
+          refresh_mode: string
+          sensitivity_level: string
+          source_tables: string[]
+          status: string
+          team_id: string
+          updated_at: string
+          visibility: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          data_source_id?: string | null
+          dataset_key: string
+          dataset_type?: string
+          description?: string | null
+          domain?: string
+          fields?: Json
+          filters?: Json
+          id?: string
+          name: string
+          owner_user_id?: string | null
+          refresh_mode?: string
+          sensitivity_level?: string
+          source_tables?: string[]
+          status?: string
+          team_id: string
+          updated_at?: string
+          visibility?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          data_source_id?: string | null
+          dataset_key?: string
+          dataset_type?: string
+          description?: string | null
+          domain?: string
+          fields?: Json
+          filters?: Json
+          id?: string
+          name?: string
+          owner_user_id?: string | null
+          refresh_mode?: string
+          sensitivity_level?: string
+          source_tables?: string[]
+          status?: string
+          team_id?: string
+          updated_at?: string
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bi_dataset_definitions_data_source_id_fkey"
+            columns: ["data_source_id"]
+            isOneToOne: false
+            referencedRelation: "bi_data_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bi_metric_definitions: {
+        Row: {
+          aggregation_config: Json
+          created_at: string
+          created_by: string | null
+          currency: string | null
+          dataset_id: string | null
+          description: string | null
+          desired_direction: string
+          domain: string
+          filters: Json
+          formula: string | null
+          id: string
+          metric_key: string
+          metric_type: string
+          name: string
+          owner_user_id: string | null
+          sensitivity_level: string
+          status: string
+          team_id: string
+          unit: string | null
+          updated_at: string
+        }
+        Insert: {
+          aggregation_config?: Json
+          created_at?: string
+          created_by?: string | null
+          currency?: string | null
+          dataset_id?: string | null
+          description?: string | null
+          desired_direction?: string
+          domain?: string
+          filters?: Json
+          formula?: string | null
+          id?: string
+          metric_key: string
+          metric_type?: string
+          name: string
+          owner_user_id?: string | null
+          sensitivity_level?: string
+          status?: string
+          team_id: string
+          unit?: string | null
+          updated_at?: string
+        }
+        Update: {
+          aggregation_config?: Json
+          created_at?: string
+          created_by?: string | null
+          currency?: string | null
+          dataset_id?: string | null
+          description?: string | null
+          desired_direction?: string
+          domain?: string
+          filters?: Json
+          formula?: string | null
+          id?: string
+          metric_key?: string
+          metric_type?: string
+          name?: string
+          owner_user_id?: string | null
+          sensitivity_level?: string
+          status?: string
+          team_id?: string
+          unit?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bi_metric_definitions_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "bi_dataset_definitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bi_metric_snapshots: {
+        Row: {
+          calculation_source: string
+          confidence: string
+          created_at: string
+          error_message: string | null
+          id: string
+          metadata: Json
+          metric_id: string
+          period_end: string | null
+          period_start: string | null
+          snapshot_at: string
+          status: string
+          team_id: string
+          value_json: Json
+          value_numeric: number | null
+          value_text: string | null
+        }
+        Insert: {
+          calculation_source?: string
+          confidence?: string
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          metadata?: Json
+          metric_id: string
+          period_end?: string | null
+          period_start?: string | null
+          snapshot_at?: string
+          status?: string
+          team_id: string
+          value_json?: Json
+          value_numeric?: number | null
+          value_text?: string | null
+        }
+        Update: {
+          calculation_source?: string
+          confidence?: string
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          metadata?: Json
+          metric_id?: string
+          period_end?: string | null
+          period_start?: string | null
+          snapshot_at?: string
+          status?: string
+          team_id?: string
+          value_json?: Json
+          value_numeric?: number | null
+          value_text?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bi_metric_snapshots_metric_id_fkey"
+            columns: ["metric_id"]
+            isOneToOne: false
+            referencedRelation: "bi_metric_definitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bi_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      bi_sync_jobs: {
+        Row: {
+          connection_id: string | null
+          created_at: string
+          created_by: string | null
+          dataset_id: string | null
+          destination_table: string | null
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          job_type: string
+          output: Json
+          period_end: string | null
+          period_start: string | null
+          records_exported: number
+          records_failed: number
+          records_processed: number
+          started_at: string | null
+          status: string
+          sync_mode: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          connection_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          dataset_id?: string | null
+          destination_table?: string | null
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          job_type?: string
+          output?: Json
+          period_end?: string | null
+          period_start?: string | null
+          records_exported?: number
+          records_failed?: number
+          records_processed?: number
+          started_at?: string | null
+          status?: string
+          sync_mode?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          connection_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          dataset_id?: string | null
+          destination_table?: string | null
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          job_type?: string
+          output?: Json
+          period_end?: string | null
+          period_start?: string | null
+          records_exported?: number
+          records_failed?: number
+          records_processed?: number
+          started_at?: string | null
+          status?: string
+          sync_mode?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bi_sync_jobs_connection_id_fkey"
+            columns: ["connection_id"]
+            isOneToOne: false
+            referencedRelation: "bi_warehouse_connections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bi_sync_jobs_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "bi_dataset_definitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bi_sync_schedules: {
+        Row: {
+          connection_id: string | null
+          created_at: string
+          created_by: string | null
+          cron_expression: string | null
+          dashboard_id: string | null
+          dataset_id: string | null
+          frequency: string
+          id: string
+          last_run_at: string | null
+          name: string
+          next_run_at: string | null
+          schedule_key: string
+          schedule_type: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          connection_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          cron_expression?: string | null
+          dashboard_id?: string | null
+          dataset_id?: string | null
+          frequency?: string
+          id?: string
+          last_run_at?: string | null
+          name: string
+          next_run_at?: string | null
+          schedule_key: string
+          schedule_type?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          connection_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          cron_expression?: string | null
+          dashboard_id?: string | null
+          dataset_id?: string | null
+          frequency?: string
+          id?: string
+          last_run_at?: string | null
+          name?: string
+          next_run_at?: string | null
+          schedule_key?: string
+          schedule_type?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bi_sync_schedules_connection_id_fkey"
+            columns: ["connection_id"]
+            isOneToOne: false
+            referencedRelation: "bi_warehouse_connections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bi_sync_schedules_dashboard_id_fkey"
+            columns: ["dashboard_id"]
+            isOneToOne: false
+            referencedRelation: "bi_dashboards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bi_sync_schedules_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "bi_dataset_definitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bi_warehouse_connections: {
+        Row: {
+          config: Json
+          connection_key: string
+          created_at: string
+          created_by: string | null
+          credential_reference: string | null
+          credential_status: string
+          destination_schema: string | null
+          id: string
+          last_error_message: string | null
+          last_tested_at: string | null
+          name: string
+          region: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          warehouse_type: string
+        }
+        Insert: {
+          config?: Json
+          connection_key: string
+          created_at?: string
+          created_by?: string | null
+          credential_reference?: string | null
+          credential_status?: string
+          destination_schema?: string | null
+          id?: string
+          last_error_message?: string | null
+          last_tested_at?: string | null
+          name: string
+          region?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+          warehouse_type: string
+        }
+        Update: {
+          config?: Json
+          connection_key?: string
+          created_at?: string
+          created_by?: string | null
+          credential_reference?: string | null
+          credential_status?: string
+          destination_schema?: string | null
+          id?: string
+          last_error_message?: string | null
+          last_tested_at?: string | null
+          name?: string
+          region?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+          warehouse_type?: string
+        }
+        Relationships: []
+      }
       billing_alert_events: {
         Row: {
           acknowledged_at: string | null
@@ -2864,6 +3735,72 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      board_report_packets: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          artifact_id: string | null
+          audience: string
+          created_at: string
+          created_by: string | null
+          delivered_at: string | null
+          description: string | null
+          id: string
+          included_dashboard_ids: string[]
+          included_report_ids: string[]
+          packet_key: string
+          period_end: string | null
+          period_start: string | null
+          sections: Json
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          artifact_id?: string | null
+          audience?: string
+          created_at?: string
+          created_by?: string | null
+          delivered_at?: string | null
+          description?: string | null
+          id?: string
+          included_dashboard_ids?: string[]
+          included_report_ids?: string[]
+          packet_key: string
+          period_end?: string | null
+          period_start?: string | null
+          sections?: Json
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          artifact_id?: string | null
+          audience?: string
+          created_at?: string
+          created_by?: string | null
+          delivered_at?: string | null
+          description?: string | null
+          id?: string
+          included_dashboard_ids?: string[]
+          included_report_ids?: string[]
+          packet_key?: string
+          period_end?: string | null
+          period_start?: string | null
+          sections?: Json
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       chain_of_custody_events: {
         Row: {
@@ -5994,6 +6931,138 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      executive_scorecard_items: {
+        Row: {
+          actual_value: number | null
+          created_at: string
+          description: string | null
+          id: string
+          metadata: Json
+          metric_id: string | null
+          narrative: string | null
+          scorecard_id: string
+          sort_order: number
+          status: string
+          target_value: number | null
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          actual_value?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          metadata?: Json
+          metric_id?: string | null
+          narrative?: string | null
+          scorecard_id: string
+          sort_order?: number
+          status?: string
+          target_value?: number | null
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          actual_value?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          metadata?: Json
+          metric_id?: string | null
+          narrative?: string | null
+          scorecard_id?: string
+          sort_order?: number
+          status?: string
+          target_value?: number | null
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "executive_scorecard_items_metric_id_fkey"
+            columns: ["metric_id"]
+            isOneToOne: false
+            referencedRelation: "bi_metric_definitions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "executive_scorecard_items_scorecard_id_fkey"
+            columns: ["scorecard_id"]
+            isOneToOne: false
+            referencedRelation: "executive_scorecards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      executive_scorecards: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          metric_summary: Json
+          name: string
+          owner_user_id: string | null
+          period_end: string | null
+          period_start: string | null
+          recommendation_summary: Json
+          risk_summary: Json
+          scorecard_key: string
+          scorecard_type: string
+          status: string
+          summary: string | null
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          metric_summary?: Json
+          name: string
+          owner_user_id?: string | null
+          period_end?: string | null
+          period_start?: string | null
+          recommendation_summary?: Json
+          risk_summary?: Json
+          scorecard_key: string
+          scorecard_type?: string
+          status?: string
+          summary?: string | null
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          metric_summary?: Json
+          name?: string
+          owner_user_id?: string | null
+          period_end?: string | null
+          period_start?: string | null
+          recommendation_summary?: Json
+          risk_summary?: Json
+          scorecard_key?: string
+          scorecard_type?: string
+          status?: string
+          summary?: string | null
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       expansion_opportunities: {
         Row: {
@@ -19324,6 +20393,10 @@ export type Database = {
           _team_id: string
           _user_id: string
         }
+        Returns: boolean
+      }
+      is_bi_admin: {
+        Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
       is_billing_manager: {
