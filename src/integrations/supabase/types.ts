@@ -261,9 +261,12 @@ export type Database = {
       }
       automation_artifacts: {
         Row: {
+          content: Json | null
           created_at: string
+          created_by: string | null
           id: string
           name: string
+          pipeline_id: string | null
           pipeline_run_id: string | null
           preview: string | null
           size_bytes: number | null
@@ -273,9 +276,12 @@ export type Database = {
           type: string
         }
         Insert: {
+          content?: Json | null
           created_at?: string
+          created_by?: string | null
           id?: string
           name: string
+          pipeline_id?: string | null
           pipeline_run_id?: string | null
           preview?: string | null
           size_bytes?: number | null
@@ -285,9 +291,12 @@ export type Database = {
           type?: string
         }
         Update: {
+          content?: Json | null
           created_at?: string
+          created_by?: string | null
           id?: string
           name?: string
+          pipeline_id?: string | null
           pipeline_run_id?: string | null
           preview?: string | null
           size_bytes?: number | null
@@ -328,6 +337,8 @@ export type Database = {
           level: string
           message: string
           metadata: Json
+          pipeline_id: string | null
+          run_id: string | null
           system_id: string | null
           task_id: string | null
           team_id: string | null
@@ -339,6 +350,8 @@ export type Database = {
           level?: string
           message: string
           metadata?: Json
+          pipeline_id?: string | null
+          run_id?: string | null
           system_id?: string | null
           task_id?: string | null
           team_id?: string | null
@@ -350,6 +363,8 @@ export type Database = {
           level?: string
           message?: string
           metadata?: Json
+          pipeline_id?: string | null
+          run_id?: string | null
           system_id?: string | null
           task_id?: string | null
           team_id?: string | null
@@ -383,40 +398,58 @@ export type Database = {
           checkpoint: Json | null
           created_at: string
           duration_ms: number | null
+          error_message: string | null
           finished_at: string | null
           id: string
+          input: Json
+          metadata: Json
+          output: Json
           pipeline_id: string | null
           stage_results: Json
           started_at: string | null
           status: string
           task_id: string | null
           team_id: string | null
+          trigger_source: string
+          triggered_by: string | null
         }
         Insert: {
           checkpoint?: Json | null
           created_at?: string
           duration_ms?: number | null
+          error_message?: string | null
           finished_at?: string | null
           id?: string
+          input?: Json
+          metadata?: Json
+          output?: Json
           pipeline_id?: string | null
           stage_results?: Json
           started_at?: string | null
           status?: string
           task_id?: string | null
           team_id?: string | null
+          trigger_source?: string
+          triggered_by?: string | null
         }
         Update: {
           checkpoint?: Json | null
           created_at?: string
           duration_ms?: number | null
+          error_message?: string | null
           finished_at?: string | null
           id?: string
+          input?: Json
+          metadata?: Json
+          output?: Json
           pipeline_id?: string | null
           stage_results?: Json
           started_at?: string | null
           status?: string
           task_id?: string | null
           team_id?: string | null
+          trigger_source?: string
+          triggered_by?: string | null
         }
         Relationships: [
           {
@@ -444,48 +477,63 @@ export type Database = {
       }
       automation_pipelines: {
         Row: {
+          config: Json
           created_at: string
           created_by: string | null
           description: string | null
           id: string
           input_schema: Json | null
+          last_run_at: string | null
           mode: string
           name: string
+          next_run_at: string | null
           output_schema: Json | null
           stages: Json
           status: string
+          steps: Json | null
           system_id: string | null
           team_id: string | null
+          trigger_type: string
           updated_at: string
         }
         Insert: {
+          config?: Json
           created_at?: string
           created_by?: string | null
           description?: string | null
           id?: string
           input_schema?: Json | null
+          last_run_at?: string | null
           mode?: string
           name: string
+          next_run_at?: string | null
           output_schema?: Json | null
           stages?: Json
           status?: string
+          steps?: Json | null
           system_id?: string | null
           team_id?: string | null
+          trigger_type?: string
           updated_at?: string
         }
         Update: {
+          config?: Json
           created_at?: string
           created_by?: string | null
           description?: string | null
           id?: string
           input_schema?: Json | null
+          last_run_at?: string | null
           mode?: string
           name?: string
+          next_run_at?: string | null
           output_schema?: Json | null
           stages?: Json
           status?: string
+          steps?: Json | null
           system_id?: string | null
           team_id?: string | null
+          trigger_type?: string
           updated_at?: string
         }
         Relationships: [
@@ -508,36 +556,60 @@ export type Database = {
       automation_rate_limit_events: {
         Row: {
           account_id: string | null
+          allowed: boolean | null
           cooldown_seconds: number | null
+          created_at: string
           detected_at: string
           id: string
+          limit_key: string | null
           message: string | null
+          metadata: Json
+          pipeline_id: string | null
           provider: string | null
+          reason: string | null
           resolved_at: string | null
+          run_id: string | null
+          scope: string | null
           severity: string
           signal: string | null
           team_id: string | null
         }
         Insert: {
           account_id?: string | null
+          allowed?: boolean | null
           cooldown_seconds?: number | null
+          created_at?: string
           detected_at?: string
           id?: string
+          limit_key?: string | null
           message?: string | null
+          metadata?: Json
+          pipeline_id?: string | null
           provider?: string | null
+          reason?: string | null
           resolved_at?: string | null
+          run_id?: string | null
+          scope?: string | null
           severity?: string
           signal?: string | null
           team_id?: string | null
         }
         Update: {
           account_id?: string | null
+          allowed?: boolean | null
           cooldown_seconds?: number | null
+          created_at?: string
           detected_at?: string
           id?: string
+          limit_key?: string | null
           message?: string | null
+          metadata?: Json
+          pipeline_id?: string | null
           provider?: string | null
+          reason?: string | null
           resolved_at?: string | null
+          run_id?: string | null
+          scope?: string | null
           severity?: string
           signal?: string | null
           team_id?: string | null
@@ -568,8 +640,10 @@ export type Database = {
           heavy_task_window: Json | null
           id: string
           interval_minutes: number | null
+          last_run_at: string | null
           light_task_window: Json | null
           name: string
+          next_run_at: string | null
           pipeline_id: string | null
           schedule_type: string
           team_id: string | null
@@ -584,8 +658,10 @@ export type Database = {
           heavy_task_window?: Json | null
           id?: string
           interval_minutes?: number | null
+          last_run_at?: string | null
           light_task_window?: Json | null
           name: string
+          next_run_at?: string | null
           pipeline_id?: string | null
           schedule_type?: string
           team_id?: string | null
@@ -600,8 +676,10 @@ export type Database = {
           heavy_task_window?: Json | null
           id?: string
           interval_minutes?: number | null
+          last_run_at?: string | null
           light_task_window?: Json | null
           name?: string
+          next_run_at?: string | null
           pipeline_id?: string | null
           schedule_type?: string
           team_id?: string | null
@@ -678,6 +756,7 @@ export type Database = {
       automation_tasks: {
         Row: {
           assigned_account_id: string | null
+          attempts: number
           created_at: string
           created_by: string | null
           current_stage: number
@@ -685,20 +764,25 @@ export type Database = {
           finished_at: string | null
           id: string
           input_payload: Json | null
+          max_attempts: number
+          name: string | null
           output_payload: Json | null
           pipeline_id: string | null
           priority: string
           progress: number
           prompt: string
+          run_id: string | null
           scheduled_for: string | null
           started_at: string | null
           status: string
           team_id: string | null
           title: string
+          type: string | null
           updated_at: string
         }
         Insert: {
           assigned_account_id?: string | null
+          attempts?: number
           created_at?: string
           created_by?: string | null
           current_stage?: number
@@ -706,20 +790,25 @@ export type Database = {
           finished_at?: string | null
           id?: string
           input_payload?: Json | null
+          max_attempts?: number
+          name?: string | null
           output_payload?: Json | null
           pipeline_id?: string | null
           priority?: string
           progress?: number
           prompt: string
+          run_id?: string | null
           scheduled_for?: string | null
           started_at?: string | null
           status?: string
           team_id?: string | null
           title: string
+          type?: string | null
           updated_at?: string
         }
         Update: {
           assigned_account_id?: string | null
+          attempts?: number
           created_at?: string
           created_by?: string | null
           current_stage?: number
@@ -727,16 +816,20 @@ export type Database = {
           finished_at?: string | null
           id?: string
           input_payload?: Json | null
+          max_attempts?: number
+          name?: string | null
           output_payload?: Json | null
           pipeline_id?: string | null
           priority?: string
           progress?: number
           prompt?: string
+          run_id?: string | null
           scheduled_for?: string | null
           started_at?: string | null
           status?: string
           team_id?: string | null
           title?: string
+          type?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -2250,6 +2343,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _automation_compute_next_run: {
+        Args: {
+          _cron: string
+          _from?: string
+          _interval_minutes: number
+          _schedule_type: string
+        }
+        Returns: string
+      }
+      _check_automation_rate_limit: {
+        Args: { _pipeline_id: string; _scope: string; _team_id: string }
+        Returns: boolean
+      }
       _compute_connection_quality: {
         Args: { _latency: number; _loss: number }
         Returns: string
@@ -2279,8 +2385,135 @@ export type Database = {
         }
         Returns: undefined
       }
+      archive_automation_pipeline: {
+        Args: { p_pipeline_id: string }
+        Returns: {
+          config: Json
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          input_schema: Json | null
+          last_run_at: string | null
+          mode: string
+          name: string
+          next_run_at: string | null
+          output_schema: Json | null
+          stages: Json
+          status: string
+          steps: Json | null
+          system_id: string | null
+          team_id: string | null
+          trigger_type: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "automation_pipelines"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       can_triage_ticket: { Args: { _ticket_id: string }; Returns: boolean }
       can_view_ticket: { Args: { _ticket_id: string }; Returns: boolean }
+      claim_next_automation_task: {
+        Args: { p_team_id?: string }
+        Returns: {
+          assigned_account_id: string | null
+          attempts: number
+          created_at: string
+          created_by: string | null
+          current_stage: number
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          input_payload: Json | null
+          max_attempts: number
+          name: string | null
+          output_payload: Json | null
+          pipeline_id: string | null
+          priority: string
+          progress: number
+          prompt: string
+          run_id: string | null
+          scheduled_for: string | null
+          started_at: string | null
+          status: string
+          team_id: string | null
+          title: string
+          type: string | null
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "automation_tasks"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      complete_automation_run: {
+        Args: { p_output?: Json; p_run_id: string }
+        Returns: {
+          checkpoint: Json | null
+          created_at: string
+          duration_ms: number | null
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          input: Json
+          metadata: Json
+          output: Json
+          pipeline_id: string | null
+          stage_results: Json
+          started_at: string | null
+          status: string
+          task_id: string | null
+          team_id: string | null
+          trigger_source: string
+          triggered_by: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "automation_pipeline_runs"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      complete_automation_task: {
+        Args: { p_output?: Json; p_task_id: string }
+        Returns: {
+          assigned_account_id: string | null
+          attempts: number
+          created_at: string
+          created_by: string | null
+          current_stage: number
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          input_payload: Json | null
+          max_attempts: number
+          name: string | null
+          output_payload: Json | null
+          pipeline_id: string | null
+          priority: string
+          progress: number
+          prompt: string
+          run_id: string | null
+          scheduled_for: string | null
+          started_at: string | null
+          status: string
+          team_id: string | null
+          title: string
+          type: string | null
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "automation_tasks"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       create_api_key: {
         Args: {
           _expires_at?: string
@@ -2291,6 +2524,42 @@ export type Database = {
           _team_id: string
         }
         Returns: string
+      }
+      create_automation_pipeline: {
+        Args: {
+          p_config?: Json
+          p_description?: string
+          p_name: string
+          p_steps?: Json
+          p_team_id: string
+          p_trigger_type?: string
+        }
+        Returns: {
+          config: Json
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          input_schema: Json | null
+          last_run_at: string | null
+          mode: string
+          name: string
+          next_run_at: string | null
+          output_schema: Json | null
+          stages: Json
+          status: string
+          steps: Json | null
+          system_id: string | null
+          team_id: string | null
+          trigger_type: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "automation_pipelines"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       create_notification: {
         Args: {
@@ -2325,6 +2594,40 @@ export type Database = {
         SetofOptions: {
           from: "*"
           to: "notifications"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      create_scheduler_rule: {
+        Args: {
+          p_cron_expression?: string
+          p_interval_minutes?: number
+          p_name: string
+          p_pipeline_id: string
+          p_schedule_type: string
+          p_timezone?: string
+        }
+        Returns: {
+          created_at: string
+          created_by: string | null
+          cron_expression: string | null
+          enabled: boolean
+          heavy_task_window: Json | null
+          id: string
+          interval_minutes: number | null
+          last_run_at: string | null
+          light_task_window: Json | null
+          name: string
+          next_run_at: string | null
+          pipeline_id: string | null
+          schedule_type: string
+          team_id: string | null
+          timezone: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "automation_scheduler_rules"
           isOneToOne: true
           isSetofReturn: false
         }
@@ -2377,9 +2680,112 @@ export type Database = {
         Args: { _reason?: string; _session_id: string }
         Returns: undefined
       }
+      enqueue_due_scheduled_runs: { Args: never; Returns: number }
+      fail_automation_run: {
+        Args: { p_error_message: string; p_output?: Json; p_run_id: string }
+        Returns: {
+          checkpoint: Json | null
+          created_at: string
+          duration_ms: number | null
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          input: Json
+          metadata: Json
+          output: Json
+          pipeline_id: string | null
+          stage_results: Json
+          started_at: string | null
+          status: string
+          task_id: string | null
+          team_id: string | null
+          trigger_source: string
+          triggered_by: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "automation_pipeline_runs"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      fail_automation_task: {
+        Args: { p_error_message: string; p_retry?: boolean; p_task_id: string }
+        Returns: {
+          assigned_account_id: string | null
+          attempts: number
+          created_at: string
+          created_by: string | null
+          current_stage: number
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          input_payload: Json | null
+          max_attempts: number
+          name: string | null
+          output_payload: Json | null
+          pipeline_id: string | null
+          priority: string
+          progress: number
+          prompt: string
+          run_id: string | null
+          scheduled_for: string | null
+          started_at: string | null
+          status: string
+          team_id: string | null
+          title: string
+          type: string | null
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "automation_tasks"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      generate_device_health_report: {
+        Args: { p_run_id?: string; p_team_id: string }
+        Returns: {
+          content: Json | null
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          pipeline_id: string | null
+          pipeline_run_id: string | null
+          preview: string | null
+          size_bytes: number | null
+          storage_path: string | null
+          task_id: string | null
+          team_id: string | null
+          type: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "automation_artifacts"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       generate_recovery_codes: {
         Args: { p_code_hashes: string[] }
         Returns: number
+      }
+      get_automation_dashboard_summary: {
+        Args: never
+        Returns: {
+          active_pipelines: number
+          failed_runs_24h: number
+          failed_tasks_24h: number
+          latest_run_at: string
+          next_scheduled_run_at: string
+          paused_pipelines: number
+          queued_runs: number
+          queued_tasks: number
+          running_runs: number
+          successful_runs_24h: number
+        }[]
       }
       get_device_presence_summary: {
         Args: never
@@ -2496,6 +2902,35 @@ export type Database = {
         }
       }
       my_team_ids: { Args: { _user_id: string }; Returns: string[] }
+      record_automation_log: {
+        Args: {
+          p_context?: Json
+          p_level?: string
+          p_message: string
+          p_pipeline_id?: string
+          p_run_id?: string
+          p_task_id?: string
+        }
+        Returns: {
+          category: string | null
+          created_at: string
+          id: string
+          level: string
+          message: string
+          metadata: Json
+          pipeline_id: string | null
+          run_id: string | null
+          system_id: string | null
+          task_id: string | null
+          team_id: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "automation_logs"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       record_mfa_enrollment_started: { Args: never; Returns: undefined }
       reject_billing_change_request: {
         Args: { _reason?: string; _request_id: string }
@@ -2515,10 +2950,70 @@ export type Database = {
         Args: { invitation_id: string }
         Returns: undefined
       }
+      run_automation_pipeline: {
+        Args: {
+          p_input?: Json
+          p_pipeline_id: string
+          p_trigger_source?: string
+        }
+        Returns: {
+          checkpoint: Json | null
+          created_at: string
+          duration_ms: number | null
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          input: Json
+          metadata: Json
+          output: Json
+          pipeline_id: string | null
+          stage_results: Json
+          started_at: string | null
+          status: string
+          task_id: string | null
+          team_id: string | null
+          trigger_source: string
+          triggered_by: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "automation_pipeline_runs"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       set_subscription_seats: { Args: { _seats: number }; Returns: undefined }
       set_team_member_status: {
         Args: { member_id: string; new_status: string }
         Returns: undefined
+      }
+      start_automation_run: {
+        Args: { p_run_id: string }
+        Returns: {
+          checkpoint: Json | null
+          created_at: string
+          duration_ms: number | null
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          input: Json
+          metadata: Json
+          output: Json
+          pipeline_id: string | null
+          stage_results: Json
+          started_at: string | null
+          status: string
+          task_id: string | null
+          team_id: string | null
+          trigger_source: string
+          triggered_by: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "automation_pipeline_runs"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       start_remote_session: {
         Args: { _device_id: string }
@@ -2527,6 +3022,77 @@ export type Database = {
           session_id: string
           token: string
         }[]
+      }
+      update_automation_pipeline: {
+        Args: {
+          p_config?: Json
+          p_description?: string
+          p_name?: string
+          p_pipeline_id: string
+          p_status?: string
+          p_steps?: Json
+          p_trigger_type?: string
+        }
+        Returns: {
+          config: Json
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          input_schema: Json | null
+          last_run_at: string | null
+          mode: string
+          name: string
+          next_run_at: string | null
+          output_schema: Json | null
+          stages: Json
+          status: string
+          steps: Json | null
+          system_id: string | null
+          team_id: string | null
+          trigger_type: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "automation_pipelines"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      update_scheduler_rule: {
+        Args: {
+          p_cron_expression?: string
+          p_enabled?: boolean
+          p_interval_minutes?: number
+          p_rule_id: string
+          p_schedule_type?: string
+          p_timezone?: string
+        }
+        Returns: {
+          created_at: string
+          created_by: string | null
+          cron_expression: string | null
+          enabled: boolean
+          heavy_task_window: Json | null
+          id: string
+          interval_minutes: number | null
+          last_run_at: string | null
+          light_task_window: Json | null
+          name: string
+          next_run_at: string | null
+          pipeline_id: string | null
+          schedule_type: string
+          team_id: string | null
+          timezone: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "automation_scheduler_rules"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       update_team_member_role: {
         Args: { member_id: string; new_role: string }
