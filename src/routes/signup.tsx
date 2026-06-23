@@ -6,11 +6,20 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { AuthLayout, Field } from "./login";
 import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({ meta: [{ title: "Sign up — RemoteDesk" }, { name: "description", content: "Create your RemoteDesk account." }] }),
   component: Signup,
 });
+
+function GoogleIcon() {
+  return (
+    <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" aria-hidden>
+      <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.4-1.6 4-5.5 4-3.3 0-6-2.7-6-6.1s2.7-6.1 6-6.1c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.9 3.4 14.7 2.4 12 2.4 6.9 2.4 2.8 6.5 2.8 11.6S6.9 20.8 12 20.8c6.9 0 9.2-4.8 9.2-7.3 0-.5 0-.9-.1-1.3H12z"/>
+    </svg>
+  );
+}
 
 function Signup() {
   const navigate = useNavigate();
