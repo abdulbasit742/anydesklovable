@@ -6,6 +6,7 @@ import {
   FileText, LifeBuoy, Crown, SlidersHorizontal,
   Bot, Workflow, ListChecks, KeyRound, Gauge, CalendarClock, BellRing, ScrollText, Package, Settings,
   BookUser, Smartphone, Code2,
+  Database,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
@@ -66,6 +67,7 @@ const groups: NavGroup[] = [
     items: [
       { to: "/dashboard/developer", label: "Developer & SDK", icon: Code2 },
       { to: "/dashboard/marketplace", label: "Marketplace", icon: Package },
+      { to: "/dashboard/data-catalog", label: "Data catalog", icon: Database },
     ],
   },
 
