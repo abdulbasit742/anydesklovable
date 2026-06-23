@@ -14,6 +14,9 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useCurrentTeam } from "@/hooks/use-current-team";
 import { formatDistanceToNow } from "date-fns";
+import { DevicePresenceBadge } from "@/components/app/presence/DevicePresenceBadge";
+import { ConnectionQualityIndicator } from "@/components/app/presence/ConnectionQualityIndicator";
+import { useDevicePresenceMap } from "@/lib/services/presence";
 
 export const Route = createFileRoute("/dashboard/devices")({
   head: () => ({ meta: [{ title: "Devices — RemoteDesk" }] }),
