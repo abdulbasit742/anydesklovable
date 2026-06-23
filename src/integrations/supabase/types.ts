@@ -2179,6 +2179,72 @@ export type Database = {
           },
         ]
       }
+      user_mfa_settings: {
+        Row: {
+          created_at: string
+          disabled_reason: string | null
+          id: string
+          last_disabled_at: string | null
+          last_verified_at: string | null
+          mfa_enabled: boolean
+          recovery_codes_generated_at: string | null
+          recovery_codes_remaining: number
+          totp_enrolled: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          disabled_reason?: string | null
+          id?: string
+          last_disabled_at?: string | null
+          last_verified_at?: string | null
+          mfa_enabled?: boolean
+          recovery_codes_generated_at?: string | null
+          recovery_codes_remaining?: number
+          totp_enrolled?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          disabled_reason?: string | null
+          id?: string
+          last_disabled_at?: string | null
+          last_verified_at?: string | null
+          mfa_enabled?: boolean
+          recovery_codes_generated_at?: string | null
+          recovery_codes_remaining?: number
+          totp_enrolled?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_recovery_codes: {
+        Row: {
+          code_hash: string
+          created_at: string
+          id: string
+          used_at: string | null
+          user_id: string
+        }
+        Insert: {
+          code_hash: string
+          created_at?: string
+          id?: string
+          used_at?: string | null
+          user_id: string
+        }
+        Update: {
+          code_hash?: string
+          created_at?: string
+          id?: string
+          used_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -2263,9 +2329,57 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      disable_mfa: {
+        Args: { p_reason?: string }
+        Returns: {
+          created_at: string
+          disabled_reason: string | null
+          id: string
+          last_disabled_at: string | null
+          last_verified_at: string | null
+          mfa_enabled: boolean
+          recovery_codes_generated_at: string | null
+          recovery_codes_remaining: number
+          totp_enrolled: boolean
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "user_mfa_settings"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      enable_mfa_after_verification: {
+        Args: never
+        Returns: {
+          created_at: string
+          disabled_reason: string | null
+          id: string
+          last_disabled_at: string | null
+          last_verified_at: string | null
+          mfa_enabled: boolean
+          recovery_codes_generated_at: string | null
+          recovery_codes_remaining: number
+          totp_enrolled: boolean
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "user_mfa_settings"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       end_remote_session: {
         Args: { _reason?: string; _session_id: string }
         Returns: undefined
+      }
+      generate_recovery_codes: {
+        Args: { p_code_hashes: string[] }
+        Returns: number
       }
       get_device_presence_summary: {
         Args: never
@@ -2278,6 +2392,30 @@ export type Database = {
           online_devices: number
           poor_quality_devices: number
           total_devices: number
+        }[]
+      }
+      get_my_security_overview: {
+        Args: never
+        Returns: {
+          active_sessions_count: number
+          last_mfa_verified_at: string
+          last_security_event_at: string
+          mfa_enabled: boolean
+          recovery_codes_remaining: number
+          security_score: number
+          totp_enrolled: boolean
+          trusted_devices_count: number
+        }[]
+      }
+      get_team_security_posture: {
+        Args: { p_team_id: string }
+        Returns: {
+          members_with_mfa: number
+          members_without_mfa: number
+          recent_security_events: number
+          risky_sessions: number
+          stale_trusted_devices: number
+          total_members: number
         }[]
       }
       has_role: {
@@ -2358,6 +2496,7 @@ export type Database = {
         }
       }
       my_team_ids: { Args: { _user_id: string }; Returns: string[] }
+      record_mfa_enrollment_started: { Args: never; Returns: undefined }
       reject_billing_change_request: {
         Args: { _reason?: string; _request_id: string }
         Returns: undefined
@@ -2463,6 +2602,7 @@ export type Database = {
           team_id: string
         }[]
       }
+      verify_recovery_code: { Args: { p_code_hash: string }; Returns: boolean }
     }
     Enums: {
       app_role: "owner" | "admin" | "support" | "member"
