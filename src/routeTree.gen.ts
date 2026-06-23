@@ -26,6 +26,7 @@ import { Route as DashboardSecurityRouteImport } from './routes/dashboard.securi
 import { Route as DashboardPoliciesRouteImport } from './routes/dashboard.policies'
 import { Route as DashboardNotificationsRouteImport } from './routes/dashboard.notifications'
 import { Route as DashboardMobileRouteImport } from './routes/dashboard.mobile'
+import { Route as DashboardMarketplaceRouteImport } from './routes/dashboard.marketplace'
 import { Route as DashboardDevicesRouteImport } from './routes/dashboard.devices'
 import { Route as DashboardDeveloperRouteImport } from './routes/dashboard.developer'
 import { Route as DashboardContactsRouteImport } from './routes/dashboard.contacts'
@@ -149,6 +150,11 @@ const DashboardNotificationsRoute = DashboardNotificationsRouteImport.update({
 const DashboardMobileRoute = DashboardMobileRouteImport.update({
   id: '/mobile',
   path: '/mobile',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardMarketplaceRoute = DashboardMarketplaceRouteImport.update({
+  id: '/marketplace',
+  path: '/marketplace',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardDevicesRoute = DashboardDevicesRouteImport.update({
@@ -388,6 +394,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/contacts': typeof DashboardContactsRoute
   '/dashboard/developer': typeof DashboardDeveloperRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
+  '/dashboard/marketplace': typeof DashboardMarketplaceRoute
   '/dashboard/mobile': typeof DashboardMobileRoute
   '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
@@ -444,6 +451,7 @@ export interface FileRoutesByTo {
   '/dashboard/contacts': typeof DashboardContactsRoute
   '/dashboard/developer': typeof DashboardDeveloperRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
+  '/dashboard/marketplace': typeof DashboardMarketplaceRoute
   '/dashboard/mobile': typeof DashboardMobileRoute
   '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
@@ -503,6 +511,7 @@ export interface FileRoutesById {
   '/dashboard/contacts': typeof DashboardContactsRoute
   '/dashboard/developer': typeof DashboardDeveloperRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
+  '/dashboard/marketplace': typeof DashboardMarketplaceRoute
   '/dashboard/mobile': typeof DashboardMobileRoute
   '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
@@ -563,6 +572,7 @@ export interface FileRouteTypes {
     | '/dashboard/contacts'
     | '/dashboard/developer'
     | '/dashboard/devices'
+    | '/dashboard/marketplace'
     | '/dashboard/mobile'
     | '/dashboard/notifications'
     | '/dashboard/policies'
@@ -619,6 +629,7 @@ export interface FileRouteTypes {
     | '/dashboard/contacts'
     | '/dashboard/developer'
     | '/dashboard/devices'
+    | '/dashboard/marketplace'
     | '/dashboard/mobile'
     | '/dashboard/notifications'
     | '/dashboard/policies'
@@ -677,6 +688,7 @@ export interface FileRouteTypes {
     | '/dashboard/contacts'
     | '/dashboard/developer'
     | '/dashboard/devices'
+    | '/dashboard/marketplace'
     | '/dashboard/mobile'
     | '/dashboard/notifications'
     | '/dashboard/policies'
@@ -862,6 +874,13 @@ declare module '@tanstack/react-router' {
       path: '/mobile'
       fullPath: '/dashboard/mobile'
       preLoaderRoute: typeof DashboardMobileRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/marketplace': {
+      id: '/dashboard/marketplace'
+      path: '/marketplace'
+      fullPath: '/dashboard/marketplace'
+      preLoaderRoute: typeof DashboardMarketplaceRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/devices': {
@@ -1203,6 +1222,7 @@ interface DashboardRouteChildren {
   DashboardContactsRoute: typeof DashboardContactsRoute
   DashboardDeveloperRoute: typeof DashboardDeveloperRoute
   DashboardDevicesRoute: typeof DashboardDevicesRouteWithChildren
+  DashboardMarketplaceRoute: typeof DashboardMarketplaceRoute
   DashboardMobileRoute: typeof DashboardMobileRoute
   DashboardNotificationsRoute: typeof DashboardNotificationsRoute
   DashboardPoliciesRoute: typeof DashboardPoliciesRouteWithChildren
@@ -1221,6 +1241,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardContactsRoute: DashboardContactsRoute,
   DashboardDeveloperRoute: DashboardDeveloperRoute,
   DashboardDevicesRoute: DashboardDevicesRouteWithChildren,
+  DashboardMarketplaceRoute: DashboardMarketplaceRoute,
   DashboardMobileRoute: DashboardMobileRoute,
   DashboardNotificationsRoute: DashboardNotificationsRoute,
   DashboardPoliciesRoute: DashboardPoliciesRouteWithChildren,
@@ -1359,13 +1380,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

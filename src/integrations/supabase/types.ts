@@ -23229,6 +23229,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      approve_marketplace_publisher: {
+        Args: { _publisher_id: string }
+        Returns: undefined
+      }
       archive_automation_pipeline: {
         Args: { p_pipeline_id: string }
         Returns: {
@@ -23439,6 +23443,38 @@ export type Database = {
           isOneToOne: true
           isSetofReturn: false
         }
+      }
+      create_marketplace_listing: {
+        Args: {
+          _base_price_cents?: number
+          _category?: string
+          _listing_type?: string
+          _name: string
+          _pricing_model?: string
+          _publisher_id: string
+          _short_description?: string
+        }
+        Returns: string
+      }
+      create_marketplace_payout_batch: {
+        Args: { _period_end: string; _period_start: string; _team_id: string }
+        Returns: Json
+      }
+      create_marketplace_publisher: {
+        Args: {
+          _description?: string
+          _logo_url?: string
+          _name: string
+          _publisher_type?: string
+          _support_email?: string
+          _team_id: string
+          _website_url?: string
+        }
+        Returns: string
+      }
+      create_marketplace_purchase: {
+        Args: { _buyer_team_id: string; _listing_id: string; _plan_id?: string }
+        Returns: Json
       }
       create_notification: {
         Args: {
@@ -23652,6 +23688,10 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      estimate_marketplace_revenue_share: {
+        Args: { _purchase_id: string }
+        Returns: Json
+      }
       fail_automation_run: {
         Args: { p_error_message: string; p_output?: Json; p_run_id: string }
         Returns: {
@@ -23786,6 +23826,7 @@ export type Database = {
           total_devices: number
         }[]
       }
+      get_marketplace_summary: { Args: { _team_id: string }; Returns: Json }
       get_my_security_overview: {
         Args: never
         Returns: {
@@ -23821,6 +23862,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      install_marketplace_listing: {
+        Args: { _listing_id: string; _team_id: string }
+        Returns: Json
       }
       is_ai_governance_admin: {
         Args: { _team_id: string; _user_id: string }
@@ -24048,6 +24093,10 @@ export type Database = {
         }
       }
       my_team_ids: { Args: { _user_id: string }; Returns: string[] }
+      publish_marketplace_listing: {
+        Args: { _listing_id: string }
+        Returns: undefined
+      }
       record_api_rate_limit_event: {
         Args: {
           p_allowed: boolean
@@ -24092,6 +24141,15 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      record_marketplace_usage: {
+        Args: {
+          _installation_id: string
+          _metric: string
+          _quantity: number
+          _unit?: string
+        }
+        Returns: string
+      }
       record_mfa_enrollment_started: { Args: never; Returns: undefined }
       reject_billing_change_request: {
         Args: { _reason?: string; _request_id: string }
@@ -24105,6 +24163,10 @@ export type Database = {
           _to_seats: number
         }
         Returns: string
+      }
+      review_marketplace_listing: {
+        Args: { _decision: string; _listing_id: string; _notes?: string }
+        Returns: undefined
       }
       revoke_api_key: { Args: { _key_id: string }; Returns: undefined }
       revoke_team_invitation: {
@@ -24183,6 +24245,22 @@ export type Database = {
           session_id: string
           token: string
         }[]
+      }
+      submit_marketplace_listing_for_review: {
+        Args: { _listing_id: string }
+        Returns: string
+      }
+      submit_marketplace_publisher_for_review: {
+        Args: { _publisher_id: string }
+        Returns: undefined
+      }
+      uninstall_marketplace_listing: {
+        Args: { _installation_id: string }
+        Returns: undefined
+      }
+      unpublish_marketplace_listing: {
+        Args: { _listing_id: string }
+        Returns: undefined
       }
       update_automation_pipeline: {
         Args: {

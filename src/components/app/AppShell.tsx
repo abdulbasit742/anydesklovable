@@ -65,8 +65,10 @@ const groups: NavGroup[] = [
     label: "Developers",
     items: [
       { to: "/dashboard/developer", label: "Developer & SDK", icon: Code2 },
+      { to: "/dashboard/marketplace", label: "Marketplace", icon: Package },
     ],
   },
+
   {
     label: "Admin",
     items: [
