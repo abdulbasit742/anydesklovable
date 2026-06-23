@@ -166,6 +166,1087 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_action_guardrails: {
+        Row: {
+          action_category: string
+          action_type: string
+          allowed: boolean
+          allowed_roles: string[]
+          blocked_resource_types: string[]
+          config: Json
+          created_at: string
+          created_by: string | null
+          id: string
+          max_risk_level: string
+          requires_human_approval: boolean
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          action_category?: string
+          action_type: string
+          allowed?: boolean
+          allowed_roles?: string[]
+          blocked_resource_types?: string[]
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          max_risk_level?: string
+          requires_human_approval?: boolean
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          action_category?: string
+          action_type?: string
+          allowed?: boolean
+          allowed_roles?: string[]
+          blocked_resource_types?: string[]
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          max_risk_level?: string
+          requires_human_approval?: boolean
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ai_context_policies: {
+        Row: {
+          allowed: boolean
+          allowed_model_risk_tiers: string[]
+          context_type: string
+          created_at: string
+          created_by: string | null
+          id: string
+          max_context_items: number
+          requires_permission: string | null
+          requires_redaction: boolean
+          retention_days: number | null
+          rules: Json
+          sensitivity_level: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          allowed?: boolean
+          allowed_model_risk_tiers?: string[]
+          context_type: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          max_context_items?: number
+          requires_permission?: string | null
+          requires_redaction?: boolean
+          retention_days?: number | null
+          rules?: Json
+          sensitivity_level?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          allowed?: boolean
+          allowed_model_risk_tiers?: string[]
+          context_type?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          max_context_items?: number
+          requires_permission?: string | null
+          requires_redaction?: boolean
+          retention_days?: number | null
+          rules?: Json
+          sensitivity_level?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ai_cost_budgets: {
+        Row: {
+          budget_key: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          current_estimated_cents: number
+          hard_limit_enabled: boolean
+          id: string
+          limit_cents: number
+          name: string
+          period: string
+          scope_id: string | null
+          scope_type: string
+          status: string
+          team_id: string
+          updated_at: string
+          warning_threshold_percent: number
+        }
+        Insert: {
+          budget_key: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          current_estimated_cents?: number
+          hard_limit_enabled?: boolean
+          id?: string
+          limit_cents?: number
+          name: string
+          period?: string
+          scope_id?: string | null
+          scope_type?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+          warning_threshold_percent?: number
+        }
+        Update: {
+          budget_key?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          current_estimated_cents?: number
+          hard_limit_enabled?: boolean
+          id?: string
+          limit_cents?: number
+          name?: string
+          period?: string
+          scope_id?: string | null
+          scope_type?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+          warning_threshold_percent?: number
+        }
+        Relationships: []
+      }
+      ai_eval_cases: {
+        Row: {
+          case_key: string
+          created_at: string
+          created_by: string | null
+          expected_behavior: string | null
+          forbidden_behavior: string | null
+          grading_rubric: Json
+          id: string
+          input_context: Json
+          name: string
+          risk_tags: string[]
+          status: string
+          suite_id: string
+          team_id: string
+        }
+        Insert: {
+          case_key: string
+          created_at?: string
+          created_by?: string | null
+          expected_behavior?: string | null
+          forbidden_behavior?: string | null
+          grading_rubric?: Json
+          id?: string
+          input_context?: Json
+          name: string
+          risk_tags?: string[]
+          status?: string
+          suite_id: string
+          team_id: string
+        }
+        Update: {
+          case_key?: string
+          created_at?: string
+          created_by?: string | null
+          expected_behavior?: string | null
+          forbidden_behavior?: string | null
+          grading_rubric?: Json
+          id?: string
+          input_context?: Json
+          name?: string
+          risk_tags?: string[]
+          status?: string
+          suite_id?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_eval_cases_suite_id_fkey"
+            columns: ["suite_id"]
+            isOneToOne: false
+            referencedRelation: "ai_eval_suites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_eval_results: {
+        Row: {
+          created_at: string
+          eval_case_id: string
+          eval_run_id: string
+          findings: Json
+          grader: string
+          id: string
+          output_preview: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          score: number | null
+          status: string
+          team_id: string
+        }
+        Insert: {
+          created_at?: string
+          eval_case_id: string
+          eval_run_id: string
+          findings?: Json
+          grader?: string
+          id?: string
+          output_preview?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          score?: number | null
+          status: string
+          team_id: string
+        }
+        Update: {
+          created_at?: string
+          eval_case_id?: string
+          eval_run_id?: string
+          findings?: Json
+          grader?: string
+          id?: string
+          output_preview?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          score?: number | null
+          status?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_eval_results_eval_case_id_fkey"
+            columns: ["eval_case_id"]
+            isOneToOne: false
+            referencedRelation: "ai_eval_cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_eval_results_eval_run_id_fkey"
+            columns: ["eval_run_id"]
+            isOneToOne: false
+            referencedRelation: "ai_eval_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_eval_runs: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          model_id: string | null
+          prompt_id: string | null
+          run_name: string
+          started_at: string | null
+          started_by: string | null
+          status: string
+          suite_id: string
+          summary: Json
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          model_id?: string | null
+          prompt_id?: string | null
+          run_name: string
+          started_at?: string | null
+          started_by?: string | null
+          status?: string
+          suite_id: string
+          summary?: Json
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          model_id?: string | null
+          prompt_id?: string | null
+          run_name?: string
+          started_at?: string | null
+          started_by?: string | null
+          status?: string
+          suite_id?: string
+          summary?: Json
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_eval_runs_suite_id_fkey"
+            columns: ["suite_id"]
+            isOneToOne: false
+            referencedRelation: "ai_eval_suites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_eval_suites: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          eval_type: string
+          id: string
+          name: string
+          status: string
+          suite_key: string
+          target_model_id: string | null
+          target_prompt_id: string | null
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          eval_type?: string
+          id?: string
+          name: string
+          status?: string
+          suite_key: string
+          target_model_id?: string | null
+          target_prompt_id?: string | null
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          eval_type?: string
+          id?: string
+          name?: string
+          status?: string
+          suite_key?: string
+          target_model_id?: string | null
+          target_prompt_id?: string | null
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ai_governance_audit_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          description: string | null
+          event_type: string
+          id: string
+          metadata: Json
+          resource_id: string | null
+          resource_type: string | null
+          severity: string
+          team_id: string
+          title: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id: string
+          title: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      ai_governance_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ai_model_registry: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          approved_for_autonomous_actions: boolean
+          approved_for_customer_facing: boolean
+          approved_for_production: boolean
+          approved_for_sensitive_data: boolean
+          approved_for_tool_calls: boolean
+          cost_input_per_1k: number | null
+          cost_output_per_1k: number | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          data_processing_notes: string | null
+          data_retention_policy: string | null
+          display_name: string
+          id: string
+          max_input_tokens: number | null
+          max_output_tokens: number | null
+          metadata: Json
+          model_family: string | null
+          model_key: string
+          model_type: string
+          owner_user_id: string | null
+          provider_config_id: string | null
+          risk_tier: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          approved_for_autonomous_actions?: boolean
+          approved_for_customer_facing?: boolean
+          approved_for_production?: boolean
+          approved_for_sensitive_data?: boolean
+          approved_for_tool_calls?: boolean
+          cost_input_per_1k?: number | null
+          cost_output_per_1k?: number | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          data_processing_notes?: string | null
+          data_retention_policy?: string | null
+          display_name: string
+          id?: string
+          max_input_tokens?: number | null
+          max_output_tokens?: number | null
+          metadata?: Json
+          model_family?: string | null
+          model_key: string
+          model_type?: string
+          owner_user_id?: string | null
+          provider_config_id?: string | null
+          risk_tier?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          approved_for_autonomous_actions?: boolean
+          approved_for_customer_facing?: boolean
+          approved_for_production?: boolean
+          approved_for_sensitive_data?: boolean
+          approved_for_tool_calls?: boolean
+          cost_input_per_1k?: number | null
+          cost_output_per_1k?: number | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          data_processing_notes?: string | null
+          data_retention_policy?: string | null
+          display_name?: string
+          id?: string
+          max_input_tokens?: number | null
+          max_output_tokens?: number | null
+          metadata?: Json
+          model_family?: string | null
+          model_key?: string
+          model_type?: string
+          owner_user_id?: string | null
+          provider_config_id?: string | null
+          risk_tier?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_model_registry_provider_config_id_fkey"
+            columns: ["provider_config_id"]
+            isOneToOne: false
+            referencedRelation: "ai_provider_configs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_policy_evaluations: {
+        Row: {
+          ai_job_id: string | null
+          conversation_id: string | null
+          created_at: string
+          decision: string
+          evaluated_at: string
+          evaluated_context_summary: Json
+          id: string
+          matched_pattern: string | null
+          message_id: string | null
+          model_id: string | null
+          prompt_id: string | null
+          reason: string | null
+          risk_score: number | null
+          rule_id: string | null
+          team_id: string
+        }
+        Insert: {
+          ai_job_id?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          decision: string
+          evaluated_at?: string
+          evaluated_context_summary?: Json
+          id?: string
+          matched_pattern?: string | null
+          message_id?: string | null
+          model_id?: string | null
+          prompt_id?: string | null
+          reason?: string | null
+          risk_score?: number | null
+          rule_id?: string | null
+          team_id: string
+        }
+        Update: {
+          ai_job_id?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          decision?: string
+          evaluated_at?: string
+          evaluated_context_summary?: Json
+          id?: string
+          matched_pattern?: string | null
+          message_id?: string | null
+          model_id?: string | null
+          prompt_id?: string | null
+          reason?: string | null
+          risk_score?: number | null
+          rule_id?: string | null
+          team_id?: string
+        }
+        Relationships: []
+      }
+      ai_policy_rules: {
+        Row: {
+          applies_to_context_types: string[]
+          applies_to_prompt_types: string[]
+          config: Json
+          created_at: string
+          created_by: string | null
+          description: string | null
+          enforcement_mode: string
+          id: string
+          name: string
+          pattern: string | null
+          rule_key: string
+          rule_type: string
+          severity: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          applies_to_context_types?: string[]
+          applies_to_prompt_types?: string[]
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          enforcement_mode?: string
+          id?: string
+          name: string
+          pattern?: string | null
+          rule_key: string
+          rule_type: string
+          severity?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          applies_to_context_types?: string[]
+          applies_to_prompt_types?: string[]
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          enforcement_mode?: string
+          id?: string
+          name?: string
+          pattern?: string | null
+          rule_key?: string
+          rule_type?: string
+          severity?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ai_prompt_registry: {
+        Row: {
+          allowed_context_types: string[]
+          allowed_model_ids: string[]
+          allows_customer_facing_output: boolean
+          allows_tool_calls: boolean
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          name: string
+          owner_user_id: string | null
+          prompt_key: string
+          prompt_type: string
+          requires_redaction: boolean
+          requires_review: boolean
+          reviewed_by: string | null
+          risk_level: string
+          sensitivity_level: string
+          status: string
+          system_prompt: string | null
+          team_id: string
+          updated_at: string
+          updated_by: string | null
+          user_prompt_template: string
+          variables: Json
+          visibility: string
+        }
+        Insert: {
+          allowed_context_types?: string[]
+          allowed_model_ids?: string[]
+          allows_customer_facing_output?: boolean
+          allows_tool_calls?: boolean
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          owner_user_id?: string | null
+          prompt_key: string
+          prompt_type?: string
+          requires_redaction?: boolean
+          requires_review?: boolean
+          reviewed_by?: string | null
+          risk_level?: string
+          sensitivity_level?: string
+          status?: string
+          system_prompt?: string | null
+          team_id: string
+          updated_at?: string
+          updated_by?: string | null
+          user_prompt_template: string
+          variables?: Json
+          visibility?: string
+        }
+        Update: {
+          allowed_context_types?: string[]
+          allowed_model_ids?: string[]
+          allows_customer_facing_output?: boolean
+          allows_tool_calls?: boolean
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          owner_user_id?: string | null
+          prompt_key?: string
+          prompt_type?: string
+          requires_redaction?: boolean
+          requires_review?: boolean
+          reviewed_by?: string | null
+          risk_level?: string
+          sensitivity_level?: string
+          status?: string
+          system_prompt?: string | null
+          team_id?: string
+          updated_at?: string
+          updated_by?: string | null
+          user_prompt_template?: string
+          variables?: Json
+          visibility?: string
+        }
+        Relationships: []
+      }
+      ai_prompt_reviews: {
+        Row: {
+          checklist: Json
+          comments: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          prompt_id: string
+          review_type: string
+          reviewed_at: string | null
+          reviewer_id: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          checklist?: Json
+          comments?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          prompt_id: string
+          review_type?: string
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          checklist?: Json
+          comments?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          prompt_id?: string
+          review_type?: string
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_prompt_reviews_prompt_id_fkey"
+            columns: ["prompt_id"]
+            isOneToOne: false
+            referencedRelation: "ai_prompt_registry"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_prompt_versions: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          change_summary: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          prompt_id: string
+          status: string
+          system_prompt: string | null
+          team_id: string
+          user_prompt_template: string
+          variables: Json
+          version_number: number
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          change_summary?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          prompt_id: string
+          status?: string
+          system_prompt?: string | null
+          team_id: string
+          user_prompt_template: string
+          variables?: Json
+          version_number: number
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          change_summary?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          prompt_id?: string
+          status?: string
+          system_prompt?: string | null
+          team_id?: string
+          user_prompt_template?: string
+          variables?: Json
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_prompt_versions_prompt_id_fkey"
+            columns: ["prompt_id"]
+            isOneToOne: false
+            referencedRelation: "ai_prompt_registry"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_provider_configs: {
+        Row: {
+          config: Json
+          created_at: string
+          created_by: string | null
+          credential_reference: string | null
+          credential_status: string
+          data_processing_region_id: string | null
+          default_timeout_seconds: number
+          id: string
+          last_error_message: string | null
+          last_tested_at: string | null
+          max_context_tokens: number | null
+          name: string
+          provider_key: string
+          provider_type: string
+          status: string
+          supports_embeddings: boolean
+          supports_json_mode: boolean
+          supports_safety_metadata: boolean
+          supports_streaming: boolean
+          supports_tools: boolean
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          credential_reference?: string | null
+          credential_status?: string
+          data_processing_region_id?: string | null
+          default_timeout_seconds?: number
+          id?: string
+          last_error_message?: string | null
+          last_tested_at?: string | null
+          max_context_tokens?: number | null
+          name: string
+          provider_key: string
+          provider_type: string
+          status?: string
+          supports_embeddings?: boolean
+          supports_json_mode?: boolean
+          supports_safety_metadata?: boolean
+          supports_streaming?: boolean
+          supports_tools?: boolean
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          credential_reference?: string | null
+          credential_status?: string
+          data_processing_region_id?: string | null
+          default_timeout_seconds?: number
+          id?: string
+          last_error_message?: string | null
+          last_tested_at?: string | null
+          max_context_tokens?: number | null
+          name?: string
+          provider_key?: string
+          provider_type?: string
+          status?: string
+          supports_embeddings?: boolean
+          supports_json_mode?: boolean
+          supports_safety_metadata?: boolean
+          supports_streaming?: boolean
+          supports_tools?: boolean
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ai_safety_findings: {
+        Row: {
+          ai_job_id: string | null
+          conversation_id: string | null
+          created_at: string
+          description: string | null
+          detected_by: string
+          evidence: Json
+          finding_type: string
+          id: string
+          message_id: string | null
+          recommended_action: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          severity: string
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          ai_job_id?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          description?: string | null
+          detected_by?: string
+          evidence?: Json
+          finding_type: string
+          id?: string
+          message_id?: string | null
+          recommended_action?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          severity?: string
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          ai_job_id?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          description?: string | null
+          detected_by?: string
+          evidence?: Json
+          finding_type?: string
+          id?: string
+          message_id?: string | null
+          recommended_action?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          severity?: string
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ai_usage_records: {
+        Row: {
+          ai_job_id: string | null
+          context_type: string | null
+          conversation_id: string | null
+          created_at: string
+          currency: string
+          estimated_cost_cents: number | null
+          id: string
+          input_tokens: number | null
+          latency_ms: number | null
+          metadata: Json
+          model_id: string | null
+          output_tokens: number | null
+          prompt_id: string | null
+          provider_config_id: string | null
+          recorded_at: string
+          source: string
+          status: string
+          team_id: string
+          total_tokens: number | null
+        }
+        Insert: {
+          ai_job_id?: string | null
+          context_type?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          currency?: string
+          estimated_cost_cents?: number | null
+          id?: string
+          input_tokens?: number | null
+          latency_ms?: number | null
+          metadata?: Json
+          model_id?: string | null
+          output_tokens?: number | null
+          prompt_id?: string | null
+          provider_config_id?: string | null
+          recorded_at?: string
+          source?: string
+          status?: string
+          team_id: string
+          total_tokens?: number | null
+        }
+        Update: {
+          ai_job_id?: string | null
+          context_type?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          currency?: string
+          estimated_cost_cents?: number | null
+          id?: string
+          input_tokens?: number | null
+          latency_ms?: number | null
+          metadata?: Json
+          model_id?: string | null
+          output_tokens?: number | null
+          prompt_id?: string | null
+          provider_config_id?: string | null
+          recorded_at?: string
+          source?: string
+          status?: string
+          team_id?: string
+          total_tokens?: number | null
+        }
+        Relationships: []
+      }
       alert_events: {
         Row: {
           acknowledged_at: string | null
@@ -20393,6 +21474,10 @@ export type Database = {
           _team_id: string
           _user_id: string
         }
+        Returns: boolean
+      }
+      is_ai_governance_admin: {
+        Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
       is_bi_admin: {
