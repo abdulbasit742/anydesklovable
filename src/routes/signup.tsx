@@ -45,8 +45,22 @@ function Signup() {
     navigate({ to: "/dashboard" });
   }
 
+  async function onGoogle() {
+    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
+    if (result.error) return toast.error(result.error.message ?? "Google sign-up failed");
+    if (result.redirected) return;
+    toast.success("Account created");
+    navigate({ to: "/dashboard" });
+  }
+
   return (
     <AuthLayout title="Create your account" subtitle="Free for personal use. No credit card required.">
+      <Button type="button" variant="outline" className="w-full" onClick={onGoogle}>
+        <GoogleIcon /> Sign up with Google
+      </Button>
+      <div className="my-4 flex items-center gap-3 text-xs text-muted-foreground">
+        <div className="h-px flex-1 bg-border" /> OR <div className="h-px flex-1 bg-border" />
+      </div>
       <form className="space-y-3" onSubmit={onSubmit}>
         <Field label="Full name"><Input required placeholder="Abdul Basit" value={name} onChange={(e) => setName(e.target.value)} /></Field>
         <Field label="Work email"><Input type="email" required placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} /></Field>
