@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/app/AppShell";
+import { Button } from "@/components/ui/button";
 import {
   useAutomationSystems, useAutomationTasks, useAutomationAccounts,
   useAutomationRateLimits, useAutomationLogs,
@@ -7,6 +8,7 @@ import {
 import {
   AutomationMetricCard, AutomationStatusBadge, DemoBanner, formatRelative,
 } from "@/components/app/automation/shared";
+import { useAutomationDashboardSummary, useEnqueueDueScheduledRuns } from "@/lib/services/automation-engine";
 
 export const Route = createFileRoute("/dashboard/automation/")({
   component: AutomationOverview,
