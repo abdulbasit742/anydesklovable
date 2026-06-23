@@ -12,12 +12,14 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as DownloadRouteImport } from './routes/download'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as MarketplaceListingKeyRouteImport } from './routes/marketplace.$listingKey'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as DashboardTeamRouteImport } from './routes/dashboard.team'
 import { Route as DashboardSupportRouteImport } from './routes/dashboard.support'
@@ -82,6 +84,11 @@ const PricingRoute = PricingRouteImport.update({
   path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MarketplaceRoute = MarketplaceRouteImport.update({
+  id: '/marketplace',
+  path: '/marketplace',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -111,6 +118,11 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DashboardRoute,
+} as any)
+const MarketplaceListingKeyRoute = MarketplaceListingKeyRouteImport.update({
+  id: '/$listingKey',
+  path: '/$listingKey',
+  getParentRoute: () => MarketplaceRoute,
 } as any)
 const InviteTokenRoute = InviteTokenRouteImport.update({
   id: '/invite/$token',
@@ -384,6 +396,7 @@ export interface FileRoutesByFullPath {
   '/download': typeof DownloadRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/marketplace': typeof MarketplaceRouteWithChildren
   '/pricing': typeof PricingRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
@@ -403,6 +416,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/support': typeof DashboardSupportRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/invite/$token': typeof InviteTokenRoute
+  '/marketplace/$listingKey': typeof MarketplaceListingKeyRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/automation/accounts': typeof DashboardAutomationAccountsRoute
   '/dashboard/automation/alerts': typeof DashboardAutomationAlertsRoute
@@ -442,6 +456,7 @@ export interface FileRoutesByTo {
   '/download': typeof DownloadRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/marketplace': typeof MarketplaceRouteWithChildren
   '/pricing': typeof PricingRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
@@ -460,6 +475,7 @@ export interface FileRoutesByTo {
   '/dashboard/support': typeof DashboardSupportRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/invite/$token': typeof InviteTokenRoute
+  '/marketplace/$listingKey': typeof MarketplaceListingKeyRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/automation/accounts': typeof DashboardAutomationAccountsRoute
   '/dashboard/automation/alerts': typeof DashboardAutomationAlertsRoute
@@ -501,6 +517,7 @@ export interface FileRoutesById {
   '/download': typeof DownloadRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/marketplace': typeof MarketplaceRouteWithChildren
   '/pricing': typeof PricingRoute
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
@@ -520,6 +537,7 @@ export interface FileRoutesById {
   '/dashboard/support': typeof DashboardSupportRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/invite/$token': typeof InviteTokenRoute
+  '/marketplace/$listingKey': typeof MarketplaceListingKeyRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/automation/accounts': typeof DashboardAutomationAccountsRoute
   '/dashboard/automation/alerts': typeof DashboardAutomationAlertsRoute
@@ -562,6 +580,7 @@ export interface FileRouteTypes {
     | '/download'
     | '/forgot-password'
     | '/login'
+    | '/marketplace'
     | '/pricing'
     | '/reset-password'
     | '/signup'
@@ -581,6 +600,7 @@ export interface FileRouteTypes {
     | '/dashboard/support'
     | '/dashboard/team'
     | '/invite/$token'
+    | '/marketplace/$listingKey'
     | '/dashboard/'
     | '/dashboard/automation/accounts'
     | '/dashboard/automation/alerts'
@@ -620,6 +640,7 @@ export interface FileRouteTypes {
     | '/download'
     | '/forgot-password'
     | '/login'
+    | '/marketplace'
     | '/pricing'
     | '/reset-password'
     | '/signup'
@@ -638,6 +659,7 @@ export interface FileRouteTypes {
     | '/dashboard/support'
     | '/dashboard/team'
     | '/invite/$token'
+    | '/marketplace/$listingKey'
     | '/dashboard'
     | '/dashboard/automation/accounts'
     | '/dashboard/automation/alerts'
@@ -678,6 +700,7 @@ export interface FileRouteTypes {
     | '/download'
     | '/forgot-password'
     | '/login'
+    | '/marketplace'
     | '/pricing'
     | '/reset-password'
     | '/signup'
@@ -697,6 +720,7 @@ export interface FileRouteTypes {
     | '/dashboard/support'
     | '/dashboard/team'
     | '/invite/$token'
+    | '/marketplace/$listingKey'
     | '/dashboard/'
     | '/dashboard/automation/accounts'
     | '/dashboard/automation/alerts'
@@ -738,6 +762,7 @@ export interface RootRouteChildren {
   DownloadRoute: typeof DownloadRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
+  MarketplaceRoute: typeof MarketplaceRouteWithChildren
   PricingRoute: typeof PricingRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
@@ -776,6 +801,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/marketplace': {
+      id: '/marketplace'
+      path: '/marketplace'
+      fullPath: '/marketplace'
+      preLoaderRoute: typeof MarketplaceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -819,6 +851,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
+    }
+    '/marketplace/$listingKey': {
+      id: '/marketplace/$listingKey'
+      path: '/$listingKey'
+      fullPath: '/marketplace/$listingKey'
+      preLoaderRoute: typeof MarketplaceListingKeyRouteImport
+      parentRoute: typeof MarketplaceRoute
     }
     '/invite/$token': {
       id: '/invite/$token'
@@ -1256,6 +1295,18 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
   DashboardRouteChildren,
 )
 
+interface MarketplaceRouteChildren {
+  MarketplaceListingKeyRoute: typeof MarketplaceListingKeyRoute
+}
+
+const MarketplaceRouteChildren: MarketplaceRouteChildren = {
+  MarketplaceListingKeyRoute: MarketplaceListingKeyRoute,
+}
+
+const MarketplaceRouteWithChildren = MarketplaceRoute._addFileChildren(
+  MarketplaceRouteChildren,
+)
+
 interface ApiPublicV1DevicesDeviceIdRouteChildren {
   ApiPublicV1DevicesDeviceIdPresenceRoute: typeof ApiPublicV1DevicesDeviceIdPresenceRoute
 }
@@ -1359,6 +1410,7 @@ const rootRouteChildren: RootRouteChildren = {
   DownloadRoute: DownloadRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
+  MarketplaceRoute: MarketplaceRouteWithChildren,
   PricingRoute: PricingRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
@@ -1380,13 +1432,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
