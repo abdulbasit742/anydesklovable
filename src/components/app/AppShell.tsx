@@ -6,6 +6,7 @@ import {
   FileText, LifeBuoy, Crown, SlidersHorizontal,
   Bot, Workflow, ListChecks, KeyRound, Gauge, CalendarClock, BellRing, ScrollText, Package, Settings,
   BookUser, Smartphone, Code2,
+  Database,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
