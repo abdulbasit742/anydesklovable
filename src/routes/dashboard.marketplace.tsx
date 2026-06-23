@@ -27,6 +27,14 @@ function fmtMoney(cents: number, currency = "usd") {
     .format((cents || 0) / 100);
 }
 
+function statusVariant(s: string): "online" | "neutral" | "rejected" | "fair" {
+  if (s === "published" || s === "approved" || s === "installed") return "online";
+  if (s === "rejected") return "rejected";
+  if (s === "pending_review" || s === "changes_requested" || s === "worker_required" || s === "provider_required") return "fair";
+  return "neutral";
+}
+
+
 function MarketplacePage() {
   const { data: team } = useCurrentTeam();
   const teamId = team?.team_id;
