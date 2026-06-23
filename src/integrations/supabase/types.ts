@@ -4883,6 +4883,113 @@ export type Database = {
         }
         Relationships: []
       }
+      business_glossary_collections: {
+        Row: {
+          collection_key: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          name: string
+          owner_user_id: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          collection_key: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          owner_user_id?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          collection_key?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          owner_user_id?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      business_glossary_terms: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          collection_id: string | null
+          created_at: string
+          created_by: string | null
+          definition: string
+          id: string
+          metadata: Json
+          name: string
+          owner_user_id: string | null
+          related_term_ids: string[]
+          status: string
+          synonyms: string[]
+          team_id: string
+          term_key: string
+          term_type: string
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          collection_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          definition: string
+          id?: string
+          metadata?: Json
+          name: string
+          owner_user_id?: string | null
+          related_term_ids?: string[]
+          status?: string
+          synonyms?: string[]
+          team_id: string
+          term_key: string
+          term_type?: string
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          collection_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          definition?: string
+          id?: string
+          metadata?: Json
+          name?: string
+          owner_user_id?: string | null
+          related_term_ids?: string[]
+          status?: string
+          synonyms?: string[]
+          team_id?: string
+          term_key?: string
+          term_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_glossary_terms_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "business_glossary_collections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       chain_of_custody_events: {
         Row: {
           actor_id: string | null
@@ -6587,6 +6694,65 @@ export type Database = {
           },
         ]
       }
+      data_asset_certifications: {
+        Row: {
+          asset_id: string
+          certification_type: string
+          certified_at: string
+          certified_by: string | null
+          created_at: string
+          evidence_resource_id: string | null
+          evidence_resource_type: string | null
+          expires_at: string | null
+          id: string
+          metadata: Json
+          notes: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          asset_id: string
+          certification_type?: string
+          certified_at?: string
+          certified_by?: string | null
+          created_at?: string
+          evidence_resource_id?: string | null
+          evidence_resource_type?: string | null
+          expires_at?: string | null
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          asset_id?: string
+          certification_type?: string
+          certified_at?: string
+          certified_by?: string | null
+          created_at?: string
+          evidence_resource_id?: string | null
+          evidence_resource_type?: string | null
+          expires_at?: string | null
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_asset_certifications_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "data_assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       data_asset_fields: {
         Row: {
           asset_id: string
@@ -6822,6 +6988,114 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      data_catalog_activity_events: {
+        Row: {
+          actor_id: string | null
+          asset_id: string | null
+          created_at: string
+          description: string | null
+          event_type: string
+          id: string
+          metadata: Json
+          resource_id: string | null
+          resource_type: string | null
+          severity: string
+          team_id: string
+          title: string
+          workspace_id: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          asset_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id: string
+          title: string
+          workspace_id?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          asset_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id?: string
+          title?: string
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_catalog_activity_events_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "data_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "data_catalog_activity_events_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "data_catalog_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_catalog_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       data_catalog_workspaces: {
         Row: {
@@ -7127,6 +7401,56 @@ export type Database = {
             columns: ["parent_domain_id"]
             isOneToOne: false
             referencedRelation: "data_domains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_governance_policy_links: {
+        Row: {
+          asset_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          notes: string | null
+          policy_resource_id: string | null
+          policy_resource_type: string | null
+          policy_type: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          asset_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          notes?: string | null
+          policy_resource_id?: string | null
+          policy_resource_type?: string | null
+          policy_type?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          asset_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          notes?: string | null
+          policy_resource_id?: string | null
+          policy_resource_type?: string | null
+          policy_type?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_governance_policy_links_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "data_assets"
             referencedColumns: ["id"]
           },
         ]
@@ -18473,6 +18797,65 @@ export type Database = {
           },
         ]
       }
+      schema_change_events: {
+        Row: {
+          after_snapshot: Json
+          asset_id: string | null
+          before_snapshot: Json
+          change_type: string
+          created_at: string
+          description: string | null
+          detected_by: string
+          id: string
+          reviewed: boolean
+          reviewed_at: string | null
+          reviewed_by: string | null
+          severity: string
+          team_id: string
+          title: string
+        }
+        Insert: {
+          after_snapshot?: Json
+          asset_id?: string | null
+          before_snapshot?: Json
+          change_type?: string
+          created_at?: string
+          description?: string | null
+          detected_by?: string
+          id?: string
+          reviewed?: boolean
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          severity?: string
+          team_id: string
+          title: string
+        }
+        Update: {
+          after_snapshot?: Json
+          asset_id?: string | null
+          before_snapshot?: Json
+          change_type?: string
+          created_at?: string
+          description?: string | null
+          detected_by?: string
+          id?: string
+          reviewed?: boolean
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          severity?: string
+          team_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "schema_change_events_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "data_assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       scim_group_members: {
         Row: {
           active: boolean
@@ -24060,6 +24443,8 @@ export type Database = {
         Args: { _latency: number; _loss: number }
         Returns: string
       }
+      _dc_require_admin: { Args: { _team: string }; Returns: undefined }
+      _dc_team: { Args: never; Returns: string }
       accept_team_invitation: {
         Args: { invite_token: string }
         Returns: {
@@ -24084,6 +24469,34 @@ export type Database = {
           _team_id: string
         }
         Returns: undefined
+      }
+      approve_business_glossary_term: {
+        Args: { p_decision_note?: string; p_term_id: string }
+        Returns: {
+          approved_at: string | null
+          approved_by: string | null
+          collection_id: string | null
+          created_at: string
+          created_by: string | null
+          definition: string
+          id: string
+          metadata: Json
+          name: string
+          owner_user_id: string | null
+          related_term_ids: string[]
+          status: string
+          synonyms: string[]
+          team_id: string
+          term_key: string
+          term_type: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "business_glossary_terms"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       approve_marketplace_publisher: {
         Args: { _publisher_id: string }
@@ -24128,6 +24541,80 @@ export type Database = {
       }
       can_triage_ticket: { Args: { _ticket_id: string }; Returns: boolean }
       can_view_ticket: { Args: { _ticket_id: string }; Returns: boolean }
+      certify_data_asset: {
+        Args: {
+          p_asset_id: string
+          p_certification_type?: string
+          p_evidence_resource_id?: string
+          p_evidence_resource_type?: string
+          p_expires_at?: string
+          p_notes?: string
+        }
+        Returns: {
+          asset_id: string
+          certification_type: string
+          certified_at: string
+          certified_by: string | null
+          created_at: string
+          evidence_resource_id: string | null
+          evidence_resource_type: string | null
+          expires_at: string | null
+          id: string
+          metadata: Json
+          notes: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_asset_certifications"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      change_data_asset_owner: {
+        Args: {
+          p_asset_id: string
+          p_change_reason?: string
+          p_new_owner_user_id?: string
+          p_new_steward_user_id?: string
+        }
+        Returns: {
+          asset_key: string
+          asset_type: string
+          classification_status: string
+          created_at: string
+          created_by: string | null
+          data_residency_region_id: string | null
+          description: string | null
+          domain_id: string | null
+          id: string
+          is_system_asset: boolean
+          legal_hold_applicable: boolean
+          metadata: Json
+          name: string
+          owner_user_id: string | null
+          retention_policy_id: string | null
+          sensitivity_level: string
+          source_module: string | null
+          source_resource_id: string | null
+          source_resource_type: string | null
+          source_system: string
+          status: string
+          steward_user_id: string | null
+          team_id: string
+          technical_owner_user_id: string | null
+          updated_at: string
+          workspace_id: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_assets"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       claim_next_automation_task: {
         Args: { p_team_id?: string }
         Returns: {
@@ -24253,6 +24740,32 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      complete_metadata_scan_job: {
+        Args: { p_job_id: string; p_output?: Json }
+        Returns: {
+          asset_id: string | null
+          created_at: string
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          input: Json
+          output: Json
+          provider: string
+          requested_by: string | null
+          scan_type: string
+          started_at: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          workspace_id: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "metadata_scan_jobs"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       create_api_key: {
         Args: {
           _expires_at?: string
@@ -24300,6 +24813,260 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      create_business_glossary_term: {
+        Args: {
+          p_collection_id?: string
+          p_definition: string
+          p_name: string
+          p_synonyms?: string[]
+          p_term_key: string
+          p_term_type?: string
+        }
+        Returns: {
+          approved_at: string | null
+          approved_by: string | null
+          collection_id: string | null
+          created_at: string
+          created_by: string | null
+          definition: string
+          id: string
+          metadata: Json
+          name: string
+          owner_user_id: string | null
+          related_term_ids: string[]
+          status: string
+          synonyms: string[]
+          team_id: string
+          term_key: string
+          term_type: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "business_glossary_terms"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      create_data_catalog_report: {
+        Args: { p_filters?: Json; p_report_type: string; p_title: string }
+        Returns: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_catalog_reports"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      create_data_catalog_workspace: {
+        Args: {
+          p_default_sensitivity?: string
+          p_description?: string
+          p_name: string
+          p_workspace_key: string
+          p_workspace_type?: string
+        }
+        Returns: {
+          created_at: string
+          created_by: string | null
+          default_sensitivity: string
+          description: string | null
+          id: string
+          metadata: Json
+          name: string
+          owner_user_id: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          workspace_key: string
+          workspace_type: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_catalog_workspaces"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      create_data_classification_rule: {
+        Args: {
+          p_conditions?: Json
+          p_enforcement_mode?: string
+          p_name: string
+          p_pattern?: string
+          p_pii_type?: string
+          p_rule_key: string
+          p_rule_type?: string
+          p_sensitivity_level?: string
+        }
+        Returns: {
+          conditions: Json
+          confidence: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          enforcement_mode: string
+          id: string
+          name: string
+          pattern: string | null
+          pii_type: string
+          rule_key: string
+          rule_type: string
+          sensitivity_level: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_classification_rules"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      create_data_domain: {
+        Args: {
+          p_description?: string
+          p_domain_key: string
+          p_domain_type?: string
+          p_name: string
+          p_owner_user_id?: string
+          p_parent_domain_id?: string
+          p_steward_user_id?: string
+        }
+        Returns: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          domain_key: string
+          domain_type: string
+          id: string
+          metadata: Json
+          name: string
+          owner_user_id: string | null
+          parent_domain_id: string | null
+          status: string
+          steward_user_id: string | null
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_domains"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      create_data_lineage_edge: {
+        Args: {
+          p_confidence?: string
+          p_lineage_type?: string
+          p_source_asset_id: string
+          p_source_field_id?: string
+          p_target_asset_id: string
+          p_target_field_id?: string
+          p_transformation_summary?: string
+        }
+        Returns: {
+          confidence: string
+          created_at: string
+          created_by: string | null
+          id: string
+          lineage_type: string
+          metadata: Json
+          source_asset_id: string
+          source_field_id: string | null
+          source_module: string | null
+          status: string
+          target_asset_id: string
+          target_field_id: string | null
+          target_module: string | null
+          team_id: string
+          transformation_summary: string | null
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_lineage_edges"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      create_data_quality_rule: {
+        Args: {
+          p_asset_id?: string
+          p_config?: Json
+          p_description?: string
+          p_field_id?: string
+          p_name: string
+          p_rule_key: string
+          p_rule_type?: string
+          p_schedule_label?: string
+          p_severity?: string
+        }
+        Returns: {
+          asset_id: string | null
+          config: Json
+          created_at: string
+          created_by: string | null
+          description: string | null
+          field_id: string | null
+          id: string
+          name: string
+          owner_user_id: string | null
+          rule_key: string
+          rule_type: string
+          schedule_label: string | null
+          severity: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_quality_rule_registry"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      create_glossary_collection: {
+        Args: {
+          p_collection_key: string
+          p_description?: string
+          p_name: string
+        }
+        Returns: {
+          collection_key: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          name: string
+          owner_user_id: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "business_glossary_collections"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       create_marketplace_listing: {
         Args: {
           _base_price_cents?: number
@@ -24331,6 +25098,38 @@ export type Database = {
       create_marketplace_purchase: {
         Args: { _buyer_team_id: string; _listing_id: string; _plan_id?: string }
         Returns: Json
+      }
+      create_metadata_scan_job: {
+        Args: {
+          p_asset_id?: string
+          p_input?: Json
+          p_provider?: string
+          p_scan_type?: string
+          p_workspace_id?: string
+        }
+        Returns: {
+          asset_id: string | null
+          created_at: string
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          input: Json
+          output: Json
+          provider: string
+          requested_by: string | null
+          scan_type: string
+          started_at: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          workspace_id: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "metadata_scan_jobs"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       create_notification: {
         Args: {
@@ -24442,6 +25241,39 @@ export type Database = {
           p_team_id: string
         }
         Returns: string
+      }
+      decide_data_access_request: {
+        Args: {
+          p_decision_note?: string
+          p_request_id: string
+          p_status: string
+        }
+        Returns: {
+          asset_id: string | null
+          business_justification: string | null
+          created_at: string
+          decided_at: string | null
+          decision_note: string | null
+          expires_at: string | null
+          field_id: string | null
+          id: string
+          metadata: Json
+          purpose: string | null
+          request_key: string | null
+          request_type: string
+          requester_user_id: string | null
+          reviewer_user_id: string | null
+          sensitivity_level: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_access_requests"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       disable_mfa: {
         Args: { p_reason?: string }
@@ -24654,6 +25486,16 @@ export type Database = {
           successful_runs_24h: number
         }[]
       }
+      get_data_catalog_summary: { Args: never; Returns: Json }
+      get_data_lineage_graph: {
+        Args: {
+          p_asset_id: string
+          p_depth?: number
+          p_direction?: string
+          p_limit?: number
+        }
+        Returns: Json
+      }
       get_developer_overview: {
         Args: { p_team_id: string }
         Returns: {
@@ -24803,6 +25645,66 @@ export type Database = {
         Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
+      link_data_asset_to_policy: {
+        Args: {
+          p_asset_id: string
+          p_notes?: string
+          p_policy_resource_id?: string
+          p_policy_resource_type?: string
+          p_policy_type?: string
+        }
+        Returns: {
+          asset_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          notes: string | null
+          policy_resource_id: string | null
+          policy_resource_type: string | null
+          policy_type: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_governance_policy_links"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      link_field_to_glossary_term: {
+        Args: { p_field_id: string; p_term_id: string }
+        Returns: {
+          asset_id: string
+          classification_status: string
+          created_at: string
+          data_type: string
+          description: string | null
+          display_name: string | null
+          field_key: string
+          glossary_term_id: string | null
+          id: string
+          is_foreign_key: boolean
+          is_primary_key: boolean
+          metadata: Json
+          name: string
+          nullable: boolean
+          pii_type: string
+          referenced_asset_id: string | null
+          referenced_field_id: string | null
+          sample_value_redacted: string | null
+          sensitivity_level: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_asset_fields"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       log_api_request: {
         Args: {
           p_api_key_id: string
@@ -24949,6 +25851,29 @@ export type Database = {
         }
       }
       my_team_ids: { Args: { _user_id: string }; Returns: string[] }
+      process_data_catalog_report: {
+        Args: { p_report_id: string }
+        Returns: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_catalog_reports"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       publish_marketplace_listing: {
         Args: { _listing_id: string }
         Returns: undefined
@@ -25007,6 +25932,129 @@ export type Database = {
         Returns: string
       }
       record_mfa_enrollment_started: { Args: never; Returns: undefined }
+      record_schema_change_event: {
+        Args: {
+          p_after_snapshot?: Json
+          p_asset_id?: string
+          p_before_snapshot?: Json
+          p_change_type: string
+          p_description?: string
+          p_severity?: string
+          p_title: string
+        }
+        Returns: {
+          after_snapshot: Json
+          asset_id: string | null
+          before_snapshot: Json
+          change_type: string
+          created_at: string
+          description: string | null
+          detected_by: string
+          id: string
+          reviewed: boolean
+          reviewed_at: string | null
+          reviewed_by: string | null
+          severity: string
+          team_id: string
+          title: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "schema_change_events"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      register_data_asset: {
+        Args: {
+          p_asset_key: string
+          p_asset_type?: string
+          p_description?: string
+          p_domain_id?: string
+          p_name: string
+          p_sensitivity_level?: string
+          p_source_module?: string
+          p_source_resource_id?: string
+          p_source_resource_type?: string
+          p_source_system?: string
+          p_workspace_id?: string
+        }
+        Returns: {
+          asset_key: string
+          asset_type: string
+          classification_status: string
+          created_at: string
+          created_by: string | null
+          data_residency_region_id: string | null
+          description: string | null
+          domain_id: string | null
+          id: string
+          is_system_asset: boolean
+          legal_hold_applicable: boolean
+          metadata: Json
+          name: string
+          owner_user_id: string | null
+          retention_policy_id: string | null
+          sensitivity_level: string
+          source_module: string | null
+          source_resource_id: string | null
+          source_resource_type: string | null
+          source_system: string
+          status: string
+          steward_user_id: string | null
+          team_id: string
+          technical_owner_user_id: string | null
+          updated_at: string
+          workspace_id: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_assets"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      register_data_asset_field: {
+        Args: {
+          p_asset_id: string
+          p_data_type?: string
+          p_description?: string
+          p_field_key: string
+          p_name: string
+          p_nullable?: boolean
+          p_pii_type?: string
+          p_sensitivity_level?: string
+        }
+        Returns: {
+          asset_id: string
+          classification_status: string
+          created_at: string
+          data_type: string
+          description: string | null
+          display_name: string | null
+          field_key: string
+          glossary_term_id: string | null
+          id: string
+          is_foreign_key: boolean
+          is_primary_key: boolean
+          metadata: Json
+          name: string
+          nullable: boolean
+          pii_type: string
+          referenced_asset_id: string | null
+          referenced_field_id: string | null
+          sample_value_redacted: string | null
+          sensitivity_level: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_asset_fields"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       reject_billing_change_request: {
         Args: { _reason?: string; _request_id: string }
         Returns: undefined
@@ -25020,9 +26068,65 @@ export type Database = {
         }
         Returns: string
       }
+      review_classification_finding: {
+        Args: {
+          p_decision_note?: string
+          p_finding_id: string
+          p_status: string
+        }
+        Returns: {
+          asset_id: string | null
+          confidence: string
+          created_at: string
+          evidence: Json
+          field_id: string | null
+          finding_type: string
+          id: string
+          pii_type: string | null
+          reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          rule_id: string | null
+          sensitivity_level: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_classification_findings"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       review_marketplace_listing: {
         Args: { _decision: string; _listing_id: string; _notes?: string }
         Returns: undefined
+      }
+      review_schema_change_event: {
+        Args: { p_note?: string; p_schema_change_event_id: string }
+        Returns: {
+          after_snapshot: Json
+          asset_id: string | null
+          before_snapshot: Json
+          change_type: string
+          created_at: string
+          description: string | null
+          detected_by: string
+          id: string
+          reviewed: boolean
+          reviewed_at: string | null
+          reviewed_by: string | null
+          severity: string
+          team_id: string
+          title: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "schema_change_events"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       revoke_api_key: { Args: { _key_id: string }; Returns: undefined }
       revoke_team_invitation: {
@@ -25057,6 +26161,45 @@ export type Database = {
         SetofOptions: {
           from: "*"
           to: "automation_pipeline_runs"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      run_data_classification_rules: {
+        Args: { p_asset_id?: string }
+        Returns: Json
+      }
+      run_data_quality_check: {
+        Args: {
+          p_checked_count?: number
+          p_failed_count?: number
+          p_findings?: Json
+          p_quality_score?: number
+          p_result_status?: string
+          p_result_summary?: string
+          p_rule_id: string
+        }
+        Returns: {
+          asset_id: string | null
+          checked_count: number | null
+          created_at: string
+          error_message: string | null
+          failed_count: number | null
+          findings: Json
+          finished_at: string | null
+          id: string
+          quality_score: number | null
+          result_summary: string | null
+          rule_id: string
+          run_type: string
+          started_at: string
+          started_by: string | null
+          status: string
+          team_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_quality_check_runs"
           isOneToOne: true
           isSetofReturn: false
         }
@@ -25102,6 +26245,42 @@ export type Database = {
           token: string
         }[]
       }
+      submit_data_access_request: {
+        Args: {
+          p_asset_id?: string
+          p_business_justification?: string
+          p_expires_at?: string
+          p_field_id?: string
+          p_purpose?: string
+          p_request_type?: string
+        }
+        Returns: {
+          asset_id: string | null
+          business_justification: string | null
+          created_at: string
+          decided_at: string | null
+          decision_note: string | null
+          expires_at: string | null
+          field_id: string | null
+          id: string
+          metadata: Json
+          purpose: string | null
+          request_key: string | null
+          request_type: string
+          requester_user_id: string | null
+          reviewer_user_id: string | null
+          sensitivity_level: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_access_requests"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       submit_marketplace_listing_for_review: {
         Args: { _listing_id: string }
         Returns: string
@@ -25117,6 +26296,48 @@ export type Database = {
       unpublish_marketplace_listing: {
         Args: { _listing_id: string }
         Returns: undefined
+      }
+      update_asset_classification: {
+        Args: {
+          p_asset_id: string
+          p_classification_status?: string
+          p_note?: string
+          p_sensitivity_level: string
+        }
+        Returns: {
+          asset_key: string
+          asset_type: string
+          classification_status: string
+          created_at: string
+          created_by: string | null
+          data_residency_region_id: string | null
+          description: string | null
+          domain_id: string | null
+          id: string
+          is_system_asset: boolean
+          legal_hold_applicable: boolean
+          metadata: Json
+          name: string
+          owner_user_id: string | null
+          retention_policy_id: string | null
+          sensitivity_level: string
+          source_module: string | null
+          source_resource_id: string | null
+          source_resource_type: string | null
+          source_system: string
+          status: string
+          steward_user_id: string | null
+          team_id: string
+          technical_owner_user_id: string | null
+          updated_at: string
+          workspace_id: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_assets"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       update_automation_pipeline: {
         Args: {
@@ -25151,6 +26372,44 @@ export type Database = {
         SetofOptions: {
           from: "*"
           to: "automation_pipelines"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      update_field_classification: {
+        Args: {
+          p_classification_status?: string
+          p_field_id: string
+          p_note?: string
+          p_pii_type?: string
+          p_sensitivity_level: string
+        }
+        Returns: {
+          asset_id: string
+          classification_status: string
+          created_at: string
+          data_type: string
+          description: string | null
+          display_name: string | null
+          field_key: string
+          glossary_term_id: string | null
+          id: string
+          is_foreign_key: boolean
+          is_primary_key: boolean
+          metadata: Json
+          name: string
+          nullable: boolean
+          pii_type: string
+          referenced_asset_id: string | null
+          referenced_field_id: string | null
+          sample_value_redacted: string | null
+          sensitivity_level: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "data_asset_fields"
           isOneToOne: true
           isSetofReturn: false
         }
