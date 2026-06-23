@@ -2944,6 +2944,63 @@ export type Database = {
           },
         ]
       }
+      churn_risk_signals: {
+        Row: {
+          created_at: string
+          customer_account_id: string | null
+          description: string | null
+          detected_at: string
+          evidence: Json
+          id: string
+          partner_client_team_id: string | null
+          recommended_action: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          severity: string
+          signal_type: string
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_account_id?: string | null
+          description?: string | null
+          detected_at?: string
+          evidence?: Json
+          id?: string
+          partner_client_team_id?: string | null
+          recommended_action?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          severity?: string
+          signal_type: string
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_account_id?: string | null
+          description?: string | null
+          detected_at?: string
+          evidence?: Json
+          id?: string
+          partner_client_team_id?: string | null
+          recommended_action?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          severity?: string
+          signal_type?: string
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       clipboard_policies: {
         Row: {
           allow_images: boolean
@@ -3710,6 +3767,229 @@ export type Database = {
           },
         ]
       }
+      customer_health_models: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          model_key: string
+          name: string
+          scoring_rules: Json
+          status: string
+          team_id: string
+          updated_at: string
+          weight_billing: number
+          weight_engagement: number
+          weight_security: number
+          weight_support: number
+          weight_usage: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          model_key: string
+          name: string
+          scoring_rules?: Json
+          status?: string
+          team_id: string
+          updated_at?: string
+          weight_billing?: number
+          weight_engagement?: number
+          weight_security?: number
+          weight_support?: number
+          weight_usage?: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          model_key?: string
+          name?: string
+          scoring_rules?: Json
+          status?: string
+          team_id?: string
+          updated_at?: string
+          weight_billing?: number
+          weight_engagement?: number
+          weight_security?: number
+          weight_support?: number
+          weight_usage?: number
+        }
+        Relationships: []
+      }
+      customer_health_scores: {
+        Row: {
+          billing_score: number
+          calculated_at: string
+          calculated_from: string
+          created_at: string
+          customer_account_id: string | null
+          engagement_score: number
+          health_status: string
+          id: string
+          model_id: string | null
+          partner_client_team_id: string | null
+          reasons: Json
+          recommendations: Json
+          score: number
+          security_score: number
+          support_score: number
+          team_id: string
+          usage_score: number
+        }
+        Insert: {
+          billing_score?: number
+          calculated_at?: string
+          calculated_from?: string
+          created_at?: string
+          customer_account_id?: string | null
+          engagement_score?: number
+          health_status?: string
+          id?: string
+          model_id?: string | null
+          partner_client_team_id?: string | null
+          reasons?: Json
+          recommendations?: Json
+          score?: number
+          security_score?: number
+          support_score?: number
+          team_id: string
+          usage_score?: number
+        }
+        Update: {
+          billing_score?: number
+          calculated_at?: string
+          calculated_from?: string
+          created_at?: string
+          customer_account_id?: string | null
+          engagement_score?: number
+          health_status?: string
+          id?: string
+          model_id?: string | null
+          partner_client_team_id?: string | null
+          reasons?: Json
+          recommendations?: Json
+          score?: number
+          security_score?: number
+          support_score?: number
+          team_id?: string
+          usage_score?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_health_scores_model_id_fkey"
+            columns: ["model_id"]
+            isOneToOne: false
+            referencedRelation: "customer_health_models"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customer_lifecycle_records: {
+        Row: {
+          created_at: string
+          current_stage_id: string | null
+          customer_account_id: string | null
+          entered_stage_at: string | null
+          id: string
+          lifecycle_notes: string | null
+          metadata: Json
+          owner_user_id: string | null
+          previous_stage_id: string | null
+          status: string
+          team_customer_id: string | null
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current_stage_id?: string | null
+          customer_account_id?: string | null
+          entered_stage_at?: string | null
+          id?: string
+          lifecycle_notes?: string | null
+          metadata?: Json
+          owner_user_id?: string | null
+          previous_stage_id?: string | null
+          status?: string
+          team_customer_id?: string | null
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current_stage_id?: string | null
+          customer_account_id?: string | null
+          entered_stage_at?: string | null
+          id?: string
+          lifecycle_notes?: string | null
+          metadata?: Json
+          owner_user_id?: string | null
+          previous_stage_id?: string | null
+          status?: string
+          team_customer_id?: string | null
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_lifecycle_records_current_stage_id_fkey"
+            columns: ["current_stage_id"]
+            isOneToOne: false
+            referencedRelation: "customer_lifecycle_stages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customer_lifecycle_stages: {
+        Row: {
+          created_at: string
+          description: string | null
+          entry_criteria: Json
+          exit_criteria: Json
+          id: string
+          name: string
+          stage_key: string
+          stage_order: number
+          stage_type: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          entry_criteria?: Json
+          exit_criteria?: Json
+          id?: string
+          name: string
+          stage_key: string
+          stage_order?: number
+          stage_type?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          entry_criteria?: Json
+          exit_criteria?: Json
+          id?: string
+          name?: string
+          stage_key?: string
+          stage_order?: number
+          stage_type?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       customer_portal_events: {
         Row: {
           actor_user_id: string | null
@@ -3895,6 +4175,263 @@ export type Database = {
           terms_url?: string | null
           updated_at?: string
           welcome_message?: string | null
+        }
+        Relationships: []
+      }
+      customer_success_audit_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          customer_account_id: string | null
+          description: string | null
+          event_type: string
+          id: string
+          metadata: Json
+          resource_id: string | null
+          resource_type: string | null
+          severity: string
+          team_id: string
+          title: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          description?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id: string
+          title: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          description?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      customer_success_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      customer_survey_responses: {
+        Row: {
+          answers: Json
+          comment: string | null
+          created_at: string
+          customer_account_id: string | null
+          customer_user_id: string | null
+          id: string
+          metadata: Json
+          partner_member_id: string | null
+          rating_label: string | null
+          score: number | null
+          sentiment: string
+          source: string
+          submitted_at: string
+          survey_id: string
+          team_id: string
+          user_id: string | null
+        }
+        Insert: {
+          answers?: Json
+          comment?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          id?: string
+          metadata?: Json
+          partner_member_id?: string | null
+          rating_label?: string | null
+          score?: number | null
+          sentiment?: string
+          source?: string
+          submitted_at?: string
+          survey_id: string
+          team_id: string
+          user_id?: string | null
+        }
+        Update: {
+          answers?: Json
+          comment?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          id?: string
+          metadata?: Json
+          partner_member_id?: string | null
+          rating_label?: string | null
+          score?: number | null
+          sentiment?: string
+          source?: string
+          submitted_at?: string
+          survey_id?: string
+          team_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_survey_responses_survey_id_fkey"
+            columns: ["survey_id"]
+            isOneToOne: false
+            referencedRelation: "customer_surveys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customer_surveys: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          questions: Json
+          status: string
+          survey_key: string
+          survey_type: string
+          target_audience: string
+          team_id: string
+          trigger_event_name: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+          questions?: Json
+          status?: string
+          survey_key: string
+          survey_type?: string
+          target_audience?: string
+          team_id: string
+          trigger_event_name?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+          questions?: Json
+          status?: string
+          survey_key?: string
+          survey_type?: string
+          target_audience?: string
+          team_id?: string
+          trigger_event_name?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      customer_touchpoints: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          customer_account_id: string | null
+          customer_user_id: string | null
+          id: string
+          metadata: Json
+          next_steps: string | null
+          occurred_at: string
+          outcome: string | null
+          owner_user_id: string | null
+          partner_client_team_id: string | null
+          sentiment: string
+          summary: string | null
+          team_id: string
+          title: string
+          touchpoint_type: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          id?: string
+          metadata?: Json
+          next_steps?: string | null
+          occurred_at?: string
+          outcome?: string | null
+          owner_user_id?: string | null
+          partner_client_team_id?: string | null
+          sentiment?: string
+          summary?: string | null
+          team_id: string
+          title: string
+          touchpoint_type?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          id?: string
+          metadata?: Json
+          next_steps?: string | null
+          occurred_at?: string
+          outcome?: string | null
+          owner_user_id?: string | null
+          partner_client_team_id?: string | null
+          sentiment?: string
+          summary?: string | null
+          team_id?: string
+          title?: string
+          touchpoint_type?: string
         }
         Relationships: []
       }
@@ -5458,6 +5995,66 @@ export type Database = {
           },
         ]
       }
+      expansion_opportunities: {
+        Row: {
+          closed_at: string | null
+          confidence: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          customer_account_id: string | null
+          description: string | null
+          estimated_value_cents: number | null
+          id: string
+          opportunity_type: string
+          owner_user_id: string | null
+          partner_client_team_id: string | null
+          reason: Json
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          closed_at?: string | null
+          confidence?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          customer_account_id?: string | null
+          description?: string | null
+          estimated_value_cents?: number | null
+          id?: string
+          opportunity_type?: string
+          owner_user_id?: string | null
+          partner_client_team_id?: string | null
+          reason?: Json
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          closed_at?: string | null
+          confidence?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          customer_account_id?: string | null
+          description?: string | null
+          estimated_value_cents?: number | null
+          id?: string
+          opportunity_type?: string
+          owner_user_id?: string | null
+          partner_client_team_id?: string | null
+          reason?: Json
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       external_resource_links: {
         Row: {
           created_at: string
@@ -5980,6 +6577,267 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      growth_experiment_assignments: {
+        Row: {
+          assigned_at: string
+          created_at: string
+          customer_account_id: string | null
+          customer_user_id: string | null
+          experiment_id: string
+          id: string
+          metadata: Json
+          team_id: string
+          user_id: string | null
+          variant_key: string
+        }
+        Insert: {
+          assigned_at?: string
+          created_at?: string
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          experiment_id: string
+          id?: string
+          metadata?: Json
+          team_id: string
+          user_id?: string | null
+          variant_key: string
+        }
+        Update: {
+          assigned_at?: string
+          created_at?: string
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          experiment_id?: string
+          id?: string
+          metadata?: Json
+          team_id?: string
+          user_id?: string | null
+          variant_key?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "growth_experiment_assignments_experiment_id_fkey"
+            columns: ["experiment_id"]
+            isOneToOne: false
+            referencedRelation: "growth_experiments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      growth_experiments: {
+        Row: {
+          config: Json
+          created_at: string
+          created_by: string | null
+          description: string | null
+          end_at: string | null
+          experiment_key: string
+          experiment_type: string
+          hypothesis: string | null
+          id: string
+          name: string
+          owner_user_id: string | null
+          result_summary: Json
+          start_at: string | null
+          status: string
+          target_metric: string | null
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          end_at?: string | null
+          experiment_key: string
+          experiment_type?: string
+          hypothesis?: string | null
+          id?: string
+          name: string
+          owner_user_id?: string | null
+          result_summary?: Json
+          start_at?: string | null
+          status?: string
+          target_metric?: string | null
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          end_at?: string | null
+          experiment_key?: string
+          experiment_type?: string
+          hypothesis?: string | null
+          id?: string
+          name?: string
+          owner_user_id?: string | null
+          result_summary?: Json
+          start_at?: string | null
+          status?: string
+          target_metric?: string | null
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      growth_funnel_runs: {
+        Row: {
+          calculated_at: string
+          conversion_rate: number | null
+          created_at: string
+          dropoff_summary: Json
+          funnel_id: string
+          id: string
+          output: Json
+          period_end: string
+          period_start: string
+          status: string
+          step_counts: Json
+          team_id: string
+          total_converted: number
+          total_entered: number
+        }
+        Insert: {
+          calculated_at?: string
+          conversion_rate?: number | null
+          created_at?: string
+          dropoff_summary?: Json
+          funnel_id: string
+          id?: string
+          output?: Json
+          period_end: string
+          period_start: string
+          status?: string
+          step_counts?: Json
+          team_id: string
+          total_converted?: number
+          total_entered?: number
+        }
+        Update: {
+          calculated_at?: string
+          conversion_rate?: number | null
+          created_at?: string
+          dropoff_summary?: Json
+          funnel_id?: string
+          id?: string
+          output?: Json
+          period_end?: string
+          period_start?: string
+          status?: string
+          step_counts?: Json
+          team_id?: string
+          total_converted?: number
+          total_entered?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "growth_funnel_runs_funnel_id_fkey"
+            columns: ["funnel_id"]
+            isOneToOne: false
+            referencedRelation: "growth_funnels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      growth_funnel_steps: {
+        Row: {
+          created_at: string
+          event_name: string
+          funnel_id: string
+          id: string
+          metadata: Json
+          name: string
+          required: boolean
+          step_key: string
+          step_order: number
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          event_name: string
+          funnel_id: string
+          id?: string
+          metadata?: Json
+          name: string
+          required?: boolean
+          step_key: string
+          step_order: number
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          event_name?: string
+          funnel_id?: string
+          id?: string
+          metadata?: Json
+          name?: string
+          required?: boolean
+          step_key?: string
+          step_order?: number
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "growth_funnel_steps_funnel_id_fkey"
+            columns: ["funnel_id"]
+            isOneToOne: false
+            referencedRelation: "growth_funnels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      growth_funnels: {
+        Row: {
+          conversion_window_days: number
+          created_at: string
+          created_by: string | null
+          description: string | null
+          funnel_key: string
+          funnel_type: string
+          id: string
+          name: string
+          owner_user_id: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          conversion_window_days?: number
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          funnel_key: string
+          funnel_type?: string
+          id?: string
+          name: string
+          owner_user_id?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          conversion_window_days?: number
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          funnel_key?: string
+          funnel_type?: string
+          id?: string
+          name?: string
+          owner_user_id?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       health_check_results: {
         Row: {
@@ -11881,6 +12739,111 @@ export type Database = {
         }
         Relationships: []
       }
+      product_event_definitions: {
+        Row: {
+          created_at: string
+          description: string | null
+          display_name: string
+          event_category: string
+          event_name: string
+          id: string
+          is_conversion_event: boolean
+          is_key_event: boolean
+          is_revenue_event: boolean
+          lifecycle_stage: string | null
+          status: string
+          team_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          display_name: string
+          event_category?: string
+          event_name: string
+          id?: string
+          is_conversion_event?: boolean
+          is_key_event?: boolean
+          is_revenue_event?: boolean
+          lifecycle_stage?: string | null
+          status?: string
+          team_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          display_name?: string
+          event_category?: string
+          event_name?: string
+          id?: string
+          is_conversion_event?: boolean
+          is_key_event?: boolean
+          is_revenue_event?: boolean
+          lifecycle_stage?: string | null
+          status?: string
+          team_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      product_events: {
+        Row: {
+          actor_user_id: string | null
+          created_at: string
+          customer_account_id: string | null
+          customer_user_id: string | null
+          event_category: string
+          event_name: string
+          id: string
+          occurred_at: string
+          partner_id: string | null
+          properties: Json
+          resource_id: string | null
+          resource_type: string | null
+          route_path: string | null
+          session_id: string | null
+          source: string
+          team_id: string
+        }
+        Insert: {
+          actor_user_id?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          event_category?: string
+          event_name: string
+          id?: string
+          occurred_at?: string
+          partner_id?: string | null
+          properties?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          route_path?: string | null
+          session_id?: string | null
+          source?: string
+          team_id: string
+        }
+        Update: {
+          actor_user_id?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          event_category?: string
+          event_name?: string
+          id?: string
+          occurred_at?: string
+          partner_id?: string | null
+          properties?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          route_path?: string | null
+          session_id?: string | null
+          source?: string
+          team_id?: string
+        }
+        Relationships: []
+      }
       production_config_checks: {
         Row: {
           category: string
@@ -12555,6 +13518,69 @@ export type Database = {
           suite_key?: string
           suite_type?: string
           team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      qbr_records: {
+        Row: {
+          action_items: Json
+          agenda: Json
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          customer_account_id: string | null
+          id: string
+          metrics_snapshot: Json
+          notes: string | null
+          opportunities: Json
+          owner_user_id: string | null
+          partner_client_team_id: string | null
+          risks: Json
+          scheduled_at: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          action_items?: Json
+          agenda?: Json
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          id?: string
+          metrics_snapshot?: Json
+          notes?: string | null
+          opportunities?: Json
+          owner_user_id?: string | null
+          partner_client_team_id?: string | null
+          risks?: Json
+          scheduled_at?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          action_items?: Json
+          agenda?: Json
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          id?: string
+          metrics_snapshot?: Json
+          notes?: string | null
+          opportunities?: Json
+          owner_user_id?: string | null
+          partner_client_team_id?: string | null
+          risks?: Json
+          scheduled_at?: string | null
+          status?: string
+          team_id?: string
+          title?: string
           updated_at?: string
         }
         Relationships: []
@@ -14871,6 +15897,125 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      success_plan_tasks: {
+        Row: {
+          assigned_to: string | null
+          completed_at: string | null
+          completed_by: string | null
+          created_at: string
+          description: string | null
+          due_at: string | null
+          id: string
+          metadata: Json
+          status: string
+          success_plan_id: string
+          task_type: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          metadata?: Json
+          status?: string
+          success_plan_id: string
+          task_type?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          metadata?: Json
+          status?: string
+          success_plan_id?: string
+          task_type?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "success_plan_tasks_success_plan_id_fkey"
+            columns: ["success_plan_id"]
+            isOneToOne: false
+            referencedRelation: "success_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      success_plans: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          customer_account_id: string | null
+          description: string | null
+          executive_sponsor: string | null
+          health_score_at_start: number | null
+          id: string
+          owner_user_id: string | null
+          partner_client_team_id: string | null
+          plan_type: string
+          status: string
+          target_date: string | null
+          target_outcome: string | null
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          description?: string | null
+          executive_sponsor?: string | null
+          health_score_at_start?: number | null
+          id?: string
+          owner_user_id?: string | null
+          partner_client_team_id?: string | null
+          plan_type?: string
+          status?: string
+          target_date?: string | null
+          target_outcome?: string | null
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          description?: string | null
+          executive_sponsor?: string | null
+          health_score_at_start?: number | null
+          id?: string
+          owner_user_id?: string | null
+          partner_client_team_id?: string | null
+          plan_type?: string
+          status?: string
+          target_date?: string | null
+          target_outcome?: string | null
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       support_escalations: {
         Row: {
@@ -18186,6 +19331,10 @@ export type Database = {
         Returns: boolean
       }
       is_command_admin: {
+        Args: { _team_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_customer_success_manager: {
         Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
