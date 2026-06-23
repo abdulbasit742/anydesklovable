@@ -2323,6 +2323,51 @@ export type Database = {
           },
         ]
       }
+      external_resource_links: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          external_id: string | null
+          external_type: string | null
+          external_url: string | null
+          id: string
+          provider: string
+          resource_id: string
+          resource_type: string
+          status: string | null
+          team_id: string
+          title: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          external_id?: string | null
+          external_type?: string | null
+          external_url?: string | null
+          id?: string
+          provider: string
+          resource_id: string
+          resource_type: string
+          status?: string | null
+          team_id: string
+          title?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          external_id?: string | null
+          external_type?: string | null
+          external_url?: string | null
+          id?: string
+          provider?: string
+          resource_id?: string
+          resource_type?: string
+          status?: string | null
+          team_id?: string
+          title?: string | null
+        }
+        Relationships: []
+      }
       file_transfer_policies: {
         Row: {
           blocked_extensions: string[]
@@ -2852,6 +2897,641 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      integration_action_runs: {
+        Row: {
+          action_key: string
+          attempt_count: number
+          created_at: string
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          input: Json
+          mapping_id: string | null
+          max_attempts: number
+          output: Json
+          scheduled_for: string | null
+          started_at: string | null
+          status: string
+          team_id: string
+          team_integration_id: string
+          updated_at: string
+        }
+        Insert: {
+          action_key: string
+          attempt_count?: number
+          created_at?: string
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          input?: Json
+          mapping_id?: string | null
+          max_attempts?: number
+          output?: Json
+          scheduled_for?: string | null
+          started_at?: string | null
+          status?: string
+          team_id: string
+          team_integration_id: string
+          updated_at?: string
+        }
+        Update: {
+          action_key?: string
+          attempt_count?: number
+          created_at?: string
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          input?: Json
+          mapping_id?: string | null
+          max_attempts?: number
+          output?: Json
+          scheduled_for?: string | null
+          started_at?: string | null
+          status?: string
+          team_id?: string
+          team_integration_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "integration_action_runs_mapping_id_fkey"
+            columns: ["mapping_id"]
+            isOneToOne: false
+            referencedRelation: "integration_event_mappings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "integration_action_runs_team_integration_id_fkey"
+            columns: ["team_integration_id"]
+            isOneToOne: false
+            referencedRelation: "team_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      integration_audit_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          description: string | null
+          event_type: string
+          id: string
+          metadata: Json
+          severity: string
+          team_id: string
+          team_integration_id: string | null
+          title: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json
+          severity?: string
+          team_id: string
+          team_integration_id?: string | null
+          title: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json
+          severity?: string
+          team_id?: string
+          team_integration_id?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "integration_audit_events_team_integration_id_fkey"
+            columns: ["team_integration_id"]
+            isOneToOne: false
+            referencedRelation: "team_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      integration_catalog: {
+        Row: {
+          auth_type: string
+          category: string
+          config_schema: Json
+          created_at: string
+          description: string | null
+          docs_url: string | null
+          id: string
+          integration_type: string
+          is_featured: boolean
+          key: string
+          logo_url: string | null
+          name: string
+          provider: string
+          required_scopes: string[]
+          status: string
+          supported_actions: string[]
+          supported_events: string[]
+          updated_at: string
+          website_url: string | null
+        }
+        Insert: {
+          auth_type?: string
+          category?: string
+          config_schema?: Json
+          created_at?: string
+          description?: string | null
+          docs_url?: string | null
+          id?: string
+          integration_type?: string
+          is_featured?: boolean
+          key: string
+          logo_url?: string | null
+          name: string
+          provider: string
+          required_scopes?: string[]
+          status?: string
+          supported_actions?: string[]
+          supported_events?: string[]
+          updated_at?: string
+          website_url?: string | null
+        }
+        Update: {
+          auth_type?: string
+          category?: string
+          config_schema?: Json
+          created_at?: string
+          description?: string | null
+          docs_url?: string | null
+          id?: string
+          integration_type?: string
+          is_featured?: boolean
+          key?: string
+          logo_url?: string | null
+          name?: string
+          provider?: string
+          required_scopes?: string[]
+          status?: string
+          supported_actions?: string[]
+          supported_events?: string[]
+          updated_at?: string
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      integration_connections: {
+        Row: {
+          auth_type: string
+          connection_name: string
+          created_at: string
+          created_by: string | null
+          credential_reference: string | null
+          external_account_id: string | null
+          external_account_name: string | null
+          external_workspace_id: string | null
+          external_workspace_name: string | null
+          id: string
+          last_validated_at: string | null
+          scopes: string[]
+          status: string
+          team_id: string
+          team_integration_id: string
+          token_expires_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          auth_type: string
+          connection_name: string
+          created_at?: string
+          created_by?: string | null
+          credential_reference?: string | null
+          external_account_id?: string | null
+          external_account_name?: string | null
+          external_workspace_id?: string | null
+          external_workspace_name?: string | null
+          id?: string
+          last_validated_at?: string | null
+          scopes?: string[]
+          status?: string
+          team_id: string
+          team_integration_id: string
+          token_expires_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          auth_type?: string
+          connection_name?: string
+          created_at?: string
+          created_by?: string | null
+          credential_reference?: string | null
+          external_account_id?: string | null
+          external_account_name?: string | null
+          external_workspace_id?: string | null
+          external_workspace_name?: string | null
+          id?: string
+          last_validated_at?: string | null
+          scopes?: string[]
+          status?: string
+          team_id?: string
+          team_integration_id?: string
+          token_expires_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "integration_connections_team_integration_id_fkey"
+            columns: ["team_integration_id"]
+            isOneToOne: false
+            referencedRelation: "team_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      integration_event_mappings: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          destination_config: Json
+          enabled: boolean
+          filters: Json
+          id: string
+          name: string
+          source_event: string
+          target_action: string
+          team_id: string
+          team_integration_id: string
+          transform_config: Json
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          destination_config?: Json
+          enabled?: boolean
+          filters?: Json
+          id?: string
+          name: string
+          source_event: string
+          target_action: string
+          team_id: string
+          team_integration_id: string
+          transform_config?: Json
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          destination_config?: Json
+          enabled?: boolean
+          filters?: Json
+          id?: string
+          name?: string
+          source_event?: string
+          target_action?: string
+          team_id?: string
+          team_integration_id?: string
+          transform_config?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "integration_event_mappings_team_integration_id_fkey"
+            columns: ["team_integration_id"]
+            isOneToOne: false
+            referencedRelation: "team_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      integration_field_mappings: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          enabled: boolean
+          external_field: string
+          id: string
+          remote_field: string
+          resource_type: string
+          team_id: string
+          team_integration_id: string
+          transform_config: Json
+          transform_type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          external_field: string
+          id?: string
+          remote_field: string
+          resource_type: string
+          team_id: string
+          team_integration_id: string
+          transform_config?: Json
+          transform_type?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          external_field?: string
+          id?: string
+          remote_field?: string
+          resource_type?: string
+          team_id?: string
+          team_integration_id?: string
+          transform_config?: Json
+          transform_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "integration_field_mappings_team_integration_id_fkey"
+            columns: ["team_integration_id"]
+            isOneToOne: false
+            referencedRelation: "team_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      integration_oauth_states: {
+        Row: {
+          catalog_id: string
+          completed_at: string | null
+          created_at: string
+          expires_at: string
+          id: string
+          metadata: Json
+          redirect_uri: string | null
+          requested_by: string | null
+          state_hash: string
+          status: string
+          team_id: string
+        }
+        Insert: {
+          catalog_id: string
+          completed_at?: string | null
+          created_at?: string
+          expires_at: string
+          id?: string
+          metadata?: Json
+          redirect_uri?: string | null
+          requested_by?: string | null
+          state_hash: string
+          status?: string
+          team_id: string
+        }
+        Update: {
+          catalog_id?: string
+          completed_at?: string | null
+          created_at?: string
+          expires_at?: string
+          id?: string
+          metadata?: Json
+          redirect_uri?: string | null
+          requested_by?: string | null
+          state_hash?: string
+          status?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "integration_oauth_states_catalog_id_fkey"
+            columns: ["catalog_id"]
+            isOneToOne: false
+            referencedRelation: "integration_catalog"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      integration_sync_jobs: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          cursor: string | null
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          records_created: number
+          records_failed: number
+          records_processed: number
+          records_updated: number
+          resource_type: string | null
+          started_at: string | null
+          status: string
+          sync_type: string
+          team_id: string
+          team_integration_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          cursor?: string | null
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          records_created?: number
+          records_failed?: number
+          records_processed?: number
+          records_updated?: number
+          resource_type?: string | null
+          started_at?: string | null
+          status?: string
+          sync_type: string
+          team_id: string
+          team_integration_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          cursor?: string | null
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          records_created?: number
+          records_failed?: number
+          records_processed?: number
+          records_updated?: number
+          resource_type?: string | null
+          started_at?: string | null
+          status?: string
+          sync_type?: string
+          team_id?: string
+          team_integration_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "integration_sync_jobs_team_integration_id_fkey"
+            columns: ["team_integration_id"]
+            isOneToOne: false
+            referencedRelation: "team_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      integration_templates: {
+        Row: {
+          category: string
+          config: Json
+          created_at: string
+          description: string | null
+          id: string
+          integration_keys: string[]
+          is_featured: boolean
+          key: string
+          name: string
+          source_event: string | null
+          target_action: string | null
+        }
+        Insert: {
+          category: string
+          config?: Json
+          created_at?: string
+          description?: string | null
+          id?: string
+          integration_keys?: string[]
+          is_featured?: boolean
+          key: string
+          name: string
+          source_event?: string | null
+          target_action?: string | null
+        }
+        Update: {
+          category?: string
+          config?: Json
+          created_at?: string
+          description?: string | null
+          id?: string
+          integration_keys?: string[]
+          is_featured?: boolean
+          key?: string
+          name?: string
+          source_event?: string | null
+          target_action?: string | null
+        }
+        Relationships: []
+      }
+      integration_webhook_events: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          event_type: string
+          id: string
+          inbox_id: string | null
+          payload: Json
+          processed_at: string | null
+          provider: string | null
+          received_at: string
+          signature_valid: boolean | null
+          status: string
+          team_id: string
+          team_integration_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          event_type: string
+          id?: string
+          inbox_id?: string | null
+          payload?: Json
+          processed_at?: string | null
+          provider?: string | null
+          received_at?: string
+          signature_valid?: boolean | null
+          status?: string
+          team_id: string
+          team_integration_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          event_type?: string
+          id?: string
+          inbox_id?: string | null
+          payload?: Json
+          processed_at?: string | null
+          provider?: string | null
+          received_at?: string
+          signature_valid?: boolean | null
+          status?: string
+          team_id?: string
+          team_integration_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "integration_webhook_events_inbox_id_fkey"
+            columns: ["inbox_id"]
+            isOneToOne: false
+            referencedRelation: "integration_webhook_inboxes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "integration_webhook_events_team_integration_id_fkey"
+            columns: ["team_integration_id"]
+            isOneToOne: false
+            referencedRelation: "team_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      integration_webhook_inboxes: {
+        Row: {
+          allowed_events: string[]
+          created_at: string
+          created_by: string | null
+          endpoint_key: string
+          id: string
+          last_received_at: string | null
+          secret_hash: string | null
+          status: string
+          team_id: string
+          team_integration_id: string
+          updated_at: string
+        }
+        Insert: {
+          allowed_events?: string[]
+          created_at?: string
+          created_by?: string | null
+          endpoint_key: string
+          id?: string
+          last_received_at?: string | null
+          secret_hash?: string | null
+          status?: string
+          team_id: string
+          team_integration_id: string
+          updated_at?: string
+        }
+        Update: {
+          allowed_events?: string[]
+          created_at?: string
+          created_by?: string | null
+          endpoint_key?: string
+          id?: string
+          last_received_at?: string | null
+          secret_hash?: string | null
+          status?: string
+          team_id?: string
+          team_integration_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "integration_webhook_inboxes_team_integration_id_fkey"
+            columns: ["team_integration_id"]
+            isOneToOne: false
+            referencedRelation: "team_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       invoices: {
         Row: {
@@ -5945,6 +6625,68 @@ export type Database = {
           },
         ]
       }
+      team_integrations: {
+        Row: {
+          auth_status: string
+          catalog_id: string
+          config: Json
+          connected_at: string | null
+          connected_by: string | null
+          created_at: string
+          id: string
+          integration_key: string
+          last_error_at: string | null
+          last_error_message: string | null
+          last_sync_at: string | null
+          name: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          auth_status?: string
+          catalog_id: string
+          config?: Json
+          connected_at?: string | null
+          connected_by?: string | null
+          created_at?: string
+          id?: string
+          integration_key: string
+          last_error_at?: string | null
+          last_error_message?: string | null
+          last_sync_at?: string | null
+          name: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          auth_status?: string
+          catalog_id?: string
+          config?: Json
+          connected_at?: string | null
+          connected_by?: string | null
+          created_at?: string
+          id?: string
+          integration_key?: string
+          last_error_at?: string | null
+          last_error_message?: string | null
+          last_sync_at?: string | null
+          name?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_integrations_catalog_id_fkey"
+            columns: ["catalog_id"]
+            isOneToOne: false
+            referencedRelation: "integration_catalog"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       team_invitations: {
         Row: {
           accepted_at: string | null
@@ -7051,6 +7793,10 @@ export type Database = {
           _team_id: string
           _user_id: string
         }
+        Returns: boolean
+      }
+      is_integration_manager: {
+        Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
       is_observability_manager: {
