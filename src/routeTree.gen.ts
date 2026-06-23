@@ -31,6 +31,7 @@ import { Route as DashboardMobileRouteImport } from './routes/dashboard.mobile'
 import { Route as DashboardMarketplaceRouteImport } from './routes/dashboard.marketplace'
 import { Route as DashboardDevicesRouteImport } from './routes/dashboard.devices'
 import { Route as DashboardDeveloperRouteImport } from './routes/dashboard.developer'
+import { Route as DashboardDataCatalogRouteImport } from './routes/dashboard.data-catalog'
 import { Route as DashboardContactsRouteImport } from './routes/dashboard.contacts'
 import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing'
 import { Route as DashboardAutomationRouteImport } from './routes/dashboard.automation'
@@ -177,6 +178,11 @@ const DashboardDevicesRoute = DashboardDevicesRouteImport.update({
 const DashboardDeveloperRoute = DashboardDeveloperRouteImport.update({
   id: '/developer',
   path: '/developer',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardDataCatalogRoute = DashboardDataCatalogRouteImport.update({
+  id: '/data-catalog',
+  path: '/data-catalog',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardContactsRoute = DashboardContactsRouteImport.update({
@@ -405,6 +411,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/contacts': typeof DashboardContactsRoute
+  '/dashboard/data-catalog': typeof DashboardDataCatalogRoute
   '/dashboard/developer': typeof DashboardDeveloperRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
   '/dashboard/marketplace': typeof DashboardMarketplaceRoute
@@ -464,6 +471,7 @@ export interface FileRoutesByTo {
   '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/contacts': typeof DashboardContactsRoute
+  '/dashboard/data-catalog': typeof DashboardDataCatalogRoute
   '/dashboard/developer': typeof DashboardDeveloperRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
   '/dashboard/marketplace': typeof DashboardMarketplaceRoute
@@ -526,6 +534,7 @@ export interface FileRoutesById {
   '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/contacts': typeof DashboardContactsRoute
+  '/dashboard/data-catalog': typeof DashboardDataCatalogRoute
   '/dashboard/developer': typeof DashboardDeveloperRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
   '/dashboard/marketplace': typeof DashboardMarketplaceRoute
@@ -589,6 +598,7 @@ export interface FileRouteTypes {
     | '/dashboard/automation'
     | '/dashboard/billing'
     | '/dashboard/contacts'
+    | '/dashboard/data-catalog'
     | '/dashboard/developer'
     | '/dashboard/devices'
     | '/dashboard/marketplace'
@@ -648,6 +658,7 @@ export interface FileRouteTypes {
     | '/dashboard/audit'
     | '/dashboard/billing'
     | '/dashboard/contacts'
+    | '/dashboard/data-catalog'
     | '/dashboard/developer'
     | '/dashboard/devices'
     | '/dashboard/marketplace'
@@ -709,6 +720,7 @@ export interface FileRouteTypes {
     | '/dashboard/automation'
     | '/dashboard/billing'
     | '/dashboard/contacts'
+    | '/dashboard/data-catalog'
     | '/dashboard/developer'
     | '/dashboard/devices'
     | '/dashboard/marketplace'
@@ -934,6 +946,13 @@ declare module '@tanstack/react-router' {
       path: '/developer'
       fullPath: '/dashboard/developer'
       preLoaderRoute: typeof DashboardDeveloperRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/data-catalog': {
+      id: '/dashboard/data-catalog'
+      path: '/data-catalog'
+      fullPath: '/dashboard/data-catalog'
+      preLoaderRoute: typeof DashboardDataCatalogRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/contacts': {
@@ -1259,6 +1278,7 @@ interface DashboardRouteChildren {
   DashboardAutomationRoute: typeof DashboardAutomationRouteWithChildren
   DashboardBillingRoute: typeof DashboardBillingRoute
   DashboardContactsRoute: typeof DashboardContactsRoute
+  DashboardDataCatalogRoute: typeof DashboardDataCatalogRoute
   DashboardDeveloperRoute: typeof DashboardDeveloperRoute
   DashboardDevicesRoute: typeof DashboardDevicesRouteWithChildren
   DashboardMarketplaceRoute: typeof DashboardMarketplaceRoute
@@ -1278,6 +1298,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAutomationRoute: DashboardAutomationRouteWithChildren,
   DashboardBillingRoute: DashboardBillingRoute,
   DashboardContactsRoute: DashboardContactsRoute,
+  DashboardDataCatalogRoute: DashboardDataCatalogRoute,
   DashboardDeveloperRoute: DashboardDeveloperRoute,
   DashboardDevicesRoute: DashboardDevicesRouteWithChildren,
   DashboardMarketplaceRoute: DashboardMarketplaceRoute,
