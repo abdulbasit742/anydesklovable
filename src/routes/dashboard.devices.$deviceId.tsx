@@ -271,8 +271,9 @@ function DeviceDetail() {
             </ul>
           </PanelState>
         </div>
+      </div>
 
-      <div className="mt-0 grid gap-4 lg:grid-cols-1">
+      <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <div className="rounded-lg border border-border bg-card">
           <div className="border-b border-border px-4 py-3 text-sm font-semibold">Session history</div>
           <PanelState loading={history.isLoading} error={history.error} empty={history.data.length === 0} emptyText="No sessions recorded for this device.">
