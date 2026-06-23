@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/app/AppShell";
+import { Button } from "@/components/ui/button";
 import {
   useAutomationSystems, useAutomationTasks, useAutomationAccounts,
   useAutomationRateLimits, useAutomationLogs,
@@ -7,6 +8,7 @@ import {
 import {
   AutomationMetricCard, AutomationStatusBadge, DemoBanner, formatRelative,
 } from "@/components/app/automation/shared";
+import { useAutomationDashboardSummary, useEnqueueDueScheduledRuns } from "@/lib/services/automation-engine";
 
 export const Route = createFileRoute("/dashboard/automation/")({
   component: AutomationOverview,
@@ -50,9 +52,34 @@ function AutomationOverview() {
   const recentRateLimits = (rates.data?.rows ?? []).slice(0, 5);
   const recentTasks = t.slice(0, 6);
 
+  const engine = useAutomationDashboardSummary();
+  const enqueue = useEnqueueDueScheduledRuns();
+  const e = engine.data;
+
   return (
-    <AppShell title="Automation Center">
+    <AppShell title="Automation Center" actions={
+      <Button size="sm" variant="outline" disabled={enqueue.isPending} onClick={() => enqueue.mutate()}>
+        {enqueue.isPending ? "Enqueueing…" : "Enqueue due schedules"}
+      </Button>
+    }>
       <DemoBanner show={isDemo} />
+      {e && (
+        <div className="mb-3 rounded-lg border border-border bg-card p-4">
+          <div className="mb-2 flex items-center justify-between">
+            <div className="text-sm font-semibold">Execution engine</div>
+            <span className="text-xs text-muted-foreground">
+              Runs are queued and ready for worker execution. Connect a cron worker to call <code>enqueue_due_scheduled_runs</code>.
+            </span>
+          </div>
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+            <AutomationMetricCard label="Active pipelines" value={e.active_pipelines} hint={`${e.paused_pipelines} paused`} />
+            <AutomationMetricCard label="Queued runs" value={e.queued_runs} />
+            <AutomationMetricCard label="Running runs" value={e.running_runs} tone={e.running_runs ? "success" : "default"} />
+            <AutomationMetricCard label="Failed 24h" value={e.failed_runs_24h} tone={e.failed_runs_24h ? "danger" : "default"} />
+            <AutomationMetricCard label="Next scheduled" value={formatRelative(e.next_scheduled_run_at)} />
+          </div>
+        </div>
+      )}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <AutomationMetricCard label="Active systems" value={activePipelines} hint={`${systems.data?.rows.length ?? 0} total`} />
         <AutomationMetricCard label="Queued tasks" value={queued} />

@@ -11,6 +11,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
 import { useAutomationPipelines, useCreateAutomationRow } from "@/lib/automation/hooks";
+import { useRunAutomationPipeline, useArchiveAutomationPipeline } from "@/lib/services/automation-engine";
 import { AutomationStatusBadge, DemoBanner, EmptyState, formatRelative } from "@/components/app/automation/shared";
 
 export const Route = createFileRoute("/dashboard/automation/pipelines")({
@@ -20,6 +21,8 @@ export const Route = createFileRoute("/dashboard/automation/pipelines")({
 function PipelinesPage() {
   const { data } = useAutomationPipelines();
   const create = useCreateAutomationRow("automation_pipelines", "automation_pipelines");
+  const runPipeline = useRunAutomationPipeline();
+  const archivePipeline = useArchiveAutomationPipeline();
   const [status, setStatus] = useState<string>("all");
   const [mode, setMode] = useState<string>("all");
   const [openCreate, setOpenCreate] = useState(false);
@@ -123,6 +126,25 @@ function PipelinesPage() {
                     {(!detail.stages || detail.stages.length === 0) && <li className="px-2 py-1.5 text-xs text-muted-foreground">No stages defined.</li>}
                   </ol>
                 </div>
+                <div className="flex flex-wrap gap-2 pt-2">
+                  <Button
+                    size="sm"
+                    disabled={runPipeline.isPending || detail.status === "archived"}
+                    onClick={() => runPipeline.mutate({ pipelineId: detail.id })}
+                  >
+                    {runPipeline.isPending ? "Queueing…" : "Run pipeline"}
+                  </Button>
+                  <Button
+                    size="sm" variant="outline"
+                    disabled={archivePipeline.isPending || detail.status === "archived"}
+                    onClick={() => archivePipeline.mutate(detail.id)}
+                  >
+                    Archive
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Runs are queued for worker execution. A future runner will claim queued tasks and execute steps safely.
+                </p>
                 <div className="text-xs text-muted-foreground">Created {formatRelative(detail.created_at)} · Updated {formatRelative(detail.updated_at)}</div>
               </div>
             </>
