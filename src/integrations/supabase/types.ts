@@ -536,6 +536,525 @@ export type Database = {
         }
         Relationships: []
       }
+      asset_assignments: {
+        Row: {
+          asset_id: string
+          assigned_at: string
+          assigned_by: string | null
+          assigned_to_customer_account_id: string | null
+          assigned_to_device_id: string | null
+          assigned_to_partner_id: string | null
+          assigned_to_user_id: string | null
+          assignment_type: string
+          condition_on_assign: string | null
+          condition_on_return: string | null
+          created_at: string
+          id: string
+          metadata: Json
+          notes: string | null
+          returned_at: string | null
+          returned_by: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          asset_id: string
+          assigned_at?: string
+          assigned_by?: string | null
+          assigned_to_customer_account_id?: string | null
+          assigned_to_device_id?: string | null
+          assigned_to_partner_id?: string | null
+          assigned_to_user_id?: string | null
+          assignment_type?: string
+          condition_on_assign?: string | null
+          condition_on_return?: string | null
+          created_at?: string
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          returned_at?: string | null
+          returned_by?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          asset_id?: string
+          assigned_at?: string
+          assigned_by?: string | null
+          assigned_to_customer_account_id?: string | null
+          assigned_to_device_id?: string | null
+          assigned_to_partner_id?: string | null
+          assigned_to_user_id?: string | null
+          assignment_type?: string
+          condition_on_assign?: string | null
+          condition_on_return?: string | null
+          created_at?: string
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          returned_at?: string | null
+          returned_by?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      asset_categories: {
+        Row: {
+          category_key: string
+          category_type: string
+          created_at: string
+          default_depreciation_months: number | null
+          description: string | null
+          id: string
+          name: string
+          parent_category_id: string | null
+          requires_assignment: boolean
+          requires_serial_number: boolean
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          category_key: string
+          category_type?: string
+          created_at?: string
+          default_depreciation_months?: number | null
+          description?: string | null
+          id?: string
+          name: string
+          parent_category_id?: string | null
+          requires_assignment?: boolean
+          requires_serial_number?: boolean
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          category_key?: string
+          category_type?: string
+          created_at?: string
+          default_depreciation_months?: number | null
+          description?: string | null
+          id?: string
+          name?: string
+          parent_category_id?: string | null
+          requires_assignment?: boolean
+          requires_serial_number?: boolean
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      asset_contracts: {
+        Row: {
+          auto_renew: boolean
+          contract_number: string | null
+          contract_type: string
+          contract_value_cents: number | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          end_date: string | null
+          external_url: string | null
+          id: string
+          metadata: Json
+          notice_period_days: number | null
+          owner_user_id: string | null
+          renewal_date: string | null
+          sensitivity_level: string
+          start_date: string | null
+          status: string
+          storage_path: string | null
+          team_id: string
+          title: string
+          updated_at: string
+          vendor_id: string | null
+        }
+        Insert: {
+          auto_renew?: boolean
+          contract_number?: string | null
+          contract_type?: string
+          contract_value_cents?: number | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          end_date?: string | null
+          external_url?: string | null
+          id?: string
+          metadata?: Json
+          notice_period_days?: number | null
+          owner_user_id?: string | null
+          renewal_date?: string | null
+          sensitivity_level?: string
+          start_date?: string | null
+          status?: string
+          storage_path?: string | null
+          team_id: string
+          title: string
+          updated_at?: string
+          vendor_id?: string | null
+        }
+        Update: {
+          auto_renew?: boolean
+          contract_number?: string | null
+          contract_type?: string
+          contract_value_cents?: number | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          end_date?: string | null
+          external_url?: string | null
+          id?: string
+          metadata?: Json
+          notice_period_days?: number | null
+          owner_user_id?: string | null
+          renewal_date?: string | null
+          sensitivity_level?: string
+          start_date?: string | null
+          status?: string
+          storage_path?: string | null
+          team_id?: string
+          title?: string
+          updated_at?: string
+          vendor_id?: string | null
+        }
+        Relationships: []
+      }
+      asset_inventory_items: {
+        Row: {
+          asset_name: string
+          asset_tag: string | null
+          asset_type: string
+          assigned_to_customer_account_id: string | null
+          assigned_to_team_id: string | null
+          assigned_to_user_id: string | null
+          category_id: string | null
+          cost_center: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          department: string | null
+          expected_retirement_date: string | null
+          id: string
+          lifecycle_stage: string
+          linked_client_installation_id: string | null
+          linked_device_id: string | null
+          linked_mobile_installation_id: string | null
+          location_label: string | null
+          manufacturer: string | null
+          metadata: Json
+          model: string | null
+          notes: string | null
+          purchase_cost_cents: number | null
+          purchase_date: string | null
+          purchase_order_id: string | null
+          serial_number: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          updated_by: string | null
+          vendor_id: string | null
+          warranty_end: string | null
+          warranty_start: string | null
+        }
+        Insert: {
+          asset_name: string
+          asset_tag?: string | null
+          asset_type?: string
+          assigned_to_customer_account_id?: string | null
+          assigned_to_team_id?: string | null
+          assigned_to_user_id?: string | null
+          category_id?: string | null
+          cost_center?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          department?: string | null
+          expected_retirement_date?: string | null
+          id?: string
+          lifecycle_stage?: string
+          linked_client_installation_id?: string | null
+          linked_device_id?: string | null
+          linked_mobile_installation_id?: string | null
+          location_label?: string | null
+          manufacturer?: string | null
+          metadata?: Json
+          model?: string | null
+          notes?: string | null
+          purchase_cost_cents?: number | null
+          purchase_date?: string | null
+          purchase_order_id?: string | null
+          serial_number?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+          updated_by?: string | null
+          vendor_id?: string | null
+          warranty_end?: string | null
+          warranty_start?: string | null
+        }
+        Update: {
+          asset_name?: string
+          asset_tag?: string | null
+          asset_type?: string
+          assigned_to_customer_account_id?: string | null
+          assigned_to_team_id?: string | null
+          assigned_to_user_id?: string | null
+          category_id?: string | null
+          cost_center?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          department?: string | null
+          expected_retirement_date?: string | null
+          id?: string
+          lifecycle_stage?: string
+          linked_client_installation_id?: string | null
+          linked_device_id?: string | null
+          linked_mobile_installation_id?: string | null
+          location_label?: string | null
+          manufacturer?: string | null
+          metadata?: Json
+          model?: string | null
+          notes?: string | null
+          purchase_cost_cents?: number | null
+          purchase_date?: string | null
+          purchase_order_id?: string | null
+          serial_number?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+          updated_by?: string | null
+          vendor_id?: string | null
+          warranty_end?: string | null
+          warranty_start?: string | null
+        }
+        Relationships: []
+      }
+      asset_lifecycle_events: {
+        Row: {
+          actor_id: string | null
+          asset_id: string | null
+          created_at: string
+          description: string | null
+          event_type: string
+          id: string
+          metadata: Json
+          new_status: string | null
+          old_status: string | null
+          resource_id: string | null
+          resource_type: string | null
+          software_license_id: string | null
+          team_id: string
+          title: string
+        }
+        Insert: {
+          actor_id?: string | null
+          asset_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json
+          new_status?: string | null
+          old_status?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          software_license_id?: string | null
+          team_id: string
+          title: string
+        }
+        Update: {
+          actor_id?: string | null
+          asset_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json
+          new_status?: string | null
+          old_status?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          software_license_id?: string | null
+          team_id?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      asset_maintenance_events: {
+        Row: {
+          asset_id: string
+          completed_at: string | null
+          cost_cents: number | null
+          created_at: string
+          currency: string
+          description: string | null
+          event_type: string
+          field_job_id: string | null
+          id: string
+          metadata: Json
+          notes: string | null
+          performed_by: string | null
+          scheduled_at: string | null
+          status: string
+          support_ticket_id: string | null
+          team_id: string
+          title: string
+          updated_at: string
+          vendor_id: string | null
+        }
+        Insert: {
+          asset_id: string
+          completed_at?: string | null
+          cost_cents?: number | null
+          created_at?: string
+          currency?: string
+          description?: string | null
+          event_type?: string
+          field_job_id?: string | null
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          performed_by?: string | null
+          scheduled_at?: string | null
+          status?: string
+          support_ticket_id?: string | null
+          team_id: string
+          title: string
+          updated_at?: string
+          vendor_id?: string | null
+        }
+        Update: {
+          asset_id?: string
+          completed_at?: string | null
+          cost_cents?: number | null
+          created_at?: string
+          currency?: string
+          description?: string | null
+          event_type?: string
+          field_job_id?: string | null
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          performed_by?: string | null
+          scheduled_at?: string | null
+          status?: string
+          support_ticket_id?: string | null
+          team_id?: string
+          title?: string
+          updated_at?: string
+          vendor_id?: string | null
+        }
+        Relationships: []
+      }
+      asset_receipts: {
+        Row: {
+          condition: string
+          created_asset_ids: string[]
+          created_at: string
+          id: string
+          metadata: Json
+          purchase_order_id: string | null
+          purchase_order_item_id: string | null
+          quantity_received: number
+          received_at: string
+          received_by: string | null
+          receiving_notes: string | null
+          team_id: string
+        }
+        Insert: {
+          condition?: string
+          created_asset_ids?: string[]
+          created_at?: string
+          id?: string
+          metadata?: Json
+          purchase_order_id?: string | null
+          purchase_order_item_id?: string | null
+          quantity_received?: number
+          received_at?: string
+          received_by?: string | null
+          receiving_notes?: string | null
+          team_id: string
+        }
+        Update: {
+          condition?: string
+          created_asset_ids?: string[]
+          created_at?: string
+          id?: string
+          metadata?: Json
+          purchase_order_id?: string | null
+          purchase_order_item_id?: string | null
+          quantity_received?: number
+          received_at?: string
+          received_by?: string | null
+          receiving_notes?: string | null
+          team_id?: string
+        }
+        Relationships: []
+      }
+      asset_vendors: {
+        Row: {
+          account_manager_email: string | null
+          account_manager_name: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          metadata: Json
+          name: string
+          risk_level: string
+          security_review_status: string
+          status: string
+          support_email: string | null
+          support_url: string | null
+          team_id: string
+          updated_at: string
+          vendor_key: string
+          vendor_type: string
+          website_url: string | null
+        }
+        Insert: {
+          account_manager_email?: string | null
+          account_manager_name?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          metadata?: Json
+          name: string
+          risk_level?: string
+          security_review_status?: string
+          status?: string
+          support_email?: string | null
+          support_url?: string | null
+          team_id: string
+          updated_at?: string
+          vendor_key: string
+          vendor_type?: string
+          website_url?: string | null
+        }
+        Update: {
+          account_manager_email?: string | null
+          account_manager_name?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          metadata?: Json
+          name?: string
+          risk_level?: string
+          security_review_status?: string
+          status?: string
+          support_email?: string | null
+          support_url?: string | null
+          team_id?: string
+          updated_at?: string
+          vendor_key?: string
+          vendor_type?: string
+          website_url?: string | null
+        }
+        Relationships: []
+      }
       audit_export_jobs: {
         Row: {
           approved_at: string | null
@@ -3028,6 +3547,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      contract_milestones: {
+        Row: {
+          assigned_to: string | null
+          completed_at: string | null
+          completed_by: string | null
+          contract_id: string
+          created_at: string
+          due_date: string
+          id: string
+          milestone_type: string
+          notes: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          completed_by?: string | null
+          contract_id: string
+          created_at?: string
+          due_date: string
+          id?: string
+          milestone_type?: string
+          notes?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          completed_by?: string | null
+          contract_id?: string
+          created_at?: string
+          due_date?: string
+          id?: string
+          milestone_type?: string
+          notes?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       customer_accounts: {
         Row: {
@@ -7937,6 +8504,60 @@ export type Database = {
         }
         Relationships: []
       }
+      license_usage_snapshots: {
+        Row: {
+          active_users: number | null
+          assigned_seats: number | null
+          captured_at: string
+          compliance_status: string
+          created_at: string
+          id: string
+          inactive_users: number | null
+          license_id: string
+          metadata: Json
+          overage_count: number
+          software_product_id: string
+          source: string
+          team_id: string
+          total_seats: number | null
+          underused_count: number
+        }
+        Insert: {
+          active_users?: number | null
+          assigned_seats?: number | null
+          captured_at?: string
+          compliance_status?: string
+          created_at?: string
+          id?: string
+          inactive_users?: number | null
+          license_id: string
+          metadata?: Json
+          overage_count?: number
+          software_product_id: string
+          source?: string
+          team_id: string
+          total_seats?: number | null
+          underused_count?: number
+        }
+        Update: {
+          active_users?: number | null
+          assigned_seats?: number | null
+          captured_at?: string
+          compliance_status?: string
+          created_at?: string
+          id?: string
+          inactive_users?: number | null
+          license_id?: string
+          metadata?: Json
+          overage_count?: number
+          software_product_id?: string
+          source?: string
+          team_id?: string
+          total_seats?: number | null
+          underused_count?: number
+        }
+        Relationships: []
+      }
       member_permission_overrides: {
         Row: {
           created_at: string
@@ -10714,6 +11335,174 @@ export type Database = {
           },
         ]
       }
+      procurement_approval_requests: {
+        Row: {
+          amount_cents: number | null
+          asset_id: string | null
+          contract_id: string | null
+          created_at: string
+          currency: string
+          decision_note: string | null
+          description: string | null
+          id: string
+          metadata: Json
+          purchase_order_id: string | null
+          purchase_request_id: string | null
+          request_type: string
+          requested_by: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          risk_level: string
+          software_license_id: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          amount_cents?: number | null
+          asset_id?: string | null
+          contract_id?: string | null
+          created_at?: string
+          currency?: string
+          decision_note?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json
+          purchase_order_id?: string | null
+          purchase_request_id?: string | null
+          request_type: string
+          requested_by?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          risk_level?: string
+          software_license_id?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number | null
+          asset_id?: string | null
+          contract_id?: string | null
+          created_at?: string
+          currency?: string
+          decision_note?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json
+          purchase_order_id?: string | null
+          purchase_request_id?: string | null
+          request_type?: string
+          requested_by?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          risk_level?: string
+          software_license_id?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      procurement_import_jobs: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          error_message: string | null
+          id: string
+          import_type: string
+          input: Json
+          output: Json
+          records_created: number
+          records_failed: number
+          records_updated: number
+          source_type: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          id?: string
+          import_type: string
+          input?: Json
+          output?: Json
+          records_created?: number
+          records_failed?: number
+          records_updated?: number
+          source_type: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          id?: string
+          import_type?: string
+          input?: Json
+          output?: Json
+          records_created?: number
+          records_failed?: number
+          records_updated?: number
+          source_type?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      procurement_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -10878,6 +11667,267 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      purchase_order_items: {
+        Row: {
+          asset_type: string
+          category_id: string | null
+          created_asset_ids: string[]
+          created_at: string
+          id: string
+          item_name: string
+          metadata: Json
+          purchase_order_id: string
+          quantity_ordered: number
+          quantity_received: number
+          team_id: string
+          total_cost_cents: number | null
+          unit_cost_cents: number | null
+          updated_at: string
+        }
+        Insert: {
+          asset_type?: string
+          category_id?: string | null
+          created_asset_ids?: string[]
+          created_at?: string
+          id?: string
+          item_name: string
+          metadata?: Json
+          purchase_order_id: string
+          quantity_ordered?: number
+          quantity_received?: number
+          team_id: string
+          total_cost_cents?: number | null
+          unit_cost_cents?: number | null
+          updated_at?: string
+        }
+        Update: {
+          asset_type?: string
+          category_id?: string | null
+          created_asset_ids?: string[]
+          created_at?: string
+          id?: string
+          item_name?: string
+          metadata?: Json
+          purchase_order_id?: string
+          quantity_ordered?: number
+          quantity_received?: number
+          team_id?: string
+          total_cost_cents?: number | null
+          unit_cost_cents?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      purchase_orders: {
+        Row: {
+          approved_by: string | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          expected_delivery_date: string | null
+          external_reference: string | null
+          id: string
+          metadata: Json
+          notes: string | null
+          order_date: string | null
+          po_number: string | null
+          procurement_system_reference: string | null
+          purchase_request_id: string | null
+          received_date: string | null
+          shipping_cents: number
+          status: string
+          subtotal_cents: number
+          tax_cents: number
+          team_id: string
+          total_cents: number
+          updated_at: string
+          vendor_id: string | null
+        }
+        Insert: {
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          expected_delivery_date?: string | null
+          external_reference?: string | null
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          order_date?: string | null
+          po_number?: string | null
+          procurement_system_reference?: string | null
+          purchase_request_id?: string | null
+          received_date?: string | null
+          shipping_cents?: number
+          status?: string
+          subtotal_cents?: number
+          tax_cents?: number
+          team_id: string
+          total_cents?: number
+          updated_at?: string
+          vendor_id?: string | null
+        }
+        Update: {
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          expected_delivery_date?: string | null
+          external_reference?: string | null
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          order_date?: string | null
+          po_number?: string | null
+          procurement_system_reference?: string | null
+          purchase_request_id?: string | null
+          received_date?: string | null
+          shipping_cents?: number
+          status?: string
+          subtotal_cents?: number
+          tax_cents?: number
+          team_id?: string
+          total_cents?: number
+          updated_at?: string
+          vendor_id?: string | null
+        }
+        Relationships: []
+      }
+      purchase_request_items: {
+        Row: {
+          asset_type: string
+          category_id: string | null
+          created_at: string
+          id: string
+          item_description: string | null
+          item_name: string
+          metadata: Json
+          purchase_request_id: string
+          quantity: number
+          requested_license_id: string | null
+          team_id: string
+          total_cost_cents: number | null
+          unit_cost_cents: number | null
+          updated_at: string
+          vendor_id: string | null
+        }
+        Insert: {
+          asset_type?: string
+          category_id?: string | null
+          created_at?: string
+          id?: string
+          item_description?: string | null
+          item_name: string
+          metadata?: Json
+          purchase_request_id: string
+          quantity?: number
+          requested_license_id?: string | null
+          team_id: string
+          total_cost_cents?: number | null
+          unit_cost_cents?: number | null
+          updated_at?: string
+          vendor_id?: string | null
+        }
+        Update: {
+          asset_type?: string
+          category_id?: string | null
+          created_at?: string
+          id?: string
+          item_description?: string | null
+          item_name?: string
+          metadata?: Json
+          purchase_request_id?: string
+          quantity?: number
+          requested_license_id?: string | null
+          team_id?: string
+          total_cost_cents?: number | null
+          unit_cost_cents?: number | null
+          updated_at?: string
+          vendor_id?: string | null
+        }
+        Relationships: []
+      }
+      purchase_requests: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          business_justification: string | null
+          cost_center: string | null
+          created_at: string
+          currency: string
+          decision_note: string | null
+          description: string | null
+          estimated_cost_cents: number | null
+          id: string
+          metadata: Json
+          priority: string
+          rejected_at: string | null
+          rejected_by: string | null
+          request_number: string | null
+          request_type: string
+          requested_by: string | null
+          requested_for_user_id: string | null
+          required_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+          vendor_id: string | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          business_justification?: string | null
+          cost_center?: string | null
+          created_at?: string
+          currency?: string
+          decision_note?: string | null
+          description?: string | null
+          estimated_cost_cents?: number | null
+          id?: string
+          metadata?: Json
+          priority?: string
+          rejected_at?: string | null
+          rejected_by?: string | null
+          request_number?: string | null
+          request_type?: string
+          requested_by?: string | null
+          requested_for_user_id?: string | null
+          required_by?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+          vendor_id?: string | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          business_justification?: string | null
+          cost_center?: string | null
+          created_at?: string
+          currency?: string
+          decision_note?: string | null
+          description?: string | null
+          estimated_cost_cents?: number | null
+          id?: string
+          metadata?: Json
+          priority?: string
+          rejected_at?: string | null
+          rejected_by?: string | null
+          request_number?: string | null
+          request_type?: string
+          requested_by?: string | null
+          requested_for_user_id?: string | null
+          required_by?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+          vendor_id?: string | null
+        }
+        Relationships: []
       }
       remediation_playbook_run_steps: {
         Row: {
@@ -12340,6 +13390,204 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      software_license_assignments: {
+        Row: {
+          assigned_at: string
+          assigned_by: string | null
+          assignment_status: string
+          created_at: string
+          customer_account_id: string | null
+          device_id: string | null
+          id: string
+          license_id: string
+          metadata: Json
+          revoked_at: string | null
+          revoked_by: string | null
+          team_id: string
+          updated_at: string
+          usage_last_seen_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          assigned_at?: string
+          assigned_by?: string | null
+          assignment_status?: string
+          created_at?: string
+          customer_account_id?: string | null
+          device_id?: string | null
+          id?: string
+          license_id: string
+          metadata?: Json
+          revoked_at?: string | null
+          revoked_by?: string | null
+          team_id: string
+          updated_at?: string
+          usage_last_seen_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          assigned_at?: string
+          assigned_by?: string | null
+          assignment_status?: string
+          created_at?: string
+          customer_account_id?: string | null
+          device_id?: string | null
+          id?: string
+          license_id?: string
+          metadata?: Json
+          revoked_at?: string | null
+          revoked_by?: string | null
+          team_id?: string
+          updated_at?: string
+          usage_last_seen_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      software_licenses: {
+        Row: {
+          auto_renew: boolean
+          available_seats: number | null
+          billing_interval: string
+          contract_id: string | null
+          cost_cents: number | null
+          created_at: string
+          created_by: string | null
+          currency: string
+          end_date: string | null
+          id: string
+          license_key: string | null
+          license_key_hash: string | null
+          license_type: string
+          metadata: Json
+          name: string
+          notes: string | null
+          renewal_date: string | null
+          software_product_id: string
+          start_date: string | null
+          status: string
+          team_id: string
+          total_seats: number | null
+          updated_at: string
+          updated_by: string | null
+          used_seats: number
+          vendor_id: string | null
+        }
+        Insert: {
+          auto_renew?: boolean
+          available_seats?: number | null
+          billing_interval?: string
+          contract_id?: string | null
+          cost_cents?: number | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          end_date?: string | null
+          id?: string
+          license_key?: string | null
+          license_key_hash?: string | null
+          license_type?: string
+          metadata?: Json
+          name: string
+          notes?: string | null
+          renewal_date?: string | null
+          software_product_id: string
+          start_date?: string | null
+          status?: string
+          team_id: string
+          total_seats?: number | null
+          updated_at?: string
+          updated_by?: string | null
+          used_seats?: number
+          vendor_id?: string | null
+        }
+        Update: {
+          auto_renew?: boolean
+          available_seats?: number | null
+          billing_interval?: string
+          contract_id?: string | null
+          cost_cents?: number | null
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          end_date?: string | null
+          id?: string
+          license_key?: string | null
+          license_key_hash?: string | null
+          license_type?: string
+          metadata?: Json
+          name?: string
+          notes?: string | null
+          renewal_date?: string | null
+          software_product_id?: string
+          start_date?: string | null
+          status?: string
+          team_id?: string
+          total_seats?: number | null
+          updated_at?: string
+          updated_by?: string | null
+          used_seats?: number
+          vendor_id?: string | null
+        }
+        Relationships: []
+      }
+      software_products: {
+        Row: {
+          admin_url: string | null
+          created_at: string
+          created_by: string | null
+          data_sensitivity: string
+          id: string
+          metadata: Json
+          name: string
+          product_key: string
+          product_type: string
+          security_review_status: string
+          status: string
+          support_url: string | null
+          team_id: string
+          updated_at: string
+          vendor_id: string | null
+          website_url: string | null
+        }
+        Insert: {
+          admin_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          data_sensitivity?: string
+          id?: string
+          metadata?: Json
+          name: string
+          product_key: string
+          product_type?: string
+          security_review_status?: string
+          status?: string
+          support_url?: string | null
+          team_id: string
+          updated_at?: string
+          vendor_id?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          admin_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          data_sensitivity?: string
+          id?: string
+          metadata?: Json
+          name?: string
+          product_key?: string
+          product_type?: string
+          security_review_status?: string
+          status?: string
+          support_url?: string | null
+          team_id?: string
+          updated_at?: string
+          vendor_id?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
       }
       sso_login_attempts: {
         Row: {
@@ -15216,6 +16464,60 @@ export type Database = {
         }
         Relationships: []
       }
+      warranty_records: {
+        Row: {
+          asset_id: string
+          claim_url: string | null
+          created_at: string
+          end_date: string | null
+          id: string
+          metadata: Json
+          notes: string | null
+          start_date: string | null
+          status: string
+          support_contact: string | null
+          team_id: string
+          updated_at: string
+          vendor_id: string | null
+          warranty_reference: string | null
+          warranty_type: string
+        }
+        Insert: {
+          asset_id: string
+          claim_url?: string | null
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          start_date?: string | null
+          status?: string
+          support_contact?: string | null
+          team_id: string
+          updated_at?: string
+          vendor_id?: string | null
+          warranty_reference?: string | null
+          warranty_type?: string
+        }
+        Update: {
+          asset_id?: string
+          claim_url?: string | null
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          start_date?: string | null
+          status?: string
+          support_contact?: string | null
+          team_id?: string
+          updated_at?: string
+          vendor_id?: string | null
+          warranty_reference?: string | null
+          warranty_type?: string
+        }
+        Relationships: []
+      }
       webhook_deliveries: {
         Row: {
           attempt_count: number
@@ -16054,6 +17356,10 @@ export type Database = {
       }
       is_partner_member: {
         Args: { p_partner_id: string; p_user_id?: string }
+        Returns: boolean
+      }
+      is_procurement_admin: {
+        Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
       is_team_member: {
