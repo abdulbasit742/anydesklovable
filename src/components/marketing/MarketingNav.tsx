@@ -14,6 +14,7 @@ export function MarketingNav() {
             <Link to="/" hash="how" className="transition-colors hover:text-foreground">How it works</Link>
             <Link to="/" hash="security" className="transition-colors hover:text-foreground">Security</Link>
             <Link to="/pricing" className="transition-colors hover:text-foreground">Pricing</Link>
+            <Link to="/marketplace" className="transition-colors hover:text-foreground">Marketplace</Link>
             <Link to="/download" className="transition-colors hover:text-foreground">Download</Link>
           </nav>
         </div>
