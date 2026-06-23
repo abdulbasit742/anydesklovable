@@ -7053,6 +7053,753 @@ export type Database = {
           },
         ]
       }
+      knowledge_article_links: {
+        Row: {
+          article_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          relationship_type: string
+          resource_id: string | null
+          resource_type: string
+          team_id: string
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          relationship_type?: string
+          resource_id?: string | null
+          resource_type: string
+          team_id: string
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          relationship_type?: string
+          resource_id?: string | null
+          resource_type?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_article_links_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_article_reviews: {
+        Row: {
+          article_id: string
+          checklist: Json
+          comments: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          review_type: string
+          reviewed_at: string | null
+          reviewer_id: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          article_id: string
+          checklist?: Json
+          comments?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          review_type?: string
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          article_id?: string
+          checklist?: Json
+          comments?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          review_type?: string
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_article_reviews_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_article_tags: {
+        Row: {
+          article_id: string
+          created_at: string
+          id: string
+          tag_id: string
+          team_id: string
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          id?: string
+          tag_id: string
+          team_id: string
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          id?: string
+          tag_id?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_article_tags_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_article_tags_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_article_versions: {
+        Row: {
+          approved_by: string | null
+          article_id: string
+          change_summary: string | null
+          content: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          status: string
+          summary: string | null
+          team_id: string
+          title: string
+          version_number: number
+        }
+        Insert: {
+          approved_by?: string | null
+          article_id: string
+          change_summary?: string | null
+          content?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          status?: string
+          summary?: string | null
+          team_id: string
+          title: string
+          version_number: number
+        }
+        Update: {
+          approved_by?: string | null
+          article_id?: string
+          change_summary?: string | null
+          content?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          status?: string
+          summary?: string | null
+          team_id?: string
+          title?: string
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_article_versions_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_articles: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          article_key: string
+          article_type: string
+          collection_id: string | null
+          content: string | null
+          content_format: string
+          created_at: string
+          created_by: string | null
+          id: string
+          language: string
+          metadata: Json
+          next_review_due_at: string | null
+          owner_user_id: string | null
+          published_at: string | null
+          published_by: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          sensitivity_level: string
+          slug: string
+          source_resource_id: string | null
+          source_resource_type: string | null
+          source_type: string
+          space_id: string
+          status: string
+          summary: string | null
+          team_id: string
+          title: string
+          updated_at: string
+          updated_by: string | null
+          version_number: number
+          visibility: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          article_key: string
+          article_type?: string
+          collection_id?: string | null
+          content?: string | null
+          content_format?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          language?: string
+          metadata?: Json
+          next_review_due_at?: string | null
+          owner_user_id?: string | null
+          published_at?: string | null
+          published_by?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sensitivity_level?: string
+          slug: string
+          source_resource_id?: string | null
+          source_resource_type?: string | null
+          source_type?: string
+          space_id: string
+          status?: string
+          summary?: string | null
+          team_id: string
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+          version_number?: number
+          visibility?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          article_key?: string
+          article_type?: string
+          collection_id?: string | null
+          content?: string | null
+          content_format?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          language?: string
+          metadata?: Json
+          next_review_due_at?: string | null
+          owner_user_id?: string | null
+          published_at?: string | null
+          published_by?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sensitivity_level?: string
+          slug?: string
+          source_resource_id?: string | null
+          source_resource_type?: string | null
+          source_type?: string
+          space_id?: string
+          status?: string
+          summary?: string | null
+          team_id?: string
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+          version_number?: number
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_articles_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_articles_space_id_fkey"
+            columns: ["space_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_spaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_audit_events: {
+        Row: {
+          actor_id: string | null
+          article_id: string | null
+          course_id: string | null
+          created_at: string
+          description: string | null
+          event_type: string
+          id: string
+          metadata: Json
+          resource_id: string | null
+          resource_type: string | null
+          severity: string
+          team_id: string
+          title: string
+        }
+        Insert: {
+          actor_id?: string | null
+          article_id?: string | null
+          course_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id: string
+          title: string
+        }
+        Update: {
+          actor_id?: string | null
+          article_id?: string | null
+          course_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      knowledge_collections: {
+        Row: {
+          collection_key: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+          parent_collection_id: string | null
+          sort_order: number
+          space_id: string
+          status: string
+          team_id: string
+          updated_at: string
+          visibility: string
+        }
+        Insert: {
+          collection_key: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+          parent_collection_id?: string | null
+          sort_order?: number
+          space_id: string
+          status?: string
+          team_id: string
+          updated_at?: string
+          visibility?: string
+        }
+        Update: {
+          collection_key?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+          parent_collection_id?: string | null
+          sort_order?: number
+          space_id?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_collections_space_id_fkey"
+            columns: ["space_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_spaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_feedback: {
+        Row: {
+          article_id: string
+          created_at: string
+          customer_user_id: string | null
+          feedback: string | null
+          id: string
+          partner_member_id: string | null
+          rating: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          source: string
+          status: string
+          team_id: string
+          user_id: string | null
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          customer_user_id?: string | null
+          feedback?: string | null
+          id?: string
+          partner_member_id?: string | null
+          rating?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          source?: string
+          status?: string
+          team_id: string
+          user_id?: string | null
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          customer_user_id?: string | null
+          feedback?: string | null
+          id?: string
+          partner_member_id?: string | null
+          rating?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          source?: string
+          status?: string
+          team_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_feedback_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_import_jobs: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          error_message: string | null
+          id: string
+          input: Json
+          output: Json
+          records_created: number
+          records_updated: number
+          source_type: string
+          space_id: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          id?: string
+          input?: Json
+          output?: Json
+          records_created?: number
+          records_updated?: number
+          source_type: string
+          space_id?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          id?: string
+          input?: Json
+          output?: Json
+          records_created?: number
+          records_updated?: number
+          source_type?: string
+          space_id?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_import_jobs_space_id_fkey"
+            columns: ["space_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_spaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_index_jobs: {
+        Row: {
+          article_id: string | null
+          created_at: string
+          created_by: string | null
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          input: Json
+          job_type: string
+          output: Json
+          space_id: string | null
+          started_at: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          article_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          input?: Json
+          job_type: string
+          output?: Json
+          space_id?: string | null
+          started_at?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          article_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          input?: Json
+          job_type?: string
+          output?: Json
+          space_id?: string | null
+          started_at?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      knowledge_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      knowledge_search_queries: {
+        Row: {
+          clicked_article_id: string | null
+          created_at: string
+          created_ticket_id: string | null
+          customer_user_id: string | null
+          id: string
+          metadata: Json
+          query: string
+          result_count: number
+          source: string
+          team_id: string
+          user_id: string | null
+        }
+        Insert: {
+          clicked_article_id?: string | null
+          created_at?: string
+          created_ticket_id?: string | null
+          customer_user_id?: string | null
+          id?: string
+          metadata?: Json
+          query: string
+          result_count?: number
+          source?: string
+          team_id: string
+          user_id?: string | null
+        }
+        Update: {
+          clicked_article_id?: string | null
+          created_at?: string
+          created_ticket_id?: string | null
+          customer_user_id?: string | null
+          id?: string
+          metadata?: Json
+          query?: string
+          result_count?: number
+          source?: string
+          team_id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      knowledge_spaces: {
+        Row: {
+          brand_profile_id: string | null
+          created_at: string
+          created_by: string | null
+          default_language: string
+          description: string | null
+          id: string
+          name: string
+          owner_user_id: string | null
+          partner_id: string | null
+          space_key: string
+          space_type: string
+          status: string
+          team_id: string
+          updated_at: string
+          visibility: string
+        }
+        Insert: {
+          brand_profile_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_language?: string
+          description?: string | null
+          id?: string
+          name: string
+          owner_user_id?: string | null
+          partner_id?: string | null
+          space_key: string
+          space_type?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+          visibility?: string
+        }
+        Update: {
+          brand_profile_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          default_language?: string
+          description?: string | null
+          id?: string
+          name?: string
+          owner_user_id?: string | null
+          partner_id?: string | null
+          space_key?: string
+          space_type?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+          visibility?: string
+        }
+        Relationships: []
+      }
+      knowledge_tags: {
+        Row: {
+          color: string | null
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          tag_key: string
+          team_id: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          tag_key: string
+          team_id: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          tag_key?: string
+          team_id?: string
+        }
+        Relationships: []
+      }
       legal_hold_resources: {
         Row: {
           added_at: string
@@ -13250,6 +13997,470 @@ export type Database = {
         }
         Relationships: []
       }
+      training_certificates: {
+        Row: {
+          certificate_number: string | null
+          course_id: string
+          created_at: string
+          customer_user_id: string | null
+          enrollment_id: string
+          expires_at: string | null
+          id: string
+          issued_at: string
+          metadata: Json
+          partner_member_id: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          user_id: string | null
+          verification_hash: string | null
+        }
+        Insert: {
+          certificate_number?: string | null
+          course_id: string
+          created_at?: string
+          customer_user_id?: string | null
+          enrollment_id: string
+          expires_at?: string | null
+          id?: string
+          issued_at?: string
+          metadata?: Json
+          partner_member_id?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+          user_id?: string | null
+          verification_hash?: string | null
+        }
+        Update: {
+          certificate_number?: string | null
+          course_id?: string
+          created_at?: string
+          customer_user_id?: string | null
+          enrollment_id?: string
+          expires_at?: string | null
+          id?: string
+          issued_at?: string
+          metadata?: Json
+          partner_member_id?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+          user_id?: string | null
+          verification_hash?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_certificates_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "training_courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_certificates_enrollment_id_fkey"
+            columns: ["enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "training_enrollments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_courses: {
+        Row: {
+          certificate_enabled: boolean
+          course_key: string
+          course_type: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          difficulty: string
+          estimated_minutes: number | null
+          id: string
+          passing_score: number
+          published_at: string | null
+          published_by: string | null
+          space_id: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+          visibility: string
+        }
+        Insert: {
+          certificate_enabled?: boolean
+          course_key: string
+          course_type?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          difficulty?: string
+          estimated_minutes?: number | null
+          id?: string
+          passing_score?: number
+          published_at?: string | null
+          published_by?: string | null
+          space_id?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+          visibility?: string
+        }
+        Update: {
+          certificate_enabled?: boolean
+          course_key?: string
+          course_type?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          difficulty?: string
+          estimated_minutes?: number | null
+          id?: string
+          passing_score?: number
+          published_at?: string | null
+          published_by?: string | null
+          space_id?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_courses_space_id_fkey"
+            columns: ["space_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_spaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_enrollments: {
+        Row: {
+          completed_at: string | null
+          course_id: string
+          created_at: string
+          customer_user_id: string | null
+          due_at: string | null
+          enrolled_at: string
+          enrolled_by: string | null
+          id: string
+          metadata: Json
+          partner_member_id: string | null
+          progress_percent: number
+          started_at: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          course_id: string
+          created_at?: string
+          customer_user_id?: string | null
+          due_at?: string | null
+          enrolled_at?: string
+          enrolled_by?: string | null
+          id?: string
+          metadata?: Json
+          partner_member_id?: string | null
+          progress_percent?: number
+          started_at?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          course_id?: string
+          created_at?: string
+          customer_user_id?: string | null
+          due_at?: string | null
+          enrolled_at?: string
+          enrolled_by?: string | null
+          id?: string
+          metadata?: Json
+          partner_member_id?: string | null
+          progress_percent?: number
+          started_at?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_enrollments_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "training_courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_modules: {
+        Row: {
+          article_id: string | null
+          content: string | null
+          course_id: string
+          created_at: string
+          description: string | null
+          estimated_minutes: number | null
+          id: string
+          module_key: string
+          module_type: string
+          required: boolean
+          sort_order: number
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          article_id?: string | null
+          content?: string | null
+          course_id: string
+          created_at?: string
+          description?: string | null
+          estimated_minutes?: number | null
+          id?: string
+          module_key: string
+          module_type?: string
+          required?: boolean
+          sort_order?: number
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          article_id?: string | null
+          content?: string | null
+          course_id?: string
+          created_at?: string
+          description?: string | null
+          estimated_minutes?: number | null
+          id?: string
+          module_key?: string
+          module_type?: string
+          required?: boolean
+          sort_order?: number
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_modules_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_modules_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "training_courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_progress_events: {
+        Row: {
+          course_id: string
+          created_at: string
+          enrollment_id: string
+          event_type: string
+          id: string
+          metadata: Json
+          module_id: string | null
+          progress_percent: number | null
+          team_id: string
+        }
+        Insert: {
+          course_id: string
+          created_at?: string
+          enrollment_id: string
+          event_type: string
+          id?: string
+          metadata?: Json
+          module_id?: string | null
+          progress_percent?: number | null
+          team_id: string
+        }
+        Update: {
+          course_id?: string
+          created_at?: string
+          enrollment_id?: string
+          event_type?: string
+          id?: string
+          metadata?: Json
+          module_id?: string | null
+          progress_percent?: number | null
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_progress_events_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "training_courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_progress_events_enrollment_id_fkey"
+            columns: ["enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "training_enrollments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_progress_events_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "training_modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_quiz_attempts: {
+        Row: {
+          answers: Json
+          created_at: string
+          customer_user_id: string | null
+          enrollment_id: string | null
+          feedback: Json
+          id: string
+          partner_member_id: string | null
+          quiz_id: string
+          score: number | null
+          started_at: string
+          status: string
+          submitted_at: string | null
+          team_id: string
+          user_id: string | null
+        }
+        Insert: {
+          answers?: Json
+          created_at?: string
+          customer_user_id?: string | null
+          enrollment_id?: string | null
+          feedback?: Json
+          id?: string
+          partner_member_id?: string | null
+          quiz_id: string
+          score?: number | null
+          started_at?: string
+          status?: string
+          submitted_at?: string | null
+          team_id: string
+          user_id?: string | null
+        }
+        Update: {
+          answers?: Json
+          created_at?: string
+          customer_user_id?: string | null
+          enrollment_id?: string | null
+          feedback?: Json
+          id?: string
+          partner_member_id?: string | null
+          quiz_id?: string
+          score?: number | null
+          started_at?: string
+          status?: string
+          submitted_at?: string | null
+          team_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_quiz_attempts_enrollment_id_fkey"
+            columns: ["enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "training_enrollments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_quiz_attempts_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "training_quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_quizzes: {
+        Row: {
+          course_id: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          max_attempts: number
+          module_id: string | null
+          passing_score: number
+          questions: Json
+          shuffle_questions: boolean
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          course_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          max_attempts?: number
+          module_id?: string | null
+          passing_score?: number
+          questions?: Json
+          shuffle_questions?: boolean
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          course_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          max_attempts?: number
+          module_id?: string | null
+          passing_score?: number
+          questions?: Json
+          shuffle_questions?: boolean
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_quizzes_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "training_courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_quizzes_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "training_modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       trust_access_policies: {
         Row: {
           created_at: string
@@ -14822,6 +16033,10 @@ export type Database = {
         Returns: boolean
       }
       is_integration_manager: {
+        Args: { _team_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_knowledge_manager: {
         Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
