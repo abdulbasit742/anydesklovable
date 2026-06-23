@@ -25,9 +25,9 @@ export const Route = createFileRoute("/api/public/v1/devices/$deviceId")({
         const parsed = PatchSchema.safeParse(body);
         if (!parsed.success) return apiError("invalid_request", parsed.error.message, 400, ctx.requestId);
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-        const { data, error } = await supabaseAdmin
-          .from("devices")
-          .update({ ...parsed.data, updated_at: new Date().toISOString() })
+        const { data, error } = await (supabaseAdmin
+          .from("devices") as unknown as { update: (v: Record<string, unknown>) => { eq: (c: string, v: string) => { eq: (c: string, v: string) => { select: (s: string) => { maybeSingle: () => Promise<{ data: unknown; error: { message: string } | null }> } } } } })
+          .update(parsed.data)
           .eq("team_id", ctx.teamId).eq("id", params.deviceId)
           .select("*").maybeSingle();
         if (error) return apiError("update_failed", error.message, 500, ctx.requestId);

@@ -11,7 +11,7 @@ export const Route = createFileRoute("/api/public/v1/devices")({
         const search = url.searchParams.get("search");
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
         let q = supabaseAdmin.from("devices").select("*").eq("team_id", ctx.teamId).order("created_at", { ascending: false }).limit(limit + 1);
-        if (status) q = q.eq("status", status);
+        if (status === "online" || status === "offline") q = q.eq("status", status);
         if (search) q = q.ilike("name", `%${search}%`);
         if (cursor) q = q.lt("created_at", cursor);
         const { data, error } = await q;

@@ -6,8 +6,7 @@ const CreateSchema = z.object({
   subject: z.string().min(1).max(200),
   description: z.string().min(1).max(8000),
   priority: z.enum(["low", "normal", "high", "urgent"]).default("normal"),
-  device_id: z.string().uuid().nullable().optional(),
-  session_id: z.string().uuid().nullable().optional(),
+  category: z.string().min(1).max(80).default("api"),
 }).strict();
 
 export const Route = createFileRoute("/api/public/v1/support/tickets")({
@@ -34,15 +33,17 @@ export const Route = createFileRoute("/api/public/v1/support/tickets")({
         const parsed = CreateSchema.safeParse(body);
         if (!parsed.success) return apiError("invalid_request", parsed.error.message, 400, ctx.requestId);
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        // user_id is required (NOT NULL); attribute API-created tickets to the team owner.
+        const { data: team } = await supabaseAdmin.from("teams").select("owner_id").eq("id", ctx.teamId).maybeSingle();
+        if (!team?.owner_id) return apiError("conflict", "Team has no owner to attribute the ticket to.", 409, ctx.requestId);
         const { data, error } = await supabaseAdmin.from("support_tickets").insert({
           team_id: ctx.teamId,
+          user_id: team.owner_id,
           subject: parsed.data.subject,
           description: parsed.data.description,
           priority: parsed.data.priority,
-          device_id: parsed.data.device_id ?? null,
-          session_id: parsed.data.session_id ?? null,
+          category: parsed.data.category,
           status: "open",
-          source: "api",
         }).select("*").maybeSingle();
         if (error) return apiError("create_failed", error.message, 500, ctx.requestId);
         return apiOk(data, ctx.requestId, 201);

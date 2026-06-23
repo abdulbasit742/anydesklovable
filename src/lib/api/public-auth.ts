@@ -77,11 +77,11 @@ async function checkRateLimit(
   const windowStart = new Date(Date.now() - cfg.windowMs).toISOString();
   // Best-effort count from api_requests within window for this key + bucket.
   // We use api_requests count as the proxy — service-role bypasses RLS.
-  const { data } = await (admin as unknown as { from: (t: string) => { select: (s: string, o: { count: string; head: boolean }) => { eq: (c: string, v: unknown) => { gte: (c: string, v: unknown) => Promise<{ count: number | null; error: unknown }> } } } }).from("api_requests")
+  const res = await (admin as unknown as { from: (t: string) => { select: (s: string, o: { count: string; head: boolean }) => { eq: (c: string, v: unknown) => { gte: (c: string, v: unknown) => Promise<{ count: number | null; error: unknown }> } } } }).from("api_requests")
     .select("id", { count: "exact", head: true })
     .eq("api_key_id", apiKeyId)
     .gte("created_at", windowStart);
-  const used = (data as unknown as { count?: number })?.count ?? 0;
+  const used = res.count ?? 0;
   const remaining = Math.max(0, cfg.limit - used);
   const resetAt = new Date(Date.now() + cfg.windowMs).toISOString();
   const allowed = used < cfg.limit;
