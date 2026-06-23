@@ -967,6 +967,150 @@ export type Database = {
           },
         ]
       }
+      device_presence: {
+        Row: {
+          active_session_id: string | null
+          active_user_id: string | null
+          battery_percent: number | null
+          client_version: string | null
+          connection_quality: string
+          cpu_load: number | null
+          created_at: string
+          device_id: string
+          heartbeat_at: string | null
+          id: string
+          ip_address: unknown
+          last_seen_at: string | null
+          latency_ms: number | null
+          memory_load: number | null
+          metadata: Json
+          network_type: string | null
+          os_version: string | null
+          packet_loss: number | null
+          platform: string | null
+          region: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          active_session_id?: string | null
+          active_user_id?: string | null
+          battery_percent?: number | null
+          client_version?: string | null
+          connection_quality?: string
+          cpu_load?: number | null
+          created_at?: string
+          device_id: string
+          heartbeat_at?: string | null
+          id?: string
+          ip_address?: unknown
+          last_seen_at?: string | null
+          latency_ms?: number | null
+          memory_load?: number | null
+          metadata?: Json
+          network_type?: string | null
+          os_version?: string | null
+          packet_loss?: number | null
+          platform?: string | null
+          region?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          active_session_id?: string | null
+          active_user_id?: string | null
+          battery_percent?: number | null
+          client_version?: string | null
+          connection_quality?: string
+          cpu_load?: number | null
+          created_at?: string
+          device_id?: string
+          heartbeat_at?: string | null
+          id?: string
+          ip_address?: unknown
+          last_seen_at?: string | null
+          latency_ms?: number | null
+          memory_load?: number | null
+          metadata?: Json
+          network_type?: string | null
+          os_version?: string | null
+          packet_loss?: number | null
+          platform?: string | null
+          region?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "device_presence_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: true
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "device_presence_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      device_presence_events: {
+        Row: {
+          created_at: string
+          device_id: string
+          event_type: string
+          id: string
+          metadata: Json
+          new_status: string
+          previous_status: string | null
+          reason: string | null
+          team_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_id: string
+          event_type: string
+          id?: string
+          metadata?: Json
+          new_status: string
+          previous_status?: string | null
+          reason?: string | null
+          team_id: string
+        }
+        Update: {
+          created_at?: string
+          device_id?: string
+          event_type?: string
+          id?: string
+          metadata?: Json
+          new_status?: string
+          previous_status?: string | null
+          reason?: string | null
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "device_presence_events_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "device_presence_events_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       devices: {
         Row: {
           client_version: string | null
@@ -1184,6 +1328,118 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "mobile_devices_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_rules: {
+        Row: {
+          channels: Json
+          conditions: Json
+          created_at: string
+          created_by: string | null
+          enabled: boolean
+          event_type: string
+          id: string
+          name: string
+          severity: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          channels?: Json
+          conditions?: Json
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          event_type: string
+          id?: string
+          name: string
+          severity?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          channels?: Json
+          conditions?: Json
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          event_type?: string
+          id?: string
+          name?: string
+          severity?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_rules_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          action_url: string | null
+          archived_at: string | null
+          created_at: string
+          device_id: string | null
+          id: string
+          message: string
+          metadata: Json
+          read_at: string | null
+          rule_id: string | null
+          session_id: string | null
+          severity: string
+          team_id: string
+          title: string
+          type: string
+          user_id: string | null
+        }
+        Insert: {
+          action_url?: string | null
+          archived_at?: string | null
+          created_at?: string
+          device_id?: string | null
+          id?: string
+          message: string
+          metadata?: Json
+          read_at?: string | null
+          rule_id?: string | null
+          session_id?: string | null
+          severity?: string
+          team_id: string
+          title: string
+          type: string
+          user_id?: string | null
+        }
+        Update: {
+          action_url?: string | null
+          archived_at?: string | null
+          created_at?: string
+          device_id?: string | null
+          id?: string
+          message?: string
+          metadata?: Json
+          read_at?: string | null
+          rule_id?: string | null
+          session_id?: string | null
+          severity?: string
+          team_id?: string
+          title?: string
+          type?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_team_id_fkey"
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
@@ -1928,6 +2184,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _compute_connection_quality: {
+        Args: { _latency: number; _loss: number }
+        Returns: string
+      }
       accept_team_invitation: {
         Args: { invite_token: string }
         Returns: {
@@ -1966,9 +2226,59 @@ export type Database = {
         }
         Returns: string
       }
+      create_notification: {
+        Args: {
+          p_action_url?: string
+          p_device_id?: string
+          p_message?: string
+          p_metadata?: Json
+          p_session_id?: string
+          p_severity?: string
+          p_team_id: string
+          p_title?: string
+          p_type?: string
+          p_user_id?: string
+        }
+        Returns: {
+          action_url: string | null
+          archived_at: string | null
+          created_at: string
+          device_id: string | null
+          id: string
+          message: string
+          metadata: Json
+          read_at: string | null
+          rule_id: string | null
+          session_id: string | null
+          severity: string
+          team_id: string
+          title: string
+          type: string
+          user_id: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "notifications"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       end_remote_session: {
         Args: { _reason?: string; _session_id: string }
         Returns: undefined
+      }
+      get_device_presence_summary: {
+        Args: never
+        Returns: {
+          active_sessions: number
+          busy_devices: number
+          idle_devices: number
+          last_updated_at: string
+          offline_devices: number
+          online_devices: number
+          poor_quality_devices: number
+          total_devices: number
+        }[]
       }
       has_role: {
         Args: {
@@ -1985,6 +2295,67 @@ export type Database = {
       map_invite_role: {
         Args: { _role: string }
         Returns: Database["public"]["Enums"]["app_role"]
+      }
+      mark_all_notifications_read: { Args: never; Returns: number }
+      mark_device_offline: {
+        Args: { p_device_id: string; p_reason?: string }
+        Returns: {
+          active_session_id: string | null
+          active_user_id: string | null
+          battery_percent: number | null
+          client_version: string | null
+          connection_quality: string
+          cpu_load: number | null
+          created_at: string
+          device_id: string
+          heartbeat_at: string | null
+          id: string
+          ip_address: unknown
+          last_seen_at: string | null
+          latency_ms: number | null
+          memory_load: number | null
+          metadata: Json
+          network_type: string | null
+          os_version: string | null
+          packet_loss: number | null
+          platform: string | null
+          region: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "device_presence"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      mark_notification_read: {
+        Args: { p_notification_id: string }
+        Returns: {
+          action_url: string | null
+          archived_at: string | null
+          created_at: string
+          device_id: string | null
+          id: string
+          message: string
+          metadata: Json
+          read_at: string | null
+          rule_id: string | null
+          session_id: string | null
+          severity: string
+          team_id: string
+          title: string
+          type: string
+          user_id: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "notifications"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       my_team_ids: { Args: { _user_id: string }; Returns: string[] }
       reject_billing_change_request: {
@@ -2021,6 +2392,54 @@ export type Database = {
       update_team_member_role: {
         Args: { member_id: string; new_role: string }
         Returns: undefined
+      }
+      upsert_device_presence: {
+        Args: {
+          p_battery_percent?: number
+          p_client_version?: string
+          p_cpu_load?: number
+          p_device_id: string
+          p_heartbeat_at?: string
+          p_latency_ms?: number
+          p_memory_load?: number
+          p_metadata?: Json
+          p_network_type?: string
+          p_os_version?: string
+          p_packet_loss?: number
+          p_platform?: string
+          p_status: string
+        }
+        Returns: {
+          active_session_id: string | null
+          active_user_id: string | null
+          battery_percent: number | null
+          client_version: string | null
+          connection_quality: string
+          cpu_load: number | null
+          created_at: string
+          device_id: string
+          heartbeat_at: string | null
+          id: string
+          ip_address: unknown
+          last_seen_at: string | null
+          latency_ms: number | null
+          memory_load: number | null
+          metadata: Json
+          network_type: string | null
+          os_version: string | null
+          packet_loss: number | null
+          platform: string | null
+          region: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "device_presence"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       upsert_invoice_from_webhook: {
         Args: {
