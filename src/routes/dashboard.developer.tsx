@@ -91,14 +91,14 @@ function OverviewTab() {
   return (
     <PanelState loading={overview.isLoading} error={overview.error as Error | null} empty={!o} emptyText="No API activity yet.">
       <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-4">
-        <MetricCard label="Active API keys" value={String(o?.active_keys ?? 0)} />
-        <MetricCard label="Requests (24h)" value={String(o?.requests_24h ?? 0)} />
-        <MetricCard label="Failed requests (24h)" value={String(o?.failed_requests_24h ?? 0)} />
-        <MetricCard label="Rate-limited (24h)" value={String(o?.rate_limited_24h ?? 0)} />
-        <MetricCard label="Webhook endpoints" value={String(o?.webhook_endpoints ?? 0)} />
-        <MetricCard label="Webhook deliveries (24h)" value={String(o?.webhook_deliveries_24h ?? 0)} />
-        <MetricCard label="Webhook success (24h)" value={String(o?.webhook_success_24h ?? 0)} />
-        <MetricCard label="Webhook failures (24h)" value={String(o?.webhook_failed_24h ?? 0)} />
+        <MetricCard icon={KeyRound} label="Active API keys" value={String(o?.active_keys ?? 0)} />
+        <MetricCard icon={Activity} label="Requests (24h)" value={String(o?.requests_24h ?? 0)} />
+        <MetricCard icon={Activity} label="Failed requests (24h)" value={String(o?.failed_requests_24h ?? 0)} />
+        <MetricCard icon={Gauge} label="Rate-limited (24h)" value={String(o?.rate_limited_24h ?? 0)} />
+        <MetricCard icon={Webhook} label="Webhook endpoints" value={String(o?.webhook_endpoints ?? 0)} />
+        <MetricCard icon={Webhook} label="Webhook deliveries (24h)" value={String(o?.webhook_deliveries_24h ?? 0)} />
+        <MetricCard icon={Webhook} label="Webhook success (24h)" value={String(o?.webhook_success_24h ?? 0)} />
+        <MetricCard icon={Webhook} label="Webhook failures (24h)" value={String(o?.webhook_failed_24h ?? 0)} />
       </div>
       <div className="mt-4 rounded-lg border border-dashed border-border bg-muted/30 p-4 text-xs text-muted-foreground">
         Base URL: <code className="font-mono">{BASE_URL_PLACEHOLDER}/api/public/v1</code>
