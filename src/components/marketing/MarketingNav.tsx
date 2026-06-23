@@ -42,7 +42,7 @@ export function MarketingFooter() {
             Secure remote desktop SaaS for teams, support, and personal devices.
           </p>
         </div>
-        <FooterCol title="Product" links={[["Features", "/"], ["Pricing", "/pricing"], ["Download", "/download"]]} />
+        <FooterCol title="Product" links={[["Features", "/"], ["Pricing", "/pricing"], ["Marketplace", "/marketplace"], ["Download", "/download"]]} />
         <FooterCol title="Account" links={[["Sign in", "/login"], ["Sign up", "/signup"], ["Forgot password", "/forgot-password"]]} />
         <FooterCol title="Workspace" links={[["Dashboard", "/dashboard"], ["Devices", "/dashboard/devices"], ["Team", "/dashboard/team"]]} />
       </div>
