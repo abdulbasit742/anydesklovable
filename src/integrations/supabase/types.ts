@@ -3469,6 +3469,614 @@ export type Database = {
           },
         ]
       }
+      identity_access_policies: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          enforcement_mode: string
+          id: string
+          name: string
+          policy_type: string
+          priority: number
+          rules: Json
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          enforcement_mode?: string
+          id?: string
+          name: string
+          policy_type: string
+          priority?: number
+          rules?: Json
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          enforcement_mode?: string
+          id?: string
+          name?: string
+          policy_type?: string
+          priority?: number
+          rules?: Json
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "identity_access_policies_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      identity_admin_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "identity_admin_reports_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      identity_claim_mappings: {
+        Row: {
+          active: boolean
+          claim_name: string
+          claim_path: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          identity_provider_id: string
+          required: boolean
+          target_field: string
+          team_id: string
+          transform_config: Json
+          transform_type: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          claim_name: string
+          claim_path?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          identity_provider_id: string
+          required?: boolean
+          target_field: string
+          team_id: string
+          transform_config?: Json
+          transform_type?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          claim_name?: string
+          claim_path?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          identity_provider_id?: string
+          required?: boolean
+          target_field?: string
+          team_id?: string
+          transform_config?: Json
+          transform_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "identity_claim_mappings_identity_provider_id_fkey"
+            columns: ["identity_provider_id"]
+            isOneToOne: false
+            referencedRelation: "identity_providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "identity_claim_mappings_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      identity_conflicts: {
+        Row: {
+          conflict_type: string
+          created_at: string
+          description: string | null
+          id: string
+          identity_provider_id: string | null
+          payload: Json
+          recommended_action: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          scim_user_id: string | null
+          status: string
+          team_id: string
+          team_member_id: string | null
+          title: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          conflict_type: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          identity_provider_id?: string | null
+          payload?: Json
+          recommended_action?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          scim_user_id?: string | null
+          status?: string
+          team_id: string
+          team_member_id?: string | null
+          title: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          conflict_type?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          identity_provider_id?: string | null
+          payload?: Json
+          recommended_action?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          scim_user_id?: string | null
+          status?: string
+          team_id?: string
+          team_member_id?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "identity_conflicts_identity_provider_id_fkey"
+            columns: ["identity_provider_id"]
+            isOneToOne: false
+            referencedRelation: "identity_providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "identity_conflicts_scim_user_id_fkey"
+            columns: ["scim_user_id"]
+            isOneToOne: false
+            referencedRelation: "scim_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "identity_conflicts_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      identity_group_mappings: {
+        Row: {
+          active: boolean
+          created_at: string
+          created_by: string | null
+          customer_account_id: string | null
+          device_group_id: string | null
+          external_group_id: string | null
+          external_group_name: string
+          id: string
+          identity_provider_id: string | null
+          mapping_type: string
+          priority: number
+          remote_permissions: string[]
+          remote_role_key: string | null
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          device_group_id?: string | null
+          external_group_id?: string | null
+          external_group_name: string
+          id?: string
+          identity_provider_id?: string | null
+          mapping_type?: string
+          priority?: number
+          remote_permissions?: string[]
+          remote_role_key?: string | null
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          device_group_id?: string | null
+          external_group_id?: string | null
+          external_group_name?: string
+          id?: string
+          identity_provider_id?: string | null
+          mapping_type?: string
+          priority?: number
+          remote_permissions?: string[]
+          remote_role_key?: string | null
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "identity_group_mappings_identity_provider_id_fkey"
+            columns: ["identity_provider_id"]
+            isOneToOne: false
+            referencedRelation: "identity_providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "identity_group_mappings_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      identity_lifecycle_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          description: string | null
+          event_type: string
+          id: string
+          identity_provider_id: string | null
+          payload: Json
+          scim_user_id: string | null
+          severity: string
+          source: string
+          team_id: string
+          team_member_id: string | null
+          title: string
+          user_id: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type: string
+          id?: string
+          identity_provider_id?: string | null
+          payload?: Json
+          scim_user_id?: string | null
+          severity?: string
+          source?: string
+          team_id: string
+          team_member_id?: string | null
+          title: string
+          user_id?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          id?: string
+          identity_provider_id?: string | null
+          payload?: Json
+          scim_user_id?: string | null
+          severity?: string
+          source?: string
+          team_id?: string
+          team_member_id?: string | null
+          title?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "identity_lifecycle_events_identity_provider_id_fkey"
+            columns: ["identity_provider_id"]
+            isOneToOne: false
+            referencedRelation: "identity_providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "identity_lifecycle_events_scim_user_id_fkey"
+            columns: ["scim_user_id"]
+            isOneToOne: false
+            referencedRelation: "scim_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "identity_lifecycle_events_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      identity_provider_domains: {
+        Row: {
+          created_at: string
+          domain: string
+          id: string
+          identity_provider_id: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          verification_method: string
+          verification_token_hash: string | null
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          domain: string
+          id?: string
+          identity_provider_id?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+          verification_method?: string
+          verification_token_hash?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          domain?: string
+          id?: string
+          identity_provider_id?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+          verification_method?: string
+          verification_token_hash?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "identity_provider_domains_identity_provider_id_fkey"
+            columns: ["identity_provider_id"]
+            isOneToOne: false
+            referencedRelation: "identity_providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "identity_provider_domains_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      identity_providers: {
+        Row: {
+          activated_at: string | null
+          certificate_fingerprint: string | null
+          certificate_reference: string | null
+          client_id: string | null
+          client_secret_reference: string | null
+          config: Json
+          created_at: string
+          created_by: string | null
+          domain_hint: string | null
+          entity_id: string | null
+          id: string
+          issuer: string | null
+          last_error_message: string | null
+          last_tested_at: string | null
+          login_mode: string
+          metadata_url: string | null
+          name: string
+          provider_key: string
+          provider_type: string
+          redirect_uri: string | null
+          sso_url: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          activated_at?: string | null
+          certificate_fingerprint?: string | null
+          certificate_reference?: string | null
+          client_id?: string | null
+          client_secret_reference?: string | null
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          domain_hint?: string | null
+          entity_id?: string | null
+          id?: string
+          issuer?: string | null
+          last_error_message?: string | null
+          last_tested_at?: string | null
+          login_mode?: string
+          metadata_url?: string | null
+          name: string
+          provider_key: string
+          provider_type: string
+          redirect_uri?: string | null
+          sso_url?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          activated_at?: string | null
+          certificate_fingerprint?: string | null
+          certificate_reference?: string | null
+          client_id?: string | null
+          client_secret_reference?: string | null
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          domain_hint?: string | null
+          entity_id?: string | null
+          id?: string
+          issuer?: string | null
+          last_error_message?: string | null
+          last_tested_at?: string | null
+          login_mode?: string
+          metadata_url?: string | null
+          name?: string
+          provider_key?: string
+          provider_type?: string
+          redirect_uri?: string | null
+          sso_url?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "identity_providers_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      identity_sync_jobs: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          identity_provider_id: string | null
+          input: Json
+          job_type: string
+          output: Json
+          records_created: number
+          records_failed: number
+          records_processed: number
+          records_updated: number
+          started_at: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          identity_provider_id?: string | null
+          input?: Json
+          job_type: string
+          output?: Json
+          records_created?: number
+          records_failed?: number
+          records_processed?: number
+          records_updated?: number
+          started_at?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          identity_provider_id?: string | null
+          input?: Json
+          job_type?: string
+          output?: Json
+          records_created?: number
+          records_failed?: number
+          records_processed?: number
+          records_updated?: number
+          started_at?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "identity_sync_jobs_identity_provider_id_fkey"
+            columns: ["identity_provider_id"]
+            isOneToOne: false
+            referencedRelation: "identity_providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "identity_sync_jobs_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       incident_action_items: {
         Row: {
           assigned_to: string | null
@@ -5699,6 +6307,238 @@ export type Database = {
           },
         ]
       }
+      scim_group_members: {
+        Row: {
+          active: boolean
+          added_at: string
+          created_at: string
+          id: string
+          removed_at: string | null
+          scim_group_id: string
+          scim_user_id: string
+          team_id: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          active?: boolean
+          added_at?: string
+          created_at?: string
+          id?: string
+          removed_at?: string | null
+          scim_group_id: string
+          scim_user_id: string
+          team_id: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          active?: boolean
+          added_at?: string
+          created_at?: string
+          id?: string
+          removed_at?: string | null
+          scim_group_id?: string
+          scim_user_id?: string
+          team_id?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scim_group_members_scim_group_id_fkey"
+            columns: ["scim_group_id"]
+            isOneToOne: false
+            referencedRelation: "scim_groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scim_group_members_scim_user_id_fkey"
+            columns: ["scim_user_id"]
+            isOneToOne: false
+            referencedRelation: "scim_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scim_group_members_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scim_groups: {
+        Row: {
+          created_at: string
+          display_name: string
+          external_id: string | null
+          id: string
+          last_synced_at: string | null
+          raw_payload: Json
+          scim_id: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_name: string
+          external_id?: string | null
+          id?: string
+          last_synced_at?: string | null
+          raw_payload?: Json
+          scim_id: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string
+          external_id?: string | null
+          id?: string
+          last_synced_at?: string | null
+          raw_payload?: Json
+          scim_id?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scim_groups_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scim_tokens: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          expires_at: string | null
+          id: string
+          last_used_at: string | null
+          name: string
+          revoked_at: string | null
+          revoked_by: string | null
+          scopes: string[]
+          status: string
+          team_id: string
+          token_hash: string
+          token_prefix: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          last_used_at?: string | null
+          name: string
+          revoked_at?: string | null
+          revoked_by?: string | null
+          scopes?: string[]
+          status?: string
+          team_id: string
+          token_hash: string
+          token_prefix: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          last_used_at?: string | null
+          name?: string
+          revoked_at?: string | null
+          revoked_by?: string | null
+          scopes?: string[]
+          status?: string
+          team_id?: string
+          token_hash?: string
+          token_prefix?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scim_tokens_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scim_users: {
+        Row: {
+          active: boolean
+          created_at: string
+          deprovisioned_at: string | null
+          display_name: string | null
+          email: string | null
+          external_id: string | null
+          family_name: string | null
+          given_name: string | null
+          id: string
+          last_synced_at: string | null
+          raw_payload: Json
+          remote_role_key: string | null
+          scim_id: string
+          team_id: string
+          updated_at: string
+          user_id: string | null
+          user_name: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          deprovisioned_at?: string | null
+          display_name?: string | null
+          email?: string | null
+          external_id?: string | null
+          family_name?: string | null
+          given_name?: string | null
+          id?: string
+          last_synced_at?: string | null
+          raw_payload?: Json
+          remote_role_key?: string | null
+          scim_id: string
+          team_id: string
+          updated_at?: string
+          user_id?: string | null
+          user_name: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          deprovisioned_at?: string | null
+          display_name?: string | null
+          email?: string | null
+          external_id?: string | null
+          family_name?: string | null
+          given_name?: string | null
+          id?: string
+          last_synced_at?: string | null
+          raw_payload?: Json
+          remote_role_key?: string | null
+          scim_id?: string
+          team_id?: string
+          updated_at?: string
+          user_id?: string | null
+          user_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scim_users_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       seat_change_requests: {
         Row: {
           approved_by: string | null
@@ -6478,6 +7318,78 @@ export type Database = {
           },
           {
             foreignKeyName: "sessions_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sso_login_attempts: {
+        Row: {
+          created_at: string
+          domain: string | null
+          email: string | null
+          failure_code: string | null
+          failure_message: string | null
+          id: string
+          identity_provider_id: string | null
+          ip_address: unknown
+          metadata: Json
+          provider_type: string | null
+          relay_state_hash: string | null
+          request_id: string | null
+          status: string
+          team_id: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          domain?: string | null
+          email?: string | null
+          failure_code?: string | null
+          failure_message?: string | null
+          id?: string
+          identity_provider_id?: string | null
+          ip_address?: unknown
+          metadata?: Json
+          provider_type?: string | null
+          relay_state_hash?: string | null
+          request_id?: string | null
+          status: string
+          team_id?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          domain?: string | null
+          email?: string | null
+          failure_code?: string | null
+          failure_message?: string | null
+          id?: string
+          identity_provider_id?: string | null
+          ip_address?: unknown
+          metadata?: Json
+          provider_type?: string | null
+          relay_state_hash?: string | null
+          request_id?: string | null
+          status?: string
+          team_id?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sso_login_attempts_identity_provider_id_fkey"
+            columns: ["identity_provider_id"]
+            isOneToOne: false
+            referencedRelation: "identity_providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sso_login_attempts_team_id_fkey"
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
@@ -8670,6 +9582,10 @@ export type Database = {
         Returns: boolean
       }
       is_billing_manager: {
+        Args: { _team_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_identity_admin: {
         Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
