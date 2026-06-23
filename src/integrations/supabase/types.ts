@@ -5503,6 +5503,69 @@ export type Database = {
         }
         Relationships: []
       }
+      feature_readiness_map: {
+        Row: {
+          api_endpoints: string[]
+          created_at: string
+          data_tables: string[]
+          docs_status: string
+          feature_key: string
+          feature_name: string
+          id: string
+          launch_project_id: string | null
+          module_name: string
+          notes: string | null
+          owner_user_id: string | null
+          qa_status: string
+          route_path: string | null
+          rpc_functions: string[]
+          security_status: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          api_endpoints?: string[]
+          created_at?: string
+          data_tables?: string[]
+          docs_status?: string
+          feature_key: string
+          feature_name: string
+          id?: string
+          launch_project_id?: string | null
+          module_name: string
+          notes?: string | null
+          owner_user_id?: string | null
+          qa_status?: string
+          route_path?: string | null
+          rpc_functions?: string[]
+          security_status?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          api_endpoints?: string[]
+          created_at?: string
+          data_tables?: string[]
+          docs_status?: string
+          feature_key?: string
+          feature_name?: string
+          id?: string
+          launch_project_id?: string | null
+          module_name?: string
+          notes?: string | null
+          owner_user_id?: string | null
+          qa_status?: string
+          route_path?: string | null
+          rpc_functions?: string[]
+          security_status?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       field_job_attachments: {
         Row: {
           attachment_type: string
@@ -8367,6 +8430,273 @@ export type Database = {
         }
         Relationships: []
       }
+      launch_activity_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          description: string | null
+          event_type: string
+          id: string
+          launch_project_id: string | null
+          metadata: Json
+          resource_id: string | null
+          resource_type: string | null
+          severity: string
+          team_id: string
+          title: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type: string
+          id?: string
+          launch_project_id?: string | null
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id: string
+          title: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          id?: string
+          launch_project_id?: string | null
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      launch_approval_records: {
+        Row: {
+          approval_type: string
+          approved_at: string | null
+          approver_user_id: string | null
+          created_at: string
+          created_by: string | null
+          decision_note: string | null
+          id: string
+          launch_project_id: string
+          risk_acceptance: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          approval_type: string
+          approved_at?: string | null
+          approver_user_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          decision_note?: string | null
+          id?: string
+          launch_project_id: string
+          risk_acceptance?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          approval_type?: string
+          approved_at?: string | null
+          approver_user_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          decision_note?: string | null
+          id?: string
+          launch_project_id?: string
+          risk_acceptance?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      launch_blockers: {
+        Row: {
+          accepted_risk_at: string | null
+          accepted_risk_by: string | null
+          blocker_type: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          due_at: string | null
+          id: string
+          launch_project_id: string
+          metadata: Json
+          owner_user_id: string | null
+          readiness_check_id: string | null
+          resolution_summary: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          severity: string
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_risk_at?: string | null
+          accepted_risk_by?: string | null
+          blocker_type?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          launch_project_id: string
+          metadata?: Json
+          owner_user_id?: string | null
+          readiness_check_id?: string | null
+          resolution_summary?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          severity?: string
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_risk_at?: string | null
+          accepted_risk_by?: string | null
+          blocker_type?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          launch_project_id?: string
+          metadata?: Json
+          owner_user_id?: string | null
+          readiness_check_id?: string | null
+          resolution_summary?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          severity?: string
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      launch_projects: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          go_live_approved_at: string | null
+          go_live_approved_by: string | null
+          id: string
+          launch_key: string
+          launch_type: string
+          launched_at: string | null
+          name: string
+          owner_user_id: string | null
+          readiness_score: number
+          risk_level: string
+          status: string
+          target_launch_at: string | null
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          go_live_approved_at?: string | null
+          go_live_approved_by?: string | null
+          id?: string
+          launch_key: string
+          launch_type?: string
+          launched_at?: string | null
+          name: string
+          owner_user_id?: string | null
+          readiness_score?: number
+          risk_level?: string
+          status?: string
+          target_launch_at?: string | null
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          go_live_approved_at?: string | null
+          go_live_approved_by?: string | null
+          id?: string
+          launch_key?: string
+          launch_type?: string
+          launched_at?: string | null
+          name?: string
+          owner_user_id?: string | null
+          readiness_score?: number
+          risk_level?: string
+          status?: string
+          target_launch_at?: string | null
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      launch_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          launch_project_id: string | null
+          output: Json
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          launch_project_id?: string | null
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          launch_project_id?: string | null
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       legal_hold_resources: {
         Row: {
           added_at: string
@@ -8666,6 +8996,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      migration_verification_records: {
+        Row: {
+          checked_at: string
+          checked_by: string | null
+          created_at: string
+          details: Json
+          error_message: string | null
+          id: string
+          launch_project_id: string | null
+          migration_name: string | null
+          rpc_name: string | null
+          status: string
+          table_name: string | null
+          team_id: string
+          verification_type: string
+        }
+        Insert: {
+          checked_at?: string
+          checked_by?: string | null
+          created_at?: string
+          details?: Json
+          error_message?: string | null
+          id?: string
+          launch_project_id?: string | null
+          migration_name?: string | null
+          rpc_name?: string | null
+          status?: string
+          table_name?: string | null
+          team_id: string
+          verification_type?: string
+        }
+        Update: {
+          checked_at?: string
+          checked_by?: string | null
+          created_at?: string
+          details?: Json
+          error_message?: string | null
+          id?: string
+          launch_project_id?: string | null
+          migration_name?: string | null
+          rpc_name?: string | null
+          status?: string
+          table_name?: string | null
+          team_id?: string
+          verification_type?: string
+        }
+        Relationships: []
       }
       mobile_access_assignments: {
         Row: {
@@ -11503,6 +11881,63 @@ export type Database = {
         }
         Relationships: []
       }
+      production_config_checks: {
+        Row: {
+          category: string
+          config_key: string
+          created_at: string
+          created_by: string | null
+          id: string
+          last_checked_at: string | null
+          launch_project_id: string | null
+          metadata: Json
+          name: string
+          public_safe_value: string | null
+          remediation: string | null
+          required: boolean
+          secret_present: boolean
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          config_key: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          last_checked_at?: string | null
+          launch_project_id?: string | null
+          metadata?: Json
+          name: string
+          public_safe_value?: string | null
+          remediation?: string | null
+          required?: boolean
+          secret_present?: boolean
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          config_key?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          last_checked_at?: string | null
+          launch_project_id?: string | null
+          metadata?: Json
+          name?: string
+          public_safe_value?: string | null
+          remediation?: string | null
+          required?: boolean
+          secret_present?: boolean
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -11926,6 +12361,438 @@ export type Database = {
           title?: string
           updated_at?: string
           vendor_id?: string | null
+        }
+        Relationships: []
+      }
+      qa_test_cases: {
+        Row: {
+          automation_status: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          expected_result: string | null
+          id: string
+          linked_feature: string | null
+          linked_route: string | null
+          preconditions: string | null
+          priority: string
+          status: string
+          steps: Json
+          suite_id: string
+          team_id: string
+          test_key: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          automation_status?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          expected_result?: string | null
+          id?: string
+          linked_feature?: string | null
+          linked_route?: string | null
+          preconditions?: string | null
+          priority?: string
+          status?: string
+          steps?: Json
+          suite_id: string
+          team_id: string
+          test_key: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          automation_status?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          expected_result?: string | null
+          id?: string
+          linked_feature?: string | null
+          linked_route?: string | null
+          preconditions?: string | null
+          priority?: string
+          status?: string
+          steps?: Json
+          suite_id?: string
+          team_id?: string
+          test_key?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      qa_test_results: {
+        Row: {
+          actual_result: string | null
+          created_at: string
+          evidence: Json
+          executed_at: string
+          executed_by: string | null
+          failure_reason: string | null
+          id: string
+          status: string
+          team_id: string
+          test_case_id: string
+          test_run_id: string
+        }
+        Insert: {
+          actual_result?: string | null
+          created_at?: string
+          evidence?: Json
+          executed_at?: string
+          executed_by?: string | null
+          failure_reason?: string | null
+          id?: string
+          status: string
+          team_id: string
+          test_case_id: string
+          test_run_id: string
+        }
+        Update: {
+          actual_result?: string | null
+          created_at?: string
+          evidence?: Json
+          executed_at?: string
+          executed_by?: string | null
+          failure_reason?: string | null
+          id?: string
+          status?: string
+          team_id?: string
+          test_case_id?: string
+          test_run_id?: string
+        }
+        Relationships: []
+      }
+      qa_test_runs: {
+        Row: {
+          created_at: string
+          finished_at: string | null
+          id: string
+          launch_project_id: string | null
+          run_name: string
+          run_type: string
+          started_at: string | null
+          started_by: string | null
+          status: string
+          suite_id: string | null
+          summary: Json
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          finished_at?: string | null
+          id?: string
+          launch_project_id?: string | null
+          run_name: string
+          run_type?: string
+          started_at?: string | null
+          started_by?: string | null
+          status?: string
+          suite_id?: string | null
+          summary?: Json
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          finished_at?: string | null
+          id?: string
+          launch_project_id?: string | null
+          run_name?: string
+          run_type?: string
+          started_at?: string | null
+          started_by?: string | null
+          status?: string
+          suite_id?: string | null
+          summary?: Json
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      qa_test_suites: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          launch_project_id: string | null
+          name: string
+          owner_user_id: string | null
+          status: string
+          suite_key: string
+          suite_type: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          launch_project_id?: string | null
+          name: string
+          owner_user_id?: string | null
+          status?: string
+          suite_key: string
+          suite_type?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          launch_project_id?: string | null
+          name?: string
+          owner_user_id?: string | null
+          status?: string
+          suite_key?: string
+          suite_type?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      readiness_check_runs: {
+        Row: {
+          check_id: string
+          created_at: string
+          error_message: string | null
+          evidence_summary: string | null
+          executed_by: string | null
+          finished_at: string | null
+          id: string
+          launch_project_id: string | null
+          output: Json
+          run_type: string
+          started_at: string
+          status: string
+          team_id: string
+        }
+        Insert: {
+          check_id: string
+          created_at?: string
+          error_message?: string | null
+          evidence_summary?: string | null
+          executed_by?: string | null
+          finished_at?: string | null
+          id?: string
+          launch_project_id?: string | null
+          output?: Json
+          run_type?: string
+          started_at?: string
+          status: string
+          team_id: string
+        }
+        Update: {
+          check_id?: string
+          created_at?: string
+          error_message?: string | null
+          evidence_summary?: string | null
+          executed_by?: string | null
+          finished_at?: string | null
+          id?: string
+          launch_project_id?: string | null
+          output?: Json
+          run_type?: string
+          started_at?: string
+          status?: string
+          team_id?: string
+        }
+        Relationships: []
+      }
+      readiness_checks: {
+        Row: {
+          actual_result: string | null
+          assigned_to: string | null
+          check_key: string
+          check_type: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          domain_id: string | null
+          evidence: Json
+          expected_result: string | null
+          id: string
+          instructions: string | null
+          last_passed_at: string | null
+          last_run_at: string | null
+          launch_project_id: string | null
+          required: boolean
+          severity: string
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+          updated_by: string | null
+          weight: number
+        }
+        Insert: {
+          actual_result?: string | null
+          assigned_to?: string | null
+          check_key: string
+          check_type?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          domain_id?: string | null
+          evidence?: Json
+          expected_result?: string | null
+          id?: string
+          instructions?: string | null
+          last_passed_at?: string | null
+          last_run_at?: string | null
+          launch_project_id?: string | null
+          required?: boolean
+          severity?: string
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+          weight?: number
+        }
+        Update: {
+          actual_result?: string | null
+          assigned_to?: string | null
+          check_key?: string
+          check_type?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          domain_id?: string | null
+          evidence?: Json
+          expected_result?: string | null
+          id?: string
+          instructions?: string | null
+          last_passed_at?: string | null
+          last_run_at?: string | null
+          launch_project_id?: string | null
+          required?: boolean
+          severity?: string
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+          weight?: number
+        }
+        Relationships: []
+      }
+      readiness_domains: {
+        Row: {
+          created_at: string
+          description: string | null
+          domain_key: string
+          domain_type: string
+          id: string
+          launch_project_id: string | null
+          name: string
+          owner_user_id: string | null
+          sort_order: number
+          status: string
+          team_id: string
+          updated_at: string
+          weight: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          domain_key: string
+          domain_type?: string
+          id?: string
+          launch_project_id?: string | null
+          name: string
+          owner_user_id?: string | null
+          sort_order?: number
+          status?: string
+          team_id: string
+          updated_at?: string
+          weight?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          domain_key?: string
+          domain_type?: string
+          id?: string
+          launch_project_id?: string | null
+          name?: string
+          owner_user_id?: string | null
+          sort_order?: number
+          status?: string
+          team_id?: string
+          updated_at?: string
+          weight?: number
+        }
+        Relationships: []
+      }
+      release_notes: {
+        Row: {
+          approved_by: string | null
+          audience: string
+          breaking_changes: Json
+          created_at: string
+          created_by: string | null
+          highlights: Json
+          id: string
+          known_issues: Json
+          launch_project_id: string | null
+          migration_notes: Json
+          published_at: string | null
+          status: string
+          summary: string | null
+          team_id: string
+          title: string
+          updated_at: string
+          upgrade_notes: string | null
+          version: string | null
+        }
+        Insert: {
+          approved_by?: string | null
+          audience?: string
+          breaking_changes?: Json
+          created_at?: string
+          created_by?: string | null
+          highlights?: Json
+          id?: string
+          known_issues?: Json
+          launch_project_id?: string | null
+          migration_notes?: Json
+          published_at?: string | null
+          status?: string
+          summary?: string | null
+          team_id: string
+          title: string
+          updated_at?: string
+          upgrade_notes?: string | null
+          version?: string | null
+        }
+        Update: {
+          approved_by?: string | null
+          audience?: string
+          breaking_changes?: Json
+          created_at?: string
+          created_by?: string | null
+          highlights?: Json
+          id?: string
+          known_issues?: Json
+          launch_project_id?: string | null
+          migration_notes?: Json
+          published_at?: string | null
+          status?: string
+          summary?: string | null
+          team_id?: string
+          title?: string
+          updated_at?: string
+          upgrade_notes?: string | null
+          version?: string | null
         }
         Relationships: []
       }
@@ -17339,6 +18206,10 @@ export type Database = {
         Returns: boolean
       }
       is_knowledge_manager: {
+        Args: { _team_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_launch_admin: {
         Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
