@@ -1161,6 +1161,65 @@ export type Database = {
           },
         ]
       }
+      compliance_report_runs: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          finished_at: string | null
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          started_at: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          finished_at?: string | null
+          id?: string
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          started_at?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          finished_at?: string | null
+          id?: string
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          started_at?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compliance_report_runs_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       developer_docs_feedback: {
         Row: {
           created_at: string
@@ -2788,6 +2847,605 @@ export type Database = {
             foreignKeyName: "security_policies_team_id_fkey"
             columns: ["team_id"]
             isOneToOne: true
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_clipboard_events: {
+        Row: {
+          content_length: number | null
+          content_type: string
+          created_at: string
+          device_id: string | null
+          direction: string
+          id: string
+          metadata: Json
+          policy_decision: string | null
+          sensitive_pattern_detected: boolean
+          session_id: string
+          status: string
+          team_id: string
+          user_id: string | null
+        }
+        Insert: {
+          content_length?: number | null
+          content_type?: string
+          created_at?: string
+          device_id?: string | null
+          direction: string
+          id?: string
+          metadata?: Json
+          policy_decision?: string | null
+          sensitive_pattern_detected?: boolean
+          session_id: string
+          status?: string
+          team_id: string
+          user_id?: string | null
+        }
+        Update: {
+          content_length?: number | null
+          content_type?: string
+          created_at?: string
+          device_id?: string | null
+          direction?: string
+          id?: string
+          metadata?: Json
+          policy_decision?: string | null
+          sensitive_pattern_detected?: boolean
+          session_id?: string
+          status?: string
+          team_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_clipboard_events_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_clipboard_events_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_clipboard_events_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_compliance_checks: {
+        Row: {
+          check_key: string
+          check_name: string
+          checked_at: string
+          created_at: string
+          device_id: string | null
+          evidence: Json
+          id: string
+          recommendation: string | null
+          session_id: string
+          severity: string
+          status: string
+          team_id: string
+        }
+        Insert: {
+          check_key: string
+          check_name: string
+          checked_at?: string
+          created_at?: string
+          device_id?: string | null
+          evidence?: Json
+          id?: string
+          recommendation?: string | null
+          session_id: string
+          severity?: string
+          status: string
+          team_id: string
+        }
+        Update: {
+          check_key?: string
+          check_name?: string
+          checked_at?: string
+          created_at?: string
+          device_id?: string | null
+          evidence?: Json
+          id?: string
+          recommendation?: string | null
+          session_id?: string
+          severity?: string
+          status?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_compliance_checks_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_compliance_checks_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_compliance_checks_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_consent_events: {
+        Row: {
+          consent_type: string
+          created_at: string
+          device_id: string | null
+          expires_at: string | null
+          id: string
+          metadata: Json
+          request_message: string | null
+          requested_at: string
+          requested_by: string | null
+          responded_at: string | null
+          responded_by: string | null
+          response_message: string | null
+          session_id: string
+          status: string
+          team_id: string
+        }
+        Insert: {
+          consent_type: string
+          created_at?: string
+          device_id?: string | null
+          expires_at?: string | null
+          id?: string
+          metadata?: Json
+          request_message?: string | null
+          requested_at?: string
+          requested_by?: string | null
+          responded_at?: string | null
+          responded_by?: string | null
+          response_message?: string | null
+          session_id: string
+          status: string
+          team_id: string
+        }
+        Update: {
+          consent_type?: string
+          created_at?: string
+          device_id?: string | null
+          expires_at?: string | null
+          id?: string
+          metadata?: Json
+          request_message?: string | null
+          requested_at?: string
+          requested_by?: string | null
+          responded_at?: string | null
+          responded_by?: string | null
+          response_message?: string | null
+          session_id?: string
+          status?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_consent_events_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_consent_events_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_consent_events_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_file_transfer_events: {
+        Row: {
+          checksum: string | null
+          created_at: string
+          device_id: string | null
+          direction: string
+          file_extension: string | null
+          file_name: string | null
+          file_size_bytes: number | null
+          id: string
+          metadata: Json
+          policy_decision: string | null
+          reason: string | null
+          session_id: string
+          status: string
+          team_id: string
+          user_id: string | null
+        }
+        Insert: {
+          checksum?: string | null
+          created_at?: string
+          device_id?: string | null
+          direction: string
+          file_extension?: string | null
+          file_name?: string | null
+          file_size_bytes?: number | null
+          id?: string
+          metadata?: Json
+          policy_decision?: string | null
+          reason?: string | null
+          session_id: string
+          status?: string
+          team_id: string
+          user_id?: string | null
+        }
+        Update: {
+          checksum?: string | null
+          created_at?: string
+          device_id?: string | null
+          direction?: string
+          file_extension?: string | null
+          file_name?: string | null
+          file_size_bytes?: number | null
+          id?: string
+          metadata?: Json
+          policy_decision?: string | null
+          reason?: string | null
+          session_id?: string
+          status?: string
+          team_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_file_transfer_events_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_file_transfer_events_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_file_transfer_events_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_quality_metrics: {
+        Row: {
+          bandwidth_kbps: number | null
+          captured_at: string
+          connection_quality: string
+          cpu_load: number | null
+          created_at: string
+          device_id: string | null
+          fps: number | null
+          id: string
+          jitter_ms: number | null
+          latency_ms: number | null
+          memory_load: number | null
+          metadata: Json
+          packet_loss: number | null
+          session_id: string
+          team_id: string
+        }
+        Insert: {
+          bandwidth_kbps?: number | null
+          captured_at?: string
+          connection_quality?: string
+          cpu_load?: number | null
+          created_at?: string
+          device_id?: string | null
+          fps?: number | null
+          id?: string
+          jitter_ms?: number | null
+          latency_ms?: number | null
+          memory_load?: number | null
+          metadata?: Json
+          packet_loss?: number | null
+          session_id: string
+          team_id: string
+        }
+        Update: {
+          bandwidth_kbps?: number | null
+          captured_at?: string
+          connection_quality?: string
+          cpu_load?: number | null
+          created_at?: string
+          device_id?: string | null
+          fps?: number | null
+          id?: string
+          jitter_ms?: number | null
+          latency_ms?: number | null
+          memory_load?: number | null
+          metadata?: Json
+          packet_loss?: number | null
+          session_id?: string
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_quality_metrics_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_quality_metrics_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_quality_metrics_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_recording_metadata: {
+        Row: {
+          available_at: string | null
+          checksum: string | null
+          created_at: string
+          deleted_at: string | null
+          device_id: string | null
+          duration_seconds: number | null
+          encryption_status: string
+          failure_reason: string | null
+          file_name: string | null
+          file_size_bytes: number | null
+          id: string
+          metadata: Json
+          recording_mode: string
+          recording_status: string
+          retention_until: string | null
+          session_id: string
+          started_by: string | null
+          storage_bucket: string | null
+          storage_path: string | null
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          available_at?: string | null
+          checksum?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          device_id?: string | null
+          duration_seconds?: number | null
+          encryption_status?: string
+          failure_reason?: string | null
+          file_name?: string | null
+          file_size_bytes?: number | null
+          id?: string
+          metadata?: Json
+          recording_mode?: string
+          recording_status?: string
+          retention_until?: string | null
+          session_id: string
+          started_by?: string | null
+          storage_bucket?: string | null
+          storage_path?: string | null
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          available_at?: string | null
+          checksum?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          device_id?: string | null
+          duration_seconds?: number | null
+          encryption_status?: string
+          failure_reason?: string | null
+          file_name?: string | null
+          file_size_bytes?: number | null
+          id?: string
+          metadata?: Json
+          recording_mode?: string
+          recording_status?: string
+          retention_until?: string | null
+          session_id?: string
+          started_by?: string | null
+          storage_bucket?: string | null
+          storage_path?: string | null
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_recording_metadata_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_recording_metadata_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_recording_metadata_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_report_exports: {
+        Row: {
+          content: Json | null
+          created_at: string
+          created_by: string | null
+          expires_at: string | null
+          export_type: string
+          id: string
+          report_run_id: string | null
+          session_id: string | null
+          size_bytes: number | null
+          status: string
+          storage_path: string | null
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          content?: Json | null
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          export_type: string
+          id?: string
+          report_run_id?: string | null
+          session_id?: string | null
+          size_bytes?: number | null
+          status?: string
+          storage_path?: string | null
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          content?: Json | null
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          export_type?: string
+          id?: string
+          report_run_id?: string | null
+          session_id?: string | null
+          size_bytes?: number | null
+          status?: string
+          storage_path?: string | null
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_report_exports_report_run_id_fkey"
+            columns: ["report_run_id"]
+            isOneToOne: false
+            referencedRelation: "compliance_report_runs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_report_exports_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_report_exports_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_timeline_events: {
+        Row: {
+          created_at: string
+          description: string | null
+          device_id: string | null
+          event_type: string
+          id: string
+          metadata: Json
+          offset_seconds: number | null
+          session_id: string
+          severity: string
+          team_id: string
+          timestamp_at: string
+          title: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          device_id?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json
+          offset_seconds?: number | null
+          session_id: string
+          severity?: string
+          team_id: string
+          timestamp_at?: string
+          title: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          device_id?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json
+          offset_seconds?: number | null
+          session_id?: string
+          severity?: string
+          team_id?: string
+          timestamp_at?: string
+          title?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_timeline_events_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_timeline_events_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_timeline_events_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
             referencedRelation: "teams"
             referencedColumns: ["id"]
           },
