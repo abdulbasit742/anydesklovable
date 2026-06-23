@@ -55,6 +55,9 @@ function DeviceDetail() {
   const { data: device, isLoading, error, isDemo } = useDevice(deviceId);
   const history = useSessions({ deviceId: device?.id });
   const audit = useDeviceAudit(isDemo ? undefined : device?.id);
+  const presenceQ = useDevicePresence(isDemo ? undefined : deviceId);
+  const presenceEventsQ = useDevicePresenceEvents(isDemo ? undefined : deviceId, 15);
+  const markOffline = useMarkDeviceOffline();
 
   const [renameOpen, setRenameOpen] = useState(false);
   const [name, setName] = useState("");
