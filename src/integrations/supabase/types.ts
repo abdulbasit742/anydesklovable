@@ -4120,6 +4120,309 @@ export type Database = {
         }
         Relationships: []
       }
+      field_job_attachments: {
+        Row: {
+          attachment_type: string
+          created_at: string
+          file_name: string
+          id: string
+          job_id: string
+          mime_type: string | null
+          size_bytes: number | null
+          status: string
+          storage_bucket: string | null
+          storage_path: string | null
+          team_id: string
+          updated_at: string
+          uploaded_by: string | null
+          visibility: string
+        }
+        Insert: {
+          attachment_type?: string
+          created_at?: string
+          file_name: string
+          id?: string
+          job_id: string
+          mime_type?: string | null
+          size_bytes?: number | null
+          status?: string
+          storage_bucket?: string | null
+          storage_path?: string | null
+          team_id: string
+          updated_at?: string
+          uploaded_by?: string | null
+          visibility?: string
+        }
+        Update: {
+          attachment_type?: string
+          created_at?: string
+          file_name?: string
+          id?: string
+          job_id?: string
+          mime_type?: string | null
+          size_bytes?: number | null
+          status?: string
+          storage_bucket?: string | null
+          storage_path?: string | null
+          team_id?: string
+          updated_at?: string
+          uploaded_by?: string | null
+          visibility?: string
+        }
+        Relationships: []
+      }
+      field_job_checklists: {
+        Row: {
+          checklist_type: string
+          completed_at: string | null
+          completed_by: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          items: Json
+          job_id: string | null
+          status: string
+          team_id: string
+          template_key: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          checklist_type?: string
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          items?: Json
+          job_id?: string | null
+          status?: string
+          team_id: string
+          template_key?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          checklist_type?: string
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          items?: Json
+          job_id?: string | null
+          status?: string
+          team_id?: string
+          template_key?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      field_job_updates: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          id: string
+          job_id: string
+          message: string | null
+          metadata: Json
+          mobile_installation_id: string | null
+          new_status: string | null
+          old_status: string | null
+          source: string
+          team_id: string
+          title: string | null
+          update_type: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          job_id: string
+          message?: string | null
+          metadata?: Json
+          mobile_installation_id?: string | null
+          new_status?: string | null
+          old_status?: string | null
+          source?: string
+          team_id: string
+          title?: string | null
+          update_type: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          job_id?: string
+          message?: string | null
+          metadata?: Json
+          mobile_installation_id?: string | null
+          new_status?: string | null
+          old_status?: string | null
+          source?: string
+          team_id?: string
+          title?: string | null
+          update_type?: string
+        }
+        Relationships: []
+      }
+      field_service_jobs: {
+        Row: {
+          actual_end: string | null
+          actual_start: string | null
+          assigned_to: string | null
+          client_team_id: string | null
+          completion_summary: string | null
+          created_at: string
+          created_by: string | null
+          customer_account_id: string | null
+          customer_user_id: string | null
+          description: string | null
+          device_id: string | null
+          id: string
+          instructions: string | null
+          job_number: string | null
+          job_type: string
+          location_label: string | null
+          location_metadata: Json
+          partner_id: string | null
+          priority: string
+          scheduled_end: string | null
+          scheduled_start: string | null
+          session_id: string | null
+          status: string
+          support_ticket_id: string | null
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          actual_end?: string | null
+          actual_start?: string | null
+          assigned_to?: string | null
+          client_team_id?: string | null
+          completion_summary?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          description?: string | null
+          device_id?: string | null
+          id?: string
+          instructions?: string | null
+          job_number?: string | null
+          job_type?: string
+          location_label?: string | null
+          location_metadata?: Json
+          partner_id?: string | null
+          priority?: string
+          scheduled_end?: string | null
+          scheduled_start?: string | null
+          session_id?: string | null
+          status?: string
+          support_ticket_id?: string | null
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          actual_end?: string | null
+          actual_start?: string | null
+          assigned_to?: string | null
+          client_team_id?: string | null
+          completion_summary?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          description?: string | null
+          device_id?: string | null
+          id?: string
+          instructions?: string | null
+          job_number?: string | null
+          job_type?: string
+          location_label?: string | null
+          location_metadata?: Json
+          partner_id?: string | null
+          priority?: string
+          scheduled_end?: string | null
+          scheduled_start?: string | null
+          session_id?: string | null
+          status?: string
+          support_ticket_id?: string | null
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      field_visit_logs: {
+        Row: {
+          checkin_at: string
+          checkout_at: string | null
+          created_at: string
+          customer_account_id: string | null
+          device_id: string | null
+          id: string
+          job_id: string | null
+          latitude_rounded: number | null
+          location_accuracy_meters: number | null
+          location_label: string | null
+          location_source: string
+          longitude_rounded: number | null
+          metadata: Json
+          notes: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          user_id: string | null
+          visit_type: string
+        }
+        Insert: {
+          checkin_at?: string
+          checkout_at?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          device_id?: string | null
+          id?: string
+          job_id?: string | null
+          latitude_rounded?: number | null
+          location_accuracy_meters?: number | null
+          location_label?: string | null
+          location_source?: string
+          longitude_rounded?: number | null
+          metadata?: Json
+          notes?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+          user_id?: string | null
+          visit_type?: string
+        }
+        Update: {
+          checkin_at?: string
+          checkout_at?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          device_id?: string | null
+          id?: string
+          job_id?: string | null
+          latitude_rounded?: number | null
+          location_accuracy_meters?: number | null
+          location_label?: string | null
+          location_source?: string
+          longitude_rounded?: number | null
+          metadata?: Json
+          notes?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+          user_id?: string | null
+          visit_type?: string
+        }
+        Relationships: []
+      }
       file_transfer_policies: {
         Row: {
           blocked_extensions: string[]
@@ -6180,6 +6483,276 @@ export type Database = {
           },
         ]
       }
+      mobile_access_assignments: {
+        Row: {
+          access_profile_id: string
+          assigned_by: string | null
+          assignment_type: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          partner_member_id: string | null
+          status: string
+          team_id: string
+          team_member_id: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          access_profile_id: string
+          assigned_by?: string | null
+          assignment_type?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          partner_member_id?: string | null
+          status?: string
+          team_id: string
+          team_member_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          access_profile_id?: string
+          assigned_by?: string | null
+          assignment_type?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          partner_member_id?: string | null
+          status?: string
+          team_id?: string
+          team_member_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      mobile_access_profiles: {
+        Row: {
+          allow_customer_contact_access: boolean | null
+          allow_file_attachment_upload: boolean | null
+          allow_location_checkins: boolean | null
+          allow_mobile_session_approval: boolean | null
+          allow_offline_mode: boolean | null
+          allow_push_notifications: boolean | null
+          allowed_actions: string[]
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          max_offline_items: number | null
+          name: string
+          profile_type: string
+          require_mfa: boolean | null
+          require_trusted_device: boolean | null
+          restricted_actions: string[]
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          allow_customer_contact_access?: boolean | null
+          allow_file_attachment_upload?: boolean | null
+          allow_location_checkins?: boolean | null
+          allow_mobile_session_approval?: boolean | null
+          allow_offline_mode?: boolean | null
+          allow_push_notifications?: boolean | null
+          allowed_actions?: string[]
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          max_offline_items?: number | null
+          name: string
+          profile_type?: string
+          require_mfa?: boolean | null
+          require_trusted_device?: boolean | null
+          restricted_actions?: string[]
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          allow_customer_contact_access?: boolean | null
+          allow_file_attachment_upload?: boolean | null
+          allow_location_checkins?: boolean | null
+          allow_mobile_session_approval?: boolean | null
+          allow_offline_mode?: boolean | null
+          allow_push_notifications?: boolean | null
+          allowed_actions?: string[]
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          max_offline_items?: number | null
+          name?: string
+          profile_type?: string
+          require_mfa?: boolean | null
+          require_trusted_device?: boolean | null
+          restricted_actions?: string[]
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      mobile_app_installations: {
+        Row: {
+          app_version: string | null
+          build_number: string | null
+          created_at: string
+          device_model: string | null
+          enrolled_by: string | null
+          id: string
+          installation_key: string | null
+          last_seen_at: string | null
+          last_sync_at: string | null
+          metadata: Json
+          mobile_device_id: string | null
+          os_version: string | null
+          platform: string
+          push_enabled: boolean | null
+          push_provider: string | null
+          push_token_reference: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          app_version?: string | null
+          build_number?: string | null
+          created_at?: string
+          device_model?: string | null
+          enrolled_by?: string | null
+          id?: string
+          installation_key?: string | null
+          last_seen_at?: string | null
+          last_sync_at?: string | null
+          metadata?: Json
+          mobile_device_id?: string | null
+          os_version?: string | null
+          platform?: string
+          push_enabled?: boolean | null
+          push_provider?: string | null
+          push_token_reference?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          app_version?: string | null
+          build_number?: string | null
+          created_at?: string
+          device_model?: string | null
+          enrolled_by?: string | null
+          id?: string
+          installation_key?: string | null
+          last_seen_at?: string | null
+          last_sync_at?: string | null
+          metadata?: Json
+          mobile_device_id?: string | null
+          os_version?: string | null
+          platform?: string
+          push_enabled?: boolean | null
+          push_provider?: string | null
+          push_token_reference?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      mobile_audit_events: {
+        Row: {
+          created_at: string
+          description: string | null
+          event_type: string
+          id: string
+          installation_id: string | null
+          metadata: Json
+          resource_id: string | null
+          resource_type: string | null
+          severity: string
+          team_id: string
+          title: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          event_type: string
+          id?: string
+          installation_id?: string | null
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id: string
+          title: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          id?: string
+          installation_id?: string | null
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id?: string
+          title?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      mobile_deep_links: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          deep_link_url: string | null
+          expires_at: string | null
+          id: string
+          link_type: string
+          resource_id: string | null
+          resource_type: string | null
+          status: string
+          team_id: string
+          web_fallback_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          deep_link_url?: string | null
+          expires_at?: string | null
+          id?: string
+          link_type: string
+          resource_id?: string | null
+          resource_type?: string | null
+          status?: string
+          team_id: string
+          web_fallback_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          deep_link_url?: string | null
+          expires_at?: string | null
+          id?: string
+          link_type?: string
+          resource_id?: string | null
+          resource_type?: string | null
+          status?: string
+          team_id?: string
+          web_fallback_url?: string | null
+        }
+        Relationships: []
+      }
       mobile_devices: {
         Row: {
           app_version: string | null
@@ -6244,6 +6817,270 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      mobile_enrollment_tokens: {
+        Row: {
+          claimed_at: string | null
+          claimed_by: string | null
+          created_at: string
+          created_by: string | null
+          display_code: string | null
+          email: string | null
+          expires_at: string
+          id: string
+          metadata: Json
+          purpose: string
+          status: string
+          team_id: string
+          token_hash: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          claimed_at?: string | null
+          claimed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          display_code?: string | null
+          email?: string | null
+          expires_at: string
+          id?: string
+          metadata?: Json
+          purpose?: string
+          status?: string
+          team_id: string
+          token_hash: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          claimed_at?: string | null
+          claimed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          display_code?: string | null
+          email?: string | null
+          expires_at?: string
+          id?: string
+          metadata?: Json
+          purpose?: string
+          status?: string
+          team_id?: string
+          token_hash?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      mobile_offline_queue_items: {
+        Row: {
+          conflict_reason: string | null
+          created_at: string
+          id: string
+          installation_id: string | null
+          item_type: string
+          local_created_at: string | null
+          payload: Json
+          queue_key: string
+          resolution: Json
+          server_synced_at: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          conflict_reason?: string | null
+          created_at?: string
+          id?: string
+          installation_id?: string | null
+          item_type: string
+          local_created_at?: string | null
+          payload?: Json
+          queue_key: string
+          resolution?: Json
+          server_synced_at?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          conflict_reason?: string | null
+          created_at?: string
+          id?: string
+          installation_id?: string | null
+          item_type?: string
+          local_created_at?: string | null
+          payload?: Json
+          queue_key?: string
+          resolution?: Json
+          server_synced_at?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      mobile_push_channels: {
+        Row: {
+          channel_type: string
+          created_at: string
+          id: string
+          installation_id: string
+          last_error_message: string | null
+          last_test_at: string | null
+          preferences: Json
+          provider: string
+          status: string
+          team_id: string
+          token_reference: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          channel_type?: string
+          created_at?: string
+          id?: string
+          installation_id: string
+          last_error_message?: string | null
+          last_test_at?: string | null
+          preferences?: Json
+          provider?: string
+          status?: string
+          team_id: string
+          token_reference?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          channel_type?: string
+          created_at?: string
+          id?: string
+          installation_id?: string
+          last_error_message?: string | null
+          last_test_at?: string | null
+          preferences?: Json
+          provider?: string
+          status?: string
+          team_id?: string
+          token_reference?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      mobile_push_messages: {
+        Row: {
+          body: string
+          channel_id: string | null
+          created_at: string
+          created_by: string | null
+          deep_link: string | null
+          error_message: string | null
+          id: string
+          installation_id: string | null
+          message_type: string
+          notification_id: string | null
+          payload: Json
+          provider_message_id: string | null
+          scheduled_for: string | null
+          sent_at: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          body: string
+          channel_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deep_link?: string | null
+          error_message?: string | null
+          id?: string
+          installation_id?: string | null
+          message_type: string
+          notification_id?: string | null
+          payload?: Json
+          provider_message_id?: string | null
+          scheduled_for?: string | null
+          sent_at?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          body?: string
+          channel_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deep_link?: string | null
+          error_message?: string | null
+          id?: string
+          installation_id?: string | null
+          message_type?: string
+          notification_id?: string | null
+          payload?: Json
+          provider_message_id?: string | null
+          scheduled_for?: string | null
+          sent_at?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      mobile_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       notification_rules: {
         Row: {
@@ -11288,6 +12125,114 @@ export type Database = {
         }
         Relationships: []
       }
+      technician_shift_schedules: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          max_jobs: number | null
+          notes: string | null
+          region_id: string | null
+          schedule_date: string
+          service_area: string | null
+          shift_end: string | null
+          shift_start: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          max_jobs?: number | null
+          notes?: string | null
+          region_id?: string | null
+          schedule_date: string
+          service_area?: string | null
+          shift_end?: string | null
+          shift_start?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          max_jobs?: number | null
+          notes?: string | null
+          region_id?: string | null
+          schedule_date?: string
+          service_area?: string | null
+          shift_end?: string | null
+          shift_start?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      technician_work_orders: {
+        Row: {
+          assigned_to: string | null
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          customer_account_id: string | null
+          description: string | null
+          due_at: string | null
+          id: string
+          metadata: Json
+          priority: string
+          status: string
+          support_ticket_id: string | null
+          team_id: string
+          title: string
+          updated_at: string
+          work_order_number: string | null
+        }
+        Insert: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          metadata?: Json
+          priority?: string
+          status?: string
+          support_ticket_id?: string | null
+          team_id: string
+          title: string
+          updated_at?: string
+          work_order_number?: string | null
+        }
+        Update: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_account_id?: string | null
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          metadata?: Json
+          priority?: string
+          status?: string
+          support_ticket_id?: string | null
+          team_id?: string
+          title?: string
+          updated_at?: string
+          work_order_number?: string | null
+        }
+        Relationships: []
+      }
       technician_workload_snapshots: {
         Row: {
           active_sessions: number
@@ -12898,6 +13843,10 @@ export type Database = {
         Returns: boolean
       }
       is_integration_manager: {
+        Args: { _team_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_mobile_admin: {
         Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
