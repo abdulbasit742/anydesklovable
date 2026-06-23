@@ -70,7 +70,7 @@ function MarketplacePage() {
     mutationFn: async (vars: { name: string; website?: string; support_email?: string }) => {
       const { data, error } = await supabase.rpc("create_marketplace_publisher", {
         _team_id: teamId!, _name: vars.name,
-        _website_url: vars.website || null, _support_email: vars.support_email || null,
+        _website_url: vars.website || undefined, _support_email: vars.support_email || undefined,
       });
       if (error) throw error;
       return data;
@@ -126,7 +126,7 @@ function MarketplacePage() {
       <Card>
         <CardHeader><CardTitle className="text-base">Publishers</CardTitle></CardHeader>
         <CardContent>
-          <DataState isLoading={publishersQ.isLoading} error={publishersQ.error as Error | null}
+          <PanelState loading={publishersQ.isLoading} error={publishersQ.error as Error | null}
             empty={!publishersQ.data?.length} emptyText="No publishers yet. Create one to start listing apps.">
             <div className="divide-y rounded-md border">
               {publishersQ.data?.map((p) => (
@@ -160,14 +160,14 @@ function MarketplacePage() {
                 </div>
               ))}
             </div>
-          </DataState>
+          </PanelState>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader><CardTitle className="text-base">Listings</CardTitle></CardHeader>
         <CardContent>
-          <DataState isLoading={listingsQ.isLoading} error={listingsQ.error as Error | null}
+          <PanelState loading={listingsQ.isLoading} error={listingsQ.error as Error | null}
             empty={!listingsQ.data?.length} emptyText="Create a publisher and add your first listing.">
             <div className="divide-y rounded-md border">
               {listingsQ.data?.map((l) => (
@@ -207,7 +207,7 @@ function MarketplacePage() {
                 </div>
               ))}
             </div>
-          </DataState>
+          </PanelState>
         </CardContent>
       </Card>
     </AppShell>
