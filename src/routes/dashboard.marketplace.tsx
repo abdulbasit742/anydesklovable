@@ -144,7 +144,7 @@ function MarketplacePage() {
                     <div className="text-xs text-muted-foreground">{p.publisher_key} · {p.publisher_type}</div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <StatusBadge status={p.status} />
+                    <StatusBadge variant={statusVariant(p.status)}>{p.status.replace(/_/g," ")}</StatusBadge>
                     {p.status === "draft" && (
                       <Button size="sm" variant="outline"
                         onClick={async () => {
@@ -188,7 +188,7 @@ function MarketplacePage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <StatusBadge status={l.status} />
+                    <StatusBadge variant={statusVariant(l.status)}>{l.status.replace(/_/g," ")}</StatusBadge>
                     {l.status === "draft" && (
                       <Button size="sm" variant="outline" disabled={submitListing.isPending}
                         onClick={() => submitListing.mutate(l.id)}>
