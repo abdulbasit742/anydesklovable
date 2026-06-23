@@ -473,6 +473,203 @@ export type Database = {
         }
         Relationships: []
       }
+      archive_references: {
+        Row: {
+          archive_location: string | null
+          archive_provider: string
+          archive_status: string
+          archived_at: string | null
+          archived_by: string | null
+          checksum_sha256: string | null
+          created_at: string
+          data_category: string | null
+          id: string
+          metadata: Json
+          resource_id: string | null
+          resource_type: string
+          restore_requested_at: string | null
+          restored_at: string | null
+          size_bytes: number | null
+          storage_path: string | null
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          archive_location?: string | null
+          archive_provider?: string
+          archive_status?: string
+          archived_at?: string | null
+          archived_by?: string | null
+          checksum_sha256?: string | null
+          created_at?: string
+          data_category?: string | null
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type: string
+          restore_requested_at?: string | null
+          restored_at?: string | null
+          size_bytes?: number | null
+          storage_path?: string | null
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          archive_location?: string | null
+          archive_provider?: string
+          archive_status?: string
+          archived_at?: string | null
+          archived_by?: string | null
+          checksum_sha256?: string | null
+          created_at?: string
+          data_category?: string | null
+          id?: string
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string
+          restore_requested_at?: string | null
+          restored_at?: string | null
+          size_bytes?: number | null
+          storage_path?: string | null
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      audit_export_jobs: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          checksum_sha256: string | null
+          created_at: string
+          description: string | null
+          error_message: string | null
+          expires_at: string | null
+          export_type: string
+          filters: Json
+          finished_at: string | null
+          format: string
+          id: string
+          output: Json
+          requested_by: string | null
+          size_bytes: number | null
+          started_at: string | null
+          status: string
+          storage_path: string | null
+          team_id: string
+          title: string
+          updated_at: string
+          vault_id: string | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          checksum_sha256?: string | null
+          created_at?: string
+          description?: string | null
+          error_message?: string | null
+          expires_at?: string | null
+          export_type: string
+          filters?: Json
+          finished_at?: string | null
+          format?: string
+          id?: string
+          output?: Json
+          requested_by?: string | null
+          size_bytes?: number | null
+          started_at?: string | null
+          status?: string
+          storage_path?: string | null
+          team_id: string
+          title: string
+          updated_at?: string
+          vault_id?: string | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          checksum_sha256?: string | null
+          created_at?: string
+          description?: string | null
+          error_message?: string | null
+          expires_at?: string | null
+          export_type?: string
+          filters?: Json
+          finished_at?: string | null
+          format?: string
+          id?: string
+          output?: Json
+          requested_by?: string | null
+          size_bytes?: number | null
+          started_at?: string | null
+          status?: string
+          storage_path?: string | null
+          team_id?: string
+          title?: string
+          updated_at?: string
+          vault_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_export_jobs_vault_id_fkey"
+            columns: ["vault_id"]
+            isOneToOne: false
+            referencedRelation: "audit_export_vaults"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_export_vaults: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          encryption_status: string
+          external_archive_reference: string | null
+          id: string
+          name: string
+          retention_days: number | null
+          status: string
+          storage_bucket: string | null
+          storage_prefix: string | null
+          team_id: string
+          updated_at: string
+          vault_type: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          encryption_status?: string
+          external_archive_reference?: string | null
+          id?: string
+          name: string
+          retention_days?: number | null
+          status?: string
+          storage_bucket?: string | null
+          storage_prefix?: string | null
+          team_id: string
+          updated_at?: string
+          vault_type?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          encryption_status?: string
+          external_archive_reference?: string | null
+          id?: string
+          name?: string
+          retention_days?: number | null
+          status?: string
+          storage_bucket?: string | null
+          storage_prefix?: string | null
+          team_id?: string
+          updated_at?: string
+          vault_type?: string
+        }
+        Relationships: []
+      }
       audit_logs: {
         Row: {
           action: string
@@ -2149,6 +2346,85 @@ export type Database = {
           },
         ]
       }
+      chain_of_custody_events: {
+        Row: {
+          actor_id: string | null
+          bundle_id: string | null
+          checksum_sha256: string | null
+          created_at: string
+          description: string | null
+          event_type: string
+          export_job_id: string | null
+          id: string
+          ip_address: unknown
+          legal_hold_id: string | null
+          metadata: Json
+          resource_id: string | null
+          resource_type: string | null
+          team_id: string
+          title: string
+          user_agent: string | null
+        }
+        Insert: {
+          actor_id?: string | null
+          bundle_id?: string | null
+          checksum_sha256?: string | null
+          created_at?: string
+          description?: string | null
+          event_type: string
+          export_job_id?: string | null
+          id?: string
+          ip_address?: unknown
+          legal_hold_id?: string | null
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          team_id: string
+          title: string
+          user_agent?: string | null
+        }
+        Update: {
+          actor_id?: string | null
+          bundle_id?: string | null
+          checksum_sha256?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          export_job_id?: string | null
+          id?: string
+          ip_address?: unknown
+          legal_hold_id?: string | null
+          metadata?: Json
+          resource_id?: string | null
+          resource_type?: string | null
+          team_id?: string
+          title?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chain_of_custody_events_bundle_id_fkey"
+            columns: ["bundle_id"]
+            isOneToOne: false
+            referencedRelation: "evidence_bundles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chain_of_custody_events_export_job_id_fkey"
+            columns: ["export_job_id"]
+            isOneToOne: false
+            referencedRelation: "audit_export_jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chain_of_custody_events_legal_hold_id_fkey"
+            columns: ["legal_hold_id"]
+            isOneToOne: false
+            referencedRelation: "legal_holds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clipboard_policies: {
         Row: {
           allow_images: boolean
@@ -2186,6 +2462,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      compliance_evidence_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       compliance_report_runs: {
         Row: {
@@ -2603,6 +2924,309 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      data_deletion_requests: {
+        Row: {
+          action: string
+          approved_by: string | null
+          created_at: string
+          data_category: string | null
+          dry_run_result: Json
+          execution_result: Json
+          id: string
+          legal_hold_id: string | null
+          rejection_reason: string | null
+          request_type: string
+          requested_by: string | null
+          resource_id: string | null
+          resource_type: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          action?: string
+          approved_by?: string | null
+          created_at?: string
+          data_category?: string | null
+          dry_run_result?: Json
+          execution_result?: Json
+          id?: string
+          legal_hold_id?: string | null
+          rejection_reason?: string | null
+          request_type: string
+          requested_by?: string | null
+          resource_id?: string | null
+          resource_type: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          action?: string
+          approved_by?: string | null
+          created_at?: string
+          data_category?: string | null
+          dry_run_result?: Json
+          execution_result?: Json
+          id?: string
+          legal_hold_id?: string | null
+          rejection_reason?: string | null
+          request_type?: string
+          requested_by?: string | null
+          resource_id?: string | null
+          resource_type?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_deletion_requests_legal_hold_id_fkey"
+            columns: ["legal_hold_id"]
+            isOneToOne: false
+            referencedRelation: "legal_holds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_retention_evaluations: {
+        Row: {
+          created_at: string
+          data_category: string
+          decision: string
+          eligible_at: string | null
+          evaluated_at: string
+          id: string
+          legal_hold_id: string | null
+          metadata: Json
+          policy_id: string | null
+          reason: string | null
+          resource_created_at: string | null
+          resource_id: string | null
+          resource_type: string | null
+          team_id: string
+        }
+        Insert: {
+          created_at?: string
+          data_category: string
+          decision: string
+          eligible_at?: string | null
+          evaluated_at?: string
+          id?: string
+          legal_hold_id?: string | null
+          metadata?: Json
+          policy_id?: string | null
+          reason?: string | null
+          resource_created_at?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          team_id: string
+        }
+        Update: {
+          created_at?: string
+          data_category?: string
+          decision?: string
+          eligible_at?: string | null
+          evaluated_at?: string
+          id?: string
+          legal_hold_id?: string | null
+          metadata?: Json
+          policy_id?: string | null
+          reason?: string | null
+          resource_created_at?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_retention_evaluations_policy_id_fkey"
+            columns: ["policy_id"]
+            isOneToOne: false
+            referencedRelation: "data_retention_policies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_retention_policies: {
+        Row: {
+          action_after_retention: string
+          created_at: string
+          created_by: string | null
+          data_category: string
+          description: string | null
+          enabled: boolean
+          enforcement_mode: string
+          id: string
+          legal_hold_exempt: boolean
+          name: string
+          priority: number
+          resource_type: string | null
+          retention_days: number
+          team_id: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          action_after_retention?: string
+          created_at?: string
+          created_by?: string | null
+          data_category: string
+          description?: string | null
+          enabled?: boolean
+          enforcement_mode?: string
+          id?: string
+          legal_hold_exempt?: boolean
+          name: string
+          priority?: number
+          resource_type?: string | null
+          retention_days: number
+          team_id: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          action_after_retention?: string
+          created_at?: string
+          created_by?: string | null
+          data_category?: string
+          description?: string | null
+          enabled?: boolean
+          enforcement_mode?: string
+          id?: string
+          legal_hold_exempt?: boolean
+          name?: string
+          priority?: number
+          resource_type?: string | null
+          retention_days?: number
+          team_id?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      data_subject_request_items: {
+        Row: {
+          action: string
+          completed_at: string | null
+          created_at: string
+          id: string
+          metadata: Json
+          reason: string | null
+          request_id: string
+          resource_id: string | null
+          resource_type: string
+          reviewed_by: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          action: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          metadata?: Json
+          reason?: string | null
+          request_id: string
+          resource_id?: string | null
+          resource_type: string
+          reviewed_by?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          action?: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          metadata?: Json
+          reason?: string | null
+          request_id?: string
+          resource_id?: string | null
+          resource_type?: string
+          reviewed_by?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_subject_request_items_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "data_subject_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_subject_requests: {
+        Row: {
+          assigned_to: string | null
+          completed_at: string | null
+          created_at: string
+          customer_account_id: string | null
+          customer_user_id: string | null
+          due_at: string | null
+          id: string
+          metadata: Json
+          notes: string | null
+          request_number: string | null
+          request_type: string
+          requested_by: string | null
+          status: string
+          subject_email: string | null
+          subject_type: string
+          subject_user_id: string | null
+          team_id: string
+          updated_at: string
+          verified_at: string | null
+        }
+        Insert: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          due_at?: string | null
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          request_number?: string | null
+          request_type: string
+          requested_by?: string | null
+          status?: string
+          subject_email?: string | null
+          subject_type?: string
+          subject_user_id?: string | null
+          team_id: string
+          updated_at?: string
+          verified_at?: string | null
+        }
+        Update: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          created_at?: string
+          customer_account_id?: string | null
+          customer_user_id?: string | null
+          due_at?: string | null
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          request_number?: string | null
+          request_type?: string
+          requested_by?: string | null
+          status?: string
+          subject_email?: string | null
+          subject_type?: string
+          subject_user_id?: string | null
+          team_id?: string
+          updated_at?: string
+          verified_at?: string | null
+        }
+        Relationships: []
       }
       developer_docs_feedback: {
         Row: {
@@ -3193,6 +3817,146 @@ export type Database = {
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      evidence_bundle_items: {
+        Row: {
+          added_by: string | null
+          bundle_id: string
+          checksum_sha256: string | null
+          created_at: string
+          id: string
+          included: boolean
+          item_category: string | null
+          item_description: string | null
+          item_title: string
+          resource_id: string | null
+          resource_type: string
+          source_reference: Json
+          source_table: string | null
+          storage_path: string | null
+          team_id: string
+        }
+        Insert: {
+          added_by?: string | null
+          bundle_id: string
+          checksum_sha256?: string | null
+          created_at?: string
+          id?: string
+          included?: boolean
+          item_category?: string | null
+          item_description?: string | null
+          item_title: string
+          resource_id?: string | null
+          resource_type: string
+          source_reference?: Json
+          source_table?: string | null
+          storage_path?: string | null
+          team_id: string
+        }
+        Update: {
+          added_by?: string | null
+          bundle_id?: string
+          checksum_sha256?: string | null
+          created_at?: string
+          id?: string
+          included?: boolean
+          item_category?: string | null
+          item_description?: string | null
+          item_title?: string
+          resource_id?: string | null
+          resource_type?: string
+          source_reference?: Json
+          source_table?: string | null
+          storage_path?: string | null
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "evidence_bundle_items_bundle_id_fkey"
+            columns: ["bundle_id"]
+            isOneToOne: false
+            referencedRelation: "evidence_bundles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      evidence_bundles: {
+        Row: {
+          bundle_type: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          finalized_at: string | null
+          finalized_by: string | null
+          id: string
+          incident_id: string | null
+          legal_hold_id: string | null
+          manifest: Json
+          sensitivity_level: string
+          session_id: string | null
+          status: string
+          support_ticket_id: string | null
+          team_id: string
+          title: string
+          updated_at: string
+          vault_id: string | null
+        }
+        Insert: {
+          bundle_type?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          finalized_at?: string | null
+          finalized_by?: string | null
+          id?: string
+          incident_id?: string | null
+          legal_hold_id?: string | null
+          manifest?: Json
+          sensitivity_level?: string
+          session_id?: string | null
+          status?: string
+          support_ticket_id?: string | null
+          team_id: string
+          title: string
+          updated_at?: string
+          vault_id?: string | null
+        }
+        Update: {
+          bundle_type?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          finalized_at?: string | null
+          finalized_by?: string | null
+          id?: string
+          incident_id?: string | null
+          legal_hold_id?: string | null
+          manifest?: Json
+          sensitivity_level?: string
+          session_id?: string | null
+          status?: string
+          support_ticket_id?: string | null
+          team_id?: string
+          title?: string
+          updated_at?: string
+          vault_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "evidence_bundles_legal_hold_id_fkey"
+            columns: ["legal_hold_id"]
+            isOneToOne: false
+            referencedRelation: "legal_holds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "evidence_bundles_vault_id_fkey"
+            columns: ["vault_id"]
+            isOneToOne: false
+            referencedRelation: "audit_export_vaults"
             referencedColumns: ["id"]
           },
         ]
@@ -5055,6 +5819,143 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      legal_hold_resources: {
+        Row: {
+          added_at: string
+          added_by: string | null
+          created_at: string
+          hold_status: string
+          id: string
+          legal_hold_id: string
+          matched_by: string
+          metadata: Json
+          released_at: string | null
+          released_by: string | null
+          resource_id: string
+          resource_title: string | null
+          resource_type: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          added_at?: string
+          added_by?: string | null
+          created_at?: string
+          hold_status?: string
+          id?: string
+          legal_hold_id: string
+          matched_by?: string
+          metadata?: Json
+          released_at?: string | null
+          released_by?: string | null
+          resource_id: string
+          resource_title?: string | null
+          resource_type: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          added_at?: string
+          added_by?: string | null
+          created_at?: string
+          hold_status?: string
+          id?: string
+          legal_hold_id?: string
+          matched_by?: string
+          metadata?: Json
+          released_at?: string | null
+          released_by?: string | null
+          resource_id?: string
+          resource_title?: string | null
+          resource_type?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "legal_hold_resources_legal_hold_id_fkey"
+            columns: ["legal_hold_id"]
+            isOneToOne: false
+            referencedRelation: "legal_holds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      legal_holds: {
+        Row: {
+          case_number: string | null
+          created_at: string
+          created_by: string | null
+          custodian_user_ids: string[]
+          customer_account_ids: string[]
+          description: string | null
+          device_ids: string[]
+          hold_type: string
+          id: string
+          incident_ids: string[]
+          reason: string | null
+          release_at: string | null
+          release_reason: string | null
+          released_by: string | null
+          scope: Json
+          session_ids: string[]
+          start_at: string
+          status: string
+          support_ticket_ids: string[]
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          case_number?: string | null
+          created_at?: string
+          created_by?: string | null
+          custodian_user_ids?: string[]
+          customer_account_ids?: string[]
+          description?: string | null
+          device_ids?: string[]
+          hold_type?: string
+          id?: string
+          incident_ids?: string[]
+          reason?: string | null
+          release_at?: string | null
+          release_reason?: string | null
+          released_by?: string | null
+          scope?: Json
+          session_ids?: string[]
+          start_at?: string
+          status?: string
+          support_ticket_ids?: string[]
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          case_number?: string | null
+          created_at?: string
+          created_by?: string | null
+          custodian_user_ids?: string[]
+          customer_account_ids?: string[]
+          description?: string | null
+          device_ids?: string[]
+          hold_type?: string
+          id?: string
+          incident_ids?: string[]
+          reason?: string | null
+          release_at?: string | null
+          release_reason?: string | null
+          released_by?: string | null
+          scope?: Json
+          session_ids?: string[]
+          start_at?: string
+          status?: string
+          support_ticket_ids?: string[]
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       member_permission_overrides: {
         Row: {
@@ -9582,6 +10483,10 @@ export type Database = {
         Returns: boolean
       }
       is_billing_manager: {
+        Args: { _team_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_data_governance_manager: {
         Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
