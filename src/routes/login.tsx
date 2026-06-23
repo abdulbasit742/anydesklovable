@@ -34,9 +34,17 @@ function Login() {
     const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
     if (result.error) return toast.error(result.error.message ?? "Google sign-in failed");
     if (result.redirected) return;
+    // Wait for the session to be persisted, then hard-navigate so the
+    // _authenticated gate re-reads the fresh session from localStorage.
+    for (let i = 0; i < 20; i++) {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) break;
+      await new Promise((r) => setTimeout(r, 100));
+    }
     toast.success("Signed in");
-    navigate({ to: "/dashboard" });
+    window.location.assign("/dashboard");
   }
+
 
   return (
     <AuthLayout title="Welcome back" subtitle="Sign in to your RemoteDesk workspace.">
