@@ -5,7 +5,7 @@ import { Plus, Package, Store, Rocket, DollarSign, Download } from "lucide-react
 import { toast } from "sonner";
 import { AppShell } from "@/components/app/AppShell";
 import { MetricCard } from "@/components/app/MetricCard";
-import { DataState } from "@/components/app/DataState";
+import { PanelState } from "@/components/app/DataState";
 import { StatusBadge } from "@/components/app/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
