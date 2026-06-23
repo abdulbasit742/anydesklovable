@@ -3570,6 +3570,386 @@ export type Database = {
           },
         ]
       }
+      support_escalations: {
+        Row: {
+          acknowledged_at: string | null
+          acknowledged_by: string | null
+          created_at: string
+          escalated_by: string | null
+          escalated_to: string | null
+          escalation_level: number
+          id: string
+          queue_id: string | null
+          reason: string
+          resolved_at: string | null
+          resolved_by: string | null
+          status: string
+          team_id: string
+          ticket_id: string
+          updated_at: string
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          created_at?: string
+          escalated_by?: string | null
+          escalated_to?: string | null
+          escalation_level?: number
+          id?: string
+          queue_id?: string | null
+          reason: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string
+          team_id: string
+          ticket_id: string
+          updated_at?: string
+        }
+        Update: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          created_at?: string
+          escalated_by?: string | null
+          escalated_to?: string | null
+          escalation_level?: number
+          id?: string
+          queue_id?: string | null
+          reason?: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string
+          team_id?: string
+          ticket_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_escalations_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      support_internal_notes: {
+        Row: {
+          author_id: string | null
+          body: string
+          created_at: string
+          id: string
+          team_id: string
+          ticket_id: string
+          updated_at: string
+          visibility: string
+        }
+        Insert: {
+          author_id?: string | null
+          body: string
+          created_at?: string
+          id?: string
+          team_id: string
+          ticket_id: string
+          updated_at?: string
+          visibility?: string
+        }
+        Update: {
+          author_id?: string | null
+          body?: string
+          created_at?: string
+          id?: string
+          team_id?: string
+          ticket_id?: string
+          updated_at?: string
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_internal_notes_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      support_operations_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          finished_at: string | null
+          id: string
+          output: Json
+          report_type: string
+          requested_by: string | null
+          started_at: string | null
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          finished_at?: string | null
+          id?: string
+          output?: Json
+          report_type: string
+          requested_by?: string | null
+          started_at?: string | null
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          finished_at?: string | null
+          id?: string
+          output?: Json
+          report_type?: string
+          requested_by?: string | null
+          started_at?: string | null
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      support_queue_members: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          joined_at: string
+          queue_id: string
+          role: string
+          team_id: string
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          joined_at?: string
+          queue_id: string
+          role?: string
+          team_id: string
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          joined_at?: string
+          queue_id?: string
+          role?: string
+          team_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_queue_members_queue_id_fkey"
+            columns: ["queue_id"]
+            isOneToOne: false
+            referencedRelation: "support_queues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      support_queues: {
+        Row: {
+          active: boolean
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          name: string
+          priority: number
+          queue_type: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          priority?: number
+          queue_type?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          priority?: number
+          queue_type?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      support_runbooks: {
+        Row: {
+          active: boolean
+          category: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          steps: Json
+          tags: string[]
+          team_id: string
+          title: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          steps?: Json
+          tags?: string[]
+          team_id: string
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          steps?: Json
+          tags?: string[]
+          team_id?: string
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      support_sla_policies: {
+        Row: {
+          active: boolean
+          business_hours_only: boolean
+          created_at: string
+          created_by: string | null
+          description: string | null
+          escalation_minutes: number | null
+          first_response_minutes: number
+          id: string
+          name: string
+          priority: string
+          resolution_minutes: number
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          business_hours_only?: boolean
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          escalation_minutes?: number | null
+          first_response_minutes?: number
+          id?: string
+          name: string
+          priority?: string
+          resolution_minutes?: number
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          business_hours_only?: boolean
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          escalation_minutes?: number | null
+          first_response_minutes?: number
+          id?: string
+          name?: string
+          priority?: string
+          resolution_minutes?: number
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      support_ticket_assignments: {
+        Row: {
+          active: boolean
+          assigned_at: string
+          assigned_by: string | null
+          assigned_to: string | null
+          assignment_type: string
+          created_at: string
+          id: string
+          queue_id: string | null
+          reason: string | null
+          team_id: string
+          ticket_id: string
+          unassigned_at: string | null
+        }
+        Insert: {
+          active?: boolean
+          assigned_at?: string
+          assigned_by?: string | null
+          assigned_to?: string | null
+          assignment_type?: string
+          created_at?: string
+          id?: string
+          queue_id?: string | null
+          reason?: string | null
+          team_id: string
+          ticket_id: string
+          unassigned_at?: string | null
+        }
+        Update: {
+          active?: boolean
+          assigned_at?: string
+          assigned_by?: string | null
+          assigned_to?: string | null
+          assignment_type?: string
+          created_at?: string
+          id?: string
+          queue_id?: string | null
+          reason?: string | null
+          team_id?: string
+          ticket_id?: string
+          unassigned_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_ticket_assignments_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       support_ticket_attachments: {
         Row: {
           checksum_sha256: string | null
@@ -3674,6 +4054,47 @@ export type Database = {
           },
         ]
       }
+      support_ticket_device_links: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          device_id: string | null
+          id: string
+          link_type: string
+          session_id: string | null
+          team_id: string
+          ticket_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          device_id?: string | null
+          id?: string
+          link_type?: string
+          session_id?: string | null
+          team_id: string
+          ticket_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          device_id?: string | null
+          id?: string
+          link_type?: string
+          session_id?: string | null
+          team_id?: string
+          ticket_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_ticket_device_links_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       support_ticket_events: {
         Row: {
           actor_id: string | null
@@ -3715,15 +4136,180 @@ export type Database = {
           },
         ]
       }
+      support_ticket_runbook_usage: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          notes: string | null
+          runbook_id: string
+          started_at: string
+          status: string
+          team_id: string
+          ticket_id: string
+          used_by: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          runbook_id: string
+          started_at?: string
+          status?: string
+          team_id: string
+          ticket_id: string
+          used_by?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          runbook_id?: string
+          started_at?: string
+          status?: string
+          team_id?: string
+          ticket_id?: string
+          used_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_ticket_runbook_usage_runbook_id_fkey"
+            columns: ["runbook_id"]
+            isOneToOne: false
+            referencedRelation: "support_runbooks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "support_ticket_runbook_usage_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      support_ticket_sla_status: {
+        Row: {
+          created_at: string
+          escalation_due_at: string | null
+          escalation_triggered: boolean
+          first_response_at: string | null
+          first_response_breached: boolean
+          first_response_due_at: string | null
+          id: string
+          resolution_breached: boolean
+          resolution_due_at: string | null
+          resolved_at: string | null
+          sla_policy_id: string | null
+          status: string
+          team_id: string
+          ticket_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          escalation_due_at?: string | null
+          escalation_triggered?: boolean
+          first_response_at?: string | null
+          first_response_breached?: boolean
+          first_response_due_at?: string | null
+          id?: string
+          resolution_breached?: boolean
+          resolution_due_at?: string | null
+          resolved_at?: string | null
+          sla_policy_id?: string | null
+          status?: string
+          team_id: string
+          ticket_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          escalation_due_at?: string | null
+          escalation_triggered?: boolean
+          first_response_at?: string | null
+          first_response_breached?: boolean
+          first_response_due_at?: string | null
+          id?: string
+          resolution_breached?: boolean
+          resolution_due_at?: string | null
+          resolved_at?: string | null
+          sla_policy_id?: string | null
+          status?: string
+          team_id?: string
+          ticket_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_ticket_sla_status_sla_policy_id_fkey"
+            columns: ["sla_policy_id"]
+            isOneToOne: false
+            referencedRelation: "support_sla_policies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "support_ticket_sla_status_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: true
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      support_ticket_tags: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          tag: string
+          team_id: string
+          ticket_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          tag: string
+          team_id: string
+          ticket_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          tag?: string
+          team_id?: string
+          ticket_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_ticket_tags_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       support_tickets: {
         Row: {
           assigned_to: string | null
           category: string
           closed_at: string | null
           created_at: string
+          customer_impact: string | null
           description: string
+          first_response_at: string | null
           id: string
+          last_activity_at: string | null
           priority: string
+          queue_id: string | null
+          resolved_at: string | null
+          severity: string | null
+          source: string | null
           status: string
           subject: string
           team_id: string | null
@@ -3735,9 +4321,16 @@ export type Database = {
           category: string
           closed_at?: string | null
           created_at?: string
+          customer_impact?: string | null
           description: string
+          first_response_at?: string | null
           id?: string
+          last_activity_at?: string | null
           priority?: string
+          queue_id?: string | null
+          resolved_at?: string | null
+          severity?: string | null
+          source?: string | null
           status?: string
           subject: string
           team_id?: string | null
@@ -3749,9 +4342,16 @@ export type Database = {
           category?: string
           closed_at?: string | null
           created_at?: string
+          customer_impact?: string | null
           description?: string
+          first_response_at?: string | null
           id?: string
+          last_activity_at?: string | null
           priority?: string
+          queue_id?: string | null
+          resolved_at?: string | null
+          severity?: string | null
+          source?: string | null
           status?: string
           subject?: string
           team_id?: string | null
@@ -3995,6 +4595,48 @@ export type Database = {
           name?: string
           owner_id?: string
           plan?: Database["public"]["Enums"]["plan_tier"]
+        }
+        Relationships: []
+      }
+      technician_workload_snapshots: {
+        Row: {
+          active_sessions: number
+          avg_resolution_minutes: number | null
+          avg_response_minutes: number | null
+          breached_slas: number
+          created_at: string
+          id: string
+          open_tickets: number
+          snapshot_at: string
+          team_id: string
+          urgent_tickets: number
+          user_id: string
+        }
+        Insert: {
+          active_sessions?: number
+          avg_resolution_minutes?: number | null
+          avg_response_minutes?: number | null
+          breached_slas?: number
+          created_at?: string
+          id?: string
+          open_tickets?: number
+          snapshot_at?: string
+          team_id: string
+          urgent_tickets?: number
+          user_id: string
+        }
+        Update: {
+          active_sessions?: number
+          avg_resolution_minutes?: number | null
+          avg_response_minutes?: number | null
+          breached_slas?: number
+          created_at?: string
+          id?: string
+          open_tickets?: number
+          snapshot_at?: string
+          team_id?: string
+          urgent_tickets?: number
+          user_id?: string
         }
         Relationships: []
       }
