@@ -118,14 +118,14 @@ function DataCatalogPage() {
         </p>
 
         <div className="grid gap-3 md:grid-cols-4">
-          <MetricCard label="Total assets" value={summary.total_assets ?? 0} icon={Table2} />
-          <MetricCard label="Unclassified" value={summary.unclassified_assets ?? 0} icon={ShieldAlert} />
-          <MetricCard label="Restricted" value={summary.restricted_assets ?? 0} icon={KeyRound} />
-          <MetricCard label="PII fields" value={summary.pii_fields ?? 0} icon={Columns3} />
-          <MetricCard label="Lineage edges" value={summary.lineage_edges ?? 0} icon={GitBranch} />
-          <MetricCard label="Failed quality checks (7d)" value={summary.quality_checks_failed_7d ?? 0} icon={FileWarning} />
-          <MetricCard label="Access requests pending" value={summary.access_requests_pending ?? 0} icon={ClipboardList} />
-          <MetricCard label="Scans worker-required" value={summary.metadata_scan_worker_required ?? 0} icon={FileSearch} />
+          <MetricCard label="Total assets" value={String(summary.total_assets ?? 0)} icon={Table2} />
+          <MetricCard label="Unclassified" value={String(summary.unclassified_assets ?? 0)} icon={ShieldAlert} />
+          <MetricCard label="Restricted" value={String(summary.restricted_assets ?? 0)} icon={KeyRound} />
+          <MetricCard label="PII fields" value={String(summary.pii_fields ?? 0)} icon={Columns3} />
+          <MetricCard label="Lineage edges" value={String(summary.lineage_edges ?? 0)} icon={GitBranch} />
+          <MetricCard label="Failed quality checks (7d)" value={String(summary.quality_checks_failed_7d ?? 0)} icon={FileWarning} />
+          <MetricCard label="Access requests pending" value={String(summary.access_requests_pending ?? 0)} icon={ClipboardList} />
+          <MetricCard label="Scans worker-required" value={String(summary.metadata_scan_worker_required ?? 0)} icon={FileSearch} />
         </div>
 
         <Tabs defaultValue="assets" className="w-full">
@@ -175,8 +175,8 @@ function DataCatalogPage() {
                       <td className="px-3 py-2 text-sm">{a.asset_type}</td>
                       <td className="px-3 py-2 text-sm">{a.source_module || a.source_system}</td>
                       <td className="px-3 py-2 text-sm">{(domainsQ.data ?? []).find((d) => d.id === a.domain_id)?.name ?? "—"}</td>
-                      <td className="px-3 py-2"><StatusBadge label={a.sensitivity_level} variant={a.sensitivity_level === "restricted" ? "rejected" : a.sensitivity_level === "confidential" ? "fair" : "neutral"} /></td>
-                      <td className="px-3 py-2"><StatusBadge label={a.classification_status} variant={severity(a.classification_status)} /></td>
+                      <td className="px-3 py-2"><StatusBadge variant={a.sensitivity_level === "restricted" ? "rejected" : a.sensitivity_level === "confidential" ? "fair" : "neutral"}>{a.sensitivity_level}</StatusBadge></td>
+                      <td className="px-3 py-2"><StatusBadge variant={severity(a.classification_status)}>{a.classification_status}</StatusBadge></td>
                     </tr>
                   ))}
                 </Tbl>
@@ -208,7 +208,7 @@ function DataCatalogPage() {
                     <tr key={d.id} className="border-t">
                       <td className="px-3 py-2 font-medium">{d.name}<div className="text-xs text-muted-foreground">{d.domain_key}</div></td>
                       <td className="px-3 py-2 text-sm">{d.domain_type}</td>
-                      <td className="px-3 py-2"><StatusBadge label={d.status} variant={severity(d.status)} /></td>
+                      <td className="px-3 py-2"><StatusBadge variant={severity(d.status)}>{d.status}</StatusBadge></td>
                     </tr>
                   ))}
                 </Tbl>
@@ -240,7 +240,7 @@ function DataCatalogPage() {
                       <td className="px-3 py-2 font-medium">{w.name}<div className="text-xs text-muted-foreground">{w.workspace_key}</div></td>
                       <td className="px-3 py-2 text-sm">{w.workspace_type}</td>
                       <td className="px-3 py-2 text-sm">{w.default_sensitivity}</td>
-                      <td className="px-3 py-2"><StatusBadge label={w.status} variant={severity(w.status)} /></td>
+                      <td className="px-3 py-2"><StatusBadge variant={severity(w.status)}>{w.status}</StatusBadge></td>
                     </tr>
                   ))}
                 </Tbl>
@@ -288,7 +288,7 @@ function DataCatalogPage() {
                       <td className="px-3 py-2 text-sm">{f.sensitivity_level ?? "—"}</td>
                       <td className="px-3 py-2 text-sm">{f.pii_type ?? "—"}</td>
                       <td className="px-3 py-2 text-sm">{f.confidence}</td>
-                      <td className="px-3 py-2"><StatusBadge label={f.status} variant={severity(f.status)} /></td>
+                      <td className="px-3 py-2"><StatusBadge variant={severity(f.status)}>{f.status}</StatusBadge></td>
                       <td className="px-3 py-2 text-right">
                         {f.status === "open" && (
                           <div className="flex justify-end gap-1">
@@ -323,7 +323,7 @@ function DataCatalogPage() {
                       <td className="px-3 py-2 text-sm">{assetById[e.target_asset_id]?.name ?? "—"}</td>
                       <td className="px-3 py-2 text-sm">{e.lineage_type}</td>
                       <td className="px-3 py-2 text-sm">{e.confidence}</td>
-                      <td className="px-3 py-2"><StatusBadge label={e.status} variant={severity(e.status)} /></td>
+                      <td className="px-3 py-2"><StatusBadge variant={severity(e.status)}>{e.status}</StatusBadge></td>
                     </tr>
                   ))}
                 </Tbl>
@@ -342,7 +342,7 @@ function DataCatalogPage() {
                         <td className="px-3 py-2 text-sm">{r.name}</td>
                         <td className="px-3 py-2 text-sm">{r.rule_type}</td>
                         <td className="px-3 py-2 text-sm">{r.severity}</td>
-                        <td className="px-3 py-2"><StatusBadge label={r.status} variant={severity(r.status)} /></td>
+                        <td className="px-3 py-2"><StatusBadge variant={severity(r.status)}>{r.status}</StatusBadge></td>
                       </tr>
                     ))}
                   </Tbl>
@@ -355,7 +355,7 @@ function DataCatalogPage() {
                     {(qrunsQ.data ?? []).map((r) => (
                       <tr key={r.id} className="border-t">
                         <td className="px-3 py-2 text-xs">{new Date(r.started_at).toLocaleString()}</td>
-                        <td className="px-3 py-2"><StatusBadge label={r.status} variant={severity(r.status)} /></td>
+                        <td className="px-3 py-2"><StatusBadge variant={severity(r.status)}>{r.status}</StatusBadge></td>
                         <td className="px-3 py-2 text-sm">{r.quality_score ?? "—"}</td>
                         <td className="px-3 py-2 text-sm">{(r.failed_count ?? "—") + "/" + (r.checked_count ?? "—")}</td>
                       </tr>
@@ -376,7 +376,7 @@ function DataCatalogPage() {
                     <tr key={j.id} className="border-t">
                       <td className="px-3 py-2 text-sm">{j.scan_type}</td>
                       <td className="px-3 py-2 text-sm">{j.provider}</td>
-                      <td className="px-3 py-2"><StatusBadge label={j.status} variant={severity(j.status)} /></td>
+                      <td className="px-3 py-2"><StatusBadge variant={severity(j.status)}>{j.status}</StatusBadge></td>
                       <td className="px-3 py-2 text-xs text-muted-foreground">{new Date(j.created_at).toLocaleString()}</td>
                     </tr>
                   ))}
@@ -397,7 +397,7 @@ function DataCatalogPage() {
                       <td className="px-3 py-2 text-sm">{r.request_type}</td>
                       <td className="px-3 py-2 text-xs">{r.requester_user_id?.slice(0, 8)}</td>
                       <td className="px-3 py-2 text-sm">{r.purpose ?? "—"}</td>
-                      <td className="px-3 py-2"><StatusBadge label={r.status} variant={severity(r.status)} /></td>
+                      <td className="px-3 py-2"><StatusBadge variant={severity(r.status)}>{r.status}</StatusBadge></td>
                       <td className="px-3 py-2 text-right">
                         {(r.status === "submitted" || r.status === "pending_approval") && (
                           <div className="flex justify-end gap-1">
@@ -428,7 +428,7 @@ function DataCatalogPage() {
                     <tr key={c.id} className="border-t">
                       <td className="px-3 py-2 text-sm">{assetById[c.asset_id]?.name ?? "—"}</td>
                       <td className="px-3 py-2 text-sm">{c.certification_type}</td>
-                      <td className="px-3 py-2"><StatusBadge label={c.status} variant={severity(c.status)} /></td>
+                      <td className="px-3 py-2"><StatusBadge variant={severity(c.status)}>{c.status}</StatusBadge></td>
                       <td className="px-3 py-2 text-xs">{c.expires_at ? new Date(c.expires_at).toLocaleDateString() : "—"}</td>
                     </tr>
                   ))}
@@ -459,7 +459,7 @@ function DataCatalogPage() {
                       <tr key={t.id} className="border-t">
                         <td className="px-3 py-2"><div className="font-medium text-sm">{t.name}</div><div className="text-xs text-muted-foreground line-clamp-1">{t.definition}</div></td>
                         <td className="px-3 py-2 text-sm">{t.term_type}</td>
-                        <td className="px-3 py-2"><StatusBadge label={t.status} variant={severity(t.status)} /></td>
+                        <td className="px-3 py-2"><StatusBadge variant={severity(t.status)}>{t.status}</StatusBadge></td>
                         <td className="px-3 py-2 text-right">
                           {t.status === "draft" && (
                             <Button size="sm" variant="outline" onClick={async () => {
@@ -486,7 +486,7 @@ function DataCatalogPage() {
                       <td className="px-3 py-2 text-sm">{s.title}</td>
                       <td className="px-3 py-2 text-sm">{assetById[s.asset_id]?.name ?? "—"}</td>
                       <td className="px-3 py-2 text-sm">{s.change_type}</td>
-                      <td className="px-3 py-2"><StatusBadge label={s.severity} variant={severity(s.severity)} /></td>
+                      <td className="px-3 py-2"><StatusBadge variant={severity(s.severity)}>{s.severity}</StatusBadge></td>
                       <td className="px-3 py-2 text-xs">
                         {s.reviewed ? "Yes" : (
                           <Button size="sm" variant="outline" onClick={async () => {
@@ -511,7 +511,7 @@ function DataCatalogPage() {
                     <tr key={l.id} className="border-t">
                       <td className="px-3 py-2 text-sm">{assetById[l.asset_id]?.name ?? "—"}</td>
                       <td className="px-3 py-2 text-sm">{l.policy_type}</td>
-                      <td className="px-3 py-2"><StatusBadge label={l.status} variant={severity(l.status)} /></td>
+                      <td className="px-3 py-2"><StatusBadge variant={severity(l.status)}>{l.status}</StatusBadge></td>
                       <td className="px-3 py-2 text-xs text-muted-foreground">{l.notes ?? "—"}</td>
                     </tr>
                   ))}
@@ -540,7 +540,7 @@ function DataCatalogPage() {
                     <tr key={r.id} className="border-t">
                       <td className="px-3 py-2 text-sm">{r.title}</td>
                       <td className="px-3 py-2 text-sm">{r.report_type}</td>
-                      <td className="px-3 py-2"><StatusBadge label={r.status} variant={severity(r.status)} /></td>
+                      <td className="px-3 py-2"><StatusBadge variant={severity(r.status)}>{r.status}</StatusBadge></td>
                       <td className="px-3 py-2 text-xs">{new Date(r.created_at).toLocaleString()}</td>
                     </tr>
                   ))}
@@ -559,7 +559,7 @@ function DataCatalogPage() {
                       <div className="flex items-center gap-2">
                         <History className="h-3 w-3 text-muted-foreground" />
                         <span className="text-sm font-medium">{e.title}</span>
-                        <StatusBadge label={e.event_type} variant={severity(e.severity)} />
+                        <StatusBadge variant={severity(e.severity)}>{e.event_type}</StatusBadge>
                       </div>
                       {e.description && <div className="ml-5 text-xs text-muted-foreground">{e.description}</div>}
                       <div className="ml-5 text-[10px] text-muted-foreground">{new Date(e.created_at).toLocaleString()}</div>
