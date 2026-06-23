@@ -11896,6 +11896,1326 @@ export type Database = {
         }
         Relationships: []
       }
+      marketplace_analytics_snapshots: {
+        Row: {
+          active_installations: number
+          average_rating: number | null
+          calculated_at: string
+          created_at: string
+          estimated_revenue_cents: number
+          id: string
+          installs: number
+          listing_id: string | null
+          output: Json
+          period_end: string
+          period_start: string
+          publisher_id: string | null
+          purchases: number
+          snapshot_type: string
+          team_id: string | null
+          uninstalls: number
+          usage_count: number | null
+          views: number
+        }
+        Insert: {
+          active_installations?: number
+          average_rating?: number | null
+          calculated_at?: string
+          created_at?: string
+          estimated_revenue_cents?: number
+          id?: string
+          installs?: number
+          listing_id?: string | null
+          output?: Json
+          period_end: string
+          period_start: string
+          publisher_id?: string | null
+          purchases?: number
+          snapshot_type?: string
+          team_id?: string | null
+          uninstalls?: number
+          usage_count?: number | null
+          views?: number
+        }
+        Update: {
+          active_installations?: number
+          average_rating?: number | null
+          calculated_at?: string
+          created_at?: string
+          estimated_revenue_cents?: number
+          id?: string
+          installs?: number
+          listing_id?: string | null
+          output?: Json
+          period_end?: string
+          period_start?: string
+          publisher_id?: string | null
+          purchases?: number
+          snapshot_type?: string
+          team_id?: string | null
+          uninstalls?: number
+          usage_count?: number | null
+          views?: number
+        }
+        Relationships: []
+      }
+      marketplace_audit_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          description: string | null
+          event_type: string
+          id: string
+          listing_id: string | null
+          metadata: Json
+          publisher_id: string | null
+          resource_id: string | null
+          resource_type: string | null
+          severity: string
+          team_id: string | null
+          title: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type: string
+          id?: string
+          listing_id?: string | null
+          metadata?: Json
+          publisher_id?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id?: string | null
+          title: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          id?: string
+          listing_id?: string | null
+          metadata?: Json
+          publisher_id?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          severity?: string
+          team_id?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      marketplace_collection_items: {
+        Row: {
+          badge: string | null
+          collection_id: string
+          created_at: string
+          id: string
+          listing_id: string
+          sort_order: number
+        }
+        Insert: {
+          badge?: string | null
+          collection_id: string
+          created_at?: string
+          id?: string
+          listing_id: string
+          sort_order?: number
+        }
+        Update: {
+          badge?: string | null
+          collection_id?: string
+          created_at?: string
+          id?: string
+          listing_id?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_collection_items_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketplace_collection_items_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_collections: {
+        Row: {
+          collection_key: string
+          collection_type: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          name: string
+          sort_order: number
+          status: string
+          team_id: string | null
+          updated_at: string
+          visibility: string
+        }
+        Insert: {
+          collection_key: string
+          collection_type?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          sort_order?: number
+          status?: string
+          team_id?: string | null
+          updated_at?: string
+          visibility?: string
+        }
+        Update: {
+          collection_key?: string
+          collection_type?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          sort_order?: number
+          status?: string
+          team_id?: string | null
+          updated_at?: string
+          visibility?: string
+        }
+        Relationships: []
+      }
+      marketplace_entitlement_grants: {
+        Row: {
+          created_at: string
+          entitlement_key: string
+          expires_at: string | null
+          id: string
+          installation_id: string | null
+          listing_id: string
+          metadata: Json
+          quantity: number | null
+          starts_at: string
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          entitlement_key: string
+          expires_at?: string | null
+          id?: string
+          installation_id?: string | null
+          listing_id: string
+          metadata?: Json
+          quantity?: number | null
+          starts_at?: string
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          entitlement_key?: string
+          expires_at?: string | null
+          id?: string
+          installation_id?: string | null
+          listing_id?: string
+          metadata?: Json
+          quantity?: number | null
+          starts_at?: string
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_entitlement_grants_installation_id_fkey"
+            columns: ["installation_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_installations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketplace_entitlement_grants_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_installation_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          description: string | null
+          event_type: string
+          id: string
+          installation_id: string
+          listing_id: string
+          metadata: Json
+          source: string
+          team_id: string
+          title: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type: string
+          id?: string
+          installation_id: string
+          listing_id: string
+          metadata?: Json
+          source?: string
+          team_id: string
+          title: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          description?: string | null
+          event_type?: string
+          id?: string
+          installation_id?: string
+          listing_id?: string
+          metadata?: Json
+          source?: string
+          team_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_installation_events_installation_id_fkey"
+            columns: ["installation_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_installations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_installations: {
+        Row: {
+          billing_status: string
+          configuration: Json
+          created_at: string
+          external_install_reference: string | null
+          id: string
+          install_mode: string
+          installed_at: string
+          installed_by: string | null
+          last_used_at: string | null
+          listing_id: string
+          listing_version_id: string | null
+          metadata: Json
+          publisher_id: string | null
+          status: string
+          subscription_id: string | null
+          team_id: string
+          trial_ends_at: string | null
+          uninstalled_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          billing_status?: string
+          configuration?: Json
+          created_at?: string
+          external_install_reference?: string | null
+          id?: string
+          install_mode?: string
+          installed_at?: string
+          installed_by?: string | null
+          last_used_at?: string | null
+          listing_id: string
+          listing_version_id?: string | null
+          metadata?: Json
+          publisher_id?: string | null
+          status?: string
+          subscription_id?: string | null
+          team_id: string
+          trial_ends_at?: string | null
+          uninstalled_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          billing_status?: string
+          configuration?: Json
+          created_at?: string
+          external_install_reference?: string | null
+          id?: string
+          install_mode?: string
+          installed_at?: string
+          installed_by?: string | null
+          last_used_at?: string | null
+          listing_id?: string
+          listing_version_id?: string | null
+          metadata?: Json
+          publisher_id?: string | null
+          status?: string
+          subscription_id?: string | null
+          team_id?: string
+          trial_ends_at?: string | null
+          uninstalled_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_installations_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_listing_assets: {
+        Row: {
+          asset_type: string
+          created_at: string
+          created_by: string | null
+          external_url: string | null
+          id: string
+          listing_id: string
+          status: string
+          storage_bucket: string | null
+          storage_path: string | null
+          title: string | null
+          visibility: string
+        }
+        Insert: {
+          asset_type?: string
+          created_at?: string
+          created_by?: string | null
+          external_url?: string | null
+          id?: string
+          listing_id: string
+          status?: string
+          storage_bucket?: string | null
+          storage_path?: string | null
+          title?: string | null
+          visibility?: string
+        }
+        Update: {
+          asset_type?: string
+          created_at?: string
+          created_by?: string | null
+          external_url?: string | null
+          id?: string
+          listing_id?: string
+          status?: string
+          storage_bucket?: string | null
+          storage_path?: string | null
+          title?: string | null
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_listing_assets_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_listing_versions: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          artifact_reference: Json
+          changelog: Json
+          compatibility: Json
+          created_at: string
+          created_by: string | null
+          id: string
+          listing_id: string
+          release_notes: string | null
+          status: string
+          team_id: string | null
+          version: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          artifact_reference?: Json
+          changelog?: Json
+          compatibility?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          listing_id: string
+          release_notes?: string | null
+          status?: string
+          team_id?: string | null
+          version: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          artifact_reference?: Json
+          changelog?: Json
+          compatibility?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          listing_id?: string
+          release_notes?: string | null
+          status?: string
+          team_id?: string | null
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_listing_versions_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_listings: {
+        Row: {
+          base_price_cents: number
+          category: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          description: string | null
+          documentation_url: string | null
+          icon_url: string | null
+          id: string
+          install_mode: string
+          listing_key: string
+          listing_type: string
+          metadata: Json
+          name: string
+          pricing_model: string
+          privacy_policy_url: string | null
+          published_at: string | null
+          publisher_id: string
+          requires_admin_approval: boolean
+          requires_billing_provider: boolean
+          requires_security_review: boolean
+          screenshots: Json
+          short_description: string | null
+          status: string
+          support_policy: string | null
+          tags: string[]
+          team_id: string | null
+          terms_url: string | null
+          trial_days: number | null
+          updated_at: string
+          updated_by: string | null
+          version: string
+          visibility: string
+        }
+        Insert: {
+          base_price_cents?: number
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          description?: string | null
+          documentation_url?: string | null
+          icon_url?: string | null
+          id?: string
+          install_mode?: string
+          listing_key: string
+          listing_type?: string
+          metadata?: Json
+          name: string
+          pricing_model?: string
+          privacy_policy_url?: string | null
+          published_at?: string | null
+          publisher_id: string
+          requires_admin_approval?: boolean
+          requires_billing_provider?: boolean
+          requires_security_review?: boolean
+          screenshots?: Json
+          short_description?: string | null
+          status?: string
+          support_policy?: string | null
+          tags?: string[]
+          team_id?: string | null
+          terms_url?: string | null
+          trial_days?: number | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: string
+          visibility?: string
+        }
+        Update: {
+          base_price_cents?: number
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          description?: string | null
+          documentation_url?: string | null
+          icon_url?: string | null
+          id?: string
+          install_mode?: string
+          listing_key?: string
+          listing_type?: string
+          metadata?: Json
+          name?: string
+          pricing_model?: string
+          privacy_policy_url?: string | null
+          published_at?: string | null
+          publisher_id?: string
+          requires_admin_approval?: boolean
+          requires_billing_provider?: boolean
+          requires_security_review?: boolean
+          screenshots?: Json
+          short_description?: string | null
+          status?: string
+          support_policy?: string | null
+          tags?: string[]
+          team_id?: string | null
+          terms_url?: string | null
+          trial_days?: number | null
+          updated_at?: string
+          updated_by?: string | null
+          version?: string
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_listings_publisher_id_fkey"
+            columns: ["publisher_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_publishers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_payout_batches: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          batch_number: string | null
+          created_at: string
+          currency: string
+          gross_amount_cents: number
+          id: string
+          metadata: Json
+          notes: string | null
+          paid_at: string | null
+          payout_amount_cents: number
+          payout_provider_reference: string | null
+          period_end: string
+          period_start: string
+          platform_fee_cents: number
+          publisher_id: string
+          reviewed_by: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          batch_number?: string | null
+          created_at?: string
+          currency?: string
+          gross_amount_cents?: number
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          paid_at?: string | null
+          payout_amount_cents?: number
+          payout_provider_reference?: string | null
+          period_end: string
+          period_start: string
+          platform_fee_cents?: number
+          publisher_id: string
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          batch_number?: string | null
+          created_at?: string
+          currency?: string
+          gross_amount_cents?: number
+          id?: string
+          metadata?: Json
+          notes?: string | null
+          paid_at?: string | null
+          payout_amount_cents?: number
+          payout_provider_reference?: string | null
+          period_end?: string
+          period_start?: string
+          platform_fee_cents?: number
+          publisher_id?: string
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_payout_batches_publisher_id_fkey"
+            columns: ["publisher_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_publishers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_payout_items: {
+        Row: {
+          amount_cents: number
+          created_at: string
+          currency: string
+          id: string
+          ledger_id: string
+          listing_id: string | null
+          notes: string | null
+          payout_batch_id: string
+          status: string
+        }
+        Insert: {
+          amount_cents: number
+          created_at?: string
+          currency?: string
+          id?: string
+          ledger_id: string
+          listing_id?: string | null
+          notes?: string | null
+          payout_batch_id: string
+          status?: string
+        }
+        Update: {
+          amount_cents?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          ledger_id?: string
+          listing_id?: string | null
+          notes?: string | null
+          payout_batch_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_payout_items_ledger_id_fkey"
+            columns: ["ledger_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_revenue_ledger"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketplace_payout_items_payout_batch_id_fkey"
+            columns: ["payout_batch_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_payout_batches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_pricing_plans: {
+        Row: {
+          billing_interval: string
+          created_at: string
+          currency: string
+          description: string | null
+          features: Json
+          id: string
+          included_units: number | null
+          listing_id: string
+          metadata: Json
+          name: string
+          overage_price_cents: number | null
+          plan_key: string
+          price_cents: number
+          pricing_model: string
+          status: string
+          unit_name: string | null
+          updated_at: string
+        }
+        Insert: {
+          billing_interval?: string
+          created_at?: string
+          currency?: string
+          description?: string | null
+          features?: Json
+          id?: string
+          included_units?: number | null
+          listing_id: string
+          metadata?: Json
+          name: string
+          overage_price_cents?: number | null
+          plan_key: string
+          price_cents?: number
+          pricing_model?: string
+          status?: string
+          unit_name?: string | null
+          updated_at?: string
+        }
+        Update: {
+          billing_interval?: string
+          created_at?: string
+          currency?: string
+          description?: string | null
+          features?: Json
+          id?: string
+          included_units?: number | null
+          listing_id?: string
+          metadata?: Json
+          name?: string
+          overage_price_cents?: number | null
+          plan_key?: string
+          price_cents?: number
+          pricing_model?: string
+          status?: string
+          unit_name?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_pricing_plans_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_publishers: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          billing_contact_email: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          logo_url: string | null
+          metadata: Json
+          name: string
+          partner_organization_id: string | null
+          payout_status: string
+          publisher_key: string
+          publisher_type: string
+          reviewed_by: string | null
+          risk_level: string
+          security_contact_email: string | null
+          status: string
+          support_email: string | null
+          support_url: string | null
+          team_id: string | null
+          updated_at: string
+          verification_status: string
+          website_url: string | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          billing_contact_email?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          metadata?: Json
+          name: string
+          partner_organization_id?: string | null
+          payout_status?: string
+          publisher_key: string
+          publisher_type?: string
+          reviewed_by?: string | null
+          risk_level?: string
+          security_contact_email?: string | null
+          status?: string
+          support_email?: string | null
+          support_url?: string | null
+          team_id?: string | null
+          updated_at?: string
+          verification_status?: string
+          website_url?: string | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          billing_contact_email?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          metadata?: Json
+          name?: string
+          partner_organization_id?: string | null
+          payout_status?: string
+          publisher_key?: string
+          publisher_type?: string
+          reviewed_by?: string | null
+          risk_level?: string
+          security_contact_email?: string | null
+          status?: string
+          support_email?: string | null
+          support_url?: string | null
+          team_id?: string | null
+          updated_at?: string
+          verification_status?: string
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      marketplace_purchases: {
+        Row: {
+          amount_cents: number
+          approved_at: string | null
+          approved_by: string | null
+          billing_provider: string
+          created_at: string
+          currency: string
+          error_message: string | null
+          id: string
+          installation_id: string | null
+          listing_id: string
+          metadata: Json
+          pricing_plan_id: string | null
+          provider_checkout_reference: string | null
+          purchase_number: string | null
+          quantity: number
+          requested_by: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          amount_cents?: number
+          approved_at?: string | null
+          approved_by?: string | null
+          billing_provider?: string
+          created_at?: string
+          currency?: string
+          error_message?: string | null
+          id?: string
+          installation_id?: string | null
+          listing_id: string
+          metadata?: Json
+          pricing_plan_id?: string | null
+          provider_checkout_reference?: string | null
+          purchase_number?: string | null
+          quantity?: number
+          requested_by?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number
+          approved_at?: string | null
+          approved_by?: string | null
+          billing_provider?: string
+          created_at?: string
+          currency?: string
+          error_message?: string | null
+          id?: string
+          installation_id?: string | null
+          listing_id?: string
+          metadata?: Json
+          pricing_plan_id?: string | null
+          provider_checkout_reference?: string | null
+          purchase_number?: string | null
+          quantity?: number
+          requested_by?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_purchases_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_reports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          filters: Json
+          id: string
+          output: Json
+          publisher_id: string | null
+          report_type: string
+          requested_by: string | null
+          status: string
+          team_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          publisher_id?: string | null
+          report_type: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          filters?: Json
+          id?: string
+          output?: Json
+          publisher_id?: string | null
+          report_type?: string
+          requested_by?: string | null
+          status?: string
+          team_id?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      marketplace_revenue_ledger: {
+        Row: {
+          created_at: string
+          currency: string
+          gross_amount_cents: number
+          id: string
+          ledger_type: string
+          listing_id: string | null
+          metadata: Json
+          platform_fee_cents: number
+          provider_reference: string | null
+          publisher_id: string | null
+          publisher_share_cents: number
+          purchase_id: string | null
+          revenue_period_end: string | null
+          revenue_period_start: string | null
+          status: string
+          team_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          currency?: string
+          gross_amount_cents?: number
+          id?: string
+          ledger_type?: string
+          listing_id?: string | null
+          metadata?: Json
+          platform_fee_cents?: number
+          provider_reference?: string | null
+          publisher_id?: string | null
+          publisher_share_cents?: number
+          purchase_id?: string | null
+          revenue_period_end?: string | null
+          revenue_period_start?: string | null
+          status?: string
+          team_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          currency?: string
+          gross_amount_cents?: number
+          id?: string
+          ledger_type?: string
+          listing_id?: string | null
+          metadata?: Json
+          platform_fee_cents?: number
+          provider_reference?: string | null
+          publisher_id?: string | null
+          publisher_share_cents?: number
+          purchase_id?: string | null
+          revenue_period_end?: string | null
+          revenue_period_start?: string | null
+          status?: string
+          team_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_revenue_ledger_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketplace_revenue_ledger_publisher_id_fkey"
+            columns: ["publisher_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_publishers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketplace_revenue_ledger_purchase_id_fkey"
+            columns: ["purchase_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_purchases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_review_requests: {
+        Row: {
+          checklist: Json
+          comments: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          listing_id: string | null
+          publisher_id: string | null
+          review_type: string
+          reviewed_at: string | null
+          reviewer_id: string | null
+          risk_findings: Json
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          checklist?: Json
+          comments?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          listing_id?: string | null
+          publisher_id?: string | null
+          review_type?: string
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          risk_findings?: Json
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          checklist?: Json
+          comments?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          listing_id?: string | null
+          publisher_id?: string | null
+          review_type?: string
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          risk_findings?: Json
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_review_requests_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketplace_review_requests_publisher_id_fkey"
+            columns: ["publisher_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_publishers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_reviews: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          installation_id: string | null
+          listing_id: string
+          publisher_response: string | null
+          rating: number
+          responded_at: string | null
+          status: string
+          team_id: string
+          title: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          installation_id?: string | null
+          listing_id: string
+          publisher_response?: string | null
+          rating: number
+          responded_at?: string | null
+          status?: string
+          team_id: string
+          title?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          installation_id?: string | null
+          listing_id?: string
+          publisher_response?: string | null
+          rating?: number
+          responded_at?: string | null
+          status?: string
+          team_id?: string
+          title?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_reviews_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_security_assessments: {
+        Row: {
+          assessment_type: string
+          created_at: string
+          data_access_summary: Json
+          expires_at: string | null
+          findings: Json
+          id: string
+          listing_id: string | null
+          permissions_requested: string[]
+          publisher_id: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          risk_level: string
+          status: string
+          team_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          assessment_type?: string
+          created_at?: string
+          data_access_summary?: Json
+          expires_at?: string | null
+          findings?: Json
+          id?: string
+          listing_id?: string | null
+          permissions_requested?: string[]
+          publisher_id?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          risk_level?: string
+          status?: string
+          team_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          assessment_type?: string
+          created_at?: string
+          data_access_summary?: Json
+          expires_at?: string | null
+          findings?: Json
+          id?: string
+          listing_id?: string | null
+          permissions_requested?: string[]
+          publisher_id?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          risk_level?: string
+          status?: string
+          team_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_security_assessments_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketplace_security_assessments_publisher_id_fkey"
+            columns: ["publisher_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_publishers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_usage_records: {
+        Row: {
+          created_at: string
+          id: string
+          installation_id: string
+          listing_id: string
+          metadata: Json
+          occurred_at: string
+          quantity: number
+          source: string
+          team_id: string
+          unit: string | null
+          usage_key: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          installation_id: string
+          listing_id: string
+          metadata?: Json
+          occurred_at?: string
+          quantity?: number
+          source?: string
+          team_id: string
+          unit?: string | null
+          usage_key: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          installation_id?: string
+          listing_id?: string
+          metadata?: Json
+          occurred_at?: string
+          quantity?: number
+          source?: string
+          team_id?: string
+          unit?: string | null
+          usage_key?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_usage_records_installation_id_fkey"
+            columns: ["installation_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_installations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       member_permission_overrides: {
         Row: {
           created_at: string
@@ -22543,6 +23863,10 @@ export type Database = {
         Returns: boolean
       }
       is_launch_admin: {
+        Args: { _team_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_marketplace_admin: {
         Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
