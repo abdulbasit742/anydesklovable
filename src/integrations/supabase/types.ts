@@ -1216,6 +1216,143 @@ export type Database = {
           },
         ]
       }
+      billing_alert_events: {
+        Row: {
+          acknowledged_at: string | null
+          acknowledged_by: string | null
+          alert_rule_id: string | null
+          created_at: string
+          current_usage: number | null
+          entitlement_key: string | null
+          id: string
+          limit_value: number | null
+          message: string | null
+          meter_key: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          severity: string
+          status: string
+          team_id: string
+          title: string
+          updated_at: string
+          usage_percent: number | null
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          alert_rule_id?: string | null
+          created_at?: string
+          current_usage?: number | null
+          entitlement_key?: string | null
+          id?: string
+          limit_value?: number | null
+          message?: string | null
+          meter_key?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          severity?: string
+          status?: string
+          team_id: string
+          title: string
+          updated_at?: string
+          usage_percent?: number | null
+        }
+        Update: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          alert_rule_id?: string | null
+          created_at?: string
+          current_usage?: number | null
+          entitlement_key?: string | null
+          id?: string
+          limit_value?: number | null
+          message?: string | null
+          meter_key?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          severity?: string
+          status?: string
+          team_id?: string
+          title?: string
+          updated_at?: string
+          usage_percent?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_alert_events_alert_rule_id_fkey"
+            columns: ["alert_rule_id"]
+            isOneToOne: false
+            referencedRelation: "billing_alert_rules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "billing_alert_events_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      billing_alert_rules: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          enabled: boolean
+          entitlement_key: string | null
+          id: string
+          meter_key: string | null
+          name: string
+          notify_admins: boolean
+          notify_billing_admins: boolean
+          severity: string
+          team_id: string
+          threshold_percent: number
+          threshold_quantity: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          entitlement_key?: string | null
+          id?: string
+          meter_key?: string | null
+          name: string
+          notify_admins?: boolean
+          notify_billing_admins?: boolean
+          severity?: string
+          team_id: string
+          threshold_percent?: number
+          threshold_quantity?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          enabled?: boolean
+          entitlement_key?: string | null
+          id?: string
+          meter_key?: string | null
+          name?: string
+          notify_admins?: boolean
+          notify_billing_admins?: boolean
+          severity?: string
+          team_id?: string
+          threshold_percent?: number
+          threshold_quantity?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_alert_rules_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       billing_change_requests: {
         Row: {
           billing_interval: string
@@ -1268,6 +1405,743 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "billing_change_requests_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      billing_credit_grants: {
+        Row: {
+          amount_cents: number | null
+          created_at: string
+          credit_type: string
+          currency: string
+          expires_at: string | null
+          granted_by: string | null
+          id: string
+          meter_key: string | null
+          quantity_credit: number | null
+          reason: string | null
+          status: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          amount_cents?: number | null
+          created_at?: string
+          credit_type?: string
+          currency?: string
+          expires_at?: string | null
+          granted_by?: string | null
+          id?: string
+          meter_key?: string | null
+          quantity_credit?: number | null
+          reason?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number | null
+          created_at?: string
+          credit_type?: string
+          currency?: string
+          expires_at?: string | null
+          granted_by?: string | null
+          id?: string
+          meter_key?: string | null
+          quantity_credit?: number | null
+          reason?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_credit_grants_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      billing_enforcement_events: {
+        Row: {
+          action_type: string
+          created_at: string
+          current_usage: number | null
+          decision: string
+          entitlement_key: string
+          id: string
+          limit_value: number | null
+          metadata: Json
+          meter_key: string | null
+          reason: string | null
+          requested_by: string | null
+          resource_id: string | null
+          resource_type: string | null
+          team_id: string
+        }
+        Insert: {
+          action_type: string
+          created_at?: string
+          current_usage?: number | null
+          decision: string
+          entitlement_key: string
+          id?: string
+          limit_value?: number | null
+          metadata?: Json
+          meter_key?: string | null
+          reason?: string | null
+          requested_by?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          team_id: string
+        }
+        Update: {
+          action_type?: string
+          created_at?: string
+          current_usage?: number | null
+          decision?: string
+          entitlement_key?: string
+          id?: string
+          limit_value?: number | null
+          metadata?: Json
+          meter_key?: string | null
+          reason?: string | null
+          requested_by?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          team_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_enforcement_events_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      billing_entitlements: {
+        Row: {
+          active: boolean
+          created_at: string
+          enforcement_mode: string
+          entitlement_key: string
+          entitlement_name: string
+          entitlement_type: string
+          id: string
+          overage_allowed: boolean
+          overage_price_cents: number | null
+          plan_id: string
+          reset_interval: string
+          stripe_meter_id: string | null
+          updated_at: string
+          value_boolean: boolean | null
+          value_integer: number | null
+          value_json: Json
+          value_numeric: number | null
+          value_text: string | null
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          enforcement_mode?: string
+          entitlement_key: string
+          entitlement_name: string
+          entitlement_type?: string
+          id?: string
+          overage_allowed?: boolean
+          overage_price_cents?: number | null
+          plan_id: string
+          reset_interval?: string
+          stripe_meter_id?: string | null
+          updated_at?: string
+          value_boolean?: boolean | null
+          value_integer?: number | null
+          value_json?: Json
+          value_numeric?: number | null
+          value_text?: string | null
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          enforcement_mode?: string
+          entitlement_key?: string
+          entitlement_name?: string
+          entitlement_type?: string
+          id?: string
+          overage_allowed?: boolean
+          overage_price_cents?: number | null
+          plan_id?: string
+          reset_interval?: string
+          stripe_meter_id?: string | null
+          updated_at?: string
+          value_boolean?: boolean | null
+          value_integer?: number | null
+          value_json?: Json
+          value_numeric?: number | null
+          value_text?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_entitlements_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "billing_plan_catalog"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      billing_meter_definitions: {
+        Row: {
+          active: boolean
+          aggregation_method: string
+          billable: boolean
+          created_at: string
+          description: string | null
+          id: string
+          metadata: Json
+          meter_key: string
+          name: string
+          source_event: string | null
+          source_table: string | null
+          stripe_meter_id: string | null
+          unit: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          aggregation_method?: string
+          billable?: boolean
+          created_at?: string
+          description?: string | null
+          id?: string
+          metadata?: Json
+          meter_key: string
+          name: string
+          source_event?: string | null
+          source_table?: string | null
+          stripe_meter_id?: string | null
+          unit?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          aggregation_method?: string
+          billable?: boolean
+          created_at?: string
+          description?: string | null
+          id?: string
+          metadata?: Json
+          meter_key?: string
+          name?: string
+          source_event?: string | null
+          source_table?: string | null
+          stripe_meter_id?: string | null
+          unit?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      billing_overage_events: {
+        Row: {
+          created_at: string
+          currency: string
+          estimated_amount_cents: number | null
+          id: string
+          included_quantity: number | null
+          invoice_id: string | null
+          meter_key: string
+          overage_quantity: number
+          period_end: string
+          period_start: string
+          quantity: number
+          status: string
+          team_id: string
+          unit_price_cents: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          currency?: string
+          estimated_amount_cents?: number | null
+          id?: string
+          included_quantity?: number | null
+          invoice_id?: string | null
+          meter_key: string
+          overage_quantity?: number
+          period_end: string
+          period_start: string
+          quantity: number
+          status?: string
+          team_id: string
+          unit_price_cents?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          currency?: string
+          estimated_amount_cents?: number | null
+          id?: string
+          included_quantity?: number | null
+          invoice_id?: string | null
+          meter_key?: string
+          overage_quantity?: number
+          period_end?: string
+          period_start?: string
+          quantity?: number
+          status?: string
+          team_id?: string
+          unit_price_cents?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_overage_events_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      billing_plan_catalog: {
+        Row: {
+          base_price_cents: number
+          billing_interval: string
+          created_at: string
+          currency: string
+          description: string | null
+          id: string
+          metadata: Json
+          name: string
+          plan_key: string
+          public_visible: boolean
+          sort_order: number
+          status: string
+          stripe_price_id: string | null
+          stripe_product_id: string | null
+          tier: string
+          trial_days: number
+          updated_at: string
+        }
+        Insert: {
+          base_price_cents?: number
+          billing_interval?: string
+          created_at?: string
+          currency?: string
+          description?: string | null
+          id?: string
+          metadata?: Json
+          name: string
+          plan_key: string
+          public_visible?: boolean
+          sort_order?: number
+          status?: string
+          stripe_price_id?: string | null
+          stripe_product_id?: string | null
+          tier?: string
+          trial_days?: number
+          updated_at?: string
+        }
+        Update: {
+          base_price_cents?: number
+          billing_interval?: string
+          created_at?: string
+          currency?: string
+          description?: string | null
+          id?: string
+          metadata?: Json
+          name?: string
+          plan_key?: string
+          public_visible?: boolean
+          sort_order?: number
+          status?: string
+          stripe_price_id?: string | null
+          stripe_product_id?: string | null
+          tier?: string
+          trial_days?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      billing_plan_overrides: {
+        Row: {
+          approved_by: string | null
+          created_at: string
+          created_by: string | null
+          entitlement_key: string
+          expires_at: string | null
+          id: string
+          override_type: string
+          reason: string | null
+          team_id: string
+          updated_at: string
+          value_boolean: boolean | null
+          value_integer: number | null
+          value_json: Json
+          value_numeric: number | null
+          value_text: string | null
+        }
+        Insert: {
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          entitlement_key: string
+          expires_at?: string | null
+          id?: string
+          override_type?: string
+          reason?: string | null
+          team_id: string
+          updated_at?: string
+          value_boolean?: boolean | null
+          value_integer?: number | null
+          value_json?: Json
+          value_numeric?: number | null
+          value_text?: string | null
+        }
+        Update: {
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          entitlement_key?: string
+          expires_at?: string | null
+          id?: string
+          override_type?: string
+          reason?: string | null
+          team_id?: string
+          updated_at?: string
+          value_boolean?: boolean | null
+          value_integer?: number | null
+          value_json?: Json
+          value_numeric?: number | null
+          value_text?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_plan_overrides_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      billing_provider_sync_jobs: {
+        Row: {
+          attempt_count: number
+          created_at: string
+          created_by: string | null
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          input: Json
+          max_attempts: number
+          output: Json
+          period_end: string | null
+          period_start: string | null
+          provider: string
+          started_at: string | null
+          status: string
+          sync_type: string
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          attempt_count?: number
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          input?: Json
+          max_attempts?: number
+          output?: Json
+          period_end?: string | null
+          period_start?: string | null
+          provider?: string
+          started_at?: string | null
+          status?: string
+          sync_type: string
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          attempt_count?: number
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          input?: Json
+          max_attempts?: number
+          output?: Json
+          period_end?: string | null
+          period_start?: string | null
+          provider?: string
+          started_at?: string | null
+          status?: string
+          sync_type?: string
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_provider_sync_jobs_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      billing_quota_status: {
+        Row: {
+          created_at: string
+          current_usage: number
+          enforcement_mode: string
+          entitlement_key: string
+          id: string
+          last_checked_at: string
+          limit_value: number | null
+          metadata: Json
+          meter_key: string | null
+          period_end: string | null
+          period_start: string | null
+          status: string
+          team_id: string
+          updated_at: string
+          usage_percent: number | null
+        }
+        Insert: {
+          created_at?: string
+          current_usage?: number
+          enforcement_mode?: string
+          entitlement_key: string
+          id?: string
+          last_checked_at?: string
+          limit_value?: number | null
+          metadata?: Json
+          meter_key?: string | null
+          period_end?: string | null
+          period_start?: string | null
+          status?: string
+          team_id: string
+          updated_at?: string
+          usage_percent?: number | null
+        }
+        Update: {
+          created_at?: string
+          current_usage?: number
+          enforcement_mode?: string
+          entitlement_key?: string
+          id?: string
+          last_checked_at?: string
+          limit_value?: number | null
+          metadata?: Json
+          meter_key?: string | null
+          period_end?: string | null
+          period_start?: string | null
+          status?: string
+          team_id?: string
+          updated_at?: string
+          usage_percent?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_quota_status_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      billing_usage_aggregates: {
+        Row: {
+          aggregation_status: string
+          billable_quantity: number | null
+          created_at: string
+          currency: string
+          estimated_cost_cents: number | null
+          finalized_at: string | null
+          id: string
+          included_quantity: number | null
+          last_event_at: string | null
+          metadata: Json
+          meter_key: string
+          overage_quantity: number | null
+          period_end: string
+          period_start: string
+          quantity: number
+          synced_at: string | null
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          aggregation_status?: string
+          billable_quantity?: number | null
+          created_at?: string
+          currency?: string
+          estimated_cost_cents?: number | null
+          finalized_at?: string | null
+          id?: string
+          included_quantity?: number | null
+          last_event_at?: string | null
+          metadata?: Json
+          meter_key: string
+          overage_quantity?: number | null
+          period_end: string
+          period_start: string
+          quantity?: number
+          synced_at?: string | null
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          aggregation_status?: string
+          billable_quantity?: number | null
+          created_at?: string
+          currency?: string
+          estimated_cost_cents?: number | null
+          finalized_at?: string | null
+          id?: string
+          included_quantity?: number | null
+          last_event_at?: string | null
+          metadata?: Json
+          meter_key?: string
+          overage_quantity?: number | null
+          period_end?: string
+          period_start?: string
+          quantity?: number
+          synced_at?: string | null
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_usage_aggregates_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      billing_usage_events: {
+        Row: {
+          billing_period_end: string | null
+          billing_period_start: string | null
+          created_at: string
+          id: string
+          idempotency_key: string | null
+          metadata: Json
+          meter_key: string
+          occurred_at: string
+          quantity: number
+          source: string
+          source_resource_id: string | null
+          source_resource_type: string | null
+          team_id: string
+          unit: string | null
+        }
+        Insert: {
+          billing_period_end?: string | null
+          billing_period_start?: string | null
+          created_at?: string
+          id?: string
+          idempotency_key?: string | null
+          metadata?: Json
+          meter_key: string
+          occurred_at?: string
+          quantity?: number
+          source?: string
+          source_resource_id?: string | null
+          source_resource_type?: string | null
+          team_id: string
+          unit?: string | null
+        }
+        Update: {
+          billing_period_end?: string | null
+          billing_period_start?: string | null
+          created_at?: string
+          id?: string
+          idempotency_key?: string | null
+          metadata?: Json
+          meter_key?: string
+          occurred_at?: string
+          quantity?: number
+          source?: string
+          source_resource_id?: string | null
+          source_resource_type?: string | null
+          team_id?: string
+          unit?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_usage_events_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      billing_usage_exports: {
+        Row: {
+          artifact_id: string | null
+          created_at: string
+          error_message: string | null
+          export_type: string
+          id: string
+          output: Json
+          period_end: string
+          period_start: string
+          requested_by: string | null
+          status: string
+          storage_path: string | null
+          team_id: string
+          updated_at: string
+        }
+        Insert: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          export_type: string
+          id?: string
+          output?: Json
+          period_end: string
+          period_start: string
+          requested_by?: string | null
+          status?: string
+          storage_path?: string | null
+          team_id: string
+          updated_at?: string
+        }
+        Update: {
+          artifact_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          export_type?: string
+          id?: string
+          output?: Json
+          period_end?: string
+          period_start?: string
+          requested_by?: string | null
+          status?: string
+          storage_path?: string | null
+          team_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_usage_exports_team_id_fkey"
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
@@ -7793,6 +8667,10 @@ export type Database = {
           _team_id: string
           _user_id: string
         }
+        Returns: boolean
+      }
+      is_billing_manager: {
+        Args: { _team_id: string; _user_id: string }
         Returns: boolean
       }
       is_integration_manager: {
