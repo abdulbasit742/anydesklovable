@@ -11,6 +11,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
 import { useAutomationPipelines, useCreateAutomationRow } from "@/lib/automation/hooks";
+import { useRunAutomationPipeline, useArchiveAutomationPipeline } from "@/lib/services/automation-engine";
 import { AutomationStatusBadge, DemoBanner, EmptyState, formatRelative } from "@/components/app/automation/shared";
 
 export const Route = createFileRoute("/dashboard/automation/pipelines")({
