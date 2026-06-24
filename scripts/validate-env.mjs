@@ -6,9 +6,10 @@ const strict = process.argv.includes("--strict") || process.env.VALIDATE_ENV_STR
 const envSpec = [
   { name: "VITE_SUPABASE_URL", required: true, serverOnly: false, description: "Public Supabase URL for browser client" },
   { name: "VITE_SUPABASE_PUBLISHABLE_KEY", required: true, serverOnly: false, description: "Public Supabase anon/publishable key" },
+  { name: "VITE_ENGINE_API_BASE_URL", required: false, serverOnly: false, description: "Public engine API base URL for read-only status checks" },
   { name: "SUPABASE_URL", required: false, serverOnly: true, description: "Server-side Supabase URL fallback" },
   { name: "SUPABASE_SERVICE_ROLE_KEY", required: false, serverOnly: true, description: "Server-only Supabase service role key for trusted server routes only" },
-  { name: "ENGINE_API_BASE_URL", required: false, serverOnly: true, description: "RemoteDesk engine API base URL" },
+  { name: "ENGINE_API_BASE_URL", required: false, serverOnly: true, description: "Server-only RemoteDesk engine API base URL" },
   { name: "DASHBOARD_ENGINE_SIGNING_SECRET", required: false, serverOnly: true, description: "HMAC secret for dashboard-to-engine signed requests" },
   { name: "ENGINE_WEBHOOK_SIGNING_SECRET", required: false, serverOnly: true, description: "HMAC secret for engine-to-dashboard webhooks" },
   { name: "PUBLIC_APP_URL", required: false, serverOnly: false, description: "Public dashboard/app URL" },
