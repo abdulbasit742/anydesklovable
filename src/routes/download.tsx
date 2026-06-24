@@ -1,26 +1,38 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Apple, Download as DownloadIcon, ShieldCheck } from "lucide-react";
+import { Apple, Download as DownloadIcon, ShieldCheck, AlertTriangle } from "lucide-react";
 import { MarketingNav, MarketingFooter } from "@/components/marketing/MarketingNav";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { getFeatureFlags } from "@/lib/config/feature-flags";
 
 export const Route = createFileRoute("/download")({
   head: () => ({
     meta: [
       { title: "Download — RemoteDesk" },
-      { name: "description", content: "Download the RemoteDesk desktop client for Windows, macOS, or Linux." },
+      { name: "description", content: "Download the RemoteDesk desktop client when release downloads are enabled." },
     ],
   }),
   component: DownloadPage,
 });
 
 const platforms = [
-  { name: "Windows", icon: WindowsIcon, file: "RemoteDesk-Setup-2.4.1.exe", size: "38.2 MB", arch: "x64 / ARM64" },
-  { name: "macOS", icon: Apple, file: "RemoteDesk-2.4.1.dmg", size: "42.7 MB", arch: "Universal" },
-  { name: "Linux", icon: LinuxIcon, file: "remotedesk_2.4.1_amd64.deb", size: "36.8 MB", arch: ".deb / .rpm / .AppImage" },
+  { name: "Windows", icon: WindowsIcon, file: "RemoteDesk-Setup-beta.exe", size: "Pending", arch: "x64 / ARM64" },
+  { name: "macOS", icon: Apple, file: "RemoteDesk-beta.dmg", size: "Pending", arch: "Universal" },
+  { name: "Linux", icon: LinuxIcon, file: "remotedesk_beta_amd64.deb", size: "Pending", arch: ".deb / .rpm / .AppImage" },
 ];
 
 function DownloadPage() {
+  const flags = getFeatureFlags();
+  const downloadsEnabled = flags.releaseDownloadEnabled;
+
+  const handleDownload = (file: string) => {
+    if (!downloadsEnabled) {
+      toast.error("Release downloads are currently disabled for this beta.");
+      return;
+    }
+    toast.success(`Preparing ${file}. Verify checksum before installing.`);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <MarketingNav />
@@ -30,9 +42,23 @@ function DownloadPage() {
             <div className="text-xs font-semibold uppercase tracking-wider text-primary">Desktop client</div>
             <h1 className="mt-2 text-4xl font-semibold tracking-tight sm:text-5xl">Download RemoteDesk</h1>
             <p className="mt-3 text-muted-foreground">
-              Code-signed installers for every major operating system. Version 2.4.1 · Released Jun 8, 2026.
+              Controlled beta downloads are shown only when release downloads are enabled and verified by the admin team.
             </p>
           </div>
+
+          {!downloadsEnabled && (
+            <div className="mx-auto mt-8 max-w-3xl rounded-lg border border-amber-300/70 bg-amber-50 p-4 text-amber-950">
+              <div className="flex gap-3">
+                <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
+                <div>
+                  <div className="font-medium">Downloads are currently gated</div>
+                  <p className="mt-1 text-sm text-amber-900/80">
+                    The desktop client is not publicly available from this page until beta release metadata, checksum verification, and rollout approval are complete.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="mt-10 grid gap-3 md:grid-cols-3">
             {platforms.map((p) => (
@@ -49,8 +75,8 @@ function DownloadPage() {
                 <div className="mt-4 rounded-md border border-border bg-muted/40 p-2 font-mono text-xs">
                   {p.file} · {p.size}
                 </div>
-                <Button className="mt-4 w-full" onClick={() => toast.success(`Downloading ${p.file}`)}>
-                  <DownloadIcon className="mr-1.5 h-4 w-4" /> Download for {p.name}
+                <Button className="mt-4 w-full" disabled={!downloadsEnabled} onClick={() => handleDownload(p.file)}>
+                  <DownloadIcon className="mr-1.5 h-4 w-4" /> {downloadsEnabled ? `Download for ${p.name}` : "Download gated"}
                 </Button>
               </div>
             ))}
@@ -58,12 +84,12 @@ function DownloadPage() {
 
           <div className="mt-10 grid gap-4 lg:grid-cols-2">
             <div className="rounded-lg border border-border bg-card p-5">
-              <div className="text-sm font-semibold">Install steps</div>
+              <div className="text-sm font-semibold">Beta install checklist</div>
               <ol className="mt-3 space-y-2 text-sm text-muted-foreground">
-                <li><span className="mr-2 font-mono text-xs text-primary">01</span> Download and run the installer for your OS.</li>
-                <li><span className="mr-2 font-mono text-xs text-primary">02</span> Approve the system prompts (admin / accessibility).</li>
-                <li><span className="mr-2 font-mono text-xs text-primary">03</span> Sign in or paste your account device token.</li>
-                <li><span className="mr-2 font-mono text-xs text-primary">04</span> Set a device password and share your 9-digit ID.</li>
+                <li><span className="mr-2 font-mono text-xs text-primary">01</span> Confirm your team is approved for beta access.</li>
+                <li><span className="mr-2 font-mono text-xs text-primary">02</span> Download only from a verified release record with checksum.</li>
+                <li><span className="mr-2 font-mono text-xs text-primary">03</span> Use test or non-critical devices during beta.</li>
+                <li><span className="mr-2 font-mono text-xs text-primary">04</span> Verify host consent and Emergency Stop before any test session.</li>
               </ol>
             </div>
             <div className="rounded-lg border border-border bg-card p-5">
@@ -72,10 +98,9 @@ function DownloadPage() {
                   <ShieldCheck className="h-4 w-4" />
                 </span>
                 <div>
-                  <div className="text-sm font-semibold">Verified & code-signed</div>
+                  <div className="text-sm font-semibold">Verification required</div>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    All installers are signed by <span className="font-mono text-xs">RemoteDesk Technologies Inc.</span>
-                    Verify the SHA-256 checksum on the release notes page before installing.
+                    Installers must have release metadata, checksum, and approval status before public download is enabled. Do not install unverified artifacts.
                   </p>
                 </div>
               </div>
@@ -83,12 +108,12 @@ function DownloadPage() {
           </div>
 
           <div className="mt-10 rounded-lg border border-border bg-card p-5">
-            <div className="text-sm font-semibold">Release notes — v2.4.1</div>
+            <div className="text-sm font-semibold">Current beta limitations</div>
             <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
-              <li>• New: in-session chat with file attachments</li>
-              <li>• New: WebRTC quality diagnostics overlay</li>
-              <li>• Improved: faster TURN failover on flaky networks</li>
-              <li>• Fixed: clipboard sync race condition on macOS Sonoma</li>
+              <li>• Downloads may remain gated until release metadata and checksums are verified.</li>
+              <li>• Use only on test or non-critical machines during beta.</li>
+              <li>• Host consent and Emergency Stop validation are required before session testing.</li>
+              <li>• Report issues through Support without pasting passwords, tokens, or private keys.</li>
             </ul>
           </div>
         </div>
