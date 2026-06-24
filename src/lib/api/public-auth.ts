@@ -2,6 +2,7 @@
 // Server-only — relies on @/integrations/supabase/client.server which uses
 // the service role key. Never import this file from the client bundle.
 import { createHash, randomBytes } from "crypto";
+import { checkFeatureGate } from "@/lib/config/feature-flags";
 
 type Json = unknown;
 
@@ -110,6 +111,13 @@ export function withPublicApi(scope: ScopeRule | null, handler: PublicHandler) {
     const path = url.pathname;
     const method = request.method;
     const ua = request.headers.get("user-agent");
+
+    const gate = checkFeatureGate("publicApiEnabled");
+    if (!gate.ok) {
+      return apiError("feature_disabled", gate.message ?? "Public API is disabled by policy.", gate.status, requestId, {
+        "x-feature-disabled": gate.feature ?? "publicApiEnabled",
+      });
+    }
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const admin = supabaseAdmin as unknown as AdminClient;
