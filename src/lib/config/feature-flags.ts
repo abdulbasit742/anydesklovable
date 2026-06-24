@@ -22,8 +22,15 @@ export interface FeatureGateResult {
 const truthy = new Set(['1', 'true', 'yes', 'on', 'enabled']);
 const falsy = new Set(['0', 'false', 'no', 'off', 'disabled']);
 
+function readRawEnv(name: string): string | undefined {
+  const viteValue = import.meta.env[name] as string | undefined;
+  if (viteValue !== undefined && viteValue !== '') return viteValue;
+  if (typeof process !== 'undefined') return process.env[name];
+  return undefined;
+}
+
 function readBoolean(name: string, fallback: boolean): boolean {
-  const value = import.meta.env[name] ?? process.env[name];
+  const value = readRawEnv(name);
   if (!value) return fallback;
   const normalized = String(value).trim().toLowerCase();
   if (truthy.has(normalized)) return true;
