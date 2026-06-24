@@ -5,7 +5,15 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
+function assertServerOnly() {
+  if (typeof window !== 'undefined') {
+    throw new Error('SECURITY: supabaseAdmin cannot be used in browser/client code. Move this import into a server-only handler.');
+  }
+}
+
 function createSupabaseAdminClient() {
+  assertServerOnly();
+
   const SUPABASE_URL = process.env.SUPABASE_URL;
   const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -14,7 +22,7 @@ function createSupabaseAdminClient() {
       ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
       ...(!SUPABASE_SERVICE_ROLE_KEY ? ['SUPABASE_SERVICE_ROLE_KEY'] : []),
     ];
-    const message = `Missing Supabase environment variable(s): ${missing.join(', ')}. Connect Supabase in Lovable Cloud.`;
+    const message = `Missing Supabase server environment variable(s): ${missing.join(', ')}.`;
     console.error(`[Supabase] ${message}`);
     throw new Error(message);
   }
@@ -30,12 +38,13 @@ function createSupabaseAdminClient() {
 
 let _supabaseAdmin: ReturnType<typeof createSupabaseAdminClient> | undefined;
 
-// Server-side Supabase client with service role - bypasses RLS
-// SECURITY: Only use this for trusted server-side operations, never expose to client code
+// Server-side Supabase client with service role - bypasses RLS.
+// SECURITY: Only use this for trusted server-side operations, never expose to client code.
 // Load inside server handlers: const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-// Top-level import is safe only in other .server.ts modules - route files and *.functions.ts ship to the client bundle.
+// Top-level import is safe only in server-only modules/routes that never ship to browser bundles.
 export const supabaseAdmin = new Proxy({} as ReturnType<typeof createSupabaseAdminClient>, {
   get(_, prop, receiver) {
+    assertServerOnly();
     if (!_supabaseAdmin) _supabaseAdmin = createSupabaseAdminClient();
     return Reflect.get(_supabaseAdmin, prop, receiver);
   },
