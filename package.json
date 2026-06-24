@@ -12,7 +12,9 @@
     "format": "prettier --write .",
     "env:validate": "node scripts/validate-env.mjs",
     "env:validate:strict": "node scripts/validate-env.mjs --strict",
-    "security:scan": "node scripts/security-scan.mjs"
+    "security:scan": "node scripts/security-scan.mjs",
+    "safety:scan": "node scripts/safety-scan.mjs",
+    "ci:local": "npm run env:validate && npm run security:scan && npm run safety:scan && npm run lint && npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
