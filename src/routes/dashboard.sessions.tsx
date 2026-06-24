@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { useSessions, formatDuration, type SessionRow, endRemoteSession, useRealtimeSessions } from "@/lib/services";
 import { useCurrentTeam } from "@/hooks/use-current-team";
 import { DemoBanner, LoadingRow, EmptyRow, ErrorRow } from "@/components/app/DataState";
+import { BetaFeatureGate } from "@/components/beta/BetaFeatureGate";
 import { formatDistanceToNow } from "date-fns";
 
 
@@ -88,8 +89,20 @@ function SessionsPage() {
             <Stat label="Packet loss" value="0.1%" />
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Button size="sm" variant="outline" onClick={() => toast("Chat opened")}><MessageSquare className="mr-1.5 h-4 w-4" /> Chat</Button>
-            <Button size="sm" variant="outline" onClick={() => toast("Diagnostics opened")}><Signal className="mr-1.5 h-4 w-4" /> Diagnostics</Button>
+            <BetaFeatureGate
+              flag="sessionRequestEnabled"
+              title="Session actions gated"
+              description="Session actions are disabled until the beta session-request gate is enabled."
+            >
+              <Button size="sm" variant="outline" onClick={() => toast("Chat opened")}><MessageSquare className="mr-1.5 h-4 w-4" /> Chat</Button>
+            </BetaFeatureGate>
+            <BetaFeatureGate
+              flag="supportDiagnosticsEnabled"
+              title="Diagnostics gated"
+              description="Diagnostics are disabled until support diagnostics is enabled for this beta."
+            >
+              <Button size="sm" variant="outline" onClick={() => toast("Diagnostics opened")}><Signal className="mr-1.5 h-4 w-4" /> Diagnostics</Button>
+            </BetaFeatureGate>
             <Button size="sm" variant="destructive" disabled={isDemo || endMut.isPending} onClick={() => endMut.mutate(active.id)}>
               <OctagonAlert className="mr-1.5 h-4 w-4" /> End session
             </Button>
