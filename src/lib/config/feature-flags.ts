@@ -11,6 +11,14 @@ export interface DashboardFeatureFlags {
 
 export type DashboardFeatureFlagName = keyof DashboardFeatureFlags;
 
+export interface FeatureGateResult {
+  ok: boolean;
+  status: 200 | 403;
+  code?: 'feature_disabled';
+  feature?: DashboardFeatureFlagName;
+  message?: string;
+}
+
 const truthy = new Set(['1', 'true', 'yes', 'on', 'enabled']);
 const falsy = new Set(['0', 'false', 'no', 'off', 'disabled']);
 
@@ -60,9 +68,21 @@ export function isFeatureEnabled(name: DashboardFeatureFlagName): boolean {
   return getFeatureFlags()[name];
 }
 
+export function checkFeatureGate(name: DashboardFeatureFlagName): FeatureGateResult {
+  if (isFeatureEnabled(name)) return { ok: true, status: 200 };
+  return {
+    ok: false,
+    status: 403,
+    code: 'feature_disabled',
+    feature: name,
+    message: 'This RemoteDesk beta capability is currently disabled by policy.'
+  };
+}
+
 export function assertFeatureEnabled(name: DashboardFeatureFlagName): void {
-  if (!isFeatureEnabled(name)) {
-    throw new Error(`RemoteDesk dashboard feature disabled: ${name}`);
+  const result = checkFeatureGate(name);
+  if (!result.ok) {
+    throw new Error(result.message);
   }
 }
 
