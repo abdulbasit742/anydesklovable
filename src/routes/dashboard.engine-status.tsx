@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Server, ShieldCheck, AlertTriangle } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { EngineFeatureStatusCard } from "@/components/app/developer/EngineFeatureStatusCard";
+import { DashboardConfigStatusCard } from "@/components/app/developer/DashboardConfigStatusCard";
 import { getEngineApiBaseUrl } from "@/lib/services/engine-feature-status";
 
 export const Route = createFileRoute("/dashboard/engine-status")({
@@ -48,7 +49,10 @@ function EngineStatusPage() {
           </div>
         )}
 
-        <EngineFeatureStatusCard />
+        <div className="grid gap-4 lg:grid-cols-2">
+          <DashboardConfigStatusCard />
+          <EngineFeatureStatusCard />
+        </div>
 
         <div className="rounded-lg border border-border bg-card p-4">
           <div className="flex items-start gap-3">
