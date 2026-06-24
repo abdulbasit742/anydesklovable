@@ -9,7 +9,10 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "env:validate": "node scripts/validate-env.mjs",
+    "env:validate:strict": "node scripts/validate-env.mjs --strict",
+    "security:scan": "node scripts/security-scan.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
