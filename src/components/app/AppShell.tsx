@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/use-auth";
 import { useCurrentTeam } from "@/hooks/use-current-team";
 import { NotificationBell } from "@/components/app/notifications/NotificationBell";
+import { BetaBanner } from "@/components/beta/BetaBanner";
 
 type NavItem = { to: string; label: string; icon: typeof LayoutDashboard; badge?: string };
 type NavGroup = { label?: string; items: NavItem[] };
@@ -185,6 +186,7 @@ export function AppShell({
           <NotificationBell />
           {actions}
         </header>
+        <BetaBanner />
         <main className="min-w-0 flex-1 p-4 sm:p-6">{children}</main>
       </div>
 
