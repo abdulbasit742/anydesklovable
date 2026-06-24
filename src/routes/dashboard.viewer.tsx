@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type Dispatch, type SetStateAction } from "react";
 import { AlertTriangle, PhoneOff, ShieldCheck } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/dashboard/viewer")({
 
 type LogItem = { id: string; message: string; at: string };
 
-function pushLog(setLog: React.Dispatch<React.SetStateAction<LogItem[]>>, message: string) {
+function pushLog(setLog: Dispatch<SetStateAction<LogItem[]>>, message: string) {
   setLog((items) => [{ id: crypto.randomUUID(), message, at: new Date().toLocaleTimeString() }, ...items].slice(0, 12));
 }
 
@@ -86,37 +86,35 @@ function ViewerPage() {
     const socket = service.connect();
     pushLog(setLog, "Connecting to signaling server...");
 
-    const cleanups = [
-      service.onSessionJoined(() => pushLog(setLog, "Joined session room.")),
-      service.onPeerJoined(() => pushLog(setLog, "Host peer joined.")),
-      service.onOffer(async (payload) => {
-        if (payload.sessionId !== targetSessionId || !payload.sdp) return;
-        const peer = ensurePeer(targetSessionId);
-        await peer.setRemoteDescription(payload.sdp);
-        const answer = await peer.createAnswer();
-        await peer.setLocalDescription(answer);
-        service.sendAnswer({ sessionId: targetSessionId, sdp: answer, targetSocketId: payload.fromSocketId });
-        await flushPendingIce();
-        setState("connecting");
-        setMessage("Answer sent. Waiting for the media stream...");
-        pushLog(setLog, "WebRTC answer sent.");
-      }),
-      service.onIceCandidate(async (payload) => {
-        if (payload.sessionId !== targetSessionId || !payload.candidate) return;
-        const peer = peerRef.current;
-        if (!peer || !peer.remoteDescription) {
-          pendingIceRef.current.push(payload.candidate);
-          return;
-        }
-        await peer.addIceCandidate(payload.candidate).catch(() => pendingIceRef.current.push(payload.candidate));
-      }),
-      service.onSessionEnded(() => stopLocal("Session ended by peer.")),
-      service.onEmergencyStop(() => stopLocal("Emergency stop received.")),
-      service.onWebRtcError((payload) => {
-        setState("error");
-        setMessage(typeof payload === "object" && payload && "message" in payload ? String((payload as { message?: string }).message) : "WebRTC signaling error");
-      })
-    ];
+    service.onSessionJoined(() => pushLog(setLog, "Joined session room."));
+    service.onPeerJoined(() => pushLog(setLog, "Host peer joined."));
+    service.onOffer(async (payload) => {
+      if (payload.sessionId !== targetSessionId || !payload.sdp) return;
+      const peer = ensurePeer(targetSessionId);
+      await peer.setRemoteDescription(payload.sdp);
+      const answer = await peer.createAnswer();
+      await peer.setLocalDescription(answer);
+      service.sendAnswer({ sessionId: targetSessionId, sdp: answer, targetSocketId: payload.fromSocketId });
+      await flushPendingIce();
+      setState("connecting");
+      setMessage("Answer sent. Waiting for the media stream...");
+      pushLog(setLog, "WebRTC answer sent.");
+    });
+    service.onIceCandidate(async (payload) => {
+      if (payload.sessionId !== targetSessionId || !payload.candidate) return;
+      const peer = peerRef.current;
+      if (!peer || !peer.remoteDescription) {
+        pendingIceRef.current.push(payload.candidate);
+        return;
+      }
+      await peer.addIceCandidate(payload.candidate).catch(() => pendingIceRef.current.push(payload.candidate));
+    });
+    service.onSessionEnded(() => stopLocal("Session ended by peer."));
+    service.onEmergencyStop(() => stopLocal("Emergency stop received."));
+    service.onWebRtcError((payload) => {
+      setState("error");
+      setMessage(typeof payload === "object" && payload && "message" in payload ? String((payload as { message?: string }).message) : "WebRTC signaling error");
+    });
 
     socket.on("connect", () => {
       service.joinSession({ sessionId: targetSessionId, role: "viewer" });
@@ -124,8 +122,6 @@ function ViewerPage() {
       setMessage("Joined session. Waiting for host offer...");
       pushLog(setLog, "Socket connected and session join sent.");
     });
-
-    return () => cleanups.forEach((cleanup) => cleanup());
   }
 
   async function requestFromDevice() {
@@ -153,13 +149,13 @@ function ViewerPage() {
 
   async function endSession() {
     if (sessionId) await endBackendSession(sessionId, { reason: "viewer_ended" }).catch(() => undefined);
-    serviceRef.current?.endSession(sessionId);
+    if (sessionId) serviceRef.current?.endSession(sessionId);
     stopLocal("Session ended.");
   }
 
   async function emergencyStop() {
     if (sessionId) await emergencyStopBackendSession(sessionId).catch(() => undefined);
-    serviceRef.current?.emergencyStop(sessionId);
+    if (sessionId) serviceRef.current?.emergencyStop(sessionId);
     stopLocal("Emergency stop sent. The remote stream has been stopped locally.");
   }
 
