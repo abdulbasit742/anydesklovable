@@ -12,6 +12,7 @@ const queryOptionsPath = join(basePath, "dashboard-query-options.ts");
 const queryStatePath = join(basePath, "dashboard-query-state.ts");
 const emptyStatesPath = join(basePath, "dashboard-empty-states.ts");
 const errorStatesPath = join(basePath, "dashboard-error-states.ts");
+const loadingStatesPath = join(basePath, "dashboard-loading-states.ts");
 const barrelPath = join(basePath, "dashboard-data.ts");
 
 function read(path) {
@@ -26,6 +27,7 @@ const queryOptions = read(queryOptionsPath);
 const queryState = read(queryStatePath);
 const emptyStates = read(emptyStatesPath);
 const errorStates = read(errorStatesPath);
+const loadingStates = read(loadingStatesPath);
 const barrel = read(barrelPath);
 
 const checks = {
@@ -37,6 +39,7 @@ const checks = {
   queryStateFileExists: existsSync(queryStatePath),
   emptyStatesFileExists: existsSync(emptyStatesPath),
   errorStatesFileExists: existsSync(errorStatesPath),
+  loadingStatesFileExists: existsSync(loadingStatesPath),
   barrelFileExists: existsSync(barrelPath),
   exportsDeviceContract: contracts.includes("DashboardDevice"),
   exportsSessionContract: contracts.includes("DashboardSession"),
@@ -67,6 +70,11 @@ const checks = {
   supportsSessionErrorState: errorStates.includes("sessions") && errorStates.includes("Could not load sessions"),
   supportsAuditErrorState: errorStates.includes("auditEvents") && errorStates.includes("Could not load audit activity"),
   supportsSecurityErrorState: errorStates.includes("securityEvents") && errorStates.includes("Could not load security events"),
+  exportsLoadingStateHelper: loadingStates.includes("getDashboardLoadingState"),
+  supportsDeviceLoadingState: loadingStates.includes("devices") && loadingStates.includes("Loading devices"),
+  supportsSessionLoadingState: loadingStates.includes("sessions") && loadingStates.includes("Loading sessions"),
+  supportsAuditLoadingState: loadingStates.includes("auditEvents") && loadingStates.includes("Loading audit activity"),
+  supportsSecurityLoadingState: loadingStates.includes("securityEvents") && loadingStates.includes("Loading security events"),
   barrelExportsContracts: barrel.includes("./dashboard-contracts"),
   barrelExportsMappers: barrel.includes("./dashboard-mappers"),
   barrelExportsQueryKeys: barrel.includes("./dashboard-query-keys"),
@@ -75,6 +83,7 @@ const checks = {
   barrelExportsQueryState: barrel.includes("./dashboard-query-state"),
   barrelExportsEmptyStates: barrel.includes("./dashboard-empty-states"),
   barrelExportsErrorStates: barrel.includes("./dashboard-error-states"),
+  barrelExportsLoadingStates: barrel.includes("./dashboard-loading-states"),
 };
 
 const failures = Object.entries(checks)
