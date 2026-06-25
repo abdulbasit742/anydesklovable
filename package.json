@@ -16,7 +16,8 @@
     "safety:scan": "node scripts/safety-scan.mjs",
     "routes:check": "node scripts/check-dashboard-routes.mjs",
     "public-api:check": "node scripts/check-public-api-gates.mjs",
-    "ci:local": "npm run env:validate && npm run security:scan && npm run safety:scan && npm run routes:check && npm run public-api:check && npm run lint && npm run build"
+    "dashboard-data:check": "node scripts/check-dashboard-data-layer.mjs",
+    "ci:local": "npm run env:validate && npm run security:scan && npm run safety:scan && npm run routes:check && npm run public-api:check && npm run dashboard-data:check && npm run lint && npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
