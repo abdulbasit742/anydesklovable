@@ -5,7 +5,8 @@ import { AppShell } from "@/components/app/AppShell";
 import { MetricCard } from "@/components/app/MetricCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { adminMetrics } from "@/lib/mock-data";
+// Admin revenue/churn metrics require server-side aggregation (Stripe webhooks or scheduled jobs)
+const adminMetrics = { signups7d: 0, monthlyRevenue: "—", churnRate: "—" };
 import { useAdminStats } from "@/lib/services";
 import { DemoBanner } from "@/components/app/DataState";
 import { AdminSupportTriage } from "@/components/app/support/AdminSupportTriage";

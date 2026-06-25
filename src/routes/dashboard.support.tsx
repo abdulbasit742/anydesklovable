@@ -13,7 +13,15 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DemoBanner } from "@/components/app/DataState";
-import { supportArticles } from "@/lib/mock-data";
+// Help center articles — static content, not user data. Could be moved to CMS or Supabase table later.
+const supportArticles = [
+  { id: "h1", category: "Getting started", title: "Install the RemoteDesk client", excerpt: "Download the desktop app for Windows, macOS, or Linux and sign in." },
+  { id: "h2", category: "Getting started", title: "Connect to a device using a 9-digit ID", excerpt: "Enter the RemoteDesk ID and approve the host prompt." },
+  { id: "h3", category: "Security", title: "Set a device password and rotate it", excerpt: "Device passwords add a second factor on top of host approval." },
+  { id: "h4", category: "Security", title: "Use the emergency stop shortcut", excerpt: "Ctrl + Shift + . instantly terminates the active session." },
+  { id: "h5", category: "Billing", title: "Change your plan or seat count", excerpt: "Upgrade, downgrade, or update billing details from the Billing page." },
+  { id: "h6", category: "Troubleshooting", title: "Diagnose a poor connection", excerpt: "Check latency, bitrate and packet loss in the session diagnostics panel." },
+];
 import { useCurrentTeam } from "@/hooks/use-current-team";
 import { useAuth } from "@/hooks/use-auth";
 import {

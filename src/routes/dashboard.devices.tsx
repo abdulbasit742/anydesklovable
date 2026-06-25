@@ -6,7 +6,7 @@ import { AppShell } from "@/components/app/AppShell";
 import { StatusBadge } from "@/components/app/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { formatRemoteDeskId } from "@/lib/mock-data";
+import { formatRemoteDeskId } from "@/lib/formatting/remote-desk-id";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";

@@ -6,7 +6,26 @@ import {
 } from "lucide-react";
 import { MarketingNav, MarketingFooter } from "@/components/marketing/MarketingNav";
 import { Button } from "@/components/ui/button";
-import { plans, formatRemoteDeskId } from "@/lib/mock-data";
+import { formatRemoteDeskId } from "@/lib/formatting/remote-desk-id";
+import { usePlanLimits, type PlanLimit } from "@/lib/services";
+
+function mapPlansForLanding(limits: PlanLimit[]) {
+  return limits.map((p) => ({
+    name: p.display_name,
+    price: p.monthly_price === null ? "Custom" : p.monthly_price === 0 ? "$0" : `$${p.monthly_price}`,
+    period: p.monthly_price === null ? "" : "/mo",
+    tagline: p.plan_key === "free" ? "Personal use" : p.plan_key === "pro" ? "Power users" : p.plan_key === "business" ? "Teams & support" : "Large orgs",
+    highlight: p.plan_key === "pro",
+    features: [
+      p.max_devices ? `${p.max_devices} device${p.max_devices > 1 ? "s" : ""}` : "Unlimited devices",
+      p.max_monthly_session_minutes ? `${p.max_monthly_session_minutes} min session limit` : "Unlimited sessions",
+      p.can_use_file_transfer ? "File transfer" : undefined,
+      p.can_use_team_management ? "Team management" : undefined,
+      p.can_use_priority_support ? "Priority support" : undefined,
+    ].filter(Boolean) as string[],
+    cta: p.plan_key === "enterprise" ? "Contact sales" : p.plan_key === "free" ? "Get started" : `Upgrade to ${p.display_name}`,
+  }));
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -356,6 +375,9 @@ function Security() {
 /* ---------------- PRICING ---------------- */
 
 function PricingPreview() {
+  const { data: planLimits } = usePlanLimits();
+  const plans = mapPlansForLanding(planLimits);
+
   return (
     <section className="border-b border-border/60 bg-card/20">
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">

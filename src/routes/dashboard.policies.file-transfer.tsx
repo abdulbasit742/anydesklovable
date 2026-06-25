@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FileUp, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,10 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { useActivePolicyRules, useSavePolicyRules } from "@/lib/services/policies";
+
+type FTRules = { enabled: boolean; require_approval: boolean; max_size_mb: number; direction: string; blocked_extensions: string[] };
+const FT_DEFAULTS: FTRules = { enabled: true, require_approval: true, max_size_mb: 100, direction: "both", blocked_extensions: ["exe","bat","ps1","sh"] };
 
 export const Route = createFileRoute("/dashboard/policies/file-transfer")({
   head: () => ({ meta: [{ title: "File transfer policy — RemoteDesk" }] }),
@@ -16,12 +20,16 @@ export const Route = createFileRoute("/dashboard/policies/file-transfer")({
 });
 
 function FileTransferPolicy() {
-  const [enabled, setEnabled] = useState(true);
-  const [requireApproval, setRequireApproval] = useState(true);
-  const [maxSize, setMaxSize] = useState("100");
-  const [direction, setDirection] = useState("both");
-  const [extensions, setExtensions] = useState<string[]>(["exe", "bat", "ps1", "sh"]);
+  const { rules, isLoading } = useActivePolicyRules<FTRules>("file_transfer", FT_DEFAULTS);
+  const saveMutation = useSavePolicyRules();
+  const [enabled, setEnabled] = useState(FT_DEFAULTS.enabled);
+  const [requireApproval, setRequireApproval] = useState(FT_DEFAULTS.require_approval);
+  const [maxSize, setMaxSize] = useState(String(FT_DEFAULTS.max_size_mb));
+  const [direction, setDirection] = useState(FT_DEFAULTS.direction);
+  const [extensions, setExtensions] = useState<string[]>(FT_DEFAULTS.blocked_extensions);
   const [newExt, setNewExt] = useState("");
+  useEffect(() => { if (!isLoading) { setEnabled(rules.enabled); setRequireApproval(rules.require_approval); setMaxSize(String(rules.max_size_mb)); setDirection(rules.direction); setExtensions(rules.blocked_extensions); } }, [isLoading, rules]);
+  const save = () => saveMutation.mutate({ policyType: "file_transfer", name: "File transfer policy", rules: { enabled, require_approval: requireApproval, max_size_mb: Number(maxSize), direction, blocked_extensions: extensions }, enforcementMode: enabled ? "block" : "monitor" }, { onSuccess: () => toast.success("Policy saved"), onError: (e) => toast.error(e.message) });
 
   return (
     <div className="grid gap-4 lg:grid-cols-3">
@@ -89,7 +97,7 @@ function FileTransferPolicy() {
           <div className="text-sm font-semibold">Scope</div>
           <p className="mt-1 text-sm text-muted-foreground">This policy applies organization-wide. Per-team overrides are available on Business and Enterprise plans.</p>
         </div>
-        <Button className="w-full" onClick={() => toast.success("Policy saved")}>Save policy</Button>
+        <Button className="w-full" onClick={save} disabled={saveMutation.isPending}>{saveMutation.isPending ? "Saving…" : "Save policy"}</Button>
       </div>
     </div>
   );

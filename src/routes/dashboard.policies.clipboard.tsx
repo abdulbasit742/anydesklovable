@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Clipboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -9,6 +9,10 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { useActivePolicyRules, useSavePolicyRules } from "@/lib/services/policies";
+
+type ClipboardRules = { enabled: boolean; direction: string; allow_images: boolean; max_chars: number; redact_secrets: boolean };
+const DEFAULTS: ClipboardRules = { enabled: false, direction: "both", allow_images: false, max_chars: 100000, redact_secrets: true };
 
 export const Route = createFileRoute("/dashboard/policies/clipboard")({
   head: () => ({ meta: [{ title: "Clipboard policy — RemoteDesk" }] }),
@@ -16,11 +20,15 @@ export const Route = createFileRoute("/dashboard/policies/clipboard")({
 });
 
 function ClipboardPolicy() {
-  const [enabled, setEnabled] = useState(false);
-  const [direction, setDirection] = useState("both");
-  const [allowImages, setAllowImages] = useState(false);
-  const [maxChars, setMaxChars] = useState("100000");
-  const [redactSecrets, setRedactSecrets] = useState(true);
+  const { rules, isLoading } = useActivePolicyRules<ClipboardRules>("clipboard", DEFAULTS);
+  const saveMutation = useSavePolicyRules();
+  const [enabled, setEnabled] = useState(DEFAULTS.enabled);
+  const [direction, setDirection] = useState(DEFAULTS.direction);
+  const [allowImages, setAllowImages] = useState(DEFAULTS.allow_images);
+  const [maxChars, setMaxChars] = useState(String(DEFAULTS.max_chars));
+  const [redactSecrets, setRedactSecrets] = useState(DEFAULTS.redact_secrets);
+  useEffect(() => { if (!isLoading) { setEnabled(rules.enabled); setDirection(rules.direction); setAllowImages(rules.allow_images); setMaxChars(String(rules.max_chars)); setRedactSecrets(rules.redact_secrets); } }, [isLoading, rules]);
+  const save = () => saveMutation.mutate({ policyType: "clipboard", name: "Clipboard sync policy", rules: { enabled, direction, allow_images: allowImages, max_chars: Number(maxChars), redact_secrets: redactSecrets }, enforcementMode: enabled ? "block" : "monitor" }, { onSuccess: () => toast.success("Policy saved"), onError: (e) => toast.error(e.message) });
 
   return (
     <div className="grid gap-4 lg:grid-cols-3">
@@ -65,7 +73,7 @@ function ClipboardPolicy() {
           <div className="text-sm font-semibold">Why off by default?</div>
           <p className="mt-1 text-sm text-muted-foreground">Clipboards often hold sensitive data — passwords, tokens, PII. RemoteDesk requires an explicit opt-in.</p>
         </div>
-        <Button className="w-full" onClick={() => toast.success("Policy saved")}>Save policy</Button>
+        <Button className="w-full" onClick={save} disabled={saveMutation.isPending}>{saveMutation.isPending ? "Saving…" : "Save policy"}</Button>
       </div>
     </div>
   );

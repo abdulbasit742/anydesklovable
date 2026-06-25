@@ -2,7 +2,27 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import { MarketingNav, MarketingFooter } from "@/components/marketing/MarketingNav";
 import { Button } from "@/components/ui/button";
-import { plans } from "@/lib/mock-data";
+import { usePlanLimits, type PlanLimit } from "@/lib/services";
+
+// Map plan limits from Supabase into the display format
+function mapPlansForDisplay(limits: PlanLimit[]) {
+  return limits.map((p) => ({
+    name: p.display_name,
+    price: p.monthly_price === null ? "Custom" : p.monthly_price === 0 ? "$0" : `$${p.monthly_price}`,
+    period: p.monthly_price === null ? "" : "/mo",
+    tagline: p.plan_key === "free" ? "Personal use" : p.plan_key === "pro" ? "Power users" : p.plan_key === "business" ? "Teams & support" : "Large orgs",
+    highlight: p.plan_key === "pro",
+    features: [
+      p.max_devices ? `${p.max_devices} device${p.max_devices > 1 ? "s" : ""}` : "Unlimited devices",
+      p.max_monthly_session_minutes ? `${p.max_monthly_session_minutes} min session limit` : "Unlimited sessions",
+      p.can_use_file_transfer ? "File transfer" : undefined,
+      p.can_use_team_management ? "Team management" : undefined,
+      p.can_use_unattended_access ? "Unattended access" : undefined,
+      p.can_use_priority_support ? "Priority support" : undefined,
+    ].filter(Boolean) as string[],
+    cta: p.plan_key === "enterprise" ? "Contact sales" : p.plan_key === "free" ? "Get started" : `Upgrade to ${p.display_name}`,
+  }));
+}
 
 export const Route = createFileRoute("/pricing")({
   head: () => ({
@@ -17,6 +37,9 @@ export const Route = createFileRoute("/pricing")({
 });
 
 function Pricing() {
+  const { data: planLimits } = usePlanLimits();
+  const plans = mapPlansForDisplay(planLimits);
+
   return (
     <div className="min-h-screen bg-background">
       <MarketingNav />

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MousePointer2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -8,6 +8,10 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { useActivePolicyRules, useSavePolicyRules } from "@/lib/services/policies";
+
+type RIRules = { default_mode: string; allow_keyboard: boolean; allow_mouse: boolean; block_uac: boolean; idle_lock: boolean; idle_minutes: number };
+const RI_DEFAULTS: RIRules = { default_mode: "view-only", allow_keyboard: true, allow_mouse: true, block_uac: true, idle_lock: true, idle_minutes: 5 };
 
 export const Route = createFileRoute("/dashboard/policies/remote-input")({
   head: () => ({ meta: [{ title: "Remote input policy — RemoteDesk" }] }),
@@ -15,12 +19,16 @@ export const Route = createFileRoute("/dashboard/policies/remote-input")({
 });
 
 function RemoteInputPolicy() {
-  const [defaultMode, setDefaultMode] = useState("view-only");
-  const [allowKeyboard, setAllowKeyboard] = useState(true);
-  const [allowMouse, setAllowMouse] = useState(true);
-  const [blockUac, setBlockUac] = useState(true);
-  const [idleLock, setIdleLock] = useState(true);
-  const [idleMinutes, setIdleMinutes] = useState("5");
+  const { rules, isLoading } = useActivePolicyRules<RIRules>("remote_input", RI_DEFAULTS);
+  const saveMutation = useSavePolicyRules();
+  const [defaultMode, setDefaultMode] = useState(RI_DEFAULTS.default_mode);
+  const [allowKeyboard, setAllowKeyboard] = useState(RI_DEFAULTS.allow_keyboard);
+  const [allowMouse, setAllowMouse] = useState(RI_DEFAULTS.allow_mouse);
+  const [blockUac, setBlockUac] = useState(RI_DEFAULTS.block_uac);
+  const [idleLock, setIdleLock] = useState(RI_DEFAULTS.idle_lock);
+  const [idleMinutes, setIdleMinutes] = useState(String(RI_DEFAULTS.idle_minutes));
+  useEffect(() => { if (!isLoading) { setDefaultMode(rules.default_mode); setAllowKeyboard(rules.allow_keyboard); setAllowMouse(rules.allow_mouse); setBlockUac(rules.block_uac); setIdleLock(rules.idle_lock); setIdleMinutes(String(rules.idle_minutes)); } }, [isLoading, rules]);
+  const save = () => saveMutation.mutate({ policyType: "remote_input", name: "Remote input policy", rules: { default_mode: defaultMode, allow_keyboard: allowKeyboard, allow_mouse: allowMouse, block_uac: blockUac, idle_lock: idleLock, idle_minutes: Number(idleMinutes) }, enforcementMode: "block" }, { onSuccess: () => toast.success("Policy saved"), onError: (e) => toast.error(e.message) });
 
   return (
     <div className="grid gap-4 lg:grid-cols-3">
@@ -87,7 +95,7 @@ function RemoteInputPolicy() {
             <kbd className="rounded border border-border bg-muted px-2 py-0.5 font-mono text-xs">.</kbd>
           </div>
         </div>
-        <Button className="w-full" onClick={() => toast.success("Policy saved")}>Save policy</Button>
+        <Button className="w-full" onClick={save} disabled={saveMutation.isPending}>{saveMutation.isPending ? "Saving…" : "Save policy"}</Button>
       </div>
     </div>
   );
