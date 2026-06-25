@@ -14,6 +14,7 @@ const emptyStatesPath = join(basePath, "dashboard-empty-states.ts");
 const errorStatesPath = join(basePath, "dashboard-error-states.ts");
 const loadingStatesPath = join(basePath, "dashboard-loading-states.ts");
 const resourcesPath = join(basePath, "dashboard-resources.ts");
+const resourceLabelsPath = join(basePath, "dashboard-resource-labels.ts");
 const barrelPath = join(basePath, "dashboard-data.ts");
 
 function read(path) {
@@ -30,6 +31,7 @@ const emptyStates = read(emptyStatesPath);
 const errorStates = read(errorStatesPath);
 const loadingStates = read(loadingStatesPath);
 const resources = read(resourcesPath);
+const resourceLabels = read(resourceLabelsPath);
 const barrel = read(barrelPath);
 
 const checks = {
@@ -43,6 +45,7 @@ const checks = {
   errorStatesFileExists: existsSync(errorStatesPath),
   loadingStatesFileExists: existsSync(loadingStatesPath),
   resourcesFileExists: existsSync(resourcesPath),
+  resourceLabelsFileExists: existsSync(resourceLabelsPath),
   barrelFileExists: existsSync(barrelPath),
   exportsDeviceContract: contracts.includes("DashboardDevice"),
   exportsSessionContract: contracts.includes("DashboardSession"),
@@ -83,6 +86,11 @@ const checks = {
   resourceRegistryCoversSessions: resources.includes("sessions"),
   resourceRegistryCoversAuditEvents: resources.includes("auditEvents"),
   resourceRegistryCoversSecurityEvents: resources.includes("securityEvents"),
+  exportsResourceLabels: resourceLabels.includes("getDashboardResourceLabel") && resourceLabels.includes("DashboardResourceLabel"),
+  resourceLabelsCoverDevices: resourceLabels.includes("Device") && resourceLabels.includes("Devices"),
+  resourceLabelsCoverSessions: resourceLabels.includes("Session") && resourceLabels.includes("Sessions"),
+  resourceLabelsCoverAuditEvents: resourceLabels.includes("Audit event") && resourceLabels.includes("Audit Log"),
+  resourceLabelsCoverSecurityEvents: resourceLabels.includes("Security event") && resourceLabels.includes("Security"),
   barrelExportsContracts: barrel.includes("./dashboard-contracts"),
   barrelExportsMappers: barrel.includes("./dashboard-mappers"),
   barrelExportsQueryKeys: barrel.includes("./dashboard-query-keys"),
@@ -93,6 +101,7 @@ const checks = {
   barrelExportsErrorStates: barrel.includes("./dashboard-error-states"),
   barrelExportsLoadingStates: barrel.includes("./dashboard-loading-states"),
   barrelExportsResources: barrel.includes("./dashboard-resources"),
+  barrelExportsResourceLabels: barrel.includes("./dashboard-resource-labels"),
 };
 
 const failures = Object.entries(checks)
