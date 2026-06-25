@@ -23,3 +23,6 @@ export {
   canLoadDashboardTeamData,
   createDashboardListOptions,
 } from "./dashboard-list-options";
+
+export { createDashboardResourceQueryOptions } from "./dashboard-query-options";
+export type { DashboardResourceName, DashboardResourceQueryOptions } from "./dashboard-query-options";
