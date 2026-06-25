@@ -32,3 +32,6 @@ export type { DashboardQueryState, DashboardQueryStateInput } from "./dashboard-
 
 export { getDashboardEmptyState } from "./dashboard-empty-states";
 export type { DashboardEmptyResource, DashboardEmptyState } from "./dashboard-empty-states";
+
+export { getDashboardErrorState } from "./dashboard-error-states";
+export type { DashboardErrorResource, DashboardErrorState } from "./dashboard-error-states";
