@@ -35,3 +35,6 @@ export type { DashboardEmptyResource, DashboardEmptyState } from "./dashboard-em
 
 export { getDashboardErrorState } from "./dashboard-error-states";
 export type { DashboardErrorResource, DashboardErrorState } from "./dashboard-error-states";
+
+export { getDashboardLoadingState } from "./dashboard-loading-states";
+export type { DashboardLoadingResource, DashboardLoadingState } from "./dashboard-loading-states";
