@@ -38,3 +38,6 @@ export type { DashboardErrorResource, DashboardErrorState } from "./dashboard-er
 
 export { getDashboardLoadingState } from "./dashboard-loading-states";
 export type { DashboardLoadingResource, DashboardLoadingState } from "./dashboard-loading-states";
+
+export { DASHBOARD_RESOURCES, isDashboardResource } from "./dashboard-resources";
+export type { DashboardResource } from "./dashboard-resources";
