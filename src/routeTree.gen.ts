@@ -37,6 +37,7 @@ import { Route as DashboardContactsRouteImport } from './routes/dashboard.contac
 import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing'
 import { Route as DashboardAutomationRouteImport } from './routes/dashboard.automation'
 import { Route as DashboardAuditRouteImport } from './routes/dashboard.audit'
+import { Route as DashboardClusterRouteImport } from './routes/dashboard.cluster'
 import { Route as DashboardAdminRouteImport } from './routes/dashboard.admin'
 import { Route as DashboardAutomationIndexRouteImport } from './routes/dashboard.automation.index'
 import { Route as DashboardPoliciesRemoteInputRouteImport } from './routes/dashboard.policies.remote-input'
@@ -209,6 +210,11 @@ const DashboardAutomationRoute = DashboardAutomationRouteImport.update({
 const DashboardAuditRoute = DashboardAuditRouteImport.update({
   id: '/audit',
   path: '/audit',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardClusterRoute = DashboardClusterRouteImport.update({
+  id: '/cluster',
+  path: '/cluster',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardAdminRoute = DashboardAdminRouteImport.update({
@@ -414,6 +420,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/audit': typeof DashboardAuditRoute
+  '/dashboard/cluster': typeof DashboardClusterRoute
   '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/contacts': typeof DashboardContactsRoute
@@ -476,6 +483,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/audit': typeof DashboardAuditRoute
+  '/dashboard/cluster': typeof DashboardClusterRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/contacts': typeof DashboardContactsRoute
   '/dashboard/data-catalog': typeof DashboardDataCatalogRoute
@@ -539,6 +547,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/audit': typeof DashboardAuditRoute
+  '/dashboard/cluster': typeof DashboardClusterRoute
   '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/contacts': typeof DashboardContactsRoute
@@ -1294,6 +1303,7 @@ const DashboardPoliciesRouteWithChildren =
 interface DashboardRouteChildren {
   DashboardAdminRoute: typeof DashboardAdminRoute
   DashboardAuditRoute: typeof DashboardAuditRoute
+  DashboardClusterRoute: typeof DashboardClusterRoute
   DashboardAutomationRoute: typeof DashboardAutomationRouteWithChildren
   DashboardBillingRoute: typeof DashboardBillingRoute
   DashboardContactsRoute: typeof DashboardContactsRoute
@@ -1315,6 +1325,7 @@ interface DashboardRouteChildren {
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAdminRoute: DashboardAdminRoute,
   DashboardAuditRoute: DashboardAuditRoute,
+  DashboardClusterRoute: DashboardClusterRoute,
   DashboardAutomationRoute: DashboardAutomationRouteWithChildren,
   DashboardBillingRoute: DashboardBillingRoute,
   DashboardContactsRoute: DashboardContactsRoute,
