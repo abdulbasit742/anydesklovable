@@ -38,6 +38,7 @@ import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing
 import { Route as DashboardAutomationRouteImport } from './routes/dashboard.automation'
 import { Route as DashboardAuditRouteImport } from './routes/dashboard.audit'
 import { Route as DashboardAdminRouteImport } from './routes/dashboard.admin'
+import { Route as DashboardCloudGamingRouteImport } from './routes/dashboard.cloud-gaming'
 import { Route as DashboardAutomationIndexRouteImport } from './routes/dashboard.automation.index'
 import { Route as DashboardPoliciesRemoteInputRouteImport } from './routes/dashboard.policies.remote-input'
 import { Route as DashboardPoliciesFileTransferRouteImport } from './routes/dashboard.policies.file-transfer'
@@ -214,6 +215,11 @@ const DashboardAuditRoute = DashboardAuditRouteImport.update({
 const DashboardAdminRoute = DashboardAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardCloudGamingRoute = DashboardCloudGamingRouteImport.update({
+  id: '/cloud-gaming',
+  path: '/cloud-gaming',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardAutomationIndexRoute =
@@ -413,6 +419,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
+  '/dashboard/cloud-gaming': typeof DashboardCloudGamingRoute
   '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
@@ -475,6 +482,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
+  '/dashboard/cloud-gaming': typeof DashboardCloudGamingRoute
   '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/contacts': typeof DashboardContactsRoute
@@ -538,6 +546,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
+  '/dashboard/cloud-gaming': typeof DashboardCloudGamingRoute
   '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
@@ -1293,6 +1302,7 @@ const DashboardPoliciesRouteWithChildren =
 
 interface DashboardRouteChildren {
   DashboardAdminRoute: typeof DashboardAdminRoute
+  DashboardCloudGamingRoute: typeof DashboardCloudGamingRoute
   DashboardAuditRoute: typeof DashboardAuditRoute
   DashboardAutomationRoute: typeof DashboardAutomationRouteWithChildren
   DashboardBillingRoute: typeof DashboardBillingRoute
@@ -1314,6 +1324,7 @@ interface DashboardRouteChildren {
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAdminRoute: DashboardAdminRoute,
+    DashboardCloudGamingRoute: DashboardCloudGamingRoute,
   DashboardAuditRoute: DashboardAuditRoute,
   DashboardAutomationRoute: DashboardAutomationRouteWithChildren,
   DashboardBillingRoute: DashboardBillingRoute,
