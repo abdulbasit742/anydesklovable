@@ -13,3 +13,6 @@ export {
   mapDashboardDevice,
   mapDashboardSession,
 } from "./dashboard-mappers";
+
+export { dashboardQueryKeys } from "./dashboard-query-keys";
+export type { DashboardQueryKeyFactory } from "./dashboard-query-keys";
