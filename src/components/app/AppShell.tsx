@@ -6,7 +6,7 @@ import {
   FileText, LifeBuoy, Crown, SlidersHorizontal,
   Bot, Workflow, ListChecks, KeyRound, Gauge, CalendarClock, BellRing, ScrollText, Package, Settings,
   BookUser, Smartphone, Code2,
-  Database, Server,
+  Database, Server, Globe, Cpu, Wifi,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
@@ -73,6 +73,12 @@ const groups: NavGroup[] = [
     ],
   },
 
+  {
+    label: "IoT & Devices",
+    items: [
+      { to: "/dashboard/iot-management", label: "IoT Management", icon: Globe },
+    ],
+  },
   {
     label: "Admin",
     items: [
