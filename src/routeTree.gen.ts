@@ -38,6 +38,7 @@ import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing
 import { Route as DashboardAutomationRouteImport } from './routes/dashboard.automation'
 import { Route as DashboardAuditRouteImport } from './routes/dashboard.audit'
 import { Route as DashboardAdminRouteImport } from './routes/dashboard.admin'
+import { Route as DashboardZeroTrustRouteImport } from './routes/dashboard.zero-trust'
 import { Route as DashboardAutomationIndexRouteImport } from './routes/dashboard.automation.index'
 import { Route as DashboardPoliciesRemoteInputRouteImport } from './routes/dashboard.policies.remote-input'
 import { Route as DashboardPoliciesFileTransferRouteImport } from './routes/dashboard.policies.file-transfer'
@@ -214,6 +215,11 @@ const DashboardAuditRoute = DashboardAuditRouteImport.update({
 const DashboardAdminRoute = DashboardAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardZeroTrustRoute = DashboardZeroTrustRouteImport.update({
+  id: '/zero-trust',
+  path: '/zero-trust',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardAutomationIndexRoute =
@@ -414,6 +420,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/audit': typeof DashboardAuditRoute
+  '/dashboard/zero-trust': typeof DashboardZeroTrustRoute
   '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/contacts': typeof DashboardContactsRoute
@@ -476,6 +483,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/audit': typeof DashboardAuditRoute
+  '/dashboard/zero-trust': typeof DashboardZeroTrustRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/contacts': typeof DashboardContactsRoute
   '/dashboard/data-catalog': typeof DashboardDataCatalogRoute
@@ -539,6 +547,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/audit': typeof DashboardAuditRoute
+  '/dashboard/zero-trust': typeof DashboardZeroTrustRoute
   '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/contacts': typeof DashboardContactsRoute
@@ -1294,6 +1303,7 @@ const DashboardPoliciesRouteWithChildren =
 interface DashboardRouteChildren {
   DashboardAdminRoute: typeof DashboardAdminRoute
   DashboardAuditRoute: typeof DashboardAuditRoute
+  DashboardZeroTrustRoute: typeof DashboardZeroTrustRoute
   DashboardAutomationRoute: typeof DashboardAutomationRouteWithChildren
   DashboardBillingRoute: typeof DashboardBillingRoute
   DashboardContactsRoute: typeof DashboardContactsRoute
@@ -1315,6 +1325,7 @@ interface DashboardRouteChildren {
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAdminRoute: DashboardAdminRoute,
   DashboardAuditRoute: DashboardAuditRoute,
+  DashboardZeroTrustRoute: DashboardZeroTrustRoute,
   DashboardAutomationRoute: DashboardAutomationRouteWithChildren,
   DashboardBillingRoute: DashboardBillingRoute,
   DashboardContactsRoute: DashboardContactsRoute,
