@@ -10,6 +10,7 @@ const queryKeysPath = join(basePath, "dashboard-query-keys.ts");
 const listOptionsPath = join(basePath, "dashboard-list-options.ts");
 const queryOptionsPath = join(basePath, "dashboard-query-options.ts");
 const queryStatePath = join(basePath, "dashboard-query-state.ts");
+const emptyStatesPath = join(basePath, "dashboard-empty-states.ts");
 const barrelPath = join(basePath, "dashboard-data.ts");
 
 function read(path) {
@@ -22,6 +23,7 @@ const queryKeys = read(queryKeysPath);
 const listOptions = read(listOptionsPath);
 const queryOptions = read(queryOptionsPath);
 const queryState = read(queryStatePath);
+const emptyStates = read(emptyStatesPath);
 const barrel = read(barrelPath);
 
 const checks = {
@@ -31,6 +33,7 @@ const checks = {
   listOptionsFileExists: existsSync(listOptionsPath),
   queryOptionsFileExists: existsSync(queryOptionsPath),
   queryStateFileExists: existsSync(queryStatePath),
+  emptyStatesFileExists: existsSync(emptyStatesPath),
   barrelFileExists: existsSync(barrelPath),
   exportsDeviceContract: contracts.includes("DashboardDevice"),
   exportsSessionContract: contracts.includes("DashboardSession"),
@@ -51,12 +54,18 @@ const checks = {
   disablesMissingTeamQueries: queryOptions.includes("enabled: false") && queryOptions.includes("listOptions: null"),
   supportsQueryStates: queryState.includes("disabled") && queryState.includes("loading") && queryState.includes("ready"),
   exposesInteractiveState: queryState.includes("isDashboardQueryInteractive"),
+  exportsEmptyStateHelper: emptyStates.includes("getDashboardEmptyState"),
+  supportsDeviceEmptyState: emptyStates.includes("devices") && emptyStates.includes("No devices yet"),
+  supportsSessionEmptyState: emptyStates.includes("sessions") && emptyStates.includes("No sessions yet"),
+  supportsAuditEmptyState: emptyStates.includes("auditEvents") && emptyStates.includes("No audit activity yet"),
+  supportsSecurityEmptyState: emptyStates.includes("securityEvents") && emptyStates.includes("No security events"),
   barrelExportsContracts: barrel.includes("./dashboard-contracts"),
   barrelExportsMappers: barrel.includes("./dashboard-mappers"),
   barrelExportsQueryKeys: barrel.includes("./dashboard-query-keys"),
   barrelExportsListOptions: barrel.includes("./dashboard-list-options"),
   barrelExportsQueryOptions: barrel.includes("./dashboard-query-options"),
   barrelExportsQueryState: barrel.includes("./dashboard-query-state"),
+  barrelExportsEmptyStates: barrel.includes("./dashboard-empty-states"),
 };
 
 const failures = Object.entries(checks)
