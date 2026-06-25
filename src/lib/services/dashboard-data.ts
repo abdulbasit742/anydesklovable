@@ -26,3 +26,6 @@ export {
 
 export { createDashboardResourceQueryOptions } from "./dashboard-query-options";
 export type { DashboardResourceName, DashboardResourceQueryOptions } from "./dashboard-query-options";
+
+export { getDashboardQueryState, isDashboardQueryInteractive } from "./dashboard-query-state";
+export type { DashboardQueryState, DashboardQueryStateInput } from "./dashboard-query-state";
