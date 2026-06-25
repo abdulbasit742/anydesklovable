@@ -41,3 +41,6 @@ export type { DashboardLoadingResource, DashboardLoadingState } from "./dashboar
 
 export { DASHBOARD_RESOURCES, isDashboardResource } from "./dashboard-resources";
 export type { DashboardResource } from "./dashboard-resources";
+
+export { getDashboardResourceLabel } from "./dashboard-resource-labels";
+export type { DashboardResourceLabel } from "./dashboard-resource-labels";
