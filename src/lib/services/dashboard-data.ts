@@ -29,3 +29,6 @@ export type { DashboardResourceName, DashboardResourceQueryOptions } from "./das
 
 export { getDashboardQueryState, isDashboardQueryInteractive } from "./dashboard-query-state";
 export type { DashboardQueryState, DashboardQueryStateInput } from "./dashboard-query-state";
+
+export { getDashboardEmptyState } from "./dashboard-empty-states";
+export type { DashboardEmptyResource, DashboardEmptyState } from "./dashboard-empty-states";
