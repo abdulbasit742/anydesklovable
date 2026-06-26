@@ -1371,3 +1371,30 @@ export async function revokeApiKey(id: string) {
   const { error } = await supabase.rpc("revoke_api_key", { _key_id: id });
   if (error) throw error;
 }
+
+export function getApiBase(): string {
+  return (import.meta.env.VITE_API_URL as string) || "http://localhost:5000";
+}
+
+export function getAuthHeaders(): Record<string, string> {
+  const headers: Record<string, string> = {};
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith("sb-") && key.endsWith("-auth-token")) {
+        const value = localStorage.getItem(key);
+        if (value) {
+          const parsed = JSON.parse(value);
+          const token = parsed?.access_token;
+          if (token) {
+            headers["Authorization"] = `Bearer ${token}`;
+            break;
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.error("Error reading auth token from localStorage", e);
+  }
+  return headers;
+}

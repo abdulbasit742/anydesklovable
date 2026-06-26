@@ -21,25 +21,46 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as MarketplaceListingKeyRouteImport } from './routes/marketplace.$listingKey'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
+import { Route as DashboardZeroTrustRouteImport } from './routes/dashboard.zero-trust'
+import { Route as DashboardWidgetCustomizerRouteImport } from './routes/dashboard.widget-customizer'
+import { Route as DashboardTeamChannelsRouteImport } from './routes/dashboard.team-channels'
 import { Route as DashboardTeamRouteImport } from './routes/dashboard.team'
+import { Route as DashboardSupportDashboardRouteImport } from './routes/dashboard.support-dashboard'
 import { Route as DashboardSupportRouteImport } from './routes/dashboard.support'
+import { Route as DashboardSlaManagementRouteImport } from './routes/dashboard.sla-management'
 import { Route as DashboardSessionsRouteImport } from './routes/dashboard.sessions'
 import { Route as DashboardSecurityRouteImport } from './routes/dashboard.security'
+import { Route as DashboardRemediationRouteImport } from './routes/dashboard.remediation'
 import { Route as DashboardPoliciesRouteImport } from './routes/dashboard.policies'
 import { Route as DashboardNotificationsRouteImport } from './routes/dashboard.notifications'
+import { Route as DashboardNetworkRouteImport } from './routes/dashboard.network'
 import { Route as DashboardMobileRouteImport } from './routes/dashboard.mobile'
 import { Route as DashboardMarketplaceRouteImport } from './routes/dashboard.marketplace'
+import { Route as DashboardKbEditorRouteImport } from './routes/dashboard.kb-editor'
+import { Route as DashboardIvrDesignerRouteImport } from './routes/dashboard.ivr-designer'
+import { Route as DashboardIotManagementRouteImport } from './routes/dashboard.iot-management'
 import { Route as DashboardEngineStatusRouteImport } from './routes/dashboard.engine-status'
+import { Route as DashboardDigitalTwinRouteImport } from './routes/dashboard.digital-twin'
 import { Route as DashboardDevicesRouteImport } from './routes/dashboard.devices'
 import { Route as DashboardDeveloperRouteImport } from './routes/dashboard.developer'
 import { Route as DashboardDataCatalogRouteImport } from './routes/dashboard.data-catalog'
+import { Route as DashboardCustomerPortalRouteImport } from './routes/dashboard.customer-portal'
+import { Route as DashboardCustomer360RouteImport } from './routes/dashboard.customer-360'
 import { Route as DashboardContactsRouteImport } from './routes/dashboard.contacts'
+import { Route as DashboardClusterRouteImport } from './routes/dashboard.cluster'
+import { Route as DashboardCloudGamingRouteImport } from './routes/dashboard.cloud-gaming'
+import { Route as DashboardChannelConfigRouteImport } from './routes/dashboard.channel-config'
+import { Route as DashboardBlockchainRouteImport } from './routes/dashboard.blockchain'
 import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing'
+import { Route as DashboardAutomationBuilderRouteImport } from './routes/dashboard.automation-builder'
 import { Route as DashboardAutomationRouteImport } from './routes/dashboard.automation'
 import { Route as DashboardAuditRouteImport } from './routes/dashboard.audit'
-import { Route as DashboardClusterRouteImport } from './routes/dashboard.cluster'
+import { Route as DashboardAiSupportRouteImport } from './routes/dashboard.ai-support'
+import { Route as DashboardAiFeaturesRouteImport } from './routes/dashboard.ai-features'
+import { Route as DashboardAgentManagementRouteImport } from './routes/dashboard.agent-management'
+import { Route as DashboardAdvancedReportingRouteImport } from './routes/dashboard.advanced-reporting'
+import { Route as DashboardAdvancedRouteImport } from './routes/dashboard.advanced'
 import { Route as DashboardAdminRouteImport } from './routes/dashboard.admin'
-import { Route as DashboardIotManagementRoute } from "./routes/dashboard.iot-management"
 import { Route as DashboardAutomationIndexRouteImport } from './routes/dashboard.automation.index'
 import { Route as DashboardPoliciesRemoteInputRouteImport } from './routes/dashboard.policies.remote-input'
 import { Route as DashboardPoliciesFileTransferRouteImport } from './routes/dashboard.policies.file-transfer'
@@ -133,14 +154,41 @@ const InviteTokenRoute = InviteTokenRouteImport.update({
   path: '/invite/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardZeroTrustRoute = DashboardZeroTrustRouteImport.update({
+  id: '/zero-trust',
+  path: '/zero-trust',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardWidgetCustomizerRoute =
+  DashboardWidgetCustomizerRouteImport.update({
+    id: '/widget-customizer',
+    path: '/widget-customizer',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+const DashboardTeamChannelsRoute = DashboardTeamChannelsRouteImport.update({
+  id: '/team-channels',
+  path: '/team-channels',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardTeamRoute = DashboardTeamRouteImport.update({
   id: '/team',
   path: '/team',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardSupportDashboardRoute =
+  DashboardSupportDashboardRouteImport.update({
+    id: '/support-dashboard',
+    path: '/support-dashboard',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 const DashboardSupportRoute = DashboardSupportRouteImport.update({
   id: '/support',
   path: '/support',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSlaManagementRoute = DashboardSlaManagementRouteImport.update({
+  id: '/sla-management',
+  path: '/sla-management',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardSessionsRoute = DashboardSessionsRouteImport.update({
@@ -153,6 +201,11 @@ const DashboardSecurityRoute = DashboardSecurityRouteImport.update({
   path: '/security',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardRemediationRoute = DashboardRemediationRouteImport.update({
+  id: '/remediation',
+  path: '/remediation',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardPoliciesRoute = DashboardPoliciesRouteImport.update({
   id: '/policies',
   path: '/policies',
@@ -161,6 +214,11 @@ const DashboardPoliciesRoute = DashboardPoliciesRouteImport.update({
 const DashboardNotificationsRoute = DashboardNotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardNetworkRoute = DashboardNetworkRouteImport.update({
+  id: '/network',
+  path: '/network',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardMobileRoute = DashboardMobileRouteImport.update({
@@ -173,9 +231,29 @@ const DashboardMarketplaceRoute = DashboardMarketplaceRouteImport.update({
   path: '/marketplace',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardKbEditorRoute = DashboardKbEditorRouteImport.update({
+  id: '/kb-editor',
+  path: '/kb-editor',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardIvrDesignerRoute = DashboardIvrDesignerRouteImport.update({
+  id: '/ivr-designer',
+  path: '/ivr-designer',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardIotManagementRoute = DashboardIotManagementRouteImport.update({
+  id: '/iot-management',
+  path: '/iot-management',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardEngineStatusRoute = DashboardEngineStatusRouteImport.update({
   id: '/engine-status',
   path: '/engine-status',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardDigitalTwinRoute = DashboardDigitalTwinRouteImport.update({
+  id: '/digital-twin',
+  path: '/digital-twin',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardDevicesRoute = DashboardDevicesRouteImport.update({
@@ -193,9 +271,39 @@ const DashboardDataCatalogRoute = DashboardDataCatalogRouteImport.update({
   path: '/data-catalog',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardCustomerPortalRoute = DashboardCustomerPortalRouteImport.update({
+  id: '/customer-portal',
+  path: '/customer-portal',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardCustomer360Route = DashboardCustomer360RouteImport.update({
+  id: '/customer-360',
+  path: '/customer-360',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardContactsRoute = DashboardContactsRouteImport.update({
   id: '/contacts',
   path: '/contacts',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardClusterRoute = DashboardClusterRouteImport.update({
+  id: '/cluster',
+  path: '/cluster',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardCloudGamingRoute = DashboardCloudGamingRouteImport.update({
+  id: '/cloud-gaming',
+  path: '/cloud-gaming',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardChannelConfigRoute = DashboardChannelConfigRouteImport.update({
+  id: '/channel-config',
+  path: '/channel-config',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardBlockchainRoute = DashboardBlockchainRouteImport.update({
+  id: '/blockchain',
+  path: '/blockchain',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardBillingRoute = DashboardBillingRouteImport.update({
@@ -203,6 +311,12 @@ const DashboardBillingRoute = DashboardBillingRouteImport.update({
   path: '/billing',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardAutomationBuilderRoute =
+  DashboardAutomationBuilderRouteImport.update({
+    id: '/automation-builder',
+    path: '/automation-builder',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 const DashboardAutomationRoute = DashboardAutomationRouteImport.update({
   id: '/automation',
   path: '/automation',
@@ -213,9 +327,31 @@ const DashboardAuditRoute = DashboardAuditRouteImport.update({
   path: '/audit',
   getParentRoute: () => DashboardRoute,
 } as any)
-const DashboardClusterRoute = DashboardClusterRouteImport.update({
-  id: '/cluster',
-  path: '/cluster',
+const DashboardAiSupportRoute = DashboardAiSupportRouteImport.update({
+  id: '/ai-support',
+  path: '/ai-support',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardAiFeaturesRoute = DashboardAiFeaturesRouteImport.update({
+  id: '/ai-features',
+  path: '/ai-features',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardAgentManagementRoute =
+  DashboardAgentManagementRouteImport.update({
+    id: '/agent-management',
+    path: '/agent-management',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+const DashboardAdvancedReportingRoute =
+  DashboardAdvancedReportingRouteImport.update({
+    id: '/advanced-reporting',
+    path: '/advanced-reporting',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+const DashboardAdvancedRoute = DashboardAdvancedRouteImport.update({
+  id: '/advanced',
+  path: '/advanced',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardAdminRoute = DashboardAdminRouteImport.update({
@@ -420,25 +556,45 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
-  '/dashboard/iot-management': typeof DashboardIotManagementRoute
-  '/dashboard/iot-management': typeof DashboardIotManagementRoute
+  '/dashboard/advanced': typeof DashboardAdvancedRoute
+  '/dashboard/advanced-reporting': typeof DashboardAdvancedReportingRoute
+  '/dashboard/agent-management': typeof DashboardAgentManagementRoute
+  '/dashboard/ai-features': typeof DashboardAiFeaturesRoute
+  '/dashboard/ai-support': typeof DashboardAiSupportRoute
   '/dashboard/audit': typeof DashboardAuditRoute
-  '/dashboard/cluster': typeof DashboardClusterRoute
   '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
+  '/dashboard/automation-builder': typeof DashboardAutomationBuilderRoute
   '/dashboard/billing': typeof DashboardBillingRoute
+  '/dashboard/blockchain': typeof DashboardBlockchainRoute
+  '/dashboard/channel-config': typeof DashboardChannelConfigRoute
+  '/dashboard/cloud-gaming': typeof DashboardCloudGamingRoute
+  '/dashboard/cluster': typeof DashboardClusterRoute
   '/dashboard/contacts': typeof DashboardContactsRoute
+  '/dashboard/customer-360': typeof DashboardCustomer360Route
+  '/dashboard/customer-portal': typeof DashboardCustomerPortalRoute
   '/dashboard/data-catalog': typeof DashboardDataCatalogRoute
   '/dashboard/developer': typeof DashboardDeveloperRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
+  '/dashboard/digital-twin': typeof DashboardDigitalTwinRoute
   '/dashboard/engine-status': typeof DashboardEngineStatusRoute
+  '/dashboard/iot-management': typeof DashboardIotManagementRoute
+  '/dashboard/ivr-designer': typeof DashboardIvrDesignerRoute
+  '/dashboard/kb-editor': typeof DashboardKbEditorRoute
   '/dashboard/marketplace': typeof DashboardMarketplaceRoute
   '/dashboard/mobile': typeof DashboardMobileRoute
+  '/dashboard/network': typeof DashboardNetworkRoute
   '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
+  '/dashboard/remediation': typeof DashboardRemediationRoute
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
+  '/dashboard/sla-management': typeof DashboardSlaManagementRoute
   '/dashboard/support': typeof DashboardSupportRoute
+  '/dashboard/support-dashboard': typeof DashboardSupportDashboardRoute
   '/dashboard/team': typeof DashboardTeamRoute
+  '/dashboard/team-channels': typeof DashboardTeamChannelsRoute
+  '/dashboard/widget-customizer': typeof DashboardWidgetCustomizerRoute
+  '/dashboard/zero-trust': typeof DashboardZeroTrustRoute
   '/invite/$token': typeof InviteTokenRoute
   '/marketplace/$listingKey': typeof MarketplaceListingKeyRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -485,24 +641,44 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
-  '/dashboard/iot-management': typeof DashboardIotManagementRoute
-  '/dashboard/iot-management': typeof DashboardIotManagementRoute
+  '/dashboard/advanced': typeof DashboardAdvancedRoute
+  '/dashboard/advanced-reporting': typeof DashboardAdvancedReportingRoute
+  '/dashboard/agent-management': typeof DashboardAgentManagementRoute
+  '/dashboard/ai-features': typeof DashboardAiFeaturesRoute
+  '/dashboard/ai-support': typeof DashboardAiSupportRoute
   '/dashboard/audit': typeof DashboardAuditRoute
-  '/dashboard/cluster': typeof DashboardClusterRoute
+  '/dashboard/automation-builder': typeof DashboardAutomationBuilderRoute
   '/dashboard/billing': typeof DashboardBillingRoute
+  '/dashboard/blockchain': typeof DashboardBlockchainRoute
+  '/dashboard/channel-config': typeof DashboardChannelConfigRoute
+  '/dashboard/cloud-gaming': typeof DashboardCloudGamingRoute
+  '/dashboard/cluster': typeof DashboardClusterRoute
   '/dashboard/contacts': typeof DashboardContactsRoute
+  '/dashboard/customer-360': typeof DashboardCustomer360Route
+  '/dashboard/customer-portal': typeof DashboardCustomerPortalRoute
   '/dashboard/data-catalog': typeof DashboardDataCatalogRoute
   '/dashboard/developer': typeof DashboardDeveloperRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
+  '/dashboard/digital-twin': typeof DashboardDigitalTwinRoute
   '/dashboard/engine-status': typeof DashboardEngineStatusRoute
+  '/dashboard/iot-management': typeof DashboardIotManagementRoute
+  '/dashboard/ivr-designer': typeof DashboardIvrDesignerRoute
+  '/dashboard/kb-editor': typeof DashboardKbEditorRoute
   '/dashboard/marketplace': typeof DashboardMarketplaceRoute
   '/dashboard/mobile': typeof DashboardMobileRoute
+  '/dashboard/network': typeof DashboardNetworkRoute
   '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
+  '/dashboard/remediation': typeof DashboardRemediationRoute
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
+  '/dashboard/sla-management': typeof DashboardSlaManagementRoute
   '/dashboard/support': typeof DashboardSupportRoute
+  '/dashboard/support-dashboard': typeof DashboardSupportDashboardRoute
   '/dashboard/team': typeof DashboardTeamRoute
+  '/dashboard/team-channels': typeof DashboardTeamChannelsRoute
+  '/dashboard/widget-customizer': typeof DashboardWidgetCustomizerRoute
+  '/dashboard/zero-trust': typeof DashboardZeroTrustRoute
   '/invite/$token': typeof InviteTokenRoute
   '/marketplace/$listingKey': typeof MarketplaceListingKeyRoute
   '/dashboard': typeof DashboardIndexRoute
@@ -551,25 +727,45 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
-  '/dashboard/iot-management': typeof DashboardIotManagementRoute
-  '/dashboard/iot-management': typeof DashboardIotManagementRoute
+  '/dashboard/advanced': typeof DashboardAdvancedRoute
+  '/dashboard/advanced-reporting': typeof DashboardAdvancedReportingRoute
+  '/dashboard/agent-management': typeof DashboardAgentManagementRoute
+  '/dashboard/ai-features': typeof DashboardAiFeaturesRoute
+  '/dashboard/ai-support': typeof DashboardAiSupportRoute
   '/dashboard/audit': typeof DashboardAuditRoute
-  '/dashboard/cluster': typeof DashboardClusterRoute
   '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
+  '/dashboard/automation-builder': typeof DashboardAutomationBuilderRoute
   '/dashboard/billing': typeof DashboardBillingRoute
+  '/dashboard/blockchain': typeof DashboardBlockchainRoute
+  '/dashboard/channel-config': typeof DashboardChannelConfigRoute
+  '/dashboard/cloud-gaming': typeof DashboardCloudGamingRoute
+  '/dashboard/cluster': typeof DashboardClusterRoute
   '/dashboard/contacts': typeof DashboardContactsRoute
+  '/dashboard/customer-360': typeof DashboardCustomer360Route
+  '/dashboard/customer-portal': typeof DashboardCustomerPortalRoute
   '/dashboard/data-catalog': typeof DashboardDataCatalogRoute
   '/dashboard/developer': typeof DashboardDeveloperRoute
   '/dashboard/devices': typeof DashboardDevicesRouteWithChildren
+  '/dashboard/digital-twin': typeof DashboardDigitalTwinRoute
   '/dashboard/engine-status': typeof DashboardEngineStatusRoute
+  '/dashboard/iot-management': typeof DashboardIotManagementRoute
+  '/dashboard/ivr-designer': typeof DashboardIvrDesignerRoute
+  '/dashboard/kb-editor': typeof DashboardKbEditorRoute
   '/dashboard/marketplace': typeof DashboardMarketplaceRoute
   '/dashboard/mobile': typeof DashboardMobileRoute
+  '/dashboard/network': typeof DashboardNetworkRoute
   '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
+  '/dashboard/remediation': typeof DashboardRemediationRoute
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
+  '/dashboard/sla-management': typeof DashboardSlaManagementRoute
   '/dashboard/support': typeof DashboardSupportRoute
+  '/dashboard/support-dashboard': typeof DashboardSupportDashboardRoute
   '/dashboard/team': typeof DashboardTeamRoute
+  '/dashboard/team-channels': typeof DashboardTeamChannelsRoute
+  '/dashboard/widget-customizer': typeof DashboardWidgetCustomizerRoute
+  '/dashboard/zero-trust': typeof DashboardZeroTrustRoute
   '/invite/$token': typeof InviteTokenRoute
   '/marketplace/$listingKey': typeof MarketplaceListingKeyRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -619,22 +815,45 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/dashboard/admin'
+    | '/dashboard/advanced'
+    | '/dashboard/advanced-reporting'
+    | '/dashboard/agent-management'
+    | '/dashboard/ai-features'
+    | '/dashboard/ai-support'
     | '/dashboard/audit'
     | '/dashboard/automation'
+    | '/dashboard/automation-builder'
     | '/dashboard/billing'
+    | '/dashboard/blockchain'
+    | '/dashboard/channel-config'
+    | '/dashboard/cloud-gaming'
+    | '/dashboard/cluster'
     | '/dashboard/contacts'
+    | '/dashboard/customer-360'
+    | '/dashboard/customer-portal'
     | '/dashboard/data-catalog'
     | '/dashboard/developer'
     | '/dashboard/devices'
+    | '/dashboard/digital-twin'
     | '/dashboard/engine-status'
+    | '/dashboard/iot-management'
+    | '/dashboard/ivr-designer'
+    | '/dashboard/kb-editor'
     | '/dashboard/marketplace'
     | '/dashboard/mobile'
+    | '/dashboard/network'
     | '/dashboard/notifications'
     | '/dashboard/policies'
+    | '/dashboard/remediation'
     | '/dashboard/security'
     | '/dashboard/sessions'
+    | '/dashboard/sla-management'
     | '/dashboard/support'
+    | '/dashboard/support-dashboard'
     | '/dashboard/team'
+    | '/dashboard/team-channels'
+    | '/dashboard/widget-customizer'
+    | '/dashboard/zero-trust'
     | '/invite/$token'
     | '/marketplace/$listingKey'
     | '/dashboard/'
@@ -681,21 +900,44 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/dashboard/admin'
+    | '/dashboard/advanced'
+    | '/dashboard/advanced-reporting'
+    | '/dashboard/agent-management'
+    | '/dashboard/ai-features'
+    | '/dashboard/ai-support'
     | '/dashboard/audit'
+    | '/dashboard/automation-builder'
     | '/dashboard/billing'
+    | '/dashboard/blockchain'
+    | '/dashboard/channel-config'
+    | '/dashboard/cloud-gaming'
+    | '/dashboard/cluster'
     | '/dashboard/contacts'
+    | '/dashboard/customer-360'
+    | '/dashboard/customer-portal'
     | '/dashboard/data-catalog'
     | '/dashboard/developer'
     | '/dashboard/devices'
+    | '/dashboard/digital-twin'
     | '/dashboard/engine-status'
+    | '/dashboard/iot-management'
+    | '/dashboard/ivr-designer'
+    | '/dashboard/kb-editor'
     | '/dashboard/marketplace'
     | '/dashboard/mobile'
+    | '/dashboard/network'
     | '/dashboard/notifications'
     | '/dashboard/policies'
+    | '/dashboard/remediation'
     | '/dashboard/security'
     | '/dashboard/sessions'
+    | '/dashboard/sla-management'
     | '/dashboard/support'
+    | '/dashboard/support-dashboard'
     | '/dashboard/team'
+    | '/dashboard/team-channels'
+    | '/dashboard/widget-customizer'
+    | '/dashboard/zero-trust'
     | '/invite/$token'
     | '/marketplace/$listingKey'
     | '/dashboard'
@@ -743,22 +985,45 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/dashboard/admin'
+    | '/dashboard/advanced'
+    | '/dashboard/advanced-reporting'
+    | '/dashboard/agent-management'
+    | '/dashboard/ai-features'
+    | '/dashboard/ai-support'
     | '/dashboard/audit'
     | '/dashboard/automation'
+    | '/dashboard/automation-builder'
     | '/dashboard/billing'
+    | '/dashboard/blockchain'
+    | '/dashboard/channel-config'
+    | '/dashboard/cloud-gaming'
+    | '/dashboard/cluster'
     | '/dashboard/contacts'
+    | '/dashboard/customer-360'
+    | '/dashboard/customer-portal'
     | '/dashboard/data-catalog'
     | '/dashboard/developer'
     | '/dashboard/devices'
+    | '/dashboard/digital-twin'
     | '/dashboard/engine-status'
+    | '/dashboard/iot-management'
+    | '/dashboard/ivr-designer'
+    | '/dashboard/kb-editor'
     | '/dashboard/marketplace'
     | '/dashboard/mobile'
+    | '/dashboard/network'
     | '/dashboard/notifications'
     | '/dashboard/policies'
+    | '/dashboard/remediation'
     | '/dashboard/security'
     | '/dashboard/sessions'
+    | '/dashboard/sla-management'
     | '/dashboard/support'
+    | '/dashboard/support-dashboard'
     | '/dashboard/team'
+    | '/dashboard/team-channels'
+    | '/dashboard/widget-customizer'
+    | '/dashboard/zero-trust'
     | '/invite/$token'
     | '/marketplace/$listingKey'
     | '/dashboard/'
@@ -906,6 +1171,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InviteTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/zero-trust': {
+      id: '/dashboard/zero-trust'
+      path: '/zero-trust'
+      fullPath: '/dashboard/zero-trust'
+      preLoaderRoute: typeof DashboardZeroTrustRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/widget-customizer': {
+      id: '/dashboard/widget-customizer'
+      path: '/widget-customizer'
+      fullPath: '/dashboard/widget-customizer'
+      preLoaderRoute: typeof DashboardWidgetCustomizerRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/team-channels': {
+      id: '/dashboard/team-channels'
+      path: '/team-channels'
+      fullPath: '/dashboard/team-channels'
+      preLoaderRoute: typeof DashboardTeamChannelsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/team': {
       id: '/dashboard/team'
       path: '/team'
@@ -913,11 +1199,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardTeamRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/support-dashboard': {
+      id: '/dashboard/support-dashboard'
+      path: '/support-dashboard'
+      fullPath: '/dashboard/support-dashboard'
+      preLoaderRoute: typeof DashboardSupportDashboardRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/support': {
       id: '/dashboard/support'
       path: '/support'
       fullPath: '/dashboard/support'
       preLoaderRoute: typeof DashboardSupportRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/sla-management': {
+      id: '/dashboard/sla-management'
+      path: '/sla-management'
+      fullPath: '/dashboard/sla-management'
+      preLoaderRoute: typeof DashboardSlaManagementRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/sessions': {
@@ -934,6 +1234,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardSecurityRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/remediation': {
+      id: '/dashboard/remediation'
+      path: '/remediation'
+      fullPath: '/dashboard/remediation'
+      preLoaderRoute: typeof DashboardRemediationRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/policies': {
       id: '/dashboard/policies'
       path: '/policies'
@@ -946,6 +1253,13 @@ declare module '@tanstack/react-router' {
       path: '/notifications'
       fullPath: '/dashboard/notifications'
       preLoaderRoute: typeof DashboardNotificationsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/network': {
+      id: '/dashboard/network'
+      path: '/network'
+      fullPath: '/dashboard/network'
+      preLoaderRoute: typeof DashboardNetworkRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/mobile': {
@@ -962,11 +1276,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardMarketplaceRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/kb-editor': {
+      id: '/dashboard/kb-editor'
+      path: '/kb-editor'
+      fullPath: '/dashboard/kb-editor'
+      preLoaderRoute: typeof DashboardKbEditorRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/ivr-designer': {
+      id: '/dashboard/ivr-designer'
+      path: '/ivr-designer'
+      fullPath: '/dashboard/ivr-designer'
+      preLoaderRoute: typeof DashboardIvrDesignerRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/iot-management': {
+      id: '/dashboard/iot-management'
+      path: '/iot-management'
+      fullPath: '/dashboard/iot-management'
+      preLoaderRoute: typeof DashboardIotManagementRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/engine-status': {
       id: '/dashboard/engine-status'
       path: '/engine-status'
       fullPath: '/dashboard/engine-status'
       preLoaderRoute: typeof DashboardEngineStatusRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/digital-twin': {
+      id: '/dashboard/digital-twin'
+      path: '/digital-twin'
+      fullPath: '/dashboard/digital-twin'
+      preLoaderRoute: typeof DashboardDigitalTwinRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/devices': {
@@ -990,6 +1332,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardDataCatalogRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/customer-portal': {
+      id: '/dashboard/customer-portal'
+      path: '/customer-portal'
+      fullPath: '/dashboard/customer-portal'
+      preLoaderRoute: typeof DashboardCustomerPortalRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/customer-360': {
+      id: '/dashboard/customer-360'
+      path: '/customer-360'
+      fullPath: '/dashboard/customer-360'
+      preLoaderRoute: typeof DashboardCustomer360RouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/contacts': {
       id: '/dashboard/contacts'
       path: '/contacts'
@@ -997,11 +1353,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardContactsRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/cluster': {
+      id: '/dashboard/cluster'
+      path: '/cluster'
+      fullPath: '/dashboard/cluster'
+      preLoaderRoute: typeof DashboardClusterRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/cloud-gaming': {
+      id: '/dashboard/cloud-gaming'
+      path: '/cloud-gaming'
+      fullPath: '/dashboard/cloud-gaming'
+      preLoaderRoute: typeof DashboardCloudGamingRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/channel-config': {
+      id: '/dashboard/channel-config'
+      path: '/channel-config'
+      fullPath: '/dashboard/channel-config'
+      preLoaderRoute: typeof DashboardChannelConfigRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/blockchain': {
+      id: '/dashboard/blockchain'
+      path: '/blockchain'
+      fullPath: '/dashboard/blockchain'
+      preLoaderRoute: typeof DashboardBlockchainRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/billing': {
       id: '/dashboard/billing'
       path: '/billing'
       fullPath: '/dashboard/billing'
       preLoaderRoute: typeof DashboardBillingRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/automation-builder': {
+      id: '/dashboard/automation-builder'
+      path: '/automation-builder'
+      fullPath: '/dashboard/automation-builder'
+      preLoaderRoute: typeof DashboardAutomationBuilderRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/automation': {
@@ -1016,6 +1407,41 @@ declare module '@tanstack/react-router' {
       path: '/audit'
       fullPath: '/dashboard/audit'
       preLoaderRoute: typeof DashboardAuditRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/ai-support': {
+      id: '/dashboard/ai-support'
+      path: '/ai-support'
+      fullPath: '/dashboard/ai-support'
+      preLoaderRoute: typeof DashboardAiSupportRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/ai-features': {
+      id: '/dashboard/ai-features'
+      path: '/ai-features'
+      fullPath: '/dashboard/ai-features'
+      preLoaderRoute: typeof DashboardAiFeaturesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/agent-management': {
+      id: '/dashboard/agent-management'
+      path: '/agent-management'
+      fullPath: '/dashboard/agent-management'
+      preLoaderRoute: typeof DashboardAgentManagementRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/advanced-reporting': {
+      id: '/dashboard/advanced-reporting'
+      path: '/advanced-reporting'
+      fullPath: '/dashboard/advanced-reporting'
+      preLoaderRoute: typeof DashboardAdvancedReportingRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/advanced': {
+      id: '/dashboard/advanced'
+      path: '/advanced'
+      fullPath: '/dashboard/advanced'
+      preLoaderRoute: typeof DashboardAdvancedRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/admin': {
@@ -1309,47 +1735,89 @@ const DashboardPoliciesRouteWithChildren =
 
 interface DashboardRouteChildren {
   DashboardAdminRoute: typeof DashboardAdminRoute
-  DashboardIotManagementRoute: typeof DashboardIotManagementRoute
+  DashboardAdvancedRoute: typeof DashboardAdvancedRoute
+  DashboardAdvancedReportingRoute: typeof DashboardAdvancedReportingRoute
+  DashboardAgentManagementRoute: typeof DashboardAgentManagementRoute
+  DashboardAiFeaturesRoute: typeof DashboardAiFeaturesRoute
+  DashboardAiSupportRoute: typeof DashboardAiSupportRoute
   DashboardAuditRoute: typeof DashboardAuditRoute
-  DashboardClusterRoute: typeof DashboardClusterRoute
   DashboardAutomationRoute: typeof DashboardAutomationRouteWithChildren
+  DashboardAutomationBuilderRoute: typeof DashboardAutomationBuilderRoute
   DashboardBillingRoute: typeof DashboardBillingRoute
+  DashboardBlockchainRoute: typeof DashboardBlockchainRoute
+  DashboardChannelConfigRoute: typeof DashboardChannelConfigRoute
+  DashboardCloudGamingRoute: typeof DashboardCloudGamingRoute
+  DashboardClusterRoute: typeof DashboardClusterRoute
   DashboardContactsRoute: typeof DashboardContactsRoute
+  DashboardCustomer360Route: typeof DashboardCustomer360Route
+  DashboardCustomerPortalRoute: typeof DashboardCustomerPortalRoute
   DashboardDataCatalogRoute: typeof DashboardDataCatalogRoute
   DashboardDeveloperRoute: typeof DashboardDeveloperRoute
   DashboardDevicesRoute: typeof DashboardDevicesRouteWithChildren
+  DashboardDigitalTwinRoute: typeof DashboardDigitalTwinRoute
   DashboardEngineStatusRoute: typeof DashboardEngineStatusRoute
+  DashboardIotManagementRoute: typeof DashboardIotManagementRoute
+  DashboardIvrDesignerRoute: typeof DashboardIvrDesignerRoute
+  DashboardKbEditorRoute: typeof DashboardKbEditorRoute
   DashboardMarketplaceRoute: typeof DashboardMarketplaceRoute
   DashboardMobileRoute: typeof DashboardMobileRoute
+  DashboardNetworkRoute: typeof DashboardNetworkRoute
   DashboardNotificationsRoute: typeof DashboardNotificationsRoute
   DashboardPoliciesRoute: typeof DashboardPoliciesRouteWithChildren
+  DashboardRemediationRoute: typeof DashboardRemediationRoute
   DashboardSecurityRoute: typeof DashboardSecurityRoute
   DashboardSessionsRoute: typeof DashboardSessionsRoute
+  DashboardSlaManagementRoute: typeof DashboardSlaManagementRoute
   DashboardSupportRoute: typeof DashboardSupportRoute
+  DashboardSupportDashboardRoute: typeof DashboardSupportDashboardRoute
   DashboardTeamRoute: typeof DashboardTeamRoute
+  DashboardTeamChannelsRoute: typeof DashboardTeamChannelsRoute
+  DashboardWidgetCustomizerRoute: typeof DashboardWidgetCustomizerRoute
+  DashboardZeroTrustRoute: typeof DashboardZeroTrustRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAdminRoute: DashboardAdminRoute,
-    DashboardIotManagementRoute,
+  DashboardAdvancedRoute: DashboardAdvancedRoute,
+  DashboardAdvancedReportingRoute: DashboardAdvancedReportingRoute,
+  DashboardAgentManagementRoute: DashboardAgentManagementRoute,
+  DashboardAiFeaturesRoute: DashboardAiFeaturesRoute,
+  DashboardAiSupportRoute: DashboardAiSupportRoute,
   DashboardAuditRoute: DashboardAuditRoute,
-  DashboardClusterRoute: DashboardClusterRoute,
   DashboardAutomationRoute: DashboardAutomationRouteWithChildren,
+  DashboardAutomationBuilderRoute: DashboardAutomationBuilderRoute,
   DashboardBillingRoute: DashboardBillingRoute,
+  DashboardBlockchainRoute: DashboardBlockchainRoute,
+  DashboardChannelConfigRoute: DashboardChannelConfigRoute,
+  DashboardCloudGamingRoute: DashboardCloudGamingRoute,
+  DashboardClusterRoute: DashboardClusterRoute,
   DashboardContactsRoute: DashboardContactsRoute,
+  DashboardCustomer360Route: DashboardCustomer360Route,
+  DashboardCustomerPortalRoute: DashboardCustomerPortalRoute,
   DashboardDataCatalogRoute: DashboardDataCatalogRoute,
   DashboardDeveloperRoute: DashboardDeveloperRoute,
   DashboardDevicesRoute: DashboardDevicesRouteWithChildren,
+  DashboardDigitalTwinRoute: DashboardDigitalTwinRoute,
   DashboardEngineStatusRoute: DashboardEngineStatusRoute,
+  DashboardIotManagementRoute: DashboardIotManagementRoute,
+  DashboardIvrDesignerRoute: DashboardIvrDesignerRoute,
+  DashboardKbEditorRoute: DashboardKbEditorRoute,
   DashboardMarketplaceRoute: DashboardMarketplaceRoute,
   DashboardMobileRoute: DashboardMobileRoute,
+  DashboardNetworkRoute: DashboardNetworkRoute,
   DashboardNotificationsRoute: DashboardNotificationsRoute,
   DashboardPoliciesRoute: DashboardPoliciesRouteWithChildren,
+  DashboardRemediationRoute: DashboardRemediationRoute,
   DashboardSecurityRoute: DashboardSecurityRoute,
   DashboardSessionsRoute: DashboardSessionsRoute,
+  DashboardSlaManagementRoute: DashboardSlaManagementRoute,
   DashboardSupportRoute: DashboardSupportRoute,
+  DashboardSupportDashboardRoute: DashboardSupportDashboardRoute,
   DashboardTeamRoute: DashboardTeamRoute,
+  DashboardTeamChannelsRoute: DashboardTeamChannelsRoute,
+  DashboardWidgetCustomizerRoute: DashboardWidgetCustomizerRoute,
+  DashboardZeroTrustRoute: DashboardZeroTrustRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
