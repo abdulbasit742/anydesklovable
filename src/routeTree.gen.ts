@@ -39,6 +39,7 @@ import { Route as DashboardAutomationRouteImport } from './routes/dashboard.auto
 import { Route as DashboardAuditRouteImport } from './routes/dashboard.audit'
 import { Route as DashboardClusterRouteImport } from './routes/dashboard.cluster'
 import { Route as DashboardAdminRouteImport } from './routes/dashboard.admin'
+import { Route as DashboardIotManagementRoute } from "./routes/dashboard.iot-management"
 import { Route as DashboardAutomationIndexRouteImport } from './routes/dashboard.automation.index'
 import { Route as DashboardPoliciesRemoteInputRouteImport } from './routes/dashboard.policies.remote-input'
 import { Route as DashboardPoliciesFileTransferRouteImport } from './routes/dashboard.policies.file-transfer'
@@ -419,6 +420,8 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
+  '/dashboard/iot-management': typeof DashboardIotManagementRoute
+  '/dashboard/iot-management': typeof DashboardIotManagementRoute
   '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/cluster': typeof DashboardClusterRoute
   '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
@@ -482,6 +485,8 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
+  '/dashboard/iot-management': typeof DashboardIotManagementRoute
+  '/dashboard/iot-management': typeof DashboardIotManagementRoute
   '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/cluster': typeof DashboardClusterRoute
   '/dashboard/billing': typeof DashboardBillingRoute
@@ -546,6 +551,8 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/dashboard/admin': typeof DashboardAdminRoute
+  '/dashboard/iot-management': typeof DashboardIotManagementRoute
+  '/dashboard/iot-management': typeof DashboardIotManagementRoute
   '/dashboard/audit': typeof DashboardAuditRoute
   '/dashboard/cluster': typeof DashboardClusterRoute
   '/dashboard/automation': typeof DashboardAutomationRouteWithChildren
@@ -1302,6 +1309,7 @@ const DashboardPoliciesRouteWithChildren =
 
 interface DashboardRouteChildren {
   DashboardAdminRoute: typeof DashboardAdminRoute
+  DashboardIotManagementRoute: typeof DashboardIotManagementRoute
   DashboardAuditRoute: typeof DashboardAuditRoute
   DashboardClusterRoute: typeof DashboardClusterRoute
   DashboardAutomationRoute: typeof DashboardAutomationRouteWithChildren
@@ -1324,6 +1332,7 @@ interface DashboardRouteChildren {
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardAdminRoute: DashboardAdminRoute,
+    DashboardIotManagementRoute,
   DashboardAuditRoute: DashboardAuditRoute,
   DashboardClusterRoute: DashboardClusterRoute,
   DashboardAutomationRoute: DashboardAutomationRouteWithChildren,
