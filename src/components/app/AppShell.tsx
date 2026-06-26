@@ -6,7 +6,7 @@ import {
   FileText, LifeBuoy, Crown, SlidersHorizontal,
   Bot, Workflow, ListChecks, KeyRound, Gauge, CalendarClock, BellRing, ScrollText, Package, Settings,
   BookUser, Smartphone, Code2,
-  Database, Server, Globe, Cpu, Wifi, Gamepad2,
+  Database, Server, Globe, Cpu, Wifi, Gamepad2, Lock, Fingerprint, AlertTriangle,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
@@ -89,6 +89,15 @@ const groups: NavGroup[] = [
     label: "Cloud Gaming",
     items: [
       { to: "/dashboard/cloud-gaming", label: "Cloud Gaming", icon: Gamepad2 },
+    ],
+  },
+  {
+    label: "Zero-Trust Security",
+    items: [
+      { to: "/dashboard/zero-trust", label: "Security Center", icon: Lock },
+      { to: "/dashboard/zero-trust", label: "Device Fingerprints", icon: Fingerprint },
+      { to: "/dashboard/zero-trust", label: "Geo-Fencing", icon: Globe },
+      { to: "/dashboard/zero-trust", label: "Threat Alerts", icon: AlertTriangle },
     ],
   },
   {
