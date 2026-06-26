@@ -97,6 +97,13 @@ const groups: NavGroup[] = [
       { to: "/dashboard/admin", label: "Admin console", icon: Crown, badge: "owner" },
     ],
   },
+  {
+    label: "AI & Intelligence",
+    items: [
+      { to: "/dashboard/ai-support", label: "AI IT Support", icon: Bot, badge: "new" },
+      { to: "/dashboard/cluster", label: "Cluster Manager", icon: Server },
+    ],
+  },
 ];
 
 export function AppShell({
