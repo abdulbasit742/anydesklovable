@@ -6,7 +6,7 @@ import {
   FileText, LifeBuoy, Crown, SlidersHorizontal,
   Bot, Workflow, ListChecks, KeyRound, Gauge, CalendarClock, BellRing, ScrollText, Package, Settings,
   BookUser, Smartphone, Code2,
-  Database, Server,
+  Database, Server, Cpu,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
@@ -46,6 +46,12 @@ const groups: NavGroup[] = [
       { to: "/dashboard/security", label: "Security", icon: ShieldCheck },
       { to: "/dashboard/billing", label: "Billing", icon: CreditCard },
       { to: "/dashboard/support", label: "Support", icon: LifeBuoy },
+    ],
+  },
+  {
+    label: "Distributed Computing",
+    items: [
+      { to: "/dashboard/cluster", label: "Cluster Manager", icon: Cpu },
     ],
   },
   {
