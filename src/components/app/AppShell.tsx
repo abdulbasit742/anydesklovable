@@ -6,7 +6,7 @@ import {
   FileText, LifeBuoy, Crown, SlidersHorizontal,
   Bot, Workflow, ListChecks, KeyRound, Gauge, CalendarClock, BellRing, ScrollText, Package, Settings,
   BookUser, Smartphone, Code2,
-  Database, Server, Globe, Cpu, Wifi,
+  Database, Server, Globe, Cpu, Wifi, Gamepad2,
 } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
@@ -83,6 +83,12 @@ const groups: NavGroup[] = [
     label: "IoT & Devices",
     items: [
       { to: "/dashboard/iot-management", label: "IoT Management", icon: Globe },
+    ],
+  },
+  {
+    label: "Cloud Gaming",
+    items: [
+      { to: "/dashboard/cloud-gaming", label: "Cloud Gaming", icon: Gamepad2 },
     ],
   },
   {
