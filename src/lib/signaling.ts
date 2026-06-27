@@ -1,113 +1,155 @@
-/**
- * RemoteDesk Signaling Service
- *
- * Connects the dashboard PWA to the Node.js Socket.IO signaling server.
- * The URL is driven by VITE_SIGNALING_URL so the same dashboard build can
- * target local dev (Cloudflare Tunnel), staging, or production without
- * any code changes.
- *
- * Usage:
- *   import { signalingService } from "@/lib/signaling";
- *   signalingService.connect(jwtToken);
- */
-
 import { io, type Socket } from "socket.io-client";
 
-const SIGNALING_URL = import.meta.env.VITE_SIGNALING_URL as string | undefined;
+export type SignalingError = {
+  message?: string;
+  code?: string;
+  feature?: string;
+  error?: string;
+};
 
-type Handler = (...args: unknown[]) => void;
+export type IncomingRequestPayload = {
+  sessionId: string;
+  requesterRemoteDeskId: string;
+  requesterSocketId: string;
+};
 
-class SignalingService {
+export type RequestAcceptedPayload = {
+  sessionId: string;
+  hostSocketId: string;
+};
+
+export type WebRtcRelayPayload<TSignal = unknown> = {
+  sessionId: string;
+  signal: TSignal;
+  fromSocketId: string;
+};
+
+export type SignalPayload<TSignal = unknown> = {
+  sessionId: string;
+  targetSocketId: string;
+  signal: TSignal;
+};
+
+type EventHandler<TPayload = unknown> = (payload: TPayload) => void;
+
+const FALLBACK_SIGNALING_URL = "http://localhost:5000";
+
+export function getSignalingUrl(): string {
+  const env = import.meta.env as Record<string, string | undefined>;
+  return env.VITE_SIGNALING_URL ?? env.VITE_API_URL ?? FALLBACK_SIGNALING_URL;
+}
+
+class RemoteDeskSignalingClient {
   private socket: Socket | null = null;
-  private listeners: Map<string, Set<Handler>> = new Map();
+  private accessToken: string | null = null;
 
-  connect(jwtToken: string): void {
-    if (!SIGNALING_URL) {
-      console.warn("[Signaling] VITE_SIGNALING_URL is not set — signaling disabled.");
-      return;
-    }
-    if (this.socket?.connected) return;
+  connect(accessToken: string): Socket {
+    if (this.socket?.connected && this.accessToken === accessToken) return this.socket;
 
-    this.socket = io(SIGNALING_URL, {
-      auth: { token: jwtToken },
-      transports: ["websocket"],
+    this.disconnect();
+    this.accessToken = accessToken;
+    this.socket = io(getSignalingUrl(), {
+      auth: { token: accessToken },
+      transports: ["websocket", "polling"],
       reconnection: true,
-      reconnectionAttempts: 8,
-      reconnectionDelay: 1500,
+      reconnectionAttempts: 10,
+      reconnectionDelay: 1_000,
+      reconnectionDelayMax: 10_000
     });
 
-    this.socket.on("connect", () => {
-      console.info("[Signaling] Connected to", SIGNALING_URL);
-      this.reattachListeners();
+    this.socket.on("connect_error", (error) => {
+      console.warn("[RemoteDesk signaling] connect_error", error.message);
     });
-    this.socket.on("disconnect", (reason) => {
-      console.info("[Signaling] Disconnected:", reason);
-    });
-    this.socket.on("connect_error", (err) => {
-      console.warn("[Signaling] Error:", err.message);
-    });
+
+    return this.socket;
   }
 
   disconnect(): void {
     this.socket?.disconnect();
     this.socket = null;
+    this.accessToken = null;
   }
 
   isConnected(): boolean {
     return this.socket?.connected ?? false;
   }
 
-  on(event: string, handler: Handler): void {
-    if (!this.listeners.has(event)) this.listeners.set(event, new Set());
-    this.listeners.get(event)!.add(handler);
-    this.socket?.on(event, handler as never);
+  getSocketId(): string | undefined {
+    return this.socket?.id;
   }
 
-  off(event: string, handler: Handler): void {
-    this.listeners.get(event)?.delete(handler);
-    this.socket?.off(event, handler as never);
+  on<TPayload = unknown>(event: string, handler: EventHandler<TPayload>): () => void {
+    this.socket?.on(event, handler as EventHandler);
+    return () => this.socket?.off(event, handler as EventHandler);
   }
 
-  emit(event: string, payload: unknown): void {
-    if (!this.socket?.connected) {
-      console.warn("[Signaling] emit called but socket not connected");
-      return;
-    }
-    this.socket.emit(event, payload);
+  once<TPayload = unknown>(event: string, handler: EventHandler<TPayload>): void {
+    this.socket?.once(event, handler as EventHandler);
   }
 
-  // ---- Convenience wrappers matching backend ClientEvents ----
+  emit(event: string, payload?: unknown): void {
+    this.socket?.emit(event, payload);
+  }
 
-  requestConnection(targetRemoteDeskId: string, devicePassword: string): void {
+  requestSession(targetRemoteDeskId: string, devicePassword?: string): void {
     this.emit("connect:request", { targetRemoteDeskId, devicePassword });
   }
 
-  respondToRequest(sessionId: string, accepted: boolean, requesterSocketId: string): void {
-    this.emit("connect:response", { sessionId, accepted, requesterSocketId });
+  acceptSessionRequest(sessionId: string, requesterSocketId: string): void {
+    this.emit("connect:response", { sessionId, accepted: true, requesterSocketId });
   }
 
-  sendOffer(sessionId: string, targetSocketId: string, sdp: RTCSessionDescriptionInit): void {
-    this.emit("webrtc:offer", { sessionId, targetSocketId, signal: sdp });
+  rejectSessionRequest(sessionId: string, requesterSocketId: string): void {
+    this.emit("connect:response", { sessionId, accepted: false, requesterSocketId });
   }
 
-  sendAnswer(sessionId: string, targetSocketId: string, sdp: RTCSessionDescriptionInit): void {
-    this.emit("webrtc:answer", { sessionId, targetSocketId, signal: sdp });
+  sendOffer<TSignal = unknown>(payload: SignalPayload<TSignal>): void {
+    this.emit("webrtc:offer", payload);
   }
 
-  sendIce(sessionId: string, targetSocketId: string, candidate: RTCIceCandidateInit): void {
-    this.emit("webrtc:ice", { sessionId, targetSocketId, signal: candidate });
+  sendAnswer<TSignal = unknown>(payload: SignalPayload<TSignal>): void {
+    this.emit("webrtc:answer", payload);
+  }
+
+  sendIce<TSignal = unknown>(payload: SignalPayload<TSignal>): void {
+    this.emit("webrtc:ice", payload);
   }
 
   endSession(sessionId: string, peerSocketId?: string): void {
     this.emit("session:end", { sessionId, peerSocketId });
   }
 
-  private reattachListeners(): void {
-    if (!this.socket) return;
-    for (const [event, handlers] of this.listeners) {
-      for (const h of handlers) this.socket.on(event, h as never);
-    }
+  onIncomingRequest(handler: EventHandler<IncomingRequestPayload>): () => void {
+    return this.on("incoming:request", handler);
+  }
+
+  onRequestAccepted(handler: EventHandler<RequestAcceptedPayload>): () => void {
+    return this.on("request:accepted", handler);
+  }
+
+  onRequestRejected(handler: EventHandler<{ sessionId?: string }>): () => void {
+    return this.on("request:rejected", handler);
+  }
+
+  onWebRtcOffer<TSignal = unknown>(handler: EventHandler<WebRtcRelayPayload<TSignal>>): () => void {
+    return this.on("webrtc:offer", handler);
+  }
+
+  onWebRtcAnswer<TSignal = unknown>(handler: EventHandler<WebRtcRelayPayload<TSignal>>): () => void {
+    return this.on("webrtc:answer", handler);
+  }
+
+  onWebRtcIce<TSignal = unknown>(handler: EventHandler<WebRtcRelayPayload<TSignal>>): () => void {
+    return this.on("webrtc:ice", handler);
+  }
+
+  onPeerDisconnected(handler: EventHandler<{ sessionId?: string; remoteDeskId?: string }>): () => void {
+    return this.on("peer:disconnected", handler);
+  }
+
+  onError(handler: EventHandler<SignalingError>): () => void {
+    return this.on("error", handler);
   }
 }
 
-export const signalingService = new SignalingService();
+export const remoteDeskSignaling = new RemoteDeskSignalingClient();
