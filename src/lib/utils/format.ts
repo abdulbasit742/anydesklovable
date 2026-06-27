@@ -1,0 +1,4 @@
+export const formatBytes = (bytes: number): string => { if (bytes === 0) return "0 B"; const k = 1024; const sizes = ["B", "KB", "MB", "GB", "TB"]; const i = Math.floor(Math.log(bytes) / Math.log(k)); return `${(bytes / Math.pow(k, i)).toFixed(1)} ${sizes[i]}`; };
+export const formatDuration = (seconds: number): string => { if (seconds < 60) return `${seconds}s`; if (seconds < 3600) return `${Math.floor(seconds / 60)}m`; return `${Math.floor(seconds / 3600)}h ${Math.floor((seconds % 3600) / 60)}m`; };
+export const formatRelativeTime = (date: string | Date): string => { const diff = Date.now() - new Date(date).getTime(); if (diff < 60000) return "just now"; if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`; if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`; return `${Math.floor(diff / 86400000)}d ago`; };
+export const formatCurrency = (amount: number): string => `$${amount.toFixed(2)}`;

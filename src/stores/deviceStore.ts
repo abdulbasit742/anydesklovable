@@ -1,0 +1,2 @@
+let devices: any[] = []; let listeners: Function[] = [];
+export const deviceStore = { getDevices: () => devices, setDevices: (d: any[]) => { devices = d; listeners.forEach(l => l()); }, subscribe: (listener: Function) => { listeners.push(listener); return () => { listeners = listeners.filter(l2 => l2 !== listener); }; }, updateDevice: (id: string, updates: any) => { devices = devices.map(d => d.id === id ? { ...d, ...updates } : d); listeners.forEach(l => l()); } };

@@ -1,0 +1,2 @@
+let user: any = null; let token: string | null = null; let listeners: Function[] = [];
+export const authStore = { getUser: () => user, getToken: () => token, setAuth: (u: any, t: string) => { user = u; token = t; localStorage.setItem("token", t); listeners.forEach(l => l()); }, clearAuth: () => { user = null; token = null; localStorage.removeItem("token"); listeners.forEach(l => l()); }, subscribe: (listener: Function) => { listeners.push(listener); return () => { listeners = listeners.filter(l2 => l2 !== listener); }; }, isAuthenticated: () => !!token };
