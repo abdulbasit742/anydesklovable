@@ -57,7 +57,7 @@ class RemoteDeskSignalingClient {
       reconnectionDelayMax: 10_000
     });
 
-    this.socket.on("connect_error", (error) => {
+    this.socket.on("connect_error", (error: Error) => {
       console.warn("[RemoteDesk signaling] connect_error", error.message);
     });
 

@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { AuthLayout, Field } from "./login";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
+import { isLocalMode, apiSignup, setLocalSession } from "@/lib/local-auth";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({ meta: [{ title: "Sign up — RemoteDesk" }, { name: "description", content: "Create your RemoteDesk account." }] }),
@@ -31,21 +32,37 @@ function Signup() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: name },
-        emailRedirectTo: `${window.location.origin}/dashboard`,
-      },
-    });
-    setLoading(false);
-    if (error) return toast.error(error.message);
-    toast.success("Account created");
-    navigate({ to: "/dashboard" });
+    try {
+      if (isLocalMode()) {
+        const sess = await apiSignup(name, email, password);
+        setLocalSession(sess);
+        toast.success("Account created");
+        navigate({ to: "/dashboard" });
+        return;
+      }
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: name },
+          emailRedirectTo: `${window.location.origin}/dashboard`,
+        },
+      });
+      if (error) { toast.error(error.message); return; }
+      toast.success("Account created");
+      navigate({ to: "/dashboard" });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Signup failed");
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function onGoogle() {
+    if (isLocalMode()) {
+      toast.error("Google sign-up requires Supabase. Use email/password in local mode.");
+      return;
+    }
     const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
     if (result.error) return toast.error(result.error.message ?? "Google sign-up failed");
     if (result.redirected) return;
@@ -61,12 +78,16 @@ function Signup() {
 
   return (
     <AuthLayout title="Create your account" subtitle="Free for personal use. No credit card required.">
-      <Button type="button" variant="outline" className="w-full" onClick={onGoogle}>
-        <GoogleIcon /> Sign up with Google
-      </Button>
-      <div className="my-4 flex items-center gap-3 text-xs text-muted-foreground">
-        <div className="h-px flex-1 bg-border" /> OR <div className="h-px flex-1 bg-border" />
-      </div>
+      {!isLocalMode() && (
+        <>
+          <Button type="button" variant="outline" className="w-full" onClick={onGoogle}>
+            <GoogleIcon /> Sign up with Google
+          </Button>
+          <div className="my-4 flex items-center gap-3 text-xs text-muted-foreground">
+            <div className="h-px flex-1 bg-border" /> OR <div className="h-px flex-1 bg-border" />
+          </div>
+        </>
+      )}
       <form className="space-y-3" onSubmit={onSubmit}>
         <Field label="Full name"><Input required placeholder="Abdul Basit" value={name} onChange={(e) => setName(e.target.value)} /></Field>
         <Field label="Work email"><Input type="email" required placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} /></Field>

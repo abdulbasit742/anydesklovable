@@ -25,6 +25,7 @@ import { Route as DashboardTeamRouteImport } from './routes/dashboard.team'
 import { Route as DashboardSupportRouteImport } from './routes/dashboard.support'
 import { Route as DashboardSessionsRouteImport } from './routes/dashboard.sessions'
 import { Route as DashboardSecurityRouteImport } from './routes/dashboard.security'
+import { Route as DashboardRemoteDesktopRouteImport } from './routes/dashboard.remote-desktop'
 import { Route as DashboardPoliciesRouteImport } from './routes/dashboard.policies'
 import { Route as DashboardNotificationsRouteImport } from './routes/dashboard.notifications'
 import { Route as DashboardMobileRouteImport } from './routes/dashboard.mobile'
@@ -149,6 +150,11 @@ const DashboardSessionsRoute = DashboardSessionsRouteImport.update({
 const DashboardSecurityRoute = DashboardSecurityRouteImport.update({
   id: '/security',
   path: '/security',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardRemoteDesktopRoute = DashboardRemoteDesktopRouteImport.update({
+  id: '/remote-desktop',
+  path: '/remote-desktop',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardPoliciesRoute = DashboardPoliciesRouteImport.update({
@@ -425,6 +431,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/mobile': typeof DashboardMobileRoute
   '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
+  '/dashboard/remote-desktop': typeof DashboardRemoteDesktopRoute
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
   '/dashboard/support': typeof DashboardSupportRoute
@@ -486,6 +493,7 @@ export interface FileRoutesByTo {
   '/dashboard/mobile': typeof DashboardMobileRoute
   '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
+  '/dashboard/remote-desktop': typeof DashboardRemoteDesktopRoute
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
   '/dashboard/support': typeof DashboardSupportRoute
@@ -550,6 +558,7 @@ export interface FileRoutesById {
   '/dashboard/mobile': typeof DashboardMobileRoute
   '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/policies': typeof DashboardPoliciesRouteWithChildren
+  '/dashboard/remote-desktop': typeof DashboardRemoteDesktopRoute
   '/dashboard/security': typeof DashboardSecurityRoute
   '/dashboard/sessions': typeof DashboardSessionsRoute
   '/dashboard/support': typeof DashboardSupportRoute
@@ -615,6 +624,7 @@ export interface FileRouteTypes {
     | '/dashboard/mobile'
     | '/dashboard/notifications'
     | '/dashboard/policies'
+    | '/dashboard/remote-desktop'
     | '/dashboard/security'
     | '/dashboard/sessions'
     | '/dashboard/support'
@@ -676,6 +686,7 @@ export interface FileRouteTypes {
     | '/dashboard/mobile'
     | '/dashboard/notifications'
     | '/dashboard/policies'
+    | '/dashboard/remote-desktop'
     | '/dashboard/security'
     | '/dashboard/sessions'
     | '/dashboard/support'
@@ -739,6 +750,7 @@ export interface FileRouteTypes {
     | '/dashboard/mobile'
     | '/dashboard/notifications'
     | '/dashboard/policies'
+    | '/dashboard/remote-desktop'
     | '/dashboard/security'
     | '/dashboard/sessions'
     | '/dashboard/support'
@@ -916,6 +928,13 @@ declare module '@tanstack/react-router' {
       path: '/security'
       fullPath: '/dashboard/security'
       preLoaderRoute: typeof DashboardSecurityRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/remote-desktop': {
+      id: '/dashboard/remote-desktop'
+      path: '/remote-desktop'
+      fullPath: '/dashboard/remote-desktop'
+      preLoaderRoute: typeof DashboardRemoteDesktopRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/policies': {
@@ -1305,6 +1324,7 @@ interface DashboardRouteChildren {
   DashboardMobileRoute: typeof DashboardMobileRoute
   DashboardNotificationsRoute: typeof DashboardNotificationsRoute
   DashboardPoliciesRoute: typeof DashboardPoliciesRouteWithChildren
+  DashboardRemoteDesktopRoute: typeof DashboardRemoteDesktopRoute
   DashboardSecurityRoute: typeof DashboardSecurityRoute
   DashboardSessionsRoute: typeof DashboardSessionsRoute
   DashboardSupportRoute: typeof DashboardSupportRoute
@@ -1326,6 +1346,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardMobileRoute: DashboardMobileRoute,
   DashboardNotificationsRoute: DashboardNotificationsRoute,
   DashboardPoliciesRoute: DashboardPoliciesRouteWithChildren,
+  DashboardRemoteDesktopRoute: DashboardRemoteDesktopRoute,
   DashboardSecurityRoute: DashboardSecurityRoute,
   DashboardSessionsRoute: DashboardSessionsRoute,
   DashboardSupportRoute: DashboardSupportRoute,

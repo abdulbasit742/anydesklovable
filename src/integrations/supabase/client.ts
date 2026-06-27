@@ -2,6 +2,59 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
+// Build a no-op client that returns empty/null from all calls so the app
+// can render and demo data fallbacks kick in when Supabase is not configured.
+function createNoopClient(): ReturnType<typeof createClient<Database>> {
+  function makeChain(): any {
+    const resolved = Promise.resolve({ data: [] as any, error: null });
+    const c: any = {};
+    for (const m of ['select','eq','neq','in','is','not','or','and','filter','order',
+      'limit','ilike','like','gte','lte','gt','lt','insert','update','delete','upsert',
+      'match','range','textSearch','overlaps','contains','containedBy','rangeGte',
+      'rangeLte','rangeGt','rangeLt','rangeAdjacent','returns','throwOnError']) {
+      c[m] = (): any => c;
+    }
+    c.single = (): any => Promise.resolve({ data: null, error: null });
+    c.maybeSingle = (): any => Promise.resolve({ data: null, error: null });
+    c.then = resolved.then.bind(resolved);
+    c.catch = resolved.catch.bind(resolved);
+    c.finally = resolved.finally.bind(resolved);
+    return c;
+  }
+
+  const noopAuth: any = {
+    getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+    getUser: () => Promise.resolve({ data: { user: null }, error: null }),
+    signUp: () => Promise.resolve({ data: { user: null, session: null }, error: null }),
+    signInWithPassword: () => Promise.resolve({ data: { user: null, session: null }, error: null }),
+    signOut: () => Promise.resolve({ error: null }),
+    onAuthStateChange: (cb: (event: string, session: null) => void) => {
+      Promise.resolve().then(() => cb('INITIAL_SESSION', null));
+      return { data: { subscription: { unsubscribe: () => {} } } };
+    },
+    mfa: { listFactors: () => Promise.resolve({ data: null, error: null }) },
+    getClaims: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
+    signInWithOAuth: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
+  };
+
+  const noopStorage: any = {
+    from: () => ({
+      upload: () => Promise.resolve({ error: new Error('Supabase not configured') }),
+      createSignedUrl: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
+      remove: () => Promise.resolve({ error: null }),
+    }),
+  };
+
+  return {
+    from: () => makeChain(),
+    rpc: () => Promise.resolve({ data: null, error: null }) as any,
+    storage: noopStorage,
+    channel: () => { const ch: any = { on: () => ch, subscribe: () => ch }; return ch; },
+    removeChannel: () => Promise.resolve() as any,
+    auth: noopAuth,
+  } as any;
+}
+
 function createSupabaseClient() {
   // Use import.meta.env for client-side (Vite build-time replacement)
   // Fall back to process.env for SSR (server-side rendering)
@@ -13,9 +66,8 @@ function createSupabaseClient() {
       ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
       ...(!SUPABASE_PUBLISHABLE_KEY ? ['SUPABASE_PUBLISHABLE_KEY'] : []),
     ];
-    const message = `Missing Supabase environment variable(s): ${missing.join(', ')}. Connect Supabase in Lovable Cloud.`;
-    console.error(`[Supabase] ${message}`);
-    throw new Error(message);
+    console.warn(`[Supabase] Missing env var(s): ${missing.join(', ')} — running in local/demo mode.`);
+    return createNoopClient();
   }
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {

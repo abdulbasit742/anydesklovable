@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
+import { isLocalMode, apiLogin, setLocalSession } from "@/lib/local-auth";
 
 export const Route = createFileRoute("/login")({
   head: () => ({ meta: [{ title: "Sign in — RemoteDesk" }, { name: "description", content: "Sign in to RemoteDesk." }] }),
@@ -23,19 +24,33 @@ function Login() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setLoading(false);
-    if (error) return toast.error(error.message);
-    toast.success("Signed in");
-    navigate({ to: "/dashboard" });
+    try {
+      if (isLocalMode()) {
+        const sess = await apiLogin(email, password);
+        setLocalSession(sess);
+        toast.success("Signed in");
+        navigate({ to: "/dashboard" });
+        return;
+      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) { toast.error(error.message); return; }
+      toast.success("Signed in");
+      navigate({ to: "/dashboard" });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Sign in failed");
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function onGoogle() {
+    if (isLocalMode()) {
+      toast.error("Google sign-in requires Supabase. Use email/password in local mode.");
+      return;
+    }
     const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
     if (result.error) return toast.error(result.error.message ?? "Google sign-in failed");
     if (result.redirected) return;
-    // Wait for the session to be persisted, then hard-navigate so the
-    // _authenticated gate re-reads the fresh session from localStorage.
     for (let i = 0; i < 20; i++) {
       const { data } = await supabase.auth.getSession();
       if (data.session) break;
@@ -48,12 +63,16 @@ function Login() {
 
   return (
     <AuthLayout title="Welcome back" subtitle="Sign in to your RemoteDesk workspace.">
-      <Button type="button" variant="outline" className="w-full" onClick={onGoogle}>
-        <GoogleIcon /> Continue with Google
-      </Button>
-      <div className="my-4 flex items-center gap-3 text-xs text-muted-foreground">
-        <div className="h-px flex-1 bg-border" /> OR <div className="h-px flex-1 bg-border" />
-      </div>
+      {!isLocalMode() && (
+        <>
+          <Button type="button" variant="outline" className="w-full" onClick={onGoogle}>
+            <GoogleIcon /> Continue with Google
+          </Button>
+          <div className="my-4 flex items-center gap-3 text-xs text-muted-foreground">
+            <div className="h-px flex-1 bg-border" /> OR <div className="h-px flex-1 bg-border" />
+          </div>
+        </>
+      )}
       <form className="space-y-3" onSubmit={onSubmit}>
         <Field label="Work email">
           <Input type="email" required placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} />
