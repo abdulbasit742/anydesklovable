@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import {
   Monitor, Copy, Check, ArrowRight, PhoneOff, Wifi, WifiOff,
   ScreenShare, ScreenShareOff, Loader2, ShieldCheck, X, AlertTriangle,
+  Radio, Clock,
 } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,30 @@ import { toast } from "sonner";
 import { formatRemoteDeskId } from "@/lib/formatting/remote-desk-id";
 import { useAuth } from "@/hooks/use-auth";
 import { useRemoteSession } from "@/hooks/use-remote-session";
+
+function useSessionTimer(active: boolean) {
+  const [seconds, setSeconds] = useState(0);
+  const startRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (active) {
+      startRef.current = Date.now();
+      setSeconds(0);
+      const id = setInterval(() => {
+        setSeconds(Math.floor((Date.now() - (startRef.current ?? Date.now())) / 1000));
+      }, 1000);
+      return () => clearInterval(id);
+    } else {
+      startRef.current = null;
+      setSeconds(0);
+    }
+  }, [active]);
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  return h > 0
+    ? `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`
+    : `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
 
 export const Route = createFileRoute("/dashboard/remote-desktop")({
   head: () => ({ meta: [{ title: "Remote Desktop — RemoteDesk" }] }),
@@ -24,6 +49,7 @@ function RemoteDesktopPage() {
     remoteDeskId,
     phase,
     connected,
+    hasTurn,
     session,
     incomingReq,
     remoteStream,
@@ -40,6 +66,17 @@ function RemoteDesktopPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [copied, setCopied] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const isConnected = phase === "connected";
+  const sessionTimer = useSessionTimer(isConnected);
+
+  // Escape key ends active session
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === "Escape" && isConnected) endSession();
+  }, [isConnected, endSession]);
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
 
   // Attach remote stream to video element
   useEffect(() => {
@@ -78,15 +115,20 @@ function RemoteDesktopPage() {
     <AppShell
       title="Remote Desktop"
       actions={
-        connected ? (
-          <Badge variant="outline" className="gap-1.5 border-success/30 text-success">
-            <Wifi className="h-3 w-3" /> Signaling connected
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" className={`gap-1.5 ${hasTurn ? "border-primary/30 text-primary" : "border-muted-foreground/30 text-muted-foreground"}`}>
+            <Radio className="h-3 w-3" /> {hasTurn ? "TURN relay" : "STUN only"}
           </Badge>
-        ) : (
-          <Badge variant="outline" className="gap-1.5 border-destructive/30 text-destructive">
-            <WifiOff className="h-3 w-3" /> Connecting…
-          </Badge>
-        )
+          {connected ? (
+            <Badge variant="outline" className="gap-1.5 border-success/30 text-success">
+              <Wifi className="h-3 w-3" /> Signaling connected
+            </Badge>
+          ) : (
+            <Badge variant="outline" className="gap-1.5 border-destructive/30 text-destructive">
+              <WifiOff className="h-3 w-3" /> Connecting…
+            </Badge>
+          )}
+        </div>
       }
     >
       <div className="mx-auto max-w-5xl space-y-6">
@@ -150,9 +192,13 @@ function RemoteDesktopPage() {
         {phase === "connected" && session?.role === "viewer" && (
           <div className="overflow-hidden rounded-lg border border-border bg-black">
             <div className="flex items-center justify-between border-b border-border/20 bg-background/5 px-4 py-2 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-2.5">
                 <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
                 Viewing remote screen
+                <span className="flex items-center gap-1 font-mono text-muted-foreground/70">
+                  <Clock className="h-3 w-3" />{sessionTimer}
+                </span>
+                <span className="text-muted-foreground/50">· Press Esc to end</span>
               </span>
               <Button size="sm" variant="destructive" className="h-7 gap-1.5 text-xs" onClick={endSession}>
                 <PhoneOff className="h-3.5 w-3.5" /> End session
@@ -186,9 +232,12 @@ function RemoteDesktopPage() {
                 <div className="flex items-center gap-2 text-sm font-semibold text-success">
                   <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
                   Screen sharing active
+                  <span className="flex items-center gap-1 font-mono text-xs font-normal text-success/70">
+                    <Clock className="h-3 w-3" />{sessionTimer}
+                  </span>
                 </div>
                 <div className="mt-0.5 text-xs text-muted-foreground">
-                  A viewer is watching your screen.
+                  A viewer is watching your screen. Press Esc to stop.
                 </div>
               </div>
               <Button size="sm" variant="destructive" className="gap-1.5" onClick={endSession}>
@@ -280,7 +329,7 @@ function RemoteDesktopPage() {
               </div>
               <div className="flex gap-2">
                 <span className="mt-0.5 h-5 w-5 shrink-0 rounded-full bg-primary/10 text-primary text-[10px] font-bold flex items-center justify-center">3</span>
-                <span><strong className="text-foreground">Encrypted P2P stream</strong> — WebRTC streams directly between browsers. No server stores your screen content.</span>
+                <span><strong className="text-foreground">Encrypted stream</strong> — WebRTC connects directly (P2P) or via TURN relay. Works across the internet, firewalls, and mobile data. No server stores your screen.</span>
               </div>
             </div>
           </div>

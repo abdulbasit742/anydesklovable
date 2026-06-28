@@ -37,9 +37,15 @@ function getBrowserDeviceId(): string {
   return id;
 }
 
+// Free public TURN (Open Relay) — fallback used before API responds or if fetch fails.
+// The API /api/ice/config endpoint also returns these, so they're always present.
 const DEFAULT_ICE: RTCIceServer[] = [
   { urls: "stun:stun.l.google.com:19302" },
   { urls: "stun:stun1.l.google.com:19302" },
+  { urls: "turn:openrelay.metered.ca:80",               username: "openrelayproject", credential: "openrelayproject" },
+  { urls: "turn:openrelay.metered.ca:443",              username: "openrelayproject", credential: "openrelayproject" },
+  { urls: "turns:openrelay.metered.ca:443",             username: "openrelayproject", credential: "openrelayproject" },
+  { urls: "turn:openrelay.metered.ca:80?transport=tcp", username: "openrelayproject", credential: "openrelayproject" },
 ];
 
 export function useRemoteSession(accessToken?: string) {
@@ -50,6 +56,7 @@ export function useRemoteSession(accessToken?: string) {
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [remoteDeskId] = useState(() => getBrowserDeviceId());
+  const [hasTurn, setHasTurn] = useState(true); // true by default — we always include Open Relay
 
   const socketRef = useRef<Socket | null>(null);
   const pcRef = useRef<RTCPeerConnection | null>(null);
@@ -81,8 +88,9 @@ export function useRemoteSession(accessToken?: string) {
     const base = getSignalingUrl();
     fetch(`${base}/api/ice/config`)
       .then((r) => r.json())
-      .then((d: { iceServers?: RTCIceServer[] }) => {
-        if (d.iceServers?.length) iceServersRef.current = d.iceServers;
+      .then((d: { data?: { iceServers?: RTCIceServer[]; hasTurn?: boolean } }) => {
+        if (d.data?.iceServers?.length) iceServersRef.current = d.data.iceServers;
+        if (d.data?.hasTurn !== undefined) setHasTurn(d.data.hasTurn);
       })
       .catch(() => {});
   }, []);
@@ -294,6 +302,7 @@ export function useRemoteSession(accessToken?: string) {
     remoteDeskId,
     phase,
     connected,
+    hasTurn,
     session,
     incomingReq,
     remoteStream,
